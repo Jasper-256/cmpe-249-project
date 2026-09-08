@@ -19,6 +19,10 @@ The proposed model combines RGB and event-camera patch representations using a g
 
 **Multimodal Perception and Sensor Fusion for Autonomous Systems**
 
+## Proposed Architecture Diagram
+![Project Diagram](docs/event_rgb_fusion_architecture.png)
+
+
 ## Project proposal
 
 See the [project proposal](docs/project-proposal.md) for the problem formulation, architecture, success criteria, datasets, and available hardware.
