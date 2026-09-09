@@ -15,11 +15,11 @@ Autonomous spacecraft proximity operations (rendezvous, docking, on-orbit servic
 
 Direct sunlight and reflective Multi-Layer Insulation routinely saturate RGB cameras, destroying the visual information a pose estimator needs at exactly the moments when precise pose is most safety-critical.
 
-Event cameras don't saturate the same way, so RGB–event fusion is the obvious mitigation.
+Event cameras don't saturate the same way, so RGB–event fusion is the obvious mitigation. Gated attention fusion between RGB and events has already been shown to work, just in a different domain and on a different dataset (Shi et al., 2025, small-object detection under difficult exposure).
 
-The current published state of the art in this specific niche (Jawaid, Märtens & Chin, 2025/2026) deliberately avoids learned attention-based fusion, citing a documented overfitting failure: attention has enough learnable parameters to fit synthetic-only training data in a way that doesn't transfer to real harsh-lighting conditions.
+The current published state of the art in this specific niche (Jawaid, Märtens & Chin, 2025/2026) deliberately avoids learned attention-based fusion, arguing it risks overfitting: attention has enough learnable parameters to fit synthetic-only training data in a way that may not transfer to real harsh-lighting conditions.
 
-This project tests that claim rather than assuming it, by building a fusion mechanism with attention's representational flexibility but a much smaller, physically-grounded parameter budget.
+This project tests that claim rather than assuming it, by building a fusion mechanism with attention's representational flexibility but a much smaller, physically-grounded parameter budget — and checking whether any benefit comes from the physical signal itself, not just from having fewer parameters.
 
 ## 1. Problem Formulation
 
@@ -54,7 +54,7 @@ Following the standard errors used in spacecraft pose-estimation benchmarks, we 
 - **Average Rotation Error (ARE):** angle between predicted and ground-truth rotation, in degrees.
 - **Average Translation Error (ATE):** Euclidean distance between predicted and ground-truth translation, normalized by target range, in the dataset's native units.
 
-**Headline metric:** the generalization gap: for each fusion method, Δ = error(real test) − error(synthetic validation). This is the number the project's hypothesis depends on, and it is reported for ARE and ATE separately.
+**Headline metric:** the generalization gap: for each fusion method, Δ = error(real test) − error(synthetic validation). This is the number the project's hypothesis depends on, and it is reported for ARE and ATE separately, alongside the absolute error values (a smaller gap doesn't count for much if it comes from doing worse on synthetic data).
 
 **Concrete success criteria:**
 
@@ -65,6 +65,10 @@ Following the standard errors used in spacecraft pose-estimation benchmarks, we 
 3. **Comparative bar:** the saturation-gated model achieves lower real-test ARE/ATE than a reproduced classical RANSAC-fusion baseline (the current published SOTA for this exact dataset), OR if it does not the project reports a clearly characterized accuracy/interpretability/compute trade-off. A well-documented negative result on criterion 2 or 3 still satisfies the project's actual goal, which is testing a specific claim in the literature, not guaranteeing a win.
 
 4. **Mechanistic evidence:** a measurable, reported difference in attention entropy and/or effective rank between the gated and fully-learned models on real harsh-lighting frames, to support a causal story for whichever quantitative result is observed.
+
+5. **Causal check:** evaluate the trained gated model with its saturation input shuffled, and separately evaluate a fixed, non-learned version of the gate built from the raw clipping signal. If shuffling the input doesn't hurt performance, the model isn't actually using the signal in a meaningful way.
+
+Architecture, thresholds, and checkpoint selection are frozen using synthetic validation only, before any evaluation on the real test set. We run a few training seeds for the central comparison and report seed variance separately from the sequence-level bootstrap interval.
 
 ## 2. Proposed Technical Approach
 
@@ -88,11 +92,20 @@ Pose recovery follows the same general "regress intermediate variables, recover 
 
 **Stretch/secondary dataset (optional):** SPEED+ or SPARK, used RGB-only (neither provides events), to check whether any RGB-side robustness gained from training the fusion model transfers to a dataset the model was never fused-trained on. Explicitly out of core scope.
 
-### 2.4 Implementation and compute plan
+### 2.4 What's new relative to prior work
 
-Local prototyping and debugging (tokenizers, gate computation, attention-bias wiring) on the RTX 5070 (12GB) using a subset of the synthetic split, at 256×256 resolution with automatic mixed precision.
+Gated attention fusion between RGB and events isn't new by itself — it's already been used to fuse these two modalities for small-object detection under difficult exposure, in a different domain and dataset (Shi et al., 2025). What we test here is narrower:
 
-Full training of all baseline and proposed variants (RGB-only, event-only, fully-learned attention, RANSAC reproduction via the authors' public code, saturation-gated, and the parameter-matched control)
+- A gate driven by a directly measurable overexposure signal (fraction of clipped pixels per patch — not the same as the "saturation" channel in HSV color space).
+- A parameter-matched control: a learned gate with the same number of parameters but no physical signal behind it, to separate "fewer parameters helps" from "this physical signal helps."
+- A causal check: shuffling the saturation input and testing a fixed, non-learned gate (Section 1.4).
+- Full parameter accounting (total, trainable, fusion-specific) for every variant, since a small gate on top of two fully-trainable encoders doesn't by itself limit model capacity.
+
+### 2.5 Implementation and compute plan
+
+Local prototyping and debugging (tokenizers, gate computation, attention-bias wiring) happens on the RTX 5070 (12GB) using a subset of the synthetic split, at 256×256 resolution with automatic mixed precision.
+
+Full training of all baseline and proposed variants (RGB-only, event-only, fully-learned attention, RANSAC reproduction via the authors' public code, saturation-gated, fixed-gate, shuffled-input control, and the parameter-matched control) runs across both devices, once each is profiled separately for memory and step time — the RTX 5070 and RTX 5060 (8GB) aren't assumed to be interchangeable.
 
 ## 3. Device availability and maintainer
 
@@ -100,3 +113,5 @@ Full training of all baseline and proposed variants (RGB-only, event-only, fully
 | --- | --- | --- |
 | RTX 5070 | 12GB | Jasper Morgal |
 | RTX 5060 | 8GB | Advait Shinde |
+
+*Each device is profiled independently before full training runs are assigned to it — see Section 2.5.*
