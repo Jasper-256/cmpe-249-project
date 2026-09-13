@@ -26,3 +26,27 @@ The proposed model combines RGB and event-camera patch representations using a g
 ## Project proposal
 
 See the [project proposal](docs/project-proposal.md) for the problem formulation, architecture, success criteria, datasets, and available hardware.
+
+## Research roadmap
+
+The active [execution plan](plan.md) tracks the end goal, phase gates, current
+status, fallback strategies, and decision log. The longer
+[research and experimentation roadmap](docs/research-roadmap.md) defines the
+frozen-test protocol, model controls, statistical analysis, twelve-week schedule,
+and go/no-go criteria. Material web-verified decisions are tracked in the
+[research log](docs/research-log.md).
+
+## Development environment
+
+The project uses Python 3.12 and `uv` with a locked CUDA-enabled PyTorch stack:
+
+```powershell
+uv sync --all-groups --all-extras
+uv run python scripts/verify_environment.py
+uv run ruff check .
+uv run pytest
+```
+
+Raw datasets, external baseline checkouts, checkpoints, and experiment outputs
+must remain outside version control; see [AGENTS.md](AGENTS.md) for the scientific
+and engineering invariants.
