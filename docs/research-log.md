@@ -17,3 +17,24 @@ primary sources and include the exact version or commit when available.
 | [PyTorch Windows installation](https://docs.pytorch.org/get-started/locally/) | Windows requires a supported 64-bit Python and an accelerator-specific PyTorch build; CUDA availability must be tested after install. | Standardize on managed Python 3.12 and run a CUDA smoke test. |
 | [uv PyTorch guide](https://docs.astral.sh/uv/guides/integration/pytorch/) | uv supports explicit CUDA indexes; its documented current stable example uses PyTorch 2.11/CUDA 13.0, while current release information lists newer compatible builds. | Pin the CUDA 13.0 index and lock the resolved environment rather than relying on ambient packages. |
 
+## 2026-09-13 — FRESH canonical manifest
+
+The [Zenodo API record](https://zenodo.org/api/records/15861758) identifies DOI
+`10.5281/zenodo.15861758`, open access under CC BY 4.0, and five artifacts totaling
+19,537,865,799 bytes. Exact sizes, URLs, and publisher-provided MD5 values are
+preserved in `docs/fresh-dataset-manifest.json`. Downloads use `.part` files,
+HTTP range resumption, atomic completion, size validation, and MD5 verification.
+
+All five raw artifacts were downloaded to `data/fresh/raw` and independently
+reverified against the committed manifest on 2026-09-13. Zenodo temporarily
+returned HTTP 504 responses from both API and direct record routes between file
+transfers; retries succeeded after the service recovered. No alternate mirror or
+client was substituted, preserving canonical provenance.
+
+The raw artifacts alone occupy 19,537,865,799 bytes, while all archives contain
+about 100.2 GB of uncompressed members. The adopted access path opens the regular
+ZIPs directly and presents the three real ZIP parts as one virtual, seekable
+read-only stream. Samples are decoded into memory on demand; no combined archive
+or extracted dataset copy is created. The user clarified that approximately
+20 GB is a soft target rather than a hard cap, so bounded selective caches may be
+added later when profiling demonstrates a material benefit.

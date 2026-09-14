@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "record_id": 15861758,
+  "doi": "10.5281/zenodo.15861758",
+  "title": "FRESH (Fusion with RGB and Events for Spacecraft pose estimation under Harsh lighting) Dataset",
+  "publication_date": "2025-07-11",
+  "access": "open",
+  "license": "CC-BY-4.0",
+  "verified_at": "2026-09-13",
+  "source": "https://zenodo.org/api/records/15861758",
+  "files": [
+    {
+      "name": "synthetic.zip",
+      "size_bytes": 6940858072,
+      "md5": "0237e61ebd4704bd189a4ee635205ddd",
+      "url": "https://zenodo.org/records/15861758/files/synthetic.zip?download=1"
+    },
+    {
+      "name": "real.zip.001",
+      "size_bytes": 5000000000,
+      "md5": "82bc34aa54215c19c5595fd3257c20f5",
+      "url": "https://zenodo.org/records/15861758/files/real.zip.001?download=1"
+    },
+    {
+      "name": "real.zip.002",
+      "size_bytes": 5000000000,
+      "md5": "5d2281b4ca5f98a541cc6aed47d6d407",
+      "url": "https://zenodo.org/records/15861758/files/real.zip.002?download=1"
+    },
+    {
+      "name": "real.zip.003",
+      "size_bytes": 2584470128,
+      "md5": "eb09a695270bf8e5e12ff0dc7fc39503",
+      "url": "https://zenodo.org/records/15861758/files/real.zip.003?download=1"
+    },
+    {
+      "name": "models.zip",
+      "size_bytes": 12537599,
+      "md5": "12072f9b7bf11cc0ae3d959cc5564aae",
+      "url": "https://zenodo.org/records/15861758/files/models.zip?download=1"
+    }
+  ]
+}

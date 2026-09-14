@@ -26,6 +26,7 @@ dependencies = [
   "pandas>=2.3,<4",
   "pillow>=11.3,<13",
   "pyyaml>=6.0,<7",
+  "requests>=2.34,<3",
   "rich>=14,<15",
   "scikit-learn>=1.7,<2",
   "scipy>=1.16,<2",
@@ -78,4 +79,3 @@ testpaths = ["tests"]
 python_version = "3.12"
 strict = true
 packages = ["saga_pose"]
-
