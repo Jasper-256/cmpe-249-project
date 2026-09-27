@@ -1,0 +1,177 @@
+{
+  "schema_version": 1,
+  "status": "fail",
+  "scope": "bounded synthetic one-object architecture screen; not a final baseline",
+  "config": {
+    "dataset": "fresh-synthetic-grouped-v1",
+    "object": "cassini",
+    "train_samples": 1024,
+    "validation_samples": 256,
+    "selection": "evenly spaced within each frozen split role",
+    "crop_source": "shared annotation box",
+    "crop_transform": "center-preserving square, 1.2x padding, zero border",
+    "target_size_wh": [
+      256,
+      256
+    ],
+    "epochs": 3,
+    "batch_size": 32,
+    "learning_rate": 0.001,
+    "optimizer": "AdamW(weight_decay=0)",
+    "augmentation": null,
+    "seed": 249,
+    "pose_solver": "OpenCV EPnP followed by solvePnPRefineLM"
+  },
+  "provenance": {
+    "git_commit": "4d2385bd0e7965b150c6571158bd686d11f578e4",
+    "uv_lock_sha256": "e9d3d98e5fb36f8855d3776b83365e983b730987f12b2f92ef9891a172342d5f",
+    "split_index_sha256": "097392a9c064443342c5a00b01dcb0431d7482590af8af559c5efcf66582b025",
+    "python": "3.12.14",
+    "torch": "2.14.0+cu130",
+    "device": "cuda",
+    "gpu": "NVIDIA GeForce RTX 5060 Laptop GPU",
+    "precision": "float32"
+  },
+  "results": [
+    {
+      "modality": "rgb",
+      "architecture_competent": false,
+      "predeclared_criteria": {
+        "finite_training": true,
+        "pnp_valid_fraction_at_least_0_95": true,
+        "validation_coordinate_rmse_at_most_20_px": false,
+        "median_are_at_most_20_deg": false,
+        "median_ate_at_most_0_25_m": false
+      },
+      "parameters_total": 1253700,
+      "parameters_trainable": 1253700,
+      "input_channel_mean": [
+        0.056339435279369354,
+        0.056008923798799515,
+        0.055280253291130066
+      ],
+      "input_channel_std": [
+        0.1735149323940277,
+        0.1729239970445633,
+        0.17192216217517853
+      ],
+      "initial_validation": {
+        "sample_count": 256,
+        "coordinate_rmse_px": 142.53640875643163
+      },
+      "final_validation": {
+        "sample_count": 256,
+        "coordinate_rmse_px": 34.46312316545117,
+        "pnp_valid_count": 256,
+        "pnp_valid_fraction": 1.0,
+        "max_rotation_orthogonality_residual": 2.220446049250313e-15,
+        "max_rotation_determinant_error": 1.2212453270876722e-15,
+        "are_degrees_mean": 155.75323851278995,
+        "are_degrees_median": 162.02534668148456,
+        "absolute_translation_error_m_mean": 1.296909171128528,
+        "absolute_translation_error_m_median": 0.6613077138271639,
+        "range_normalized_translation_error_mean": 1.0185836017955605,
+        "success_rotation_below_10_deg": 0.0,
+        "success_translation_below_10_mm": 0.0,
+        "reprojection_rmse_px_mean": 8.53198740978548
+      },
+      "history": [
+        {
+          "epoch": 1,
+          "train_mse_normalized": 0.04078107446548529,
+          "validation_coordinate_rmse_px": 34.43118809839689
+        },
+        {
+          "epoch": 2,
+          "train_mse_normalized": 0.01009826005611103,
+          "validation_coordinate_rmse_px": 35.91274538045955
+        },
+        {
+          "epoch": 3,
+          "train_mse_normalized": 0.008327303832629696,
+          "validation_coordinate_rmse_px": 34.46312316545117
+        }
+      ],
+      "training_elapsed_seconds": 126.43171939998865,
+      "training_samples_per_second": 24.29770009123419,
+      "peak_vram_bytes": 517102080,
+      "forward_profile": {
+        "batch_size": 32,
+        "warmup_steps": 20,
+        "timed_steps": 100,
+        "batch_latency_ms": 6.034491999889724,
+        "throughput_samples_per_second": 5302.849022019546
+      }
+    },
+    {
+      "modality": "event",
+      "architecture_competent": false,
+      "predeclared_criteria": {
+        "finite_training": true,
+        "pnp_valid_fraction_at_least_0_95": true,
+        "validation_coordinate_rmse_at_most_20_px": false,
+        "median_are_at_most_20_deg": false,
+        "median_ate_at_most_0_25_m": false
+      },
+      "parameters_total": 1253700,
+      "parameters_trainable": 1253700,
+      "input_channel_mean": [
+        0.40126195549964905,
+        0.40126195549964905,
+        0.40126195549964905
+      ],
+      "input_channel_std": [
+        0.20549006760120392,
+        0.20549006760120392,
+        0.20549006760120392
+      ],
+      "initial_validation": {
+        "sample_count": 256,
+        "coordinate_rmse_px": 141.22204392411322
+      },
+      "final_validation": {
+        "sample_count": 256,
+        "coordinate_rmse_px": 33.015441980680606,
+        "pnp_valid_count": 256,
+        "pnp_valid_fraction": 1.0,
+        "max_rotation_orthogonality_residual": 1.3322676295501878e-15,
+        "max_rotation_determinant_error": 8.881784197001252e-16,
+        "are_degrees_mean": 159.31869780250256,
+        "are_degrees_median": 167.34741038949014,
+        "absolute_translation_error_m_mean": 0.9666384235943406,
+        "absolute_translation_error_m_median": 0.43601878029924557,
+        "range_normalized_translation_error_mean": 0.7777439698899463,
+        "success_rotation_below_10_deg": 0.0,
+        "success_translation_below_10_mm": 0.0,
+        "reprojection_rmse_px_mean": 7.882252242268917
+      },
+      "history": [
+        {
+          "epoch": 1,
+          "train_mse_normalized": 0.034524416812928393,
+          "validation_coordinate_rmse_px": 33.72527341185901
+        },
+        {
+          "epoch": 2,
+          "train_mse_normalized": 0.011896974523551762,
+          "validation_coordinate_rmse_px": 34.10803715222882
+        },
+        {
+          "epoch": 3,
+          "train_mse_normalized": 0.009511772994301282,
+          "validation_coordinate_rmse_px": 33.015441980680606
+        }
+      ],
+      "training_elapsed_seconds": 138.82545249996474,
+      "training_samples_per_second": 22.128507018558288,
+      "peak_vram_bytes": 517102080,
+      "forward_profile": {
+        "batch_size": 32,
+        "warmup_steps": 20,
+        "timed_steps": 100,
+        "batch_latency_ms": 5.581444000126794,
+        "throughput_samples_per_second": 5733.283358083151
+      }
+    }
+  ]
+}

@@ -1,0 +1,167 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "scope": "heatmap data-path competence only; not a reportable baseline",
+  "config": {
+    "dataset": "fresh-synthetic-grouped-v1 train",
+    "object": "cassini",
+    "examples": 16,
+    "sample_ids": [
+      "cassini/00000_rgb.png",
+      "cassini/00894_rgb.png",
+      "cassini/01796_rgb.png",
+      "cassini/02716_rgb.png",
+      "cassini/03618_rgb.png",
+      "cassini/04611_rgb.png",
+      "cassini/05511_rgb.png",
+      "cassini/06414_rgb.png",
+      "cassini/07228_rgb.png",
+      "cassini/08132_rgb.png",
+      "cassini/09034_rgb.png",
+      "cassini/10023_rgb.png",
+      "cassini/10927_rgb.png",
+      "cassini/11846_rgb.png",
+      "cassini/12749_rgb.png",
+      "cassini/13642_rgb.png"
+    ],
+    "selection": "evenly spaced over grouped-v1 training membership",
+    "crop": "center-preserving square, 1.2x padding, zero border",
+    "architecture": "timm HRNet-W18-Small-v2 features + 64-channel FPN heatmap head",
+    "pretraining": "timm/hrnet_w18_small_v2.ms_in1k",
+    "heatmap_size_wh": [
+      64,
+      64
+    ],
+    "heatmap_sigma": 1.5,
+    "normalization": "ImageNet mean/std for both modalities",
+    "optimizer": "AdamW(weight_decay=1e-4)",
+    "augmentation": null,
+    "steps": 200,
+    "batch_size": 16,
+    "learning_rate": 0.001,
+    "seed": 249
+  },
+  "provenance": {
+    "git_commit": "708734fd5eb6d3963d7f482c1ff92d3866071b75",
+    "uv_lock_sha256": "e9d3d98e5fb36f8855d3776b83365e983b730987f12b2f92ef9891a172342d5f",
+    "split_index_sha256": "097392a9c064443342c5a00b01dcb0431d7482590af8af559c5efcf66582b025",
+    "model_source_sha256": "1e5f600181b83483b5081d29697d3eeecb9d68cd552de357b402b86fd0d59eca",
+    "script_sha256": "306c94bd12a56645d97701d06fa21993ec44bb95bd3b12661a3f1d2e36d29425",
+    "python": "3.12.14",
+    "torch": "2.14.0+cu130",
+    "timm": "1.0.29",
+    "device": "cuda",
+    "gpu": "NVIDIA GeForce RTX 5060 Laptop GPU",
+    "precision": "float32"
+  },
+  "results": [
+    {
+      "modality": "rgb",
+      "passed": true,
+      "criterion": "final coordinate RMSE <= 5 px and >= 90% reduction from initialization",
+      "initial_coordinate_rmse_px": 65.85057830810547,
+      "final_coordinate_rmse_px": 1.76927649974823,
+      "rmse_reduction_fraction": 0.9731319519857512,
+      "parameters_total": 5412162,
+      "parameters_trainable": 5412162,
+      "steps": 200,
+      "batch_size": 16,
+      "learning_rate": 0.001,
+      "elapsed_seconds": 29.98432559997309,
+      "steps_per_second": 6.6701516875263485,
+      "peak_vram_bytes": 1871749632,
+      "history": [
+        {
+          "step": 1,
+          "heatmap_mse": 0.09393736720085144
+        },
+        {
+          "step": 25,
+          "heatmap_mse": 0.0021255272440612316
+        },
+        {
+          "step": 50,
+          "heatmap_mse": 0.001691187615506351
+        },
+        {
+          "step": 75,
+          "heatmap_mse": 0.0015129109378904104
+        },
+        {
+          "step": 100,
+          "heatmap_mse": 0.0013101192889735103
+        },
+        {
+          "step": 125,
+          "heatmap_mse": 0.0010708945337682962
+        },
+        {
+          "step": 150,
+          "heatmap_mse": 0.0008303963695652783
+        },
+        {
+          "step": 175,
+          "heatmap_mse": 0.000612323172390461
+        },
+        {
+          "step": 200,
+          "heatmap_mse": 0.00045065348967909813
+        }
+      ]
+    },
+    {
+      "modality": "event",
+      "passed": true,
+      "criterion": "final coordinate RMSE <= 5 px and >= 90% reduction from initialization",
+      "initial_coordinate_rmse_px": 74.21488189697266,
+      "final_coordinate_rmse_px": 4.990644454956055,
+      "rmse_reduction_fraction": 0.9327541279135333,
+      "parameters_total": 5412162,
+      "parameters_trainable": 5412162,
+      "steps": 200,
+      "batch_size": 16,
+      "learning_rate": 0.001,
+      "elapsed_seconds": 29.397071499959566,
+      "steps_per_second": 6.803398767128049,
+      "peak_vram_bytes": 1871749632,
+      "history": [
+        {
+          "step": 1,
+          "heatmap_mse": 0.09466267377138138
+        },
+        {
+          "step": 25,
+          "heatmap_mse": 0.0021772305481135845
+        },
+        {
+          "step": 50,
+          "heatmap_mse": 0.0017569027841091156
+        },
+        {
+          "step": 75,
+          "heatmap_mse": 0.0016381217865273356
+        },
+        {
+          "step": 100,
+          "heatmap_mse": 0.0015133859124034643
+        },
+        {
+          "step": 125,
+          "heatmap_mse": 0.001335315639153123
+        },
+        {
+          "step": 150,
+          "heatmap_mse": 0.0011003478430211544
+        },
+        {
+          "step": 175,
+          "heatmap_mse": 0.0008387730340473354
+        },
+        {
+          "step": 200,
+          "heatmap_mse": 0.0006146011292003095
+        }
+      ]
+    }
+  ]
+}

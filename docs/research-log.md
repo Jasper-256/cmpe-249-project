@@ -186,4 +186,166 @@ to its official model card. Sources accessed 2026-09-24:
 - https://github.com/JEFFLzx/UE-Pose/blob/2568f1023d02e15b70ae47dce48e8ec931fa4961/lib/dataset/EventRGBAlignedDataset.py
 - https://huggingface.co/docs/timm/feature_extraction
 - https://huggingface.co/timm/hrnet_w18_small_v2.ms_in1k
+
+## 2026-09-26 — Short heatmap pilot and transformer decision
+
+The first 1,024-train/256-validation HRNet heatmap pilot was intentionally
+limited to three epochs. It failed the frozen competence criteria, but its
+learning curves had not converged: RGB validation keypoint RMSE fell from 61.76
+pixels before training to 48.66, 39.92, and 32.56 pixels; event RMSE fell from
+73.18 to 64.46, 45.57, and 44.62 pixels. Both modalities still produced valid
+PnP solutions for at least 96.9% of validation examples. The result therefore
+supports one bounded checkpoint-selected extension, not indefinite tuning:
+maximum 12 epochs, minimum 0.25-pixel validation improvement, patience three,
+and selection by synthetic-validation keypoint RMSE. All other experimental
+factors remain fixed. Local report:
+`outputs/feasibility/short-heatmap-pilot.json`.
+
+A current architecture audit examined recent spacecraft-pose, event-camera,
+and dense-foundation-model work. FastPose-ViT (WACV 2026) and SPACE-HOP
+(CVPRW 2026) are scientifically relevant but change the pose formulation, so
+neither is a controlled backbone replacement for the keypoint/PnP protocol.
+DINOv3 ViT-S/16 is the smallest released DINOv3 ViT at 21M parameters; its
+weights require an access request and its custom license requires separate
+acceptance. Hiera-T and SwinV2-T each measure about 27M encoder parameters in
+the locked timm environment. C-RADIOv4's currently released SO400M/H family is
+outside the dual-stream 8 GB budget, and RADIO1D checkpoints are not yet
+released.
+
+The only predeclared P0 transformer challenger is therefore TinyViT-5M. In the
+locked environment it measures 5.07M encoder parameters and returns a four-level
+64/128/160/320-channel hierarchy, close to the current 5.25M HRNet encoder.
+Microsoft reports the available TinyViT-5M weights were distilled during
+ImageNet-22k pretraining and fine-tuned on ImageNet-1k. This makes it a bounded
+test of transformer inductive bias without introducing a fivefold capacity
+increase. It will run only if HRNet remains incompetent; details and stop rules
+are in `docs/transformer-architecture-audit.md`.
+
+Two newer efficient families were also checked rather than assuming recency
+implies suitability. TinyNeXt-M (ICCV 2025) reports 2.3M classification
+parameters and 75.3% ImageNet-1k top-1, but it is absent from the locked timm
+catalog and its official repository currently has only 15 commits. LowFormer's
+2026 edge-GPU extension offers pretrained E-series checkpoints through a
+standalone external implementation, but its public model table does not report
+E-series parameter counts and provides no spacecraft or keypoint evidence.
+They remain deployment watchlist items, not a better first representation test
+than the stable, strongly pretrained, parameter-matched TinyViT path.
+
+Recent event literature shifts the event branch decision away from training an
+independent large transformer from scratch. STP (ICCV 2025) uses a lightweight
+spatiotemporal prompt to transfer image-pretrained knowledge to event tasks,
+while EventDAM and Depth AnyEvent use RGB-to-event feature transfer or
+distillation for depth. These results do not validate event-frame spacecraft
+pose, but they motivate frozen/lightweight adaptation as a later study. The core
+FRESH input is a rendered event frame, so a raw-event temporal prompt remains
+out of scope until the central protocol passes.
+
+Sources accessed 2026-09-26:
+
+- https://github.com/facebookresearch/dinov3
+- https://github.com/facebookresearch/dinov3/blob/main/LICENSE.md
+- https://github.com/facebookresearch/hiera
+- https://github.com/microsoft/Cream/tree/main/TinyViT
+- https://huggingface.co/timm/tiny_vit_5m_224.dist_in22k_ft_in1k
+- https://github.com/NVlabs/RADIO
+- https://github.com/yuffeenn/TinyNeXt
+- https://github.com/altair199797/lowformer
+- https://openaccess.thecvf.com/content/WACV2026/html/Ancey_FastPose-ViT_A_Vision_Transformer_for_Real-Time_Spacecraft_Pose_Estimation_WACV_2026_paper.html
+- https://openaccess.thecvf.com/content/CVPR2026W/AI4Space/html/Dutta_SPACE-HOP_Spacecraft_6-DoF_Pose_Estimation_using_Embedding-Predictive_Pretraining_and_Hopf_CVPRW_2026_paper.html
+- https://openaccess.thecvf.com/content/ICCV2025/html/Liang_Efficient_Event_Camera_Data_Pretraining_with_Adaptive_Prompt_Fusion_ICCV_2025_paper.html
+- https://openaccess.thecvf.com/content/ICCV2025/html/Zhu_Depth_Any_Event_Stream_Enhancing_Event-based_Monocular_Depth_Estimation_via_ICCV_2025_paper.html
+- https://openaccess.thecvf.com/content/ICCV2025/html/Bartolomei_Depth_AnyEvent_A_Cross-Modal_Distillation_Paradigm_for_Event-Based_Monocular_Depth_ICCV_2025_paper.html
+
+## 2026-09-26 — HRNet convergence gate passed
+
+The predeclared checkpoint-selected extension passed every frozen competence
+criterion without early stopping. The RGB checkpoint selected at epoch 12
+achieved 7.620 px keypoint RMSE, 100% valid PnP, 3.877 degrees median ARE, and
+0.01693 m median absolute translation error. The event checkpoint selected at
+epoch 11 achieved 9.161 px, 100%, 4.005 degrees, and 0.01933 m. Both used the
+same 1,024 grouped-v1 Cassini training examples, 256 validation examples,
+ImageNet-pretrained HRNet heatmap architecture, crop, optimizer, batch size,
+seed, and PnP path. No real FRESH sequence was used.
+
+RGB and event training took 759.0 and 789.3 seconds respectively, or 16.19 and
+15.57 samples/s. Peak PyTorch allocations were 1.859 and 1.860 GB. Batch-16
+forward-only profiling measured 38.61/39.28 ms per batch and 414.5/407.3
+samples/s, showing that forward latency alone badly overstates end-to-end
+training throughput. Report:
+`outputs/feasibility/short-heatmap-convergence.json`.
+
+This result freezes HRNet-W18-Small-v2 as the core encoder family and prevents a
+backbone rabbit hole. The transformer audit remains useful, but TinyViT-5M is no
+longer a baseline rescue; it is a post-core architecture-robustness experiment.
+DINOv3 remains a gated-license frozen/adapter study only. The next compute gate
+will test complete train steps at batch 16/32 and FP32/BF16, following current
+PyTorch AMP guidance, before estimating the multi-seed fusion budget. Precision
+will be shared across claimed method comparisons and chosen from synthetic
+numerical stability, never real performance.
+
+Source accessed 2026-09-26:
+
+- https://docs.pytorch.org/tutorials/recipes/recipes/amp_recipe.html
+
+## 2026-09-26 — Complete-step compute screen and cloud trigger
+
+The frozen compute screen measured five warm-up and 20 timed optimizer steps for
+RGB/event, FP32/BF16, and batch sizes 16/32. Every trial had finite losses and
+gradients, and the RTX 5060 Laptop GPU reports native BF16 support. At batch 16,
+FP32/BF16 throughput was 23.77/23.61 samples/s for RGB and 25.03/25.52 for
+event. BF16 reduced peak PyTorch allocation from 1.73 to 0.97 GiB but did not
+materially improve end-to-end throughput. Batch 32 was slower for every pairing
+(19.46–21.72 samples/s) while using 3.39 GiB in FP32 or 1.85 GiB in BF16.
+
+The bottleneck is measured rather than inferred: batch-16 data wait averaged
+474–508 ms per step, while synchronized forward, heatmap loss, backward, and
+AdamW update took 154–170 ms. Larger batches increased data wait to 1.26–1.38 s.
+FP32 batch 16 therefore remains frozen; BF16 is only a memory contingency that
+would require convergence parity before use in a claimed comparison. Report:
+`outputs/feasibility/training-compute-profile.json`.
+
+At the measured 23.77 samples/s, 12 passes over all 35,760 grouped training
+examples would require about 5.0 hours per unimodal model before recurring
+validation and checkpoint overhead. A dual-encoder fusion model will be slower.
+This makes a one-time USD 10–20 rented-GPU budget potentially useful only after
+the exact fusion matrix is implemented and smoke-tested. Current provider prices
+have deliberately not been compared yet because the required GPU memory,
+end-to-end cached throughput, and job hours are not frozen.
+
+The profile justifies one bounded storage optimization. Caching both 3-channel
+modalities as exact uint8 256-by-256 crops for all 35,760 train and 1,920
+validation examples would occupy 14,816,378,880 bytes (13.80 GiB), plus a small
+versioned manifest. This raises local project data above the 20 GB soft target
+but remains far below a roughly 100 GB raw extraction and has a measured target:
+remove the 74–76% step-time data wait. First build one immutable shard under
+`data/fresh/cache/` and expand only if it at least doubles complete-step
+throughput. Raw archives remain untouched.
 - https://docs.opencv.org/4.13.0/d5/d1f/calib3d_solvePnP.html
+
+## 2026-09-26 — Spatial heatmap tiny-overfit gate
+
+The first frozen heatmap attempt used batch size 4 for 200 optimizer updates.
+Although heatmap loss continued to decrease, each of the 16 examples appeared
+in only 42–60 updates. RGB/event decoded RMSE reached 9.88/15.92 pixels and
+failed the predeclared 5-pixel, 90%-reduction criterion. This was diagnosed as
+an inconsistent competence-test exposure budget rather than answered by an
+arbitrary learning-rate or architecture change: the earlier direct-coordinate
+gate used the entire 16-sample subset on every update.
+
+A one-update batch-16 diagnostic measured only 1.83 GB peak allocated VRAM on
+the RTX 5060 Laptop GPU. Repeating the otherwise unchanged 200-update gate with
+all 16 samples per update passed: RGB RMSE decreased from 65.85 to 1.77 pixels
+(97.3%) and event RMSE from 74.21 to 4.99 pixels (93.3%). Each modality used
+1.87 GB peak VRAM and approximately 30 seconds. The machine-readable report is
+`outputs/feasibility/heatmap-tiny-overfit.json`.
+
+This establishes memorization competence only. It authorizes one bounded
+Cassini grouped train/validation pilot with the same pretrained HRNet heatmap
+architecture and shared EPnP+LM path; it is not evidence of validation or real
+performance. Current official timm documentation still identifies
+`features_only=True` as the supported multi-scale feature-pyramid interface,
+and the selected HRNet model card identifies the weights as ImageNet-1k and MIT
+licensed. Sources accessed 2026-09-26:
+
+- https://huggingface.co/docs/timm/feature_extraction
+- https://huggingface.co/timm/hrnet_w18_small_v2.ms_in1k

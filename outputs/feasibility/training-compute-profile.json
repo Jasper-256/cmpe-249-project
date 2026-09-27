@@ -1,0 +1,322 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "scope": "complete training-step compute feasibility; not an accuracy result",
+  "config": {
+    "dataset": "fresh-synthetic-grouped-v1",
+    "object": "cassini",
+    "samples": 1024,
+    "selection": "evenly spaced within frozen train role",
+    "architecture": "timm/hrnet_w18_small_v2.ms_in1k plus 64-channel heatmap decoder",
+    "optimizer": "AdamW(lr=1e-3, weight_decay=1e-4)",
+    "warmup_steps": 5,
+    "timed_steps": 20,
+    "seed": 249,
+    "deterministic_algorithms": true
+  },
+  "provenance": {
+    "git_commit": "708734fd5eb6d3963d7f482c1ff92d3866071b75",
+    "uv_lock_sha256": "e9d3d98e5fb36f8855d3776b83365e983b730987f12b2f92ef9891a172342d5f",
+    "split_index_sha256": "097392a9c064443342c5a00b01dcb0431d7482590af8af559c5efcf66582b025",
+    "source_sha256": {
+      "scripts/profile_training_compute.py": "c75809c70e65cf7543b79c874e5ce0c58080ac87ed60218d914c869eb11865d2",
+      "src/saga_pose/data/dataset.py": "fc15a6e8c72ebb72430deca1cdbfb85b9fe991e6708e4956d1bcee25d4072ab2",
+      "src/saga_pose/models/heatmaps.py": "1e5f600181b83483b5081d29697d3eeecb9d68cd552de357b402b86fd0d59eca"
+    },
+    "python": "3.12.14",
+    "torch": "2.14.0+cu130",
+    "gpu": "NVIDIA GeForce RTX 5060 Laptop GPU",
+    "gpu_total_memory_bytes": 8518041600,
+    "bfloat16_supported": true
+  },
+  "results": [
+    {
+      "modality": "rgb",
+      "precision": "float32",
+      "batch_size": 16,
+      "warmup_steps": 5,
+      "timed_steps": 20,
+      "finite_losses": true,
+      "finite_gradients": true,
+      "first_measured_loss": 0.007573695853352547,
+      "last_measured_loss": 0.0021770079620182514,
+      "data_wait_seconds": {
+        "mean": 0.5082044749869965,
+        "median": 0.5034125499660149,
+        "p95": 0.5762909149867482,
+        "minimum": 0.42557449999731034,
+        "maximum": 0.5771974999224767
+      },
+      "compute_seconds": {
+        "mean": 0.16501733001205138,
+        "median": 0.166439900000114,
+        "p95": 0.17228719002450815,
+        "minimum": 0.15331399999558926,
+        "maximum": 0.17394949996378273
+      },
+      "complete_step_seconds": {
+        "mean": 0.6732218049990479,
+        "median": 0.6691996999434195,
+        "p95": 0.746947239979636,
+        "minimum": 0.5833824001019821,
+        "maximum": 0.7511469998862594
+      },
+      "end_to_end_samples_per_second": 23.76631279793831,
+      "peak_vram_bytes": 1862048256,
+      "parameters_total": 5412162,
+      "parameters_trainable": 5412162
+    },
+    {
+      "modality": "rgb",
+      "precision": "float32",
+      "batch_size": 32,
+      "warmup_steps": 5,
+      "timed_steps": 20,
+      "finite_losses": true,
+      "finite_gradients": true,
+      "first_measured_loss": 0.007226150017231703,
+      "last_measured_loss": 0.0021799886599183083,
+      "data_wait_seconds": {
+        "mean": 1.3577021749981213,
+        "median": 1.1058990000165068,
+        "p95": 2.0901608349522576,
+        "minimum": 0.8710084999911487,
+        "maximum": 2.18825280002784
+      },
+      "compute_seconds": {
+        "mean": 0.2870872499945108,
+        "median": 0.2851429499569349,
+        "p95": 0.29926589004462584,
+        "minimum": 0.2775125000625849,
+        "maximum": 0.30738629994448274
+      },
+      "complete_step_seconds": {
+        "mean": 1.644789424992632,
+        "median": 1.4027473000460304,
+        "p95": 2.3743409549584613,
+        "minimum": 1.1563256999943405,
+        "maximum": 2.4760869999881834
+      },
+      "end_to_end_samples_per_second": 19.45537800387022,
+      "peak_vram_bytes": 3637765632,
+      "parameters_total": 5412162,
+      "parameters_trainable": 5412162
+    },
+    {
+      "modality": "rgb",
+      "precision": "bfloat16",
+      "batch_size": 16,
+      "warmup_steps": 5,
+      "timed_steps": 20,
+      "finite_losses": true,
+      "finite_gradients": true,
+      "first_measured_loss": 0.007257530931383371,
+      "last_measured_loss": 0.0021556748542934656,
+      "data_wait_seconds": {
+        "mean": 0.5081752299971413,
+        "median": 0.5168097500572912,
+        "p95": 0.5654988050402607,
+        "minimum": 0.42242110008373857,
+        "maximum": 0.5715371000114828
+      },
+      "compute_seconds": {
+        "mean": 0.16956448499113322,
+        "median": 0.16956344997743145,
+        "p95": 0.18274767510010861,
+        "minimum": 0.1593711000168696,
+        "maximum": 0.1839802999747917
+      },
+      "complete_step_seconds": {
+        "mean": 0.6777397149882745,
+        "median": 0.6779552000225522,
+        "p95": 0.7342593150155153,
+        "minimum": 0.592581000062637,
+        "maximum": 0.7491613000165671
+      },
+      "end_to_end_samples_per_second": 23.607883153603908,
+      "peak_vram_bytes": 1043130368,
+      "parameters_total": 5412162,
+      "parameters_trainable": 5412162
+    },
+    {
+      "modality": "rgb",
+      "precision": "bfloat16",
+      "batch_size": 32,
+      "warmup_steps": 5,
+      "timed_steps": 20,
+      "finite_losses": true,
+      "finite_gradients": true,
+      "first_measured_loss": 0.0071546235121786594,
+      "last_measured_loss": 0.002220632741227746,
+      "data_wait_seconds": {
+        "mean": 1.3814315499796066,
+        "median": 1.1083579499972984,
+        "p95": 2.168673885095632,
+        "minimum": 0.8671754999086261,
+        "maximum": 2.2804315999383107
+      },
+      "compute_seconds": {
+        "mean": 0.22042455500923097,
+        "median": 0.2200754500227049,
+        "p95": 0.23371632005437276,
+        "minimum": 0.20873369998298585,
+        "maximum": 0.23557489993982017
+      },
+      "complete_step_seconds": {
+        "mean": 1.6018561049888376,
+        "median": 1.326341800042428,
+        "p95": 2.3911683900805656,
+        "minimum": 1.0838469000300393,
+        "maximum": 2.506705299834721
+      },
+      "end_to_end_samples_per_second": 19.976825571497255,
+      "peak_vram_bytes": 1987499520,
+      "parameters_total": 5412162,
+      "parameters_trainable": 5412162
+    },
+    {
+      "modality": "event",
+      "precision": "float32",
+      "batch_size": 16,
+      "warmup_steps": 5,
+      "timed_steps": 20,
+      "finite_losses": true,
+      "finite_gradients": true,
+      "first_measured_loss": 0.007662514690309763,
+      "last_measured_loss": 0.0022089360281825066,
+      "data_wait_seconds": {
+        "mean": 0.47485812500235625,
+        "median": 0.4860693499795161,
+        "p95": 0.5358101300254929,
+        "minimum": 0.3718766999663785,
+        "maximum": 0.5363977999659255
+      },
+      "compute_seconds": {
+        "mean": 0.16431363999727183,
+        "median": 0.16051444999175146,
+        "p95": 0.18457836507004688,
+        "minimum": 0.1479685999220237,
+        "maximum": 0.19598530000075698
+      },
+      "complete_step_seconds": {
+        "mean": 0.639171764999628,
+        "median": 0.6573834999580868,
+        "p95": 0.7154819950461387,
+        "minimum": 0.5242569999536499,
+        "maximum": 0.7163084000349045
+      },
+      "end_to_end_samples_per_second": 25.032394852437374,
+      "peak_vram_bytes": 1862048256,
+      "parameters_total": 5412162,
+      "parameters_trainable": 5412162
+    },
+    {
+      "modality": "event",
+      "precision": "float32",
+      "batch_size": 32,
+      "warmup_steps": 5,
+      "timed_steps": 20,
+      "finite_losses": true,
+      "finite_gradients": true,
+      "first_measured_loss": 0.007354707457125187,
+      "last_measured_loss": 0.0022345813922584057,
+      "data_wait_seconds": {
+        "mean": 1.2659433800028637,
+        "median": 1.0449738000170328,
+        "p95": 1.9652717099466828,
+        "minimum": 0.8029077999526635,
+        "maximum": 2.0341031999560073
+      },
+      "compute_seconds": {
+        "mean": 0.2761683999968227,
+        "median": 0.276530500035733,
+        "p95": 0.2844354950473644,
+        "minimum": 0.2634619999444112,
+        "maximum": 0.28847289993427694
+      },
+      "complete_step_seconds": {
+        "mean": 1.5421117799996864,
+        "median": 1.322065550077241,
+        "p95": 2.245846309955232,
+        "minimum": 1.0791574999457225,
+        "maximum": 2.3090822999365628
+      },
+      "end_to_end_samples_per_second": 20.75076555086461,
+      "peak_vram_bytes": 3637765632,
+      "parameters_total": 5412162,
+      "parameters_trainable": 5412162
+    },
+    {
+      "modality": "event",
+      "precision": "bfloat16",
+      "batch_size": 16,
+      "warmup_steps": 5,
+      "timed_steps": 20,
+      "finite_losses": true,
+      "finite_gradients": true,
+      "first_measured_loss": 0.007476485334336758,
+      "last_measured_loss": 0.0022053655702620745,
+      "data_wait_seconds": {
+        "mean": 0.47296304000192324,
+        "median": 0.47192364995134994,
+        "p95": 0.5266890400205739,
+        "minimum": 0.3899702999042347,
+        "maximum": 0.5367085000034422
+      },
+      "compute_seconds": {
+        "mean": 0.1540354400058277,
+        "median": 0.15348435001214966,
+        "p95": 0.16612113505252638,
+        "minimum": 0.14535839995369315,
+        "maximum": 0.16704710002522916
+      },
+      "complete_step_seconds": {
+        "mean": 0.6269984800077509,
+        "median": 0.6232550999848172,
+        "p95": 0.6877593600715045,
+        "minimum": 0.5406778999604285,
+        "maximum": 0.6898827999830246
+      },
+      "end_to_end_samples_per_second": 25.5184031702951,
+      "peak_vram_bytes": 1043130368,
+      "parameters_total": 5412162,
+      "parameters_trainable": 5412162
+    },
+    {
+      "modality": "event",
+      "precision": "bfloat16",
+      "batch_size": 32,
+      "warmup_steps": 5,
+      "timed_steps": 20,
+      "finite_losses": true,
+      "finite_gradients": true,
+      "first_measured_loss": 0.007662629708647728,
+      "last_measured_loss": 0.002213559579104185,
+      "data_wait_seconds": {
+        "mean": 1.263486595003633,
+        "median": 1.016330900019966,
+        "p95": 1.944162705022609,
+        "minimum": 0.8072075999807566,
+        "maximum": 2.0216106000589207
+      },
+      "compute_seconds": {
+        "mean": 0.20947170500294304,
+        "median": 0.21014954999554902,
+        "p95": 0.2182988650398329,
+        "minimum": 0.20071650005411357,
+        "maximum": 0.21979540004394948
+      },
+      "complete_step_seconds": {
+        "mean": 1.4729583000065758,
+        "median": 1.225799200066831,
+        "p95": 2.1538628349429927,
+        "minimum": 1.0235631000250578,
+        "maximum": 2.2324152000946924
+      },
+      "end_to_end_samples_per_second": 21.724987054865803,
+      "peak_vram_bytes": 1987499520,
+      "parameters_total": 5412162,
+      "parameters_trainable": 5412162
+    }
+  ]
+}

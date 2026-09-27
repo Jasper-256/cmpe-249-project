@@ -1,0 +1,1630 @@
+{
+  "schema_version": 1,
+  "status": "stop",
+  "selected_profile": null,
+  "acceptance_rule": {
+    "deterministic_replay": true,
+    "shape_preserved": true,
+    "augmented_crop_prevalence_min": 0.9,
+    "median_active_patch_fraction_range": [
+      0.02,
+      0.5
+    ],
+    "median_clipped_pixel_fraction_max": 0.25
+  },
+  "protocol": {
+    "dataset_scope": "synthetic train and synthetic validation only",
+    "sample_count": 96,
+    "samples_per_object_split": 16,
+    "seed": 249,
+    "input_size_wh": [
+      256,
+      256
+    ],
+    "threshold_8bit": 254,
+    "grid_size": 16,
+    "training_application_probability": 0.5,
+    "library": "albumentations 2.0.8",
+    "transform": "RandomSunFlare(method='physics_based')",
+    "synthetic_archive_md5": "0237e61ebd4704bd189a4ee635205ddd",
+    "limitation": "Framework-provided optical approximation; not calibrated to FRESH real camera statistics and not evidence of physical fidelity."
+  },
+  "profiles": {
+    "light": {
+      "parameters": {
+        "src_radius": 24,
+        "num_flare_circles_range": [
+          1,
+          3
+        ]
+      },
+      "accepted": false,
+      "deterministic_replay": true,
+      "shapes_preserved": true,
+      "augmented_crop_prevalence_with_patch_ge_1pct": 0.0,
+      "expected_training_batch_prevalence_at_p_0_5": 0.0,
+      "active_patch_fraction": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "mean": 0.0
+      },
+      "clipped_pixel_fraction": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "mean": 0.0
+      },
+      "samples": [
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/00100_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/00400_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/00500_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/00900_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/02100_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/04600_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/07000_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/08000_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/08600_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/11300_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/11600_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/11800_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/12100_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/12200_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/12300_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/12500_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/00252_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/01937_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/01958_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/02155_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/02899_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/04662_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/05211_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/05214_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/06045_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/07658_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/08147_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/09749_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/09870_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/10871_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/11197_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/11563_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/01100_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/01500_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/02000_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/02200_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/03500_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/04500_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/05200_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/05800_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/06300_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/06700_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/07700_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/08000_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/10000_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/10500_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/11400_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/13300_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/00915_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/01363_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/03818_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/04792_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/04798_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/05471_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/06607_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/07157_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/07267_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/09393_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/09637_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/09997_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/10783_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/11047_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/12764_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/12790_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/00000_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/00200_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/01400_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/02700_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/03700_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/04700_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/06900_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/08600_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/09200_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/10000_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/10300_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/11500_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/12400_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/13100_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/13500_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/13600_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/00630_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/03221_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/03714_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/03799_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/04007_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/04067_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/04284_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/04352_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/07486_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/07792_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/07982_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/08131_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/10030_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/10716_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/10728_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/11407_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        }
+      ]
+    },
+    "moderate": {
+      "parameters": {
+        "src_radius": 48,
+        "num_flare_circles_range": [
+          2,
+          4
+        ]
+      },
+      "accepted": false,
+      "deterministic_replay": true,
+      "shapes_preserved": true,
+      "augmented_crop_prevalence_with_patch_ge_1pct": 0.15625,
+      "expected_training_batch_prevalence_at_p_0_5": 0.078125,
+      "active_patch_fraction": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.00390625,
+        "max": 0.0078125,
+        "mean": 0.000732421875
+      },
+      "clipped_pixel_fraction": {
+        "min": 0.0,
+        "median": 1.52587890625e-05,
+        "p95": 0.0001678466796875,
+        "max": 0.0003204345703125,
+        "mean": 3.0199686686197918e-05
+      },
+      "samples": [
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/00100_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/00400_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/00500_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/00900_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/02100_rgb.png",
+          "clipped_fraction": 0.0001220703125,
+          "max_patch_clipped_fraction": 0.03125,
+          "active_patch_fraction": 0.00390625,
+          "has_active_patch": true
+        },
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/04600_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/07000_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/08000_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/08600_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/11300_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/11600_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/11800_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/12100_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/12200_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/12300_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/test.json",
+          "rgb_member": "synthetic/cassini/frames/12500_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/00252_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/01937_rgb.png",
+          "clipped_fraction": 0.0001678466796875,
+          "max_patch_clipped_fraction": 0.04296875,
+          "active_patch_fraction": 0.00390625,
+          "has_active_patch": true
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/01958_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/02155_rgb.png",
+          "clipped_fraction": 0.0001373291015625,
+          "max_patch_clipped_fraction": 0.0234375,
+          "active_patch_fraction": 0.0078125,
+          "has_active_patch": true
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/02899_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/04662_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/05211_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/05214_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/06045_rgb.png",
+          "clipped_fraction": 0.0001220703125,
+          "max_patch_clipped_fraction": 0.03125,
+          "active_patch_fraction": 0.00390625,
+          "has_active_patch": true
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/07658_rgb.png",
+          "clipped_fraction": 0.0001220703125,
+          "max_patch_clipped_fraction": 0.03125,
+          "active_patch_fraction": 0.00390625,
+          "has_active_patch": true
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/08147_rgb.png",
+          "clipped_fraction": 7.62939453125e-05,
+          "max_patch_clipped_fraction": 0.01953125,
+          "active_patch_fraction": 0.00390625,
+          "has_active_patch": true
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/09749_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/09870_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/10871_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/11197_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/cassini/train.json",
+          "rgb_member": "synthetic/cassini/frames/11563_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/01100_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/01500_rgb.png",
+          "clipped_fraction": 0.0001068115234375,
+          "max_patch_clipped_fraction": 0.01953125,
+          "active_patch_fraction": 0.00390625,
+          "has_active_patch": true
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/02000_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/02200_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/03500_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/04500_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/05200_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/05800_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/06300_rgb.png",
+          "clipped_fraction": 6.103515625e-05,
+          "max_patch_clipped_fraction": 0.015625,
+          "active_patch_fraction": 0.00390625,
+          "has_active_patch": true
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/06700_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/07700_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/08000_rgb.png",
+          "clipped_fraction": 6.103515625e-05,
+          "max_patch_clipped_fraction": 0.015625,
+          "active_patch_fraction": 0.00390625,
+          "has_active_patch": true
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/10000_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/10500_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/11400_rgb.png",
+          "clipped_fraction": 0.0003204345703125,
+          "max_patch_clipped_fraction": 0.05078125,
+          "active_patch_fraction": 0.0078125,
+          "has_active_patch": true
+        },
+        {
+          "metadata_member": "synthetic/satty/test.json",
+          "rgb_member": "synthetic/satty/frames/13300_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/00915_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/01363_rgb.png",
+          "clipped_fraction": 0.0003204345703125,
+          "max_patch_clipped_fraction": 0.0703125,
+          "active_patch_fraction": 0.0078125,
+          "has_active_patch": true
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/03818_rgb.png",
+          "clipped_fraction": 0.0001678466796875,
+          "max_patch_clipped_fraction": 0.04296875,
+          "active_patch_fraction": 0.00390625,
+          "has_active_patch": true
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/04792_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/04798_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/05471_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/06607_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/07157_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/07267_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/09393_rgb.png",
+          "clipped_fraction": 0.00018310546875,
+          "max_patch_clipped_fraction": 0.046875,
+          "active_patch_fraction": 0.00390625,
+          "has_active_patch": true
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/09637_rgb.png",
+          "clipped_fraction": 0.00018310546875,
+          "max_patch_clipped_fraction": 0.04296875,
+          "active_patch_fraction": 0.00390625,
+          "has_active_patch": true
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/09997_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/10783_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/11047_rgb.png",
+          "clipped_fraction": 0.0001373291015625,
+          "max_patch_clipped_fraction": 0.03515625,
+          "active_patch_fraction": 0.00390625,
+          "has_active_patch": true
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/12764_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/satty/train.json",
+          "rgb_member": "synthetic/satty/frames/12790_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/00000_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/00200_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/01400_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/02700_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/03700_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/04700_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/06900_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/08600_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/09200_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/10000_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/10300_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/11500_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/12400_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/13100_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/13500_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/test.json",
+          "rgb_member": "synthetic/soho/frames/13600_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/00630_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/03221_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/03714_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/03799_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/04007_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/04067_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/04284_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/04352_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/07486_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/07792_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/07982_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/08131_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/10030_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/10716_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/10728_rgb.png",
+          "clipped_fraction": 1.52587890625e-05,
+          "max_patch_clipped_fraction": 0.00390625,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        },
+        {
+          "metadata_member": "synthetic/soho/train.json",
+          "rgb_member": "synthetic/soho/frames/11407_rgb.png",
+          "clipped_fraction": 0.0,
+          "max_patch_clipped_fraction": 0.0,
+          "active_patch_fraction": 0.0,
+          "has_active_patch": false
+        }
+      ]
+    }
+  }
+}

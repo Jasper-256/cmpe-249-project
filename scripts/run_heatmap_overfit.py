@@ -39,7 +39,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--object", default="cassini", choices=("cassini", "satty", "soho"))
     parser.add_argument("--examples", type=int, default=16)
     parser.add_argument("--steps", type=int, default=200)
-    parser.add_argument("--batch-size", type=int, default=4)
+    parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--learning-rate", type=float, default=1e-3)
     parser.add_argument("--seed", type=int, default=249)
     parser.add_argument(

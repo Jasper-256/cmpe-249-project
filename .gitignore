@@ -211,7 +211,8 @@ tempCodeRunnerFile.py
 
 # Research data, external baselines, and experiment artifacts
 /data/
-/outputs/
+# Keep lightweight experiment reports and generated figures under outputs/ visible
+# to collaborators. Large checkpoints and model weights remain ignored below.
 /external/
 /checkpoints/
 /wandb/

@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "dataset": "fresh-synthetic-grouped-v1",
+  "object": "cassini",
+  "target_size_wh": [
+    256,
+    256
+  ],
+  "storage_mode": "zero-extraction ZIP random access",
+  "device": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.14",
+    "torch": "2.14.0+cu130",
+    "cuda_available": true,
+    "gpu": "NVIDIA GeForce RTX 5060 Laptop GPU"
+  },
+  "profiles": [
+    {
+      "batch_size": 1,
+      "workers": 0,
+      "samples": 256,
+      "batches": 256,
+      "elapsed_seconds": 4.624850699969102,
+      "samples_per_second": 55.353138210863825,
+      "first_batch_tensor_bytes": 1574348
+    },
+    {
+      "batch_size": 4,
+      "workers": 0,
+      "samples": 256,
+      "batches": 64,
+      "elapsed_seconds": 3.846585599996615,
+      "samples_per_second": 66.55252907935424,
+      "first_batch_tensor_bytes": 6297392
+    },
+    {
+      "batch_size": 8,
+      "workers": 0,
+      "samples": 256,
+      "batches": 32,
+      "elapsed_seconds": 3.859103500028141,
+      "samples_per_second": 66.33665046768847,
+      "first_batch_tensor_bytes": 12594784
+    },
+    {
+      "batch_size": 1,
+      "workers": 2,
+      "samples": 256,
+      "batches": 256,
+      "elapsed_seconds": 5.672668699990027,
+      "samples_per_second": 45.128671096277856,
+      "first_batch_tensor_bytes": 1574348
+    },
+    {
+      "batch_size": 4,
+      "workers": 2,
+      "samples": 256,
+      "batches": 64,
+      "elapsed_seconds": 5.134776599996258,
+      "samples_per_second": 49.85611253276074,
+      "first_batch_tensor_bytes": 6297392
+    },
+    {
+      "batch_size": 8,
+      "workers": 2,
+      "samples": 256,
+      "batches": 32,
+      "elapsed_seconds": 5.118257399997674,
+      "samples_per_second": 50.01702337207901,
+      "first_batch_tensor_bytes": 12594784
+    }
+  ]
+}
