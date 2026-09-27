@@ -37,7 +37,10 @@ A regular color camera image (256×256 pixels, resized to fit the available comp
 
 Matching data from an event camera, which records only pixel-level brightness changes instead of a full image this is what lets it avoid overexposure. Both cameras look through the same beamsplitter (a partly-reflective mirror), so their images line up pixel-for-pixel automatically; no extra alignment step is needed.
 
-The event data comes in two possible forms, and both will be tried: a ready-made "event image" the dataset already provides, or the raw list of individual brightness-change events, converted into a small image ourselves.
+The core study uses the ready-made event image supplied by FRESH. A raw-event
+representation search is stretch work only after the frozen comparison is
+complete; changing representation during the core matrix would confound the
+fusion question.
 
 Both inputs are captured at (nearly) the same instant. The project works one image pair at a time; it does not track a target across a video (that's a possible future extension, not part of this project).
 
@@ -52,7 +55,12 @@ Both inputs are captured at (nearly) the same instant. The project works one ima
 Following the standard errors used in spacecraft pose-estimation benchmarks, we will use:
 
 - **Average Rotation Error (ARE):** angle between predicted and ground-truth rotation, in degrees.
-- **Average Translation Error (ATE):** Euclidean distance between predicted and ground-truth translation, normalized by target range, in the dataset's native units.
+- **Average Translation Error (ATE):** absolute Euclidean distance between
+  predicted and ground-truth translation, reported in metres after converting
+  the millimetre-valued annotations exactly once.
+- **Range-normalized translation error:** Euclidean translation error divided by
+  ground-truth range, reported separately as a dimensionless diagnostic. It is
+  not called ATE.
 
 **Headline metric:** the generalization gap: for each fusion method, Δ = error(real test) − error(synthetic validation). This is the number the project's hypothesis depends on, and it is reported for ARE and ATE separately, alongside the absolute error values (a smaller gap doesn't count for much if it comes from doing worse on synthetic data).
 
@@ -62,9 +70,16 @@ Following the standard errors used in spacecraft pose-estimation benchmarks, we 
 
 2. **Primary hypothesis test:** the saturation-gated model shows a smaller Δ (generalization gap) than the fully-learned-attention baseline, with the difference assessed via bootstrap 95% confidence intervals over the 24 real sequences (chosen because the real split is small enough that a raw point estimate isn't trustworthy on its own).
 
-3. **Comparative bar:** the saturation-gated model achieves lower real-test ARE/ATE than a reproduced classical RANSAC-fusion baseline (the current published SOTA for this exact dataset), OR if it does not the project reports a clearly characterized accuracy/interpretability/compute trade-off. A well-documented negative result on criterion 2 or 3 still satisfies the project's actual goal, which is testing a specific claim in the literature, not guaranteeing a win.
+3. **Comparative bar:** compare against the full published FRESH
+   geometric/uncertainty pipeline and, if reproducible under an equivalent
+   protocol, UE-Pose. FRESH is not described as the current SOTA because the
+   newer UE-Pose method is a closer uncertainty-driven competitor. If protocols
+   differ, results are reported separately rather than ranked.
 
-4. **Mechanistic evidence:** a measurable, reported difference in attention entropy and/or effective rank between the gated and fully-learned models on real harsh-lighting frames, to support a causal story for whichever quantitative result is observed.
+4. **Mechanistic evidence:** attention entropy, effective rank, and gate maps are
+   descriptive diagnostics. Causal support comes from shuffle and bypass
+   interventions that measurably change predictions, not from visualization
+   alone.
 
 5. **Causal check:** evaluate the trained gated model with its saturation input shuffled, and separately evaluate a fixed, non-learned version of the gate built from the raw clipping signal. If shuffling the input doesn't hurt performance, the model isn't actually using the signal in a meaningful way.
 
@@ -78,7 +93,11 @@ Architecture, thresholds, and checkpoint selection are frozen using synthetic va
 
 ### 2.2 Chosen models / backbone
 
-A compact Vision Transformer (ViT-Small/Tiny scale, or a lightweight CNN-stem + shallow transformer hybrid), 6–8 encoder blocks, hidden dimension 384–512, 16×16 patches at 256×256 input (256 tokens per modality).
+A compact shared-scale two-stream encoder with 16×16 patches at 256×256 input
+(256 tokens per modality). Depth and width are frozen only after batch-size 1,
+2, 4, and 8 profiling on the 8 GB device; the earlier 6–8 block,
+384–512-dimensional suggestion is an upper-bound hypothesis, not a committed
+configuration.
 
 This scale is chosen specifically to fit comfortably within a local GPU, and can be upgraded when training on cloud compute.
 
@@ -105,7 +124,15 @@ Gated attention fusion between RGB and events isn't new by itself — it's alrea
 
 Local prototyping and debugging (tokenizers, gate computation, attention-bias wiring) happens on the RTX 5070 (12GB) using a subset of the synthetic split, at 256×256 resolution with automatic mixed precision.
 
-Full training of all baseline and proposed variants (RGB-only, event-only, fully-learned attention, RANSAC reproduction via the authors' public code, saturation-gated, fixed-gate, shuffled-input control, and the parameter-matched control) runs across both devices, once each is profiled separately for memory and step time — the RTX 5070 and RTX 5060 (8GB) aren't assumed to be interchangeable.
+Full training of the surviving variants runs across both devices only after each
+is profiled separately for memory and step time; the RTX 5070 and RTX 5060 (8 GB)
+are not assumed to be interchangeable. Pilot failures remain in the ledger, and
+variants whose required input signal is absent are stopped before GPU training.
+
+The author-provided synthetic split is a systematic subsample of a smooth render
+trajectory and has adjacent near-duplicates. Project model selection therefore
+uses the deterministic grouped-v1 split with a five-degree pose guard. Published
+baseline reproductions that retain the author split are labeled separately.
 
 ## 3. Device availability and maintainer
 

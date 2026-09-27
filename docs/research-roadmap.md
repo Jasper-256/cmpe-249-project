@@ -2,7 +2,7 @@
 
 **Project:** Saturation-Gated Attention Fusion for Event-RGB Spacecraft Pose
 Estimation Under Harsh Lighting  
-**Roadmap date:** September 13, 2026  
+**Roadmap date:** September 23, 2026  
 **Primary dataset:** FRESH  
 **Core protocol:** synthetic-only training and model selection; one frozen
 evaluation on real sequences
@@ -31,6 +31,16 @@ the dataset geometry and an existing evaluation path are independently verified.
   evidential uncertainty throughout fusion and geometry, so any SOTA claim needs
   an equivalent protocol comparison. See the [publisher record](https://doi.org/10.1016/j.asr.2026.08.069)
   and [author repository](https://github.com/JEFFLzx/UE-Pose).
+- The inspected UE-Pose implementation already contains soft inverse-variance
+  fusion, hard disagreement/outlier gates, topology filtering, and
+  uncertainty-weighted pose refinement. The proposed work therefore tests the
+  *incremental information in explicit clipping*, not the novelty of gating.
+- The official UE-Pose repository currently lacks a top-level license and a
+  reproducible dependency file, normalizes uncertainty using medians computed
+  over the full test sequence, and uses annotation-provided crop boxes in its
+  dataset class. These facts make an author-faithful reproduction informative
+  but not automatically protocol-equivalent to our frozen, non-transductive
+  conditional-pose study.
 - Sparse gated RGB-event fusion and newer per-pixel multimodal gates show that
   gating itself is crowded. The defensible novelty is the physical clipping
   constraint plus matched interventions. See [SNGAF](https://doi.org/10.3390/rs17173112)
@@ -40,6 +50,14 @@ the dataset geometry and an existing evaluation path are independently verified.
   team devices.
 
 ## Precise hypothesis and gate specification
+
+Before implementing the gate, run a synthetic-only viability screen. If fewer
+than 10% of sampled target crops contain a patch with at least 1% clipped pixels
+at an 8-bit threshold of 254, natural synthetic FRESH does not contain enough
+support to train the proposed input mechanism. This falsifies the immediate S1
+training plan; it does not justify looking at real clipping statistics or adding
+post-hoc augmentation. Any shared saturation-augmentation experiment is a newly
+named protocol applied identically to all learned comparators.
 
 For each RGB patch `p`, compute the clipping ratio before normalization:
 
@@ -106,7 +124,8 @@ into the primary model would change the hypothesis.
 | P0 | Fixed saturation gate | Is gate learning necessary? | 1 |
 | P0 | Shuffled saturation and gate bypass | Causal dependence at evaluation | All proposed checkpoints |
 | P0 | Published FRESH geometric fusion | Established same-dataset reference | Deterministic/reported repeats |
-| P1 | UE-Pose reproduction | Closest uncertainty-driven competitor | As published, if reproducible |
+| P1 | UE-Pose author-faithful reproduction | Closest uncertainty-driven competitor; preserves disclosed transductive normalization | As published, if legally and technically reproducible |
+| P1 | Non-transductive uncertainty fusion | Does learned reliability make clipping unnecessary under our frozen protocol? | 1 pilot, then 3 only if central |
 | P1 | Mean/additive fusion | Low-complexity fusion sanity check | 1-3 |
 | P1 | Attention regularization control | Separate regularization from physical signal | 3 |
 | P2 | Event-quality-aware gate | Joint sensor reliability extension | Only after core result |
@@ -124,6 +143,22 @@ Primary outcomes:
   threshold and rotation success below 10 degrees.
 - A separately labeled, dimensionless range-normalized translation error.
 - Synthetic-to-real gap for each absolute metric, reported with both endpoints.
+
+The raw JSON translations are in millimetre-scale model coordinates (for
+example, a synthetic depth of `1500` corresponds to 1.5 m). Convert translation
+vectors to metres exactly once before metric computation. Report a controlled
+shared/oracle-crop study separately from any end-to-end predicted-box pipeline.
+
+The author-provided synthetic `test.json` is not used for project model
+selection. It holds out regularly numbered frames while immediately adjacent
+training frames differ by roughly one degree. A targeted audit found 172 of 411
+validation crops meeting the project's near-duplicate proxy and a median nearest
+64-bit dHash distance of zero. Project variants therefore use
+`fresh-synthetic-grouped-v1`: the union of both synthetic JSONs, eight
+80-frame validation blocks per object, and exclusion from training of every pose
+within five geodesic rotation degrees of validation. Author-faithful baseline
+reproductions retain the published partition and are not mixed with project
+results.
 
 Statistical unit and uncertainty:
 
@@ -194,12 +229,10 @@ manually.
 
 ## Immediate next actions
 
-1. Obtain FRESH and record filenames, sizes, checksums, license, and directory
-   schema without changing raw files.
-2. Pin and inspect the complete FRESH and UE-Pose repositories, including
-   dependency and license compatibility; the public FRESH landing repository is
-   currently mostly a dataset pointer.
-3. Build a data-contract test suite before any model work.
+1. Measure whether natural synthetic target crops contain enough clipping signal
+   to learn the proposed gate; record resize sensitivity and event activity.
+2. Build and run a data-contract test suite before any model work.
+3. Repair the local virtual-environment launcher without changing the lock.
 4. Implement and unit-test `SO(3)` rotation error, translation metrics,
    sequence aggregation, and paired bootstrap on synthetic fixtures.
 5. Reproduce one published baseline path and conduct the one-object overfit test.
@@ -212,4 +245,3 @@ Temporal tracking, test-time adaptation, SPEED+/SPARK transfer, raw-event
 representation search, learned event-quality gating, and deployment optimization
 are valuable but do not belong in the core experiment until the P0 matrix is
 complete.
-

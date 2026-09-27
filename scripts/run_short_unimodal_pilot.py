@@ -1,0 +1,462 @@
+"""Run the frozen short Cassini train/validation pilot for RGB and event inputs."""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import platform
+import subprocess
+import time
+from collections.abc import Sequence
+from pathlib import Path
+from typing import Any, Literal
+
+import numpy as np
+import torch
+from torch import Tensor, nn
+from torch.utils.data import DataLoader, Subset
+
+from saga_pose.data.dataset import FreshArchiveDataset, FreshItem
+from saga_pose.evaluation.metrics import (
+    range_normalized_translation_error,
+    rotation_error_degrees,
+    threshold_success_rate,
+    translation_error_meters,
+)
+from saga_pose.geometry.pnp import solve_pose_epnp
+from saga_pose.geometry.projection import rotation_matrix_diagnostics
+from saga_pose.models.keypoints import PilotKeypointRegressor
+
+Modality = Literal["rgb", "event"]
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--raw-root", type=Path, default=Path("data/fresh/raw"))
+    parser.add_argument(
+        "--split-index",
+        type=Path,
+        default=Path("data/fresh/index/synthetic-split-v1.json"),
+    )
+    parser.add_argument("--object", default="cassini", choices=("cassini", "satty", "soho"))
+    parser.add_argument("--train-samples", type=int, default=1024)
+    parser.add_argument("--validation-samples", type=int, default=256)
+    parser.add_argument("--epochs", type=int, default=3)
+    parser.add_argument("--batch-size", type=int, default=32)
+    parser.add_argument("--learning-rate", type=float, default=1e-3)
+    parser.add_argument("--seed", type=int, default=249)
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("outputs/feasibility/short-unimodal-pilot.json"),
+    )
+    return parser.parse_args()
+
+
+def _write_json(path: Path, payload: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    temporary.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+    temporary.replace(path)
+
+
+def _sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _git_commit() -> str:
+    completed = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return completed.stdout.strip()
+
+
+def _evenly_spaced_indices(length: int, count: int) -> list[int]:
+    if count <= 0 or count > length:
+        raise ValueError(f"sample count must be in [1, {length}]")
+    return np.linspace(0, length - 1, count, dtype=np.int64).tolist()
+
+
+def _channel_statistics(
+    dataset: FreshArchiveDataset,
+    train_indices: Sequence[int],
+    count: int = 64,
+) -> dict[Modality, tuple[Tensor, Tensor]]:
+    selected = np.linspace(0, len(train_indices) - 1, min(count, len(train_indices)), dtype=int)
+    sums = {key: torch.zeros(3, dtype=torch.float64) for key in ("rgb", "event")}
+    squared_sums = {key: torch.zeros(3, dtype=torch.float64) for key in ("rgb", "event")}
+    pixels = 0
+    for position in selected:
+        item = dataset[train_indices[int(position)]]
+        for modality in ("rgb", "event"):
+            values = item[modality].double()
+            sums[modality] += values.sum(dim=(1, 2))
+            squared_sums[modality] += (values * values).sum(dim=(1, 2))
+        pixels += item["rgb"].shape[1] * item["rgb"].shape[2]
+    result: dict[Modality, tuple[Tensor, Tensor]] = {}
+    for modality in ("rgb", "event"):
+        mean = sums[modality] / pixels
+        variance = squared_sums[modality] / pixels - mean.square()
+        result[modality] = (mean.float(), variance.clamp_min(1e-6).sqrt().float())
+    return result
+
+
+def _normalize(inputs: Tensor, mean: Tensor, std: Tensor) -> Tensor:
+    return (inputs - mean[None, :, None, None]) / std[None, :, None, None]
+
+
+def _coordinate_rmse_px(prediction_normalized: Tensor, targets_px: Tensor) -> Tensor:
+    return torch.sqrt(torch.mean((prediction_normalized * 255.0 - targets_px) ** 2))
+
+
+def _make_loader(
+    dataset: FreshArchiveDataset,
+    indices: Sequence[int],
+    *,
+    batch_size: int,
+    shuffle: bool,
+    seed: int,
+) -> DataLoader[FreshItem]:
+    generator = torch.Generator().manual_seed(seed)
+    return DataLoader(
+        Subset(dataset, list(indices)),
+        batch_size=batch_size,
+        shuffle=shuffle,
+        num_workers=0,
+        pin_memory=torch.cuda.is_available(),
+        generator=generator,
+    )
+
+
+@torch.inference_mode()
+def _evaluate(
+    model: nn.Module,
+    loader: DataLoader[FreshItem],
+    modality: Modality,
+    mean: Tensor,
+    std: Tensor,
+    device: torch.device,
+    *,
+    recover_pose: bool,
+) -> dict[str, Any]:
+    model.eval()
+    squared_error_sum = 0.0
+    coordinate_count = 0
+    ground_truth_poses: list[np.ndarray[Any, np.dtype[np.float64]]] = []
+    predicted_poses: list[np.ndarray[Any, np.dtype[np.float64]]] = []
+    reprojection_errors: list[float] = []
+    max_orthogonality_residual = 0.0
+    max_determinant_error = 0.0
+    sample_count = 0
+    for batch in loader:
+        inputs = _normalize(batch[modality], mean, std).to(device, non_blocking=True)
+        predictions_px = model(inputs).cpu() * 255.0
+        targets_px = batch["keypoints_xy"]
+        squared_error_sum += float(torch.sum((predictions_px - targets_px) ** 2))
+        coordinate_count += targets_px.numel()
+        sample_count += targets_px.shape[0]
+        if not recover_pose:
+            continue
+        for index in range(targets_px.shape[0]):
+            result = solve_pose_epnp(
+                batch["landmarks_object_mm"][index].double().numpy(),
+                predictions_px[index].double().numpy(),
+                batch["intrinsics"][index].double().numpy(),
+            )
+            if result is None:
+                continue
+            orthogonality, determinant = rotation_matrix_diagnostics(
+                result.object_to_camera[:3, :3]
+            )
+            max_orthogonality_residual = max(max_orthogonality_residual, orthogonality)
+            max_determinant_error = max(max_determinant_error, abs(determinant - 1.0))
+            ground_truth_poses.append(batch["pose_object_to_camera_mm"][index].double().numpy())
+            predicted_poses.append(result.object_to_camera)
+            reprojection_errors.append(result.reprojection_rmse_px)
+    evaluation: dict[str, Any] = {
+        "sample_count": sample_count,
+        "coordinate_rmse_px": float(np.sqrt(squared_error_sum / coordinate_count)),
+    }
+    if not recover_pose:
+        return evaluation
+    valid_count = len(predicted_poses)
+    evaluation.update(
+        {
+            "pnp_valid_count": valid_count,
+            "pnp_valid_fraction": valid_count / sample_count,
+            "max_rotation_orthogonality_residual": max_orthogonality_residual,
+            "max_rotation_determinant_error": max_determinant_error,
+        }
+    )
+    if valid_count == 0:
+        return evaluation
+    ground_truth = np.stack(ground_truth_poses)
+    prediction = np.stack(predicted_poses)
+    rotation_errors = rotation_error_degrees(ground_truth[:, :3, :3], prediction[:, :3, :3])
+    translation_errors = translation_error_meters(ground_truth[:, :3, 3], prediction[:, :3, 3])
+    normalized_errors = range_normalized_translation_error(
+        ground_truth[:, :3, 3], prediction[:, :3, 3]
+    )
+    evaluation.update(
+        {
+            "are_degrees_mean": float(np.mean(rotation_errors)),
+            "are_degrees_median": float(np.median(rotation_errors)),
+            "absolute_translation_error_m_mean": float(np.mean(translation_errors)),
+            "absolute_translation_error_m_median": float(np.median(translation_errors)),
+            "range_normalized_translation_error_mean": float(np.mean(normalized_errors)),
+            "success_rotation_below_10_deg": threshold_success_rate(rotation_errors, 10.0),
+            "success_translation_below_10_mm": threshold_success_rate(translation_errors, 0.01),
+            "reprojection_rmse_px_mean": float(np.mean(reprojection_errors)),
+        }
+    )
+    return evaluation
+
+
+@torch.inference_mode()
+def _profile_forward(
+    model: nn.Module,
+    example: Tensor,
+    device: torch.device,
+    *,
+    warmup_steps: int = 20,
+    timed_steps: int = 100,
+) -> dict[str, float | int]:
+    model.eval()
+    inputs = example.to(device)
+    for _ in range(warmup_steps):
+        model(inputs)
+    if device.type == "cuda":
+        torch.cuda.synchronize(device)
+    started = time.perf_counter()
+    for _ in range(timed_steps):
+        model(inputs)
+    if device.type == "cuda":
+        torch.cuda.synchronize(device)
+    elapsed = time.perf_counter() - started
+    return {
+        "batch_size": inputs.shape[0],
+        "warmup_steps": warmup_steps,
+        "timed_steps": timed_steps,
+        "batch_latency_ms": 1000.0 * elapsed / timed_steps,
+        "throughput_samples_per_second": inputs.shape[0] * timed_steps / elapsed,
+    }
+
+
+def _train_modality(
+    modality: Modality,
+    train_dataset: FreshArchiveDataset,
+    validation_dataset: FreshArchiveDataset,
+    train_indices: Sequence[int],
+    validation_indices: Sequence[int],
+    statistics: tuple[Tensor, Tensor],
+    *,
+    epochs: int,
+    batch_size: int,
+    learning_rate: float,
+    seed: int,
+    device: torch.device,
+) -> dict[str, Any]:
+    torch.manual_seed(seed)
+    if device.type == "cuda":
+        torch.cuda.manual_seed_all(seed)
+        torch.cuda.reset_peak_memory_stats(device)
+    mean, std = statistics
+    first_item = train_dataset[train_indices[0]]
+    model = PilotKeypointRegressor(first_item["keypoints_xy"].shape[0]).to(device)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate, weight_decay=0.0)
+    train_loader = _make_loader(
+        train_dataset,
+        train_indices,
+        batch_size=batch_size,
+        shuffle=True,
+        seed=seed,
+    )
+    validation_loader = _make_loader(
+        validation_dataset,
+        validation_indices,
+        batch_size=batch_size,
+        shuffle=False,
+        seed=seed,
+    )
+    initial = _evaluate(
+        model,
+        validation_loader,
+        modality,
+        mean,
+        std,
+        device,
+        recover_pose=False,
+    )
+    history: list[dict[str, float | int]] = []
+    started = time.perf_counter()
+    for epoch in range(epochs):
+        model.train()
+        loss_sum = 0.0
+        samples = 0
+        for batch in train_loader:
+            inputs = _normalize(batch[modality], mean, std).to(device, non_blocking=True)
+            targets = batch["keypoints_xy"].to(device, non_blocking=True) / 255.0
+            optimizer.zero_grad(set_to_none=True)
+            prediction = model(inputs)
+            loss = torch.mean((prediction - targets) ** 2)
+            if not torch.isfinite(loss):
+                raise RuntimeError(f"{modality} loss became non-finite at epoch {epoch + 1}")
+            loss.backward()
+            optimizer.step()
+            loss_sum += float(loss.detach()) * targets.shape[0]
+            samples += targets.shape[0]
+        validation = _evaluate(
+            model,
+            validation_loader,
+            modality,
+            mean,
+            std,
+            device,
+            recover_pose=False,
+        )
+        history.append(
+            {
+                "epoch": epoch + 1,
+                "train_mse_normalized": loss_sum / samples,
+                "validation_coordinate_rmse_px": validation["coordinate_rmse_px"],
+            }
+        )
+    if device.type == "cuda":
+        torch.cuda.synchronize(device)
+    elapsed = time.perf_counter() - started
+    final = _evaluate(
+        model,
+        validation_loader,
+        modality,
+        mean,
+        std,
+        device,
+        recover_pose=True,
+    )
+    example_batch = next(iter(validation_loader))[modality]
+    profile = _profile_forward(model, _normalize(example_batch, mean, std), device)
+    criteria = {
+        "finite_training": all(np.isfinite(row["train_mse_normalized"]) for row in history),
+        "pnp_valid_fraction_at_least_0_95": final["pnp_valid_fraction"] >= 0.95,
+        "validation_coordinate_rmse_at_most_20_px": final["coordinate_rmse_px"] <= 20.0,
+        "median_are_at_most_20_deg": final.get("are_degrees_median", float("inf")) <= 20.0,
+        "median_ate_at_most_0_25_m": final.get("absolute_translation_error_m_median", float("inf"))
+        <= 0.25,
+    }
+    return {
+        "modality": modality,
+        "architecture_competent": all(criteria.values()),
+        "predeclared_criteria": criteria,
+        "parameters_total": sum(parameter.numel() for parameter in model.parameters()),
+        "parameters_trainable": sum(
+            parameter.numel() for parameter in model.parameters() if parameter.requires_grad
+        ),
+        "input_channel_mean": mean.tolist(),
+        "input_channel_std": std.tolist(),
+        "initial_validation": initial,
+        "final_validation": final,
+        "history": history,
+        "training_elapsed_seconds": elapsed,
+        "training_samples_per_second": epochs * len(train_indices) / elapsed,
+        "peak_vram_bytes": (
+            int(torch.cuda.max_memory_allocated(device)) if device.type == "cuda" else None
+        ),
+        "forward_profile": profile,
+    }
+
+
+def main() -> int:
+    args = parse_args()
+    if min(args.train_samples, args.validation_samples, args.epochs, args.batch_size) <= 0:
+        raise ValueError("sample counts, epochs, and batch size must be positive")
+    torch.backends.cudnn.benchmark = False
+    torch.backends.cudnn.deterministic = True
+    torch.use_deterministic_algorithms(True)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    train_dataset = FreshArchiveDataset(
+        args.raw_root, args.split_index, role="train", objects=(args.object,)
+    )
+    validation_dataset = FreshArchiveDataset(
+        args.raw_root, args.split_index, role="validation", objects=(args.object,)
+    )
+    train_indices = _evenly_spaced_indices(len(train_dataset), args.train_samples)
+    validation_indices = _evenly_spaced_indices(len(validation_dataset), args.validation_samples)
+    statistics = _channel_statistics(train_dataset, train_indices)
+    results = [
+        _train_modality(
+            modality,
+            train_dataset,
+            validation_dataset,
+            train_indices,
+            validation_indices,
+            statistics[modality],
+            epochs=args.epochs,
+            batch_size=args.batch_size,
+            learning_rate=args.learning_rate,
+            seed=args.seed,
+            device=device,
+        )
+        for modality in ("rgb", "event")
+    ]
+    train_dataset.close()
+    validation_dataset.close()
+    report = {
+        "schema_version": 1,
+        "status": (
+            "pass" if all(result["architecture_competent"] for result in results) else "fail"
+        ),
+        "scope": "bounded synthetic one-object architecture screen; not a final baseline",
+        "config": {
+            "dataset": "fresh-synthetic-grouped-v1",
+            "object": args.object,
+            "train_samples": args.train_samples,
+            "validation_samples": args.validation_samples,
+            "selection": "evenly spaced within each frozen split role",
+            "crop_source": "shared annotation box",
+            "crop_transform": "center-preserving square, 1.2x padding, zero border",
+            "target_size_wh": [256, 256],
+            "epochs": args.epochs,
+            "batch_size": args.batch_size,
+            "learning_rate": args.learning_rate,
+            "optimizer": "AdamW(weight_decay=0)",
+            "augmentation": None,
+            "seed": args.seed,
+            "pose_solver": "OpenCV EPnP followed by solvePnPRefineLM",
+        },
+        "provenance": {
+            "git_commit": _git_commit(),
+            "uv_lock_sha256": _sha256(Path("uv.lock")),
+            "split_index_sha256": _sha256(args.split_index),
+            "python": platform.python_version(),
+            "torch": torch.__version__,
+            "device": str(device),
+            "gpu": torch.cuda.get_device_name(0) if device.type == "cuda" else None,
+            "precision": "float32",
+        },
+        "results": results,
+    }
+    _write_json(args.output, report)
+    print(f"Short unimodal pilot: {report['status'].upper()}")
+    for result in results:
+        final = result["final_validation"]
+        print(
+            f"  {result['modality']}: RMSE={final['coordinate_rmse_px']:.2f}px, "
+            f"PnP={final['pnp_valid_fraction']:.1%}, "
+            f"median ARE={final.get('are_degrees_median', float('nan')):.2f}deg, "
+            f"median ATE={final.get('absolute_translation_error_m_median', float('nan')):.3f}m, "
+            f"competent={result['architecture_competent']}"
+        )
+    print(f"  report: {args.output}")
+    return 0 if report["status"] == "pass" else 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

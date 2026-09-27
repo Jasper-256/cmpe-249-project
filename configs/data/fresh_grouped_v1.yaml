@@ -1,0 +1,30 @@
+name: fresh-synthetic-grouped-v1
+raw_root_env: SAGA_FRESH_ROOT
+raw_root_default: data/fresh/raw
+index_path: data/fresh/index/synthetic-split-v1.json
+
+source:
+  synthetic_members:
+    - synthetic/{object}/train.json
+    - synthetic/{object}/test.json
+  real_role: frozen_test_only
+
+split:
+  ordering: numeric_rgb_filename
+  validation_blocks_per_object: 8
+  frames_per_validation_block: 80
+  rotation_guard_degrees: 5.0
+
+preprocessing:
+  source_size_wh: [800, 720]
+  target_size_wh: [256, 256]
+  crop_source: annotation_xyxy_shared_oracle
+  crop_transform: center_preserving_square
+  crop_padding_factor: 1.2
+  off_frame_policy: constant_zero_padding
+  resize_interpolation: opencv_linear
+  pixel_center_transform: half_pixel
+
+units:
+  annotation_translation: millimetres
+  reported_translation: metres
