@@ -1,0 +1,44 @@
+{
+  "u-rgb-natural-cassini": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 648.3279543999815,
+    "log": "checkpoints\\main-hrnet\\u-rgb-natural-cassini\\train.log",
+    "status": "complete"
+  },
+  "u-rgb-natural-satty": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 705.2578885999974,
+    "log": "checkpoints\\main-hrnet\\u-rgb-natural-satty\\train.log",
+    "status": "complete"
+  },
+  "u-rgb-natural-soho": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 741.0684129999718,
+    "log": "checkpoints\\main-hrnet\\u-rgb-natural-soho\\train.log",
+    "status": "complete"
+  },
+  "u-rgb-tss-cassini": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 693.2717171999393,
+    "log": "checkpoints\\main-hrnet\\u-rgb-tss-cassini\\train.log",
+    "status": "complete"
+  },
+  "u-rgb-tss-satty": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 740.0376999999862,
+    "log": "checkpoints\\main-hrnet\\u-rgb-tss-satty\\train.log",
+    "status": "complete"
+  },
+  "u-rgb-tss-soho": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 549.1258447999135,
+    "log": "checkpoints\\main-hrnet\\u-rgb-tss-soho\\train.log",
+    "status": "complete"
+  }
+}

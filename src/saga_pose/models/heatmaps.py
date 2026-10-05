@@ -2,12 +2,51 @@
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from typing import Any, cast
 
 import timm
 import torch
 from torch import Tensor, nn
 from torch.nn import functional as F
+from transformers import SegformerConfig, SegformerModel
+
+IMAGENET_MEAN = (0.485, 0.456, 0.406)
+IMAGENET_STD = (0.229, 0.224, 0.225)
+
+
+def normalize_inputs(inputs: Tensor, mean: Sequence[float], std: Sequence[float]) -> Tensor:
+    """Apply per-channel normalization to ``[0, 1]`` images shaped ``(B, 3, H, W)``."""
+    mean_tensor = inputs.new_tensor(tuple(mean))[None, :, None, None]
+    std_tensor = inputs.new_tensor(tuple(std))[None, :, None, None]
+    return (inputs - mean_tensor) / std_tensor
+
+
+HEATMAP_SIZE = 64
+
+
+def resize_to_heatmap_grid(feature: Tensor, size: int = HEATMAP_SIZE) -> Tensor:
+    """Bring a pyramid level to ``size x size`` with nearest-neighbour resampling.
+
+    This is the frozen HRNet-reference decoder. Average-pooling the stride-2
+    level instead was tested on 2026-10-05 and slowed the fixed 16-sample RGB
+    overfit from 1.70 px to 6.26 px final RMSE (same seed/LR), so the sharper
+    nearest sampling of the 1x1-projected level is retained for every variant.
+    """
+    if feature.shape[-2:] == (size, size):
+        return feature
+    return F.interpolate(feature, size=(size, size), mode="nearest")
+
+
+def fuse_pyramid(features: Sequence[Tensor], lateral: nn.ModuleList) -> Tensor:
+    """Sum 1x1-projected pyramid levels on the shared heatmap grid."""
+    fused: Tensor | None = None
+    for feature, projection in zip(features, lateral, strict=True):
+        level = resize_to_heatmap_grid(projection(feature))
+        fused = level if fused is None else fused + level
+    if fused is None:
+        raise ValueError("at least one pyramid level is required")
+    return fused
 
 
 def gaussian_keypoint_heatmaps(
@@ -75,26 +114,36 @@ def decode_heatmap_argmax(
     return coordinates, confidence
 
 
-class HRNetHeatmapRegressor(nn.Module):
-    """Compact HRNet-W18-Small-v2 feature pyramid with a 64x64 heatmap head."""
+class TimmPyramidHeatmapRegressor(nn.Module):
+    """A timm feature pyramid with the project's shared 64x64 heatmap decoder."""
 
     def __init__(
         self,
         num_keypoints: int,
         *,
+        backbone_name: str,
         pretrained: bool = False,
         decoder_channels: int = 64,
+        backbone_kwargs: dict[str, Any] | None = None,
     ) -> None:
         super().__init__()
         if num_keypoints <= 0 or decoder_channels <= 0:
             raise ValueError("num_keypoints and decoder_channels must be positive")
         self.num_keypoints = num_keypoints
+        self.backbone_name = backbone_name
         self.backbone = timm.create_model(
-            "hrnet_w18_small_v2.ms_in1k",
+            backbone_name,
             pretrained=pretrained,
             features_only=True,
+            **(backbone_kwargs or {}),
         )
-        channels = cast(Any, self.backbone).feature_info.channels()
+        channels = tuple(cast(Any, self.backbone).feature_info.channels())
+        self.feature_channels = channels
+        # Each pretrained package is fed the normalization it was trained with
+        # (for example, MobileViTv2/cvnets expects unnormalized [0, 1] inputs).
+        pretrained_cfg = cast(dict[str, Any], getattr(self.backbone, "pretrained_cfg", {}))
+        self.input_mean: tuple[float, ...] = tuple(pretrained_cfg.get("mean", IMAGENET_MEAN))
+        self.input_std: tuple[float, ...] = tuple(pretrained_cfg.get("std", IMAGENET_STD))
         self.lateral = nn.ModuleList(
             nn.Conv2d(channel, decoder_channels, kernel_size=1) for channel in channels
         )
@@ -105,13 +154,104 @@ class HRNetHeatmapRegressor(nn.Module):
             nn.Conv2d(decoder_channels, num_keypoints, kernel_size=1),
         )
 
+    def pyramid_features(self, inputs: Tensor) -> list[Tensor]:
+        """Return pyramid levels in channels-first layout."""
+        features = cast(list[Tensor], self.backbone(inputs))
+        channels_first: list[Tensor] = []
+        for feature, channels in zip(features, self.feature_channels, strict=True):
+            if feature.shape[1] != channels:
+                if feature.shape[-1] != channels:
+                    raise ValueError(
+                        "backbone feature channel layout does not match feature metadata"
+                    )
+                feature = feature.permute(0, 3, 1, 2).contiguous()
+            channels_first.append(feature)
+        return channels_first
+
+    def normalize(self, inputs: Tensor) -> Tensor:
+        """Normalize ``[0, 1]`` inputs with this backbone's pretraining statistics."""
+        return normalize_inputs(inputs, self.input_mean, self.input_std)
+
     def forward(self, inputs: Tensor) -> Tensor:
         if inputs.ndim != 4 or inputs.shape[1:] != (3, 256, 256):
             raise ValueError("inputs must have the frozen shape (B, 3, 256, 256)")
-        features = cast(list[Tensor], self.backbone(inputs))
-        target_size = (64, 64)
-        fused = F.interpolate(self.lateral[0](features[0]), size=target_size, mode="nearest")
-        for feature, projection in zip(features[1:], self.lateral[1:], strict=True):
-            level = F.interpolate(projection(feature), size=target_size, mode="nearest")
-            fused = fused + level
-        return cast(Tensor, self.head(fused))
+        return cast(Tensor, self.head(fuse_pyramid(self.pyramid_features(inputs), self.lateral)))
+
+
+class SegFormerHeatmapRegressor(nn.Module):
+    """SegFormer MiT pyramid with the same project heatmap decoder."""
+
+    def __init__(
+        self,
+        num_keypoints: int,
+        *,
+        pretrained: bool = False,
+        decoder_channels: int = 64,
+        model_id: str = "nvidia/mit-b0",
+        config: SegformerConfig | None = None,
+    ) -> None:
+        super().__init__()
+        if num_keypoints <= 0 or decoder_channels <= 0:
+            raise ValueError("num_keypoints and decoder_channels must be positive")
+        self.num_keypoints = num_keypoints
+        self.model_id = model_id
+        if pretrained and config is not None:
+            raise ValueError("a custom SegFormer config cannot be combined with pretrained weights")
+        if pretrained:
+            self.backbone = SegformerModel.from_pretrained(model_id)
+        else:
+            self.backbone = SegformerModel(config or SegformerConfig())  # type: ignore[no-untyped-call]
+        self.feature_channels = tuple(self.backbone.config.hidden_sizes)
+        # The Hugging Face SegFormer image processor uses ImageNet statistics.
+        self.input_mean = IMAGENET_MEAN
+        self.input_std = IMAGENET_STD
+        self.lateral = nn.ModuleList(
+            nn.Conv2d(channel, decoder_channels, kernel_size=1) for channel in self.feature_channels
+        )
+        self.head = nn.Sequential(
+            nn.Conv2d(decoder_channels, decoder_channels, kernel_size=3, padding=1),
+            nn.GroupNorm(8, decoder_channels),
+            nn.GELU(),
+            nn.Conv2d(decoder_channels, num_keypoints, kernel_size=1),
+        )
+
+    def pyramid_features(self, inputs: Tensor) -> list[Tensor]:
+        """Return the four native MiT feature levels."""
+        outputs = self.backbone(
+            pixel_values=inputs,
+            output_hidden_states=True,
+            return_dict=True,
+        )
+        if outputs.hidden_states is None:
+            raise RuntimeError("SegFormer did not return its feature pyramid")
+        features = list(outputs.hidden_states)
+        if len(features) != len(self.feature_channels):
+            raise RuntimeError("SegFormer returned an unexpected number of feature levels")
+        return features
+
+    def normalize(self, inputs: Tensor) -> Tensor:
+        """Normalize ``[0, 1]`` inputs with this backbone's pretraining statistics."""
+        return normalize_inputs(inputs, self.input_mean, self.input_std)
+
+    def forward(self, inputs: Tensor) -> Tensor:
+        if inputs.ndim != 4 or inputs.shape[1:] != (3, 256, 256):
+            raise ValueError("inputs must have the frozen shape (B, 3, 256, 256)")
+        return cast(Tensor, self.head(fuse_pyramid(self.pyramid_features(inputs), self.lateral)))
+
+
+class HRNetHeatmapRegressor(TimmPyramidHeatmapRegressor):
+    """Compact HRNet-W18-Small-v2 reference with the shared heatmap decoder."""
+
+    def __init__(
+        self,
+        num_keypoints: int,
+        *,
+        pretrained: bool = False,
+        decoder_channels: int = 64,
+    ) -> None:
+        super().__init__(
+            num_keypoints,
+            backbone_name="hrnet_w18_small_v2.ms_in1k",
+            pretrained=pretrained,
+            decoder_channels=decoder_channels,
+        )

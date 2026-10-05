@@ -60,3 +60,41 @@ def test_crop_resize_intrinsics_matches_transformed_projection() -> None:
 
 def test_clamp_bbox_accepts_off_frame_fresh_box() -> None:
     assert clamp_bbox_xyxy((-5.2, 10.1, 810.4, 719.2), (800, 720)) == (0, 10, 800, 720)
+
+
+def test_pillow_bilinear_downsample_matches_keypoint_transform() -> None:
+    """The training resize (Pillow BILINEAR, antialiased) keeps half-pixel geometry."""
+    from PIL import Image
+
+    from saga_pose.geometry.projection import crop_resize_points
+
+    image = np.zeros((600, 600), dtype=np.uint8)
+    image[300, 450] = 255
+    resized = np.asarray(
+        Image.fromarray(image).resize((256, 256), resample=Image.Resampling.BILINEAR),
+        dtype=np.float64,
+    )
+    rows, columns = np.mgrid[:256, :256]
+    centroid = np.array(
+        [(resized * columns).sum() / resized.sum(), (resized * rows).sum() / resized.sum()]
+    )
+    expected = crop_resize_points(np.array([[450.0, 300.0]]), (0, 0, 600, 600), (256, 256))[0]
+    np.testing.assert_allclose(centroid, expected, atol=0.01)
+    # Antialiasing spreads one source pixel over several output pixels.
+    assert np.count_nonzero(resized) >= 4
+    assert resized.max() < 255
+
+
+def test_constant_fill_crop_matches_pillow_inside_and_pads_with_neutral() -> None:
+    from PIL import Image
+
+    from saga_pose.data.dataset import crop_with_constant_fill
+
+    image = np.arange(5 * 6 * 3, dtype=np.uint8).reshape(5, 6, 3)
+    crop = (-2, -1, 4, 6)
+    filled = crop_with_constant_fill(image, crop, 127)
+    pillow = np.asarray(Image.fromarray(image).crop(crop))
+    inside = (slice(1, 6), slice(2, 6))
+    np.testing.assert_array_equal(filled[inside], pillow[inside])
+    assert filled.shape == pillow.shape
+    assert np.all(filled[0] == 127) and np.all(filled[:, :2] == 127)

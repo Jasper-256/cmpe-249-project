@@ -105,7 +105,11 @@ def crop_resize_points(
     crop_xyxy: IntegerBBoxXYXY,
     target_size_wh: tuple[int, int],
 ) -> NDArray[np.float64]:
-    """Map pixel centers through an integer crop and OpenCV-style resize."""
+    """Map pixel centers through an integer crop and a half-pixel-center resize.
+
+    Pillow BILINEAR and OpenCV INTER_LINEAR share this geometric mapping even
+    though Pillow additionally antialiases when downsampling.
+    """
     if points_xy.ndim != 2 or points_xy.shape[1] != 2:
         raise ValueError("points_xy must have shape (N, 2)")
     left, top, right, bottom = crop_xyxy

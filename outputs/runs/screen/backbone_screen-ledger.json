@@ -1,0 +1,100 @@
+{
+  "screen-b-a0-hrnet-rgb": {
+    "matrix": "configs\\experiments\\backbone_screen.yaml",
+    "returncode": 0,
+    "seconds": 43.97131900000386,
+    "log": "checkpoints\\screen\\screen-b-a0-hrnet-rgb\\train.log",
+    "status": "complete"
+  },
+  "screen-b-a0-hrnet-event": {
+    "matrix": "configs\\experiments\\backbone_screen.yaml",
+    "returncode": 0,
+    "seconds": 46.73802970000543,
+    "log": "checkpoints\\screen\\screen-b-a0-hrnet-event\\train.log",
+    "status": "complete"
+  },
+  "screen-b-a1-effb0-rgb": {
+    "matrix": "configs\\experiments\\backbone_screen.yaml",
+    "returncode": 0,
+    "seconds": 30.584586299955845,
+    "log": "checkpoints\\screen\\screen-b-a1-effb0-rgb\\train.log",
+    "status": "complete"
+  },
+  "screen-b-a1-effb0-event": {
+    "matrix": "configs\\experiments\\backbone_screen.yaml",
+    "returncode": 0,
+    "seconds": 29.731369100045413,
+    "log": "checkpoints\\screen\\screen-b-a1-effb0-event\\train.log",
+    "status": "complete"
+  },
+  "screen-b-a2-tinyvit-rgb": {
+    "matrix": "configs\\experiments\\backbone_screen.yaml",
+    "returncode": 0,
+    "seconds": 41.740969000034966,
+    "log": "checkpoints\\screen\\screen-b-a2-tinyvit-rgb\\train.log",
+    "status": "complete"
+  },
+  "screen-b-a2-tinyvit-event": {
+    "matrix": "configs\\experiments\\backbone_screen.yaml",
+    "returncode": 0,
+    "seconds": 41.3881560000591,
+    "log": "checkpoints\\screen\\screen-b-a2-tinyvit-event\\train.log",
+    "status": "complete"
+  },
+  "screen-b-a3-segformer-rgb": {
+    "matrix": "configs\\experiments\\backbone_screen.yaml",
+    "returncode": 0,
+    "seconds": 22.895166900008917,
+    "log": "checkpoints\\screen\\screen-b-a3-segformer-rgb\\train.log",
+    "status": "complete"
+  },
+  "screen-b-a3-segformer-event": {
+    "matrix": "configs\\experiments\\backbone_screen.yaml",
+    "returncode": 0,
+    "seconds": 22.6331574000651,
+    "log": "checkpoints\\screen\\screen-b-a3-segformer-event\\train.log",
+    "status": "complete"
+  },
+  "screen-b-a4-swinv2t-rgb": {
+    "matrix": "configs\\experiments\\backbone_screen.yaml",
+    "returncode": 0,
+    "seconds": 59.183675199979916,
+    "log": "checkpoints\\screen\\screen-b-a4-swinv2t-rgb\\train.log",
+    "status": "complete"
+  },
+  "screen-b-a4-swinv2t-event": {
+    "matrix": "configs\\experiments\\backbone_screen.yaml",
+    "returncode": 0,
+    "seconds": 59.455907299998216,
+    "log": "checkpoints\\screen\\screen-b-a4-swinv2t-event\\train.log",
+    "status": "complete"
+  },
+  "screen-b-a5-mobilevitv2-rgb": {
+    "matrix": "configs\\experiments\\backbone_screen.yaml",
+    "returncode": 0,
+    "seconds": 38.99783400003798,
+    "log": "checkpoints\\screen\\screen-b-a5-mobilevitv2-rgb\\train.log",
+    "status": "complete"
+  },
+  "screen-b-a5-mobilevitv2-event": {
+    "matrix": "configs\\experiments\\backbone_screen.yaml",
+    "returncode": 0,
+    "seconds": 38.91870779998135,
+    "log": "checkpoints\\screen\\screen-b-a5-mobilevitv2-event\\train.log",
+    "status": "complete"
+  },
+  "screen-c-a0-hrnet-rgb": {
+    "matrix": "configs\\experiments\\backbone_screen.yaml",
+    "returncode": 0,
+    "seconds": 231.1635667999508,
+    "log": "checkpoints\\screen\\screen-c-a0-hrnet-rgb\\train.log",
+    "status": "complete"
+  },
+  "screen-c-a0-hrnet-event": {
+    "matrix": "configs\\experiments\\backbone_screen.yaml",
+    "returncode": 0,
+    "seconds": 228.30108200001996,
+    "log": "checkpoints\\screen\\screen-c-a0-hrnet-event\\train.log",
+    "status": "complete"
+  }
+}

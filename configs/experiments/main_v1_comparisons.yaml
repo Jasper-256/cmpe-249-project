@@ -1,0 +1,36 @@
+# Pre-registered real-test comparisons for main_v1 (written 2026-10-05, before any
+# fusion training or real evaluation). Candidate minus baseline; negative = better.
+primary:
+  candidate: f-content_clip_gate-tss-activity
+  baseline: f-content_gate-tss-activity
+  metrics: [are_deg, ate_m]   # co-primary, overall sequence means
+holm_family: tss   # secondary comparisons whose candidate and baseline are both TSS-trained
+comparisons:
+  # Does fusion beat each sensor alone?
+  - {candidate: f-mean-natural-activity, baseline: u-rgb-natural, question: "fusion vs RGB-only (natural)"}
+  - {candidate: f-mean-natural-activity, baseline: u-event-activity, question: "fusion vs event-only"}
+  # Central TSS questions (protocol 2).
+  - {candidate: f-clip_gate-tss-activity, baseline: f-clip_gate_constant-tss-activity, question: "physical signal vs parameter-matched control"}
+  - {candidate: f-clip_gate-tss-activity, baseline: f-content_gate-tss-activity, question: "clipping gate vs unrestricted learned reliability"}
+  - {candidate: f-content_clip_gate-tss-activity, baseline: f-content_gate-tss-activity, question: "does clipping add beyond learned reliability?"}
+  - {candidate: f-clip_gate_fixed-tss-activity, baseline: f-mean-tss-activity, question: "fixed physical override vs mean fusion"}
+  - {candidate: f-clip_gate-tss-activity, baseline: f-mean-tss-activity, question: "learned clipping gate vs mean fusion"}
+  # Natural protocol: physical signal only available at test time.
+  - {candidate: f-clip_gate_fixed-natural-activity, baseline: f-mean-natural-activity, question: "fixed physical override without training signal"}
+  - {candidate: f-content_clip_gate-natural-activity, baseline: f-content_gate-natural-activity, question: "untrained clipping prior on top of learned reliability"}
+  # Does TSS training help real harsh lighting by itself?
+  - {candidate: u-rgb-tss, baseline: u-rgb-natural, question: "TSS training effect on RGB-only"}
+  - {candidate: f-content_gate-tss-activity, baseline: f-content_gate-natural-activity, question: "TSS training effect on learned fusion"}
+  # Event representation inside fusion.
+  - {candidate: f-content_gate-natural-activity, baseline: f-content_gate-natural-raw, question: "activity vs raw events (natural)"}
+  - {candidate: u-event-activity, baseline: u-event-raw, question: "activity vs raw events (event-only)"}
+  # Gate-design ablations (added 2026-10-05 after review, still before any training).
+  - {candidate: f-clip_gate-tss-activity, baseline: f-clip_gate_signed-tss-activity, question: "monotone constraint vs unconstrained signed clipping gate"}
+  - {candidate: f-clip_gate-tss-activity, baseline: f-clip_gate-tss-activity-slope0.1, question: "strong (5) vs weak (0.1) monotone slope initialization"}
+  - {candidate: f-content_clip_gate-tss-activity, baseline: f-content_clip_gate-tss-activity-slope0.1, question: "slope initialization inside the hybrid gate"}
+  # TSS circularity and strength.
+  - {candidate: f-content_clip_gate-tss-activity, baseline: u-rgb-tss, question: "TSS-trained fusion vs TSS-trained RGB-only"}
+  - {candidate: f-content_clip_gate-tss-activity, baseline: f-content_clip_gate-tss0.25-activity, question: "full vs quarter-strength TSS (hybrid gate)"}
+  - {candidate: f-content_gate-tss-activity, baseline: f-content_gate-tss0.25-activity, question: "full vs quarter-strength TSS (learned reliability)"}
+  # Noise floor: these two train identically under the natural protocol.
+  - {candidate: f-clip_gate-natural-activity, baseline: f-clip_gate_constant-natural-activity, question: "noise floor plus untrained slope prior"}

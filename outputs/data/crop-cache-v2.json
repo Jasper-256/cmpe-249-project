@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "cache_dir": "data\\fresh\\cache\\crop-v2",
+  "provenance": {
+    "git_commit": "bb6f18e50e687423a5f7231a3f1aa764fe00d489",
+    "working_tree_dirty": true,
+    "uv_lock_sha256": "fe742a5ce27445c837714bca804d02a8d13cce0adfd580cd21a4f7d312b661c3",
+    "split_index_sha256": "097392a9c064443342c5a00b01dcb0431d7482590af8af559c5efcf66582b025",
+    "preprocessing_version": "crop-v2",
+    "tss_config": {
+      "name": "tss-v1",
+      "probability": 0.5,
+      "min_highlights": 1,
+      "max_highlights": 3,
+      "sigma_fraction_range": [
+        0.03,
+        0.1
+      ],
+      "aspect_ratio_range": [
+        0.5,
+        2.0
+      ],
+      "core_gain_range": [
+        1.5,
+        3.0
+      ],
+      "bloom_sigma_scale": 3.0,
+      "bloom_gain_fraction": 0.15,
+      "object_luminance_threshold": 24
+    },
+    "tss_seed": 249,
+    "fresh_addendum_commit": "fb566826e950b5db1f5b7ba013e15c12c5a7d4af",
+    "python": "3.12.14"
+  },
+  "caches": {
+    "real-cassini": {
+      "samples": 2361,
+      "sequences": [
+        "cassini-1-close",
+        "cassini-1-far",
+        "cassini-2-close",
+        "cassini-2-far",
+        "cassini-3-close",
+        "cassini-3-far",
+        "cassini-4-close",
+        "cassini-4-far"
+      ],
+      "build_seconds": 46.12764770002104
+    },
+    "real-satty": {
+      "samples": 2563,
+      "sequences": [
+        "satty-1-close",
+        "satty-1-far",
+        "satty-2-close",
+        "satty-2-far",
+        "satty-3-close",
+        "satty-3-far",
+        "satty-4-close",
+        "satty-4-far"
+      ],
+      "build_seconds": 37.821682699956
+    },
+    "real-soho": {
+      "samples": 2970,
+      "sequences": [
+        "soho-1-close",
+        "soho-1-far",
+        "soho-2-close",
+        "soho-2-far",
+        "soho-3-close",
+        "soho-3-far",
+        "soho-4-close",
+        "soho-4-far"
+      ],
+      "build_seconds": 53.84865579998586
+    },
+    "cassini-train": {
+      "samples": 11920,
+      "bytes": 7061278800,
+      "build_seconds": 385.2001495999284,
+      "natural_crops_with_active_patch": 0.0,
+      "tss_applied_fraction": 0.4931208053691275,
+      "tss_applied_crops_with_active_patch": 1.0,
+      "tss_applied_active_patch_fraction_median": 0.15234375
+    },
+    "cassini-validation": {
+      "samples": 640,
+      "bytes": 379130880,
+      "build_seconds": 39.145945900003426,
+      "natural_crops_with_active_patch": 0.0,
+      "tss_applied_fraction": 0.5046875,
+      "tss_applied_crops_with_active_patch": 1.0,
+      "tss_applied_active_patch_fraction_median": 0.1484375
+    },
+    "satty-train": {
+      "samples": 11920,
+      "bytes": 7061278800,
+      "build_seconds": 221.25313790002838,
+      "natural_crops_with_active_patch": 0.0,
+      "tss_applied_fraction": 0.4968120805369127,
+      "tss_applied_crops_with_active_patch": 1.0,
+      "tss_applied_active_patch_fraction_median": 0.17578125
+    },
+    "satty-validation": {
+      "samples": 640,
+      "bytes": 379130880,
+      "build_seconds": 31.21420990000479,
+      "natural_crops_with_active_patch": 0.0,
+      "tss_applied_fraction": 0.490625,
+      "tss_applied_crops_with_active_patch": 1.0,
+      "tss_applied_active_patch_fraction_median": 0.2109375
+    },
+    "soho-train": {
+      "samples": 11920,
+      "bytes": 7063186000,
+      "build_seconds": 397.2919207001105,
+      "natural_crops_with_active_patch": 0.0,
+      "tss_applied_fraction": 0.49421140939597313,
+      "tss_applied_crops_with_active_patch": 1.0,
+      "tss_applied_active_patch_fraction_median": 0.1484375
+    },
+    "soho-validation": {
+      "samples": 640,
+      "bytes": 379233280,
+      "build_seconds": 34.95708760002162,
+      "natural_crops_with_active_patch": 0.0,
+      "tss_applied_fraction": 0.459375,
+      "tss_applied_crops_with_active_patch": 1.0,
+      "tss_applied_active_patch_fraction_median": 0.14453125
+    }
+  }
+}
