@@ -4,6 +4,10 @@
 | f-clip_gate-tss-activity | cassini | 4.22 / 3.64 | 25.7 | 3.47 / 2.89 | 20.4 |
 | f-clip_gate-tss-activity | satty | 12.68 / 7.03 | 67.1 | 5.39 / 3.19 | 27.2 |
 | f-clip_gate-tss-activity | soho | 19.24 / 5.77 | 74.0 | 5.25 / 2.87 | 22.6 |
+| f-clip_gate-tss-activity-slope0.1 | pooled | 7.87 / 3.52 | 42.2 | 4.99 / 2.58 | 24.5 |
+| f-clip_gate-tss-activity-slope0.1 | cassini | 3.73 / 3.20 | 24.2 | 3.42 / 3.01 | 21.3 |
+| f-clip_gate-tss-activity-slope0.1 | satty | 9.98 / 4.28 | 61.8 | 4.89 / 2.34 | 30.0 |
+| f-clip_gate-tss-activity-slope0.1 | soho | 10.16 / 3.52 | 41.1 | 6.52 / 2.33 | 22.4 |
 | f-clip_gate_constant-tss-activity | pooled | 11.70 / 4.13 | 53.7 | 6.09 / 2.86 | 35.9 |
 | f-clip_gate_constant-tss-activity | cassini | 4.39 / 3.28 | 28.6 | 3.77 / 2.88 | 23.0 |
 | f-clip_gate_constant-tss-activity | satty | 10.54 / 4.48 | 60.4 | 5.02 / 2.43 | 40.0 |
@@ -12,6 +16,10 @@
 | f-clip_gate_fixed-tss-activity | cassini | 4.86 / 3.83 | 34.2 | 3.34 / 2.75 | 18.6 |
 | f-clip_gate_fixed-tss-activity | satty | 11.92 / 6.58 | 43.0 | 4.99 / 2.69 | 18.8 |
 | f-clip_gate_fixed-tss-activity | soho | 24.06 / 8.26 | 103.4 | 6.56 / 4.70 | 30.0 |
+| f-clip_gate_signed-tss-activity | pooled | 11.32 / 4.06 | 50.8 | 4.60 / 2.49 | 20.0 |
+| f-clip_gate_signed-tss-activity | cassini | 4.08 / 3.42 | 27.1 | 3.18 / 2.64 | 18.6 |
+| f-clip_gate_signed-tss-activity | satty | 11.77 / 6.67 | 55.0 | 4.67 / 2.68 | 23.0 |
+| f-clip_gate_signed-tss-activity | soho | 18.78 / 3.42 | 72.4 | 5.83 / 2.13 | 18.5 |
 | f-concat-tss-activity | pooled | 11.15 / 3.47 | 51.2 | 6.61 / 2.48 | 29.0 |
 | f-concat-tss-activity | cassini | 3.74 / 2.82 | 23.3 | 3.41 / 2.48 | 20.1 |
 | f-concat-tss-activity | satty | 8.29 / 4.70 | 36.5 | 4.95 / 2.91 | 19.9 |
