@@ -14,6 +14,8 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
+import numpy as np
+
 OBJECTS = ("cassini", "satty", "soho")
 
 
@@ -68,7 +70,7 @@ def main() -> int:
         "| tss ARE° "
         "| tss ATE m | tss 10°/10mm | shuffle | zero | bypass | gate clip/clean | fusion params "
         "| last-epoch? |",
-        "|" + "---|" * 16,
+        "|" + "---|" * 17,
     ]
     for method in sorted(complete, key=lambda m: (complete[m]["cassini"]["protocol"], m)):
         runs = [complete[method][o] for o in OBJECTS]
@@ -76,6 +78,11 @@ def main() -> int:
         gate_clipped = _pooled(runs, "validation_tss", "gate_clipped")
         gate_clean = _pooled(runs, "validation_tss", "gate_unclipped")
         last = any(r["outcome"]["selected_epoch"] == r["config"]["epochs"] for r in runs)
+        # Spread of the last five per-epoch validation RMSEs, averaged over objects:
+        # a large value means the selected checkpoint is a noisy draw.
+        noise = sum(
+            float(np.std([h["validation_rmse_px"] for h in r["history"][-5:]])) for r in runs
+        ) / len(runs)
         lines.append(
             "| "
             + " | ".join(
@@ -98,6 +105,7 @@ def main() -> int:
                     f"{_fmt(gate_clipped, 3)} / {_fmt(gate_clean, 3)}",
                     str(first["parameters"].get("fusion_specific", "—")),
                     "yes" if last else "no",
+                    f"{noise:.2f}",
                 ]
             )
             + " |"

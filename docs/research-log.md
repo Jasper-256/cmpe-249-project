@@ -635,3 +635,54 @@ Operational note: one run failed with a transient
 memory pressure; it was retrained and reproduced its training curve exactly
 (best 6.23 px at epoch 11). The trainer now retries a failed evaluation once and
 persists per-epoch training state so evaluation can resume without retraining.
+
+### Interim mechanism check: where the clipping gates lose (2026-10-05, synthetic, one seed)
+
+Splitting TSS-validation errors by whether each frame was actually corrupted
+(`scripts/analyze_tss_split.py`):
+
+| TSS-trained method | Corrupted ARE / ATE | Clean ARE / ATE |
+| --- | --- | --- |
+| Mean fusion | **6.96° / 34.2 mm** | 4.78° / 21.5 mm |
+| Content gate | 9.08° / 36.2 mm | 5.91° / 32.9 mm |
+| Content + clipping gate | 10.88° / 52.6 mm | **4.22°** / 22.2 mm |
+| Clipping gate | 11.82° / 54.9 mm | 4.73° / 23.4 mm |
+| Constant control | 11.70° / 53.7 mm | 6.09° / 35.9 mm |
+| RGB only (TSS) | 22.76° / 106.8 mm | 5.21° / 19.4 mm |
+
+The clipping gates are worst exactly on the corrupted frames they target and
+competitive on clean frames. Routing clipped patches almost entirely to events
+(mean RGB trust ~0.12) appears to discard partially intact RGB context that
+mean fusion retains; accumulated event frames are sparse edge responses inside a
+16-pixel patch. Hypothesis to test post-matrix (synthetic only): the
+`slope0.1` ablations (weaker initial prior) and the signed gate already in the
+matrix address whether a softer or learned-sign response recovers this loss.
+
+### Audit correction to the interim mechanism check (2026-10-05)
+
+An independent recomputation confirmed the arithmetic but changes the reading:
+
+- **Concentrated in one object.** Corrupted-frame mean ARE, mean fusion vs
+  fixed gate: cassini 3.81 vs 4.86 deg, satty 10.47 vs 11.92, soho 6.68 vs 24.06.
+  Pooled medians are 3.44 vs 5.23 deg (about 1.5x, not 1.9x); frames above
+  45 deg number 19 vs 51 of 931.
+- **Selection bias on the reported set.** Checkpoints are selected by RMSE on
+  the same synthetic validation set that is reported, and soho validation curves
+  are noisy (mean fusion soho reached 6.1 px at its selected epoch with
+  neighbouring epochs at 15-18 px). Synthetic numbers are therefore optimistic
+  and noisy; the frozen real test is the unbiased estimate.
+- **Single-seed noise is as large as the effect.** `clip_gate_constant`
+  (gate ~0.497, functionally near-mean) reaches 11.70 deg on corrupted frames
+  versus 6.96 deg for mean fusion.
+- **The learned clipping gate does not move from its initialization**
+  (soho clipped-patch gate 0.119 at epoch 1, 0.120 at the end), so this tier does
+  not test whether a gate can learn; the `slope0.1` and signed-gate ablations do.
+- **Mechanism not supported as stated.** Error correlates weakly with clipped
+  area (Spearman 0.17-0.28 for every method), and the fixed-gate-minus-mean gap
+  does not grow with clipped area (median +1.26/+1.19/+1.49 deg by tercile).
+
+The "routing to events discards RGB context" statement above is withdrawn as a
+finding and kept only as a hypothesis. Conclusions wait for seeds 250/251, the
+gate ablations, and the pre-registered real-test analysis. Only selected
+checkpoints are stored, so epoch-to-epoch variance is reported from the saved
+per-epoch validation curves rather than re-evaluated.

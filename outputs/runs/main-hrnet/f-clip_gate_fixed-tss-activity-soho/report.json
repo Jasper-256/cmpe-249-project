@@ -1,0 +1,378 @@
+{
+  "schema_version": 1,
+  "name": "f-clip_gate_fixed-tss-activity-soho",
+  "spec": {
+    "modality": "fusion",
+    "backbone": "hrnet_w18_small_v2.ms_in1k",
+    "fusion": "clip_gate_fixed",
+    "event_representation": "activity",
+    "decoder_channels": 64,
+    "clip_slope_init": 5.0
+  },
+  "protocol": "tss",
+  "config": {
+    "name": "f-clip_gate_fixed-tss-activity-soho",
+    "cache_dir": "data\\fresh\\cache\\crop-v2",
+    "objects": [
+      "soho"
+    ],
+    "modality": "fusion",
+    "fusion": "clip_gate_fixed",
+    "backbone": "hrnet_w18_small_v2.ms_in1k",
+    "event_representation": "activity",
+    "protocol": "tss",
+    "clip_slope_init": 5.0,
+    "tss_fraction": 1.0,
+    "train_stride": 4,
+    "train_limit": null,
+    "validation_limit": null,
+    "epochs": 15,
+    "batch_size": 16,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "warmup_steps": 300,
+    "schedule": "cosine",
+    "patience": 4,
+    "min_improvement_px": 0.05,
+    "precision": "fp32",
+    "no_pretrained": false,
+    "seed": 249,
+    "workers": 0,
+    "overfit": 0,
+    "overfit_steps": 200,
+    "output_dir": "outputs\\runs\\main-hrnet",
+    "checkpoint_dir": "checkpoints\\main-hrnet"
+  },
+  "data": {
+    "train_samples": 2980,
+    "validation_samples": 640,
+    "train_steps_per_epoch": 187,
+    "cache_manifests_sha256": {
+      "soho-train": "efaca086d135fb447f31a9f20f2ca057eb1e8d9e2948752edc98eb444b6beda4",
+      "soho-validation": "ea969fcc91ad3682dbf7f0c491bee24a189fb05dee41d61c4098c30b0871e80d"
+    }
+  },
+  "parameters": {
+    "total": 10659322,
+    "trainable": 10659322,
+    "fusion_specific": 0,
+    "fusion_specific_effective": 0
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.012971261380499298,
+      "validation_rmse_px": 48.36536975860951,
+      "gate_mean_clipped": 0.0,
+      "gate_mean_unclipped": 0.5,
+      "learning_rate": 0.0006266666666666668,
+      "epoch_seconds": 87.45324079995044,
+      "checkpoint": true
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.0015878937042811338,
+      "validation_rmse_px": 44.02973677928776,
+      "gate_mean_clipped": 0.0,
+      "gate_mean_unclipped": 0.5,
+      "learning_rate": 0.0009978483283352437,
+      "epoch_seconds": 73.87922290002462,
+      "checkpoint": true
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.0013568690015540962,
+      "validation_rmse_px": 40.37643623532052,
+      "gate_mean_clipped": 0.0,
+      "gate_mean_unclipped": 0.5,
+      "learning_rate": 0.0009734524655902253,
+      "epoch_seconds": 72.14242090005428,
+      "checkpoint": true
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.0011715693530043895,
+      "validation_rmse_px": 20.67737672259237,
+      "gate_mean_clipped": 0.0,
+      "gate_mean_unclipped": 0.5,
+      "learning_rate": 0.0009231355624381894,
+      "epoch_seconds": 71.91403099999297,
+      "checkpoint": true
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.0009873121529244842,
+      "validation_rmse_px": 30.588549755974913,
+      "gate_mean_clipped": 0.0,
+      "gate_mean_unclipped": 0.5,
+      "learning_rate": 0.0008496524180924719,
+      "epoch_seconds": 72.12174299999606,
+      "checkpoint": false
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.0008141098647966064,
+      "validation_rmse_px": 18.014993826221023,
+      "gate_mean_clipped": 0.0,
+      "gate_mean_unclipped": 0.5,
+      "learning_rate": 0.0007570261598831742,
+      "epoch_seconds": 75.9338618000038,
+      "checkpoint": true
+    },
+    {
+      "epoch": 7,
+      "train_loss": 0.0006687850675814571,
+      "validation_rmse_px": 11.887541634464274,
+      "gate_mean_clipped": 0.0,
+      "gate_mean_unclipped": 0.5,
+      "learning_rate": 0.0006503279811323145,
+      "epoch_seconds": 72.81797279999591,
+      "checkpoint": true
+    },
+    {
+      "epoch": 8,
+      "train_loss": 0.0005590166231395706,
+      "validation_rmse_px": 13.955489877459243,
+      "gate_mean_clipped": 0.0,
+      "gate_mean_unclipped": 0.5,
+      "learning_rate": 0.0005353994984830933,
+      "epoch_seconds": 71.51429299998563,
+      "checkpoint": false
+    },
+    {
+      "epoch": 9,
+      "train_loss": 0.00044794519787360443,
+      "validation_rmse_px": 14.401190536549556,
+      "gate_mean_clipped": 0.0,
+      "gate_mean_unclipped": 0.5,
+      "learning_rate": 0.0004185329293367947,
+      "epoch_seconds": 71.22625020006672,
+      "checkpoint": false
+    },
+    {
+      "epoch": 10,
+      "train_loss": 0.00037752834577013786,
+      "validation_rmse_px": 12.64045936422996,
+      "gate_mean_clipped": 0.0,
+      "gate_mean_unclipped": 0.5,
+      "learning_rate": 0.0003061265993569977,
+      "epoch_seconds": 71.67816909996327,
+      "checkpoint": false
+    },
+    {
+      "epoch": 11,
+      "train_loss": 0.00032988982493018003,
+      "validation_rmse_px": 12.405467122845153,
+      "gate_mean_clipped": 0.0,
+      "gate_mean_unclipped": 0.5,
+      "learning_rate": 0.0002043346406544701,
+      "epoch_seconds": 71.38117680000141,
+      "checkpoint": false
+    }
+  ],
+  "outcome": {
+    "stage": "train",
+    "selected_epoch": 7,
+    "selected_validation_rmse_px": 11.887541634464274,
+    "epochs_completed": 11,
+    "resumed_evaluation": false,
+    "evaluations": {
+      "validation_natural": {
+        "frame_count": 640,
+        "coordinate_rmse_px": 6.448892715119194,
+        "protocol": "natural",
+        "clip_mode": "normal",
+        "gate_override": null,
+        "gate_mean_clipped_patches": null,
+        "gate_mean_unclipped_patches": 0.5,
+        "pose": {
+          "frame_count": 640,
+          "pnp_valid_count": 640,
+          "pnp_valid_fraction": 1.0,
+          "failure_policy": "FRESH default pose: identity rotation (zero rotation vector), zero translation",
+          "all_frames": {
+            "are_degrees_mean": 6.824114061733336,
+            "are_degrees_median": 4.826450858211599,
+            "absolute_translation_error_m_mean": 0.02921291441299878,
+            "absolute_translation_error_m_median": 0.01104366362508859,
+            "range_normalized_translation_error_mean": 0.026936214801871056,
+            "success_rotation_below_10_deg": 0.8375,
+            "success_translation_below_10_mm": 0.45625,
+            "success_joint_10_deg_10_mm": 0.41875
+          },
+          "valid_only": {
+            "are_degrees_mean": 6.824114061733336,
+            "are_degrees_median": 4.826450858211599,
+            "absolute_translation_error_m_mean": 0.02921291441299878,
+            "absolute_translation_error_m_median": 0.01104366362508859,
+            "range_normalized_translation_error_mean": 0.026936214801871056,
+            "success_rotation_below_10_deg": 0.8375,
+            "success_translation_below_10_mm": 0.45625,
+            "success_joint_10_deg_10_mm": 0.41875,
+            "reprojection_rmse_px_mean": 4.474030028309466
+          }
+        }
+      },
+      "validation_tss": {
+        "frame_count": 640,
+        "coordinate_rmse_px": 11.887541634464274,
+        "protocol": "tss",
+        "clip_mode": "normal",
+        "gate_override": null,
+        "gate_mean_clipped_patches": 0.0,
+        "gate_mean_unclipped_patches": 0.5,
+        "pose": {
+          "frame_count": 640,
+          "pnp_valid_count": 640,
+          "pnp_valid_fraction": 1.0,
+          "failure_policy": "FRESH default pose: identity rotation (zero rotation vector), zero translation",
+          "all_frames": {
+            "are_degrees_mean": 14.599387983809033,
+            "are_degrees_median": 6.022587547043712,
+            "absolute_translation_error_m_mean": 0.06374120496583405,
+            "absolute_translation_error_m_median": 0.012898746652701168,
+            "range_normalized_translation_error_mean": 0.05862550343506321,
+            "success_rotation_below_10_deg": 0.7359375,
+            "success_translation_below_10_mm": 0.4203125,
+            "success_joint_10_deg_10_mm": 0.365625
+          },
+          "valid_only": {
+            "are_degrees_mean": 14.599387983809033,
+            "are_degrees_median": 6.022587547043712,
+            "absolute_translation_error_m_mean": 0.06374120496583405,
+            "absolute_translation_error_m_median": 0.012898746652701168,
+            "range_normalized_translation_error_mean": 0.05862550343506321,
+            "success_rotation_below_10_deg": 0.7359375,
+            "success_translation_below_10_mm": 0.4203125,
+            "success_joint_10_deg_10_mm": 0.365625,
+            "reprojection_rmse_px_mean": 5.798841796820814
+          }
+        }
+      },
+      "validation_tss_clip_shuffle": {
+        "frame_count": 640,
+        "coordinate_rmse_px": 12.622915723738156,
+        "protocol": "tss",
+        "clip_mode": "shuffle",
+        "gate_override": null,
+        "gate_mean_clipped_patches": 0.4146968139773895,
+        "gate_mean_unclipped_patches": 0.47101614893853216,
+        "pose": {
+          "frame_count": 640,
+          "pnp_valid_count": 640,
+          "pnp_valid_fraction": 1.0,
+          "failure_policy": "FRESH default pose: identity rotation (zero rotation vector), zero translation",
+          "all_frames": {
+            "are_degrees_mean": 15.915994839560891,
+            "are_degrees_median": 6.643701835148516,
+            "absolute_translation_error_m_mean": 0.07957789994542926,
+            "absolute_translation_error_m_median": 0.013436218738676493,
+            "range_normalized_translation_error_mean": 0.07429898963552438,
+            "success_rotation_below_10_deg": 0.7,
+            "success_translation_below_10_mm": 0.39375,
+            "success_joint_10_deg_10_mm": 0.33125
+          },
+          "valid_only": {
+            "are_degrees_mean": 15.915994839560891,
+            "are_degrees_median": 6.643701835148516,
+            "absolute_translation_error_m_mean": 0.07957789994542926,
+            "absolute_translation_error_m_median": 0.013436218738676493,
+            "range_normalized_translation_error_mean": 0.07429898963552438,
+            "success_rotation_below_10_deg": 0.7,
+            "success_translation_below_10_mm": 0.39375,
+            "success_joint_10_deg_10_mm": 0.33125,
+            "reprojection_rmse_px_mean": 6.559084311295249
+          }
+        }
+      },
+      "validation_tss_clip_zero": {
+        "frame_count": 640,
+        "coordinate_rmse_px": 13.020296869707956,
+        "protocol": "tss",
+        "clip_mode": "zero",
+        "gate_override": null,
+        "gate_mean_clipped_patches": 0.5,
+        "gate_mean_unclipped_patches": 0.5,
+        "pose": {
+          "frame_count": 640,
+          "pnp_valid_count": 640,
+          "pnp_valid_fraction": 1.0,
+          "failure_policy": "FRESH default pose: identity rotation (zero rotation vector), zero translation",
+          "all_frames": {
+            "are_degrees_mean": 16.565293991918757,
+            "are_degrees_median": 6.828684545808197,
+            "absolute_translation_error_m_mean": 0.0832135796245472,
+            "absolute_translation_error_m_median": 0.013705054499252092,
+            "range_normalized_translation_error_mean": 0.07810063864854531,
+            "success_rotation_below_10_deg": 0.7015625,
+            "success_translation_below_10_mm": 0.38125,
+            "success_joint_10_deg_10_mm": 0.3265625
+          },
+          "valid_only": {
+            "are_degrees_mean": 16.565293991918757,
+            "are_degrees_median": 6.828684545808197,
+            "absolute_translation_error_m_mean": 0.0832135796245472,
+            "absolute_translation_error_m_median": 0.013705054499252092,
+            "range_normalized_translation_error_mean": 0.07810063864854531,
+            "success_rotation_below_10_deg": 0.7015625,
+            "success_translation_below_10_mm": 0.38125,
+            "success_joint_10_deg_10_mm": 0.3265625,
+            "reprojection_rmse_px_mean": 6.841804154970633
+          }
+        }
+      },
+      "validation_tss_gate_bypass_0.5": {
+        "frame_count": 640,
+        "coordinate_rmse_px": 13.020296869707956,
+        "protocol": "tss",
+        "clip_mode": "normal",
+        "gate_override": 0.5,
+        "gate_mean_clipped_patches": 0.5,
+        "gate_mean_unclipped_patches": 0.5,
+        "pose": {
+          "frame_count": 640,
+          "pnp_valid_count": 640,
+          "pnp_valid_fraction": 1.0,
+          "failure_policy": "FRESH default pose: identity rotation (zero rotation vector), zero translation",
+          "all_frames": {
+            "are_degrees_mean": 16.565293991918757,
+            "are_degrees_median": 6.828684545808197,
+            "absolute_translation_error_m_mean": 0.0832135796245472,
+            "absolute_translation_error_m_median": 0.013705054499252092,
+            "range_normalized_translation_error_mean": 0.07810063864854531,
+            "success_rotation_below_10_deg": 0.7015625,
+            "success_translation_below_10_mm": 0.38125,
+            "success_joint_10_deg_10_mm": 0.3265625
+          },
+          "valid_only": {
+            "are_degrees_mean": 16.565293991918757,
+            "are_degrees_median": 6.828684545808197,
+            "absolute_translation_error_m_mean": 0.0832135796245472,
+            "absolute_translation_error_m_median": 0.013705054499252092,
+            "range_normalized_translation_error_mean": 0.07810063864854531,
+            "success_rotation_below_10_deg": 0.7015625,
+            "success_translation_below_10_mm": 0.38125,
+            "success_joint_10_deg_10_mm": 0.3265625,
+            "reprojection_rmse_px_mean": 6.841804154970633
+          }
+        }
+      }
+    }
+  },
+  "compute": {
+    "elapsed_seconds": 837.9147208000068,
+    "peak_vram_allocated_bytes": 3436531200,
+    "precision": "fp32",
+    "gpu": "NVIDIA GeForce RTX 5060 Laptop GPU"
+  },
+  "provenance": {
+    "git_commit": "812effe15c30e326ce984d7c71c0de6efe237efc",
+    "working_tree_dirty": true,
+    "source_state_sha256": "776f5136e05c7c9f369cf6d32724d568d465c0ba0134e89692940fcaf4325762",
+    "uv_lock_sha256": "fe742a5ce27445c837714bca804d02a8d13cce0adfd580cd21a4f7d312b661c3",
+    "python": "3.12.14",
+    "torch": "2.14.0+cu130",
+    "timm": "1.0.29",
+    "checkpoint": "checkpoints\\main-hrnet\\f-clip_gate_fixed-tss-activity-soho\\best.pt"
+  }
+}
