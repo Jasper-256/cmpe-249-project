@@ -1,4 +1,4 @@
-# Main matrix — synthetic validation (11 complete methods)
+# Main matrix — synthetic validation (18 complete methods)
 
 Pooled over the three per-object models (frame-weighted means; PnP failures
 counted with the FRESH default pose). `own` = validation under the training
@@ -8,6 +8,13 @@ level on TSS validation (clipped / unclipped patches). Real data not used.
 
 | method | protocol | nat RMSE | nat ARE° | nat ATE m | nat 10°/10mm | tss RMSE | tss ARE° | tss ATE m | tss 10°/10mm | shuffle | zero | bypass | gate clip/clean | fusion params | last-epoch? |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| f-clip_gate-natural-activity | natural | 6.65 | 3.44 | 0.0170 | 0.601 | 31.44 | 33.11 | 0.1972 | 0.329 | 37.40 | 30.00 | 29.98 | 0.118 / 0.507 | 3968 | no | 0.22 |
+| f-clip_gate_constant-natural-activity | natural | 6.65 | 3.44 | 0.0170 | 0.601 | 30.00 | 33.46 | 0.1860 | 0.334 | 30.00 | 30.00 | 29.98 | 0.507 / 0.507 | 3968 | no | 0.22 |
+| f-clip_gate_fixed-natural-activity | natural | 6.26 | 3.27 | 0.0155 | 0.600 | 33.95 | 32.30 | 0.2623 | 0.323 | 38.84 | 29.99 | 29.99 | 0.000 / 0.500 | 0 | no | 0.24 |
+| f-concat-natural-activity | natural | 5.93 | 3.18 | 0.0129 | 0.683 | 27.85 | 25.35 | 0.1916 | 0.388 | 27.85 | 27.85 | — | — / — | 2795456 | no | 0.17 |
+| f-content_clip_gate-natural-activity | natural | 6.26 | 3.15 | 0.0151 | 0.623 | 30.30 | 30.85 | 0.2050 | 0.340 | 35.25 | 29.51 | 31.80 | 0.120 / 0.497 | 2797440 | no | 0.22 |
+| f-content_gate-natural-activity | natural | 6.26 | 3.15 | 0.0151 | 0.623 | 29.51 | 28.35 | 0.1852 | 0.347 | 29.51 | 29.51 | 31.80 | 0.503 / 0.497 | 2795456 | no | 0.22 |
+| f-mean-natural-activity | natural | 6.26 | 3.27 | 0.0155 | 0.600 | 29.99 | 30.67 | 0.1913 | 0.332 | 29.99 | 29.99 | — | 0.500 / 0.500 | 0 | no | 0.24 |
 | u-event-activity | natural | 11.19 | 9.06 | 0.0382 | 0.424 | 11.19 | 9.06 | 0.0382 | 0.424 | — | — | — | — / — | — | no | 1.48 |
 | u-event-raw | natural | 12.69 | 9.65 | 0.0325 | 0.473 | 12.69 | 9.65 | 0.0325 | 0.473 | — | — | — | — / — | — | no | 1.01 |
 | u-rgb-natural | natural | 6.78 | 3.70 | 0.0168 | 0.645 | 33.02 | 34.52 | 0.2281 | 0.359 | — | — | — | — / — | — | yes | 0.28 |

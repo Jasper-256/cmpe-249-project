@@ -686,3 +686,18 @@ finding and kept only as a hypothesis. Conclusions wait for seeds 250/251, the
 gate ablations, and the pre-registered real-test analysis. Only selected
 checkpoints are stored, so epoch-to-epoch variance is reported from the saved
 per-epoch validation curves rather than re-evaluated.
+
+## 2026-10-06 — Tier 1 complete (54 runs; synthetic validation, one seed)
+
+Natural-protocol fusion, pooled over objects (clean ARE / TSS ARE, mean deg):
+mean 3.27 / 30.67; concat 3.18 / 25.35; content gate 3.15 / 28.35; clipping gate
+3.44 / 33.11; constant control 3.44 / 33.46; fixed gate 3.27 / 32.30; hybrid
+3.15 / 30.85. Every natural-trained fusion collapses under TSS like RGB-only
+(34.52), so exposure to saturation in training, not the fusion rule, determines
+robustness. Design sanity checks hold exactly: natural `clip_gate` equals
+`clip_gate_constant`, the fixed gate equals mean fusion, and the hybrid equals the
+content gate on clean validation (identical metrics), because clipping is absent
+during natural training. Their TSS differences isolate the untrained clipping
+prior, which never helps (fixed and hybrid priors hurt slightly; zeroing the
+clipping input of the natural clipping gate is mildly better than using it).
+Full tables: `outputs/runs/main-hrnet/results.md`, `tss_split.md`.
