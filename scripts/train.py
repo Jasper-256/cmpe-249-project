@@ -262,6 +262,29 @@ def main() -> int:
     history: list[dict[str, Any]] = []
     started = time.perf_counter()
     best_rmse, best_epoch, stale = float("inf"), 0, 0
+    # Training state is persisted every epoch so a failure after training (for
+    # example a transient cuDNN error during evaluation) can finish evaluation
+    # from the saved best checkpoint without retraining.
+    state_path = checkpoint_path.with_name("training_state.json")
+    resumed_evaluation = False
+    if not args.overfit and state_path.is_file() and checkpoint_path.is_file():
+        saved = json.loads(state_path.read_text(encoding="utf-8"))
+        if saved.get("training_complete") and saved.get("spec") == spec.as_dict():
+            history = saved["history"]
+            best_rmse, best_epoch = saved["best_rmse"], saved["best_epoch"]
+            resumed_evaluation = True
+            print(f"[{args.name}] training already complete; resuming evaluation", flush=True)
+
+    def evaluate_with_retry(*positional: Any, **keyword: Any) -> dict[str, Any]:
+        try:
+            return evaluate(*positional, **keyword)
+        except RuntimeError as error:
+            # Transient driver/cuDNN failures under memory pressure: retry once.
+            print(f"[{args.name}] evaluation error, retrying once: {error}", flush=True)
+            torch.cuda.synchronize(device)
+            torch.cuda.empty_cache()
+            return evaluate(*positional, **keyword)
+
     if args.overfit:
         batch = next(iter(train_loader))
         initial = evaluate(model, train_loader, spec, protocol, device, recover_pose=False)
@@ -277,7 +300,7 @@ def main() -> int:
             "passes": final["coordinate_rmse_px"] <= 5.0 and reduction >= 0.9,
         }
     else:
-        for epoch in range(1, args.epochs + 1):
+        for epoch in range(1, 0 if resumed_evaluation else args.epochs + 1):
             epoch_started = time.perf_counter()
             losses = [train_step(batch) for batch in train_loader]
             validation = evaluate(
@@ -313,14 +336,39 @@ def main() -> int:
                 f"({time.perf_counter() - epoch_started:.0f}s)",
                 flush=True,
             )
+            state_path.write_text(
+                json.dumps(
+                    {
+                        "spec": spec.as_dict(),
+                        "history": history,
+                        "best_rmse": best_rmse,
+                        "best_epoch": best_epoch,
+                        "training_complete": False,
+                    }
+                ),
+                encoding="utf-8",
+            )
             if stale >= args.patience:
                 break
+        if not resumed_evaluation:
+            state_path.write_text(
+                json.dumps(
+                    {
+                        "spec": spec.as_dict(),
+                        "history": history,
+                        "best_rmse": best_rmse,
+                        "best_epoch": best_epoch,
+                        "training_complete": True,
+                    }
+                ),
+                encoding="utf-8",
+            )
         state = torch.load(checkpoint_path, map_location=device, weights_only=True)
         model.load_state_dict(state["model"])
         evaluations: dict[str, Any] = {}
         for evaluation_protocol in ("natural", "tss"):
             key = f"validation_{evaluation_protocol}"
-            evaluations[key] = evaluate(
+            evaluations[key] = evaluate_with_retry(
                 model,
                 validation_loader,
                 spec,
@@ -334,11 +382,11 @@ def main() -> int:
             # Interventions always use TSS validation: natural validation never
             # clips, so shuffling or zeroing its clipping input would test nothing.
             for mode in ("shuffle", "zero"):
-                evaluations[f"validation_tss_clip_{mode}"] = evaluate(
+                evaluations[f"validation_tss_clip_{mode}"] = evaluate_with_retry(
                     model, validation_loader, spec, "tss", device, clip_mode=mode
                 )
             if cast(FusionHeatmapRegressor, model).has_gate:
-                evaluations["validation_tss_gate_bypass_0.5"] = evaluate(
+                evaluations["validation_tss_gate_bypass_0.5"] = evaluate_with_retry(
                     model, validation_loader, spec, "tss", device, gate_override=0.5
                 )
         outcome = {
@@ -346,6 +394,7 @@ def main() -> int:
             "selected_epoch": best_epoch,
             "selected_validation_rmse_px": best_rmse,
             "epochs_completed": len(history),
+            "resumed_evaluation": resumed_evaluation,
             "evaluations": evaluations,
         }
 

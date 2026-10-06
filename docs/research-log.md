@@ -606,3 +606,32 @@ frozen in `docs/fusion-protocol.md`) launched with HRNet.
   patch s >= 0.01, overall and on the harsh slice) is a predeclared G6
   descriptive analysis, computed only after every checkpoint is frozen, so that
   it cannot influence design.
+
+## 2026-10-05 — Interim synthetic results (single seed; not the frozen real test)
+
+Main-matrix runs completed so far, pooled over the three per-object models
+(frame-weighted means on synthetic validation; PnP failures counted):
+
+| Method | Train protocol | Natural ARE | TSS ARE | TSS ATE | TSS 10°/10 mm | Gate clipped / clean |
+| --- | --- | ---: | ---: | ---: | ---: | --- |
+| RGB only | natural | 3.70° | 34.52° | 228 mm | 35.9% | — |
+| RGB only | TSS | 5.36° | 13.72° | 62 mm | 38.2% | — |
+| Event only (raw) | natural | 9.65° | 9.65° | 33 mm | 47.3% | — |
+| Event only (activity) | natural | 9.06° | 9.06° | 38 mm | 42.4% | — |
+| Fusion, content gate | TSS | 5.81° | 7.45° | 35 mm | 53.2% | 0.471 / 0.491 |
+| Fusion, content + clipping gate | TSS | 4.27° | 7.45° | 37 mm | 46.2% | 0.133 / 0.506 |
+
+Interim reading (descriptive, one seed, synthetic only): TSS breaks RGB-only
+models; TSS training recovers part of the loss at a clean-data cost; learned
+fusion beats both single sensors under TSS. The hybrid clipping gate routes
+clipped patches strongly toward events and its synthetic predictions depend on
+the clipping input (TSS-validation RMSE 11.07 px; shuffled 11.60; zeroed 11.66),
+but its pose outcome versus the content gate is mixed (lower RMSE and clean ARE,
+higher TSS ATE, lower 10°/10 mm success). The pre-registered real-test
+bootstrap and seeds 250/251 decide the primary comparison.
+
+Operational note: one run failed with a transient
+`CUDNN_STATUS_EXECUTION_FAILED_CUDART` during post-training evaluation under host
+memory pressure; it was retrained and reproduced its training curve exactly
+(best 6.23 px at epoch 11). The trainer now retries a failed evaluation once and
+persists per-epoch training state so evaluation can resume without retraining.
