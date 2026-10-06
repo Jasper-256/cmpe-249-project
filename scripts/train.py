@@ -69,6 +69,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--min-improvement-px", type=float, default=0.05)
     parser.add_argument("--precision", choices=("fp32", "bf16"), default="fp32")
     parser.add_argument("--no-pretrained", action="store_true")
+    parser.add_argument(
+        "--init-from",
+        type=Path,
+        default=None,
+        help="fine-tuning: initialize all weights from a selected checkpoint (spec must match)",
+    )
     parser.add_argument("--seed", type=int, default=249)
     parser.add_argument("--workers", type=int, default=4)
     parser.add_argument(
@@ -204,7 +210,14 @@ def main() -> int:
         train_set = Subset(train_set, _evenly(len(train_set), args.overfit))  # type: ignore[arg-type]
     first = train_set[0]
     num_keypoints = int(first["keypoints_xy"].shape[0])
-    model = build_model(spec, num_keypoints, pretrained=not args.no_pretrained).to(device)
+    model = build_model(
+        spec, num_keypoints, pretrained=not args.no_pretrained and args.init_from is None
+    ).to(device)
+    if args.init_from is not None:
+        initial_state = torch.load(args.init_from, map_location=device, weights_only=True)
+        if initial_state["spec"] != spec.as_dict():
+            raise ValueError(f"{args.init_from} was trained with a different model spec")
+        model.load_state_dict(initial_state["model"])
     optimizer = torch.optim.AdamW(
         model.parameters(), lr=args.learning_rate, weight_decay=args.weight_decay
     )
@@ -275,6 +288,31 @@ def main() -> int:
             resumed_evaluation = True
             print(f"[{args.name}] training already complete; resuming evaluation", flush=True)
 
+    # Mid-training resume: last.pt holds model, optimizer, scheduler, data-order
+    # and RNG state after every epoch, so a crash costs one epoch, not a run.
+    last_path = checkpoint_path.with_name("last.pt")
+    resume_key = json.dumps(
+        {
+            key: str(value)
+            for key, value in sorted(vars(args).items())
+            if key not in ("workers", "output_dir", "checkpoint_dir")
+        }
+    )
+    start_epoch = 1
+    if not args.overfit and not resumed_evaluation and last_path.is_file():
+        last = torch.load(last_path, map_location="cpu", weights_only=True)
+        if last.get("resume_key") == resume_key:
+            model.load_state_dict(last["model"])
+            optimizer.load_state_dict(last["optimizer"])
+            scheduler.load_state_dict(last["scheduler"])
+            cast(torch.Generator, train_loader.generator).set_state(last["data_generator"])
+            torch.set_rng_state(last["torch_rng"])
+            torch.cuda.set_rng_state_all(last["cuda_rng"])
+            history = json.loads(last["history_json"])
+            best_rmse, best_epoch, stale = last["best_rmse"], last["best_epoch"], last["stale"]
+            start_epoch = int(last["epoch"]) + 1
+            print(f"[{args.name}] resuming training at epoch {start_epoch}", flush=True)
+
     def evaluate_with_retry(*positional: Any, **keyword: Any) -> dict[str, Any]:
         try:
             return evaluate(*positional, **keyword)
@@ -300,7 +338,17 @@ def main() -> int:
             "passes": final["coordinate_rmse_px"] <= 5.0 and reduction >= 0.9,
         }
     else:
-        for epoch in range(1, 0 if resumed_evaluation else args.epochs + 1):
+        if args.init_from is not None and not resumed_evaluation and start_epoch == 1:
+            # Fine-tuning: the starting checkpoint is epoch 0, so a fine-tune that
+            # only makes the model worse can never be selected over it.
+            initial = evaluate(model, validation_loader, spec, protocol, device, recover_pose=False)
+            best_rmse, best_epoch = initial["coordinate_rmse_px"], 0
+            torch.save(
+                {"model": model.state_dict(), "spec": spec.as_dict(), "epoch": 0},
+                checkpoint_path,
+            )
+            print(f"[{args.name}] epoch 0 (initial) val_rmse={best_rmse:.2f}px", flush=True)
+        for epoch in range(start_epoch, 0 if resumed_evaluation else args.epochs + 1):
             epoch_started = time.perf_counter()
             losses = [train_step(batch) for batch in train_loader]
             validation = evaluate(
@@ -348,6 +396,25 @@ def main() -> int:
                 ),
                 encoding="utf-8",
             )
+            temporary_last = last_path.with_suffix(".tmp")
+            torch.save(
+                {
+                    "resume_key": resume_key,
+                    "epoch": epoch,
+                    "model": model.state_dict(),
+                    "optimizer": optimizer.state_dict(),
+                    "scheduler": scheduler.state_dict(),
+                    "data_generator": cast(torch.Generator, train_loader.generator).get_state(),
+                    "torch_rng": torch.get_rng_state(),
+                    "cuda_rng": torch.cuda.get_rng_state_all(),
+                    "history_json": json.dumps(history),
+                    "best_rmse": best_rmse,
+                    "best_epoch": best_epoch,
+                    "stale": stale,
+                },
+                temporary_last,
+            )
+            temporary_last.replace(last_path)
             if stale >= args.patience:
                 break
         if not resumed_evaluation:
@@ -363,6 +430,8 @@ def main() -> int:
                 ),
                 encoding="utf-8",
             )
+        # Training is complete; the resume snapshot is no longer needed.
+        last_path.unlink(missing_ok=True)
         state = torch.load(checkpoint_path, map_location=device, weights_only=True)
         model.load_state_dict(state["model"])
         evaluations: dict[str, Any] = {}

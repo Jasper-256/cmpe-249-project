@@ -1,0 +1,116 @@
+description: 'Fine-tuning stage v1 (2026-10-06): the final-model candidate (TSS-trained
+  mean fusion, best TSS-validation mean ARE among TSS-trained fusion rules in main_v1),
+  the primary-comparison pair, and the RGB-only TSS baseline are each initialized
+  from their selected main_v1 checkpoint and fine-tuned identically on the full grouped-v1
+  training set (every frame) at a lower learning rate. Selection stays on synthetic
+  validation under the TSS protocol.'
+defaults:
+  backbone: hrnet_w18_small_v2.ms_in1k
+  train_stride: 1
+  epochs: 5
+  batch_size: 16
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+  schedule: cosine
+  warmup_steps: 100
+  patience: 3
+  min_improvement_px: 0.05
+  protocol: natural
+  event_representation: activity
+  seed: 249
+  workers: 0
+  output_dir: outputs/runs/finetune-hrnet
+runs:
+- modality: fusion
+  protocol: tss
+  event_representation: activity
+  objects:
+  - cassini
+  fusion: mean
+  name: ft-mean-tss-activity-cassini
+  init_from: checkpoints/main-hrnet/f-mean-tss-activity-cassini/best.pt
+- modality: fusion
+  protocol: tss
+  event_representation: activity
+  objects:
+  - satty
+  fusion: mean
+  name: ft-mean-tss-activity-satty
+  init_from: checkpoints/main-hrnet/f-mean-tss-activity-satty/best.pt
+- modality: fusion
+  protocol: tss
+  event_representation: activity
+  objects:
+  - soho
+  fusion: mean
+  name: ft-mean-tss-activity-soho
+  init_from: checkpoints/main-hrnet/f-mean-tss-activity-soho/best.pt
+- modality: fusion
+  protocol: tss
+  event_representation: activity
+  objects:
+  - cassini
+  fusion: content_gate
+  name: ft-content_gate-tss-activity-cassini
+  init_from: checkpoints/main-hrnet/f-content_gate-tss-activity-cassini/best.pt
+- modality: fusion
+  protocol: tss
+  event_representation: activity
+  objects:
+  - satty
+  fusion: content_gate
+  name: ft-content_gate-tss-activity-satty
+  init_from: checkpoints/main-hrnet/f-content_gate-tss-activity-satty/best.pt
+- modality: fusion
+  protocol: tss
+  event_representation: activity
+  objects:
+  - soho
+  fusion: content_gate
+  name: ft-content_gate-tss-activity-soho
+  init_from: checkpoints/main-hrnet/f-content_gate-tss-activity-soho/best.pt
+- modality: fusion
+  protocol: tss
+  event_representation: activity
+  objects:
+  - cassini
+  fusion: content_clip_gate
+  name: ft-content_clip_gate-tss-activity-cassini
+  init_from: checkpoints/main-hrnet/f-content_clip_gate-tss-activity-cassini/best.pt
+- modality: fusion
+  protocol: tss
+  event_representation: activity
+  objects:
+  - satty
+  fusion: content_clip_gate
+  name: ft-content_clip_gate-tss-activity-satty
+  init_from: checkpoints/main-hrnet/f-content_clip_gate-tss-activity-satty/best.pt
+- modality: fusion
+  protocol: tss
+  event_representation: activity
+  objects:
+  - soho
+  fusion: content_clip_gate
+  name: ft-content_clip_gate-tss-activity-soho
+  init_from: checkpoints/main-hrnet/f-content_clip_gate-tss-activity-soho/best.pt
+- modality: rgb
+  protocol: tss
+  event_representation: activity
+  objects:
+  - cassini
+  name: ft-rgb-tss-cassini
+  init_from: checkpoints/main-hrnet/u-rgb-tss-cassini/best.pt
+- modality: rgb
+  protocol: tss
+  event_representation: activity
+  objects:
+  - satty
+  name: ft-rgb-tss-satty
+  init_from: checkpoints/main-hrnet/u-rgb-tss-satty/best.pt
+- modality: rgb
+  protocol: tss
+  event_representation: activity
+  objects:
+  - soho
+  name: ft-rgb-tss-soho
+  init_from: checkpoints/main-hrnet/u-rgb-tss-soho/best.pt

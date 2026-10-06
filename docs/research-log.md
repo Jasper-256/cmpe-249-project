@@ -701,3 +701,35 @@ during natural training. Their TSS differences isolate the untrained clipping
 prior, which never helps (fixed and hybrid priors hurt slightly; zeroing the
 clipping input of the natural clipping gate is mildly better than using it).
 Full tables: `outputs/runs/main-hrnet/results.md`, `tss_split.md`.
+
+## 2026-10-06 — Convergence: final-model candidate and fine-tuning stage
+
+**Selection rule (fixed before any fine-tuning result):** the final-model
+candidate is the TSS-trained fusion rule with the lowest pooled TSS-validation
+mean ARE in `main_v1` at the time of freezing. That is TSS-trained mean fusion
+(5.84 deg; next best content and hybrid gates at 7.45 deg). This uses synthetic
+validation only.
+
+**Fine-tuning stage (`configs/experiments/finetune_v1.yaml`):** the candidate,
+the pre-registered primary pair (`content_gate`, `content_clip_gate`, both
+TSS-trained) and the TSS-trained RGB-only baseline are each initialized from
+their selected `main_v1` checkpoint (`scripts/train.py --init-from`, spec checked).
+Each is fine-tuned identically on the full grouped-v1 training set (every frame
+instead of every fourth) for up to 5 epochs at LR 1e-4 (cosine, 100 warm-up
+steps, patience 3), again selecting on TSS synthetic validation. Treating all four
+the same keeps the primary comparison matched. The fine-tuned candidate is the
+model taken to the frozen real test alongside the `main_v1` checkpoints.
+Remaining `main_v1` ablations and seeds resume after this stage.
+
+Review-driven rules for this stage (recorded before it ran):
+
+- Fine-tuning starts with an epoch-0 evaluation of the initial checkpoint, so a
+  fine-tune that only degrades the model cannot be selected over it.
+- The candidate choice is a single-seed, selection-biased pick (winner's curse):
+  the 5.84 vs 7.45 deg gap is within documented single-seed noise. The fine-tuned
+  candidate is reported as an **exploratory final model**. The pre-registered
+  primary comparison remains `content_clip_gate` vs `content_gate` (TSS-trained)
+  and is unchanged by this stage.
+- Fine-tuned models reselect on the same synthetic validation set, so their
+  synthetic numbers are development diagnostics only; the frozen real test is
+  the only estimate reported for them.

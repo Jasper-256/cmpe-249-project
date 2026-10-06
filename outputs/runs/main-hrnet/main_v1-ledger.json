@@ -418,5 +418,12 @@
     "seconds": 1409.3111037999624,
     "log": "checkpoints\\main-hrnet\\f-clip_gate-tss-activity-slope0.1-soho\\train.log",
     "status": "complete"
+  },
+  "f-content_clip_gate-tss-activity-slope0.1-cassini": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 3221226505,
+    "seconds": 1940.6773994000396,
+    "log": "checkpoints\\main-hrnet\\f-content_clip_gate-tss-activity-slope0.1-cassini\\train.log",
+    "status": "failed"
   }
 }
