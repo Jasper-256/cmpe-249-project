@@ -2,7 +2,7 @@
 
 **Project:** Saturation-Gated Attention Fusion for Event-RGB Spacecraft Pose
 Estimation Under Harsh Lighting  
-**Roadmap date:** September 23, 2026  
+**Roadmap date:** September 27, 2026  
 **Primary dataset:** FRESH  
 **Core protocol:** synthetic-only training and model selection; one frozen
 evaluation on real sequences
@@ -15,10 +15,12 @@ event representation, and domain-adaptation method. The strongest contribution
 is a causal comparison: whether an explicit patch-level RGB clipping signal adds
 value beyond parameter count and generic learned reliability.
 
-The recommended minimum viable architecture uses one compact, shared-scale
-two-stream encoder, one pose/keypoint head across all learned variants, and a
-two-parameter-per-head monotone saturation gate. Full training begins only after
-the dataset geometry and an existing evaluation path are independently verified.
+The recommended minimum viable system still uses compact encoders, one frozen
+landmark/pose contract, and a matched saturation-gate comparison. The encoder
+family is now deliberately unresolved: HRNet-W18-Small-v2 is a verified
+reference, while compact CNN, hierarchical-transformer, hybrid, and
+event-specific alternatives pass through a bounded synthetic-only architecture
+gate before the fusion protocol is frozen.
 
 ## Current evidence that changes the plan
 
@@ -48,6 +50,50 @@ the dataset geometry and an existing evaluation path are independently verified.
 - The current local GPU is an RTX 5060 Laptop GPU with 8 GB VRAM. Memory claims
   in the proposal are therefore treated as hypotheses until measured on both
   team devices.
+- The competent HRNet reference reaches 7.62/9.16 px RGB/event keypoint RMSE,
+  100% valid PnP for both, 3.88/4.00 degree median ARE, and 0.0169/0.0193 m
+  median ATE on the frozen Cassini 1,024/256 synthetic screen. These results are
+  preserved but do not establish architectural optimality.
+- Recent spacecraft work makes a bounded transformer question defensible:
+  FastPose-ViT and SPACE-HOP demonstrate viable ViT pose representations;
+  A3DKS uses EfficientViT for spacecraft keypoints; and PVSPE/SO-PEN use
+  pyramid/window transformers. Their heads and protocols differ, so they
+  motivate rather than answer our controlled comparison.
+- Recent event pretraining (STP and TESPEC, ICCV 2025) indicates that event data
+  can benefit from temporal/event-native inductive bias. Those methods require
+  event streams or recurrent histograms and therefore remain a separately named
+  raw-event extension, not a silent replacement for the accumulated-frame input.
+
+## Bounded architecture selection before fusion
+
+The architecture question is:
+
+> Under the fixed FRESH crop, split, heatmaps, PnP, and metrics, which compact
+> architecture package is practically strongest, and is there evidence that RGB
+> and accumulated-event images prefer different packages?
+
+The maximum-ten audit covers HRNet-W18-Small-v2, EfficientNet-B0,
+TinyViT-5M, SegFormer MiT-B0, SwinV2-T, MobileViTv2-1.0, EfficientViT-M2,
+ViTPose-S, DINOv3 ViT-S/16, and an STP-style event prompt. Not all ten are
+training candidates: DINOv3 is gated/custom-licensed, STP changes the input
+contract, and ViTPose/SegFormer require separate integration review. See
+`docs/transformer-architecture-audit.md` for the complete matrix and sources.
+
+The staged decision is:
+
+1. Benchmark one versioned uint8 crop-cache shard; expand only at >=2x
+   complete-step throughput.
+2. Stage A profiles static shapes, shared-head compatibility, finite
+   forward/backward, parameters, VRAM, latency, throughput, weights, and license.
+3. Stage B repeats the frozen 16-example, 200-update tiny-overfit gate.
+4. Stage C admits at most four challengers to the same 1,024/256, seed-249,
+   12-epoch checkpoint-selected screen that produced the HRNet reference.
+5. Test heterogeneous RGB/event encoders only after a competent candidate shows
+   a >=10% event-pose improvement or a meaningful modality rank reversal.
+
+Practical-pretrained and reduced-pretraining-confound conclusions are reported
+separately. A model with stronger data/distillation may be the right engineering
+choice without proving that its architecture family is causally superior.
 
 ## Precise hypothesis and gate specification
 
@@ -103,8 +149,8 @@ into the primary model would change the hypothesis.
 | 0. Reproducible foundation | 1 | Locked environment, repository conventions, source registry, hardware report | Clean install and CUDA smoke test on both machines |
 | 1. Dataset contract | 1-2 | Download manifest, checksum audit, paired sample browser, geometry/unit tests | Random samples pass timestamp, alignment, projection, pose-frame, and intrinsics checks |
 | 2. Benchmark harness | 2-3 | ARE/ATE/native-threshold metrics, sequence aggregation, bootstrap, profiler | Metrics match hand-worked fixtures and one author-reported evaluation path |
-| 3. Baseline reproduction | 3-4 | Pinned FRESH geometric baseline plus RGB/event learned baselines | Reproduction delta is explained; preprocessing and split manifests are frozen |
-| 4. Fusion MVP | 4-5 | Unrestricted attention, monotone saturation gate, fixed gate, matched control | Forward/backward tests pass; exact parameter accounting is generated |
+| 3. Baseline and architecture evidence | 3-4 | Pinned FRESH geometric baseline, verified HRNet reference, cache gate, and bounded A/B/C architecture screen | Reproduction delta is explained; preprocessing is frozen; shared or modality-specific encoder decision is evidence-backed |
+| 4. Fusion MVP | 4-5 | Unrestricted attention, monotone saturation gate, fixed gate, matched control using the selected encoder policy | Forward/backward tests pass; exact parameter accounting is generated |
 | 5. One-object pilot | 5-6 | Memory/time scaling study and synthetic learning curves | No leakage; stable optimization; full experiment cost is estimated from measurements |
 | 6. Protocol freeze | 6 | Signed experiment matrix and hashes | No design choice depends on real-test outcomes |
 | 7. Core training | 7-9 | Central variants across three seeds; secondary variants as budget permits | All runs complete or failures are documented without cherry-picking |
@@ -124,6 +170,8 @@ into the primary model would change the hypothesis.
 | P0 | Fixed saturation gate | Is gate learning necessary? | 1 |
 | P0 | Shuffled saturation and gate bypass | Causal dependence at evaluation | All proposed checkpoints |
 | P0 | Published FRESH geometric fusion | Established same-dataset reference | Deterministic/reported repeats |
+| P0 | HRNet-W18-Small-v2 unimodal reference | Verified high-resolution CNN reference; preserved result | Completed seed-249 screen |
+| P0 | Bounded architecture screen | Challenge the shared-CNN assumption before fusion | One screening seed; repeat only Pareto survivors |
 | P1 | UE-Pose author-faithful reproduction | Closest uncertainty-driven competitor; preserves disclosed transductive normalization | As published, if legally and technically reproducible |
 | P1 | Non-transductive uncertainty fusion | Does learned reliability make clipping unnecessary under our frozen protocol? | 1 pilot, then 3 only if central |
 | P1 | Mean/additive fusion | Low-complexity fusion sanity check | 1-3 |
@@ -219,7 +267,7 @@ tests/                 Unit, contract, and small integration tests
 scripts/               Dataset audit and environment/report entry points
 docs/                  Proposal, research log, protocol, and final analyses
 data/                  Ignored local link or manifests only; never raw data in Git
-outputs/               Ignored run artifacts; immutable after completion
+outputs/               Committed lightweight reports/figures; no checkpoints or bulky logs
 external/              Ignored, commit-pinned baseline checkouts
 ```
 
@@ -229,15 +277,15 @@ manually.
 
 ## Immediate next actions
 
-1. Measure whether natural synthetic target crops contain enough clipping signal
-   to learn the proposed gate; record resize sensitivity and event activity.
-2. Build and run a data-contract test suite before any model work.
-3. Repair the local virtual-environment launcher without changing the lock.
-4. Implement and unit-test `SO(3)` rotation error, translation metrics,
-   sequence aggregation, and paired bootstrap on synthetic fixtures.
-5. Reproduce one published baseline path and conduct the one-object overfit test.
+1. Benchmark one immutable uint8 crop-cache shard and expand only if it doubles
+   complete-step throughput without changing samples.
+2. Run Stage A on locally supported candidates and preserve every rejection.
+3. Run Stage B on at most six serious candidates and Stage C on at most four.
+4. Converge on a shared or modality-specific encoder from pose, efficiency,
+   uncertainty, and pretraining evidence—not keypoint RMSE alone.
+5. Complete the published FRESH evaluation-path discrepancy audit.
 6. Freeze the gate insertion point and training protocol using synthetic
-   validation only, then execute the P0 matrix.
+   validation only, then execute the P0 fusion matrix.
 
 ## Scope reserved for follow-up work
 

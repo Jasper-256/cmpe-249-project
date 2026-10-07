@@ -1,0 +1,914 @@
+description: 'Main fusion matrix v1: per-object models for all three synthetic objects,
+  grouped-v1 split, crop-v2 cache, synthetic-validation checkpoint selection under
+  each run''s protocol. Real data are never used here.'
+defaults:
+  backbone: hrnet_w18_small_v2.ms_in1k
+  train_stride: 4
+  epochs: 15
+  batch_size: 16
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  schedule: cosine
+  warmup_steps: 300
+  patience: 4
+  min_improvement_px: 0.05
+  protocol: natural
+  event_representation: activity
+  seed: 249
+  workers: 0
+  output_dir: outputs/runs/main-hrnet
+runs:
+- name: u-rgb-natural-cassini
+  modality: rgb
+  protocol: natural
+  objects:
+  - cassini
+- name: u-rgb-natural-satty
+  modality: rgb
+  protocol: natural
+  objects:
+  - satty
+- name: u-rgb-natural-soho
+  modality: rgb
+  protocol: natural
+  objects:
+  - soho
+- name: u-rgb-tss-cassini
+  modality: rgb
+  protocol: tss
+  objects:
+  - cassini
+- name: u-rgb-tss-satty
+  modality: rgb
+  protocol: tss
+  objects:
+  - satty
+- name: u-rgb-tss-soho
+  modality: rgb
+  protocol: tss
+  objects:
+  - soho
+- name: u-event-raw-cassini
+  modality: event
+  event_representation: raw
+  objects:
+  - cassini
+- name: u-event-raw-satty
+  modality: event
+  event_representation: raw
+  objects:
+  - satty
+- name: u-event-raw-soho
+  modality: event
+  event_representation: raw
+  objects:
+  - soho
+- name: u-event-activity-cassini
+  modality: event
+  event_representation: activity
+  objects:
+  - cassini
+- name: u-event-activity-satty
+  modality: event
+  event_representation: activity
+  objects:
+  - satty
+- name: u-event-activity-soho
+  modality: event
+  event_representation: activity
+  objects:
+  - soho
+- name: f-content_gate-tss-activity-cassini
+  modality: fusion
+  fusion: content_gate
+  protocol: tss
+  event_representation: activity
+  objects:
+  - cassini
+- name: f-content_gate-tss-activity-satty
+  modality: fusion
+  fusion: content_gate
+  protocol: tss
+  event_representation: activity
+  objects:
+  - satty
+- name: f-content_gate-tss-activity-soho
+  modality: fusion
+  fusion: content_gate
+  protocol: tss
+  event_representation: activity
+  objects:
+  - soho
+- name: f-content_clip_gate-tss-activity-cassini
+  modality: fusion
+  fusion: content_clip_gate
+  protocol: tss
+  event_representation: activity
+  objects:
+  - cassini
+- name: f-content_clip_gate-tss-activity-satty
+  modality: fusion
+  fusion: content_clip_gate
+  protocol: tss
+  event_representation: activity
+  objects:
+  - satty
+- name: f-content_clip_gate-tss-activity-soho
+  modality: fusion
+  fusion: content_clip_gate
+  protocol: tss
+  event_representation: activity
+  objects:
+  - soho
+- name: f-clip_gate-tss-activity-cassini
+  modality: fusion
+  fusion: clip_gate
+  protocol: tss
+  event_representation: activity
+  objects:
+  - cassini
+- name: f-clip_gate-tss-activity-satty
+  modality: fusion
+  fusion: clip_gate
+  protocol: tss
+  event_representation: activity
+  objects:
+  - satty
+- name: f-clip_gate-tss-activity-soho
+  modality: fusion
+  fusion: clip_gate
+  protocol: tss
+  event_representation: activity
+  objects:
+  - soho
+- name: f-clip_gate_constant-tss-activity-cassini
+  modality: fusion
+  fusion: clip_gate_constant
+  protocol: tss
+  event_representation: activity
+  objects:
+  - cassini
+- name: f-clip_gate_constant-tss-activity-satty
+  modality: fusion
+  fusion: clip_gate_constant
+  protocol: tss
+  event_representation: activity
+  objects:
+  - satty
+- name: f-clip_gate_constant-tss-activity-soho
+  modality: fusion
+  fusion: clip_gate_constant
+  protocol: tss
+  event_representation: activity
+  objects:
+  - soho
+- name: f-mean-tss-activity-cassini
+  modality: fusion
+  fusion: mean
+  protocol: tss
+  event_representation: activity
+  objects:
+  - cassini
+- name: f-mean-tss-activity-satty
+  modality: fusion
+  fusion: mean
+  protocol: tss
+  event_representation: activity
+  objects:
+  - satty
+- name: f-mean-tss-activity-soho
+  modality: fusion
+  fusion: mean
+  protocol: tss
+  event_representation: activity
+  objects:
+  - soho
+- name: f-concat-tss-activity-cassini
+  modality: fusion
+  fusion: concat
+  protocol: tss
+  event_representation: activity
+  objects:
+  - cassini
+- name: f-concat-tss-activity-satty
+  modality: fusion
+  fusion: concat
+  protocol: tss
+  event_representation: activity
+  objects:
+  - satty
+- name: f-concat-tss-activity-soho
+  modality: fusion
+  fusion: concat
+  protocol: tss
+  event_representation: activity
+  objects:
+  - soho
+- name: f-clip_gate_fixed-tss-activity-cassini
+  modality: fusion
+  fusion: clip_gate_fixed
+  protocol: tss
+  event_representation: activity
+  objects:
+  - cassini
+- name: f-clip_gate_fixed-tss-activity-satty
+  modality: fusion
+  fusion: clip_gate_fixed
+  protocol: tss
+  event_representation: activity
+  objects:
+  - satty
+- name: f-clip_gate_fixed-tss-activity-soho
+  modality: fusion
+  fusion: clip_gate_fixed
+  protocol: tss
+  event_representation: activity
+  objects:
+  - soho
+- name: f-mean-natural-activity-cassini
+  modality: fusion
+  fusion: mean
+  protocol: natural
+  event_representation: activity
+  objects:
+  - cassini
+- name: f-mean-natural-activity-satty
+  modality: fusion
+  fusion: mean
+  protocol: natural
+  event_representation: activity
+  objects:
+  - satty
+- name: f-mean-natural-activity-soho
+  modality: fusion
+  fusion: mean
+  protocol: natural
+  event_representation: activity
+  objects:
+  - soho
+- name: f-concat-natural-activity-cassini
+  modality: fusion
+  fusion: concat
+  protocol: natural
+  event_representation: activity
+  objects:
+  - cassini
+- name: f-concat-natural-activity-satty
+  modality: fusion
+  fusion: concat
+  protocol: natural
+  event_representation: activity
+  objects:
+  - satty
+- name: f-concat-natural-activity-soho
+  modality: fusion
+  fusion: concat
+  protocol: natural
+  event_representation: activity
+  objects:
+  - soho
+- name: f-content_gate-natural-activity-cassini
+  modality: fusion
+  fusion: content_gate
+  protocol: natural
+  event_representation: activity
+  objects:
+  - cassini
+- name: f-content_gate-natural-activity-satty
+  modality: fusion
+  fusion: content_gate
+  protocol: natural
+  event_representation: activity
+  objects:
+  - satty
+- name: f-content_gate-natural-activity-soho
+  modality: fusion
+  fusion: content_gate
+  protocol: natural
+  event_representation: activity
+  objects:
+  - soho
+- name: f-clip_gate-natural-activity-cassini
+  modality: fusion
+  fusion: clip_gate
+  protocol: natural
+  event_representation: activity
+  objects:
+  - cassini
+- name: f-clip_gate-natural-activity-satty
+  modality: fusion
+  fusion: clip_gate
+  protocol: natural
+  event_representation: activity
+  objects:
+  - satty
+- name: f-clip_gate-natural-activity-soho
+  modality: fusion
+  fusion: clip_gate
+  protocol: natural
+  event_representation: activity
+  objects:
+  - soho
+- name: f-clip_gate_constant-natural-activity-cassini
+  modality: fusion
+  fusion: clip_gate_constant
+  protocol: natural
+  event_representation: activity
+  objects:
+  - cassini
+- name: f-clip_gate_constant-natural-activity-satty
+  modality: fusion
+  fusion: clip_gate_constant
+  protocol: natural
+  event_representation: activity
+  objects:
+  - satty
+- name: f-clip_gate_constant-natural-activity-soho
+  modality: fusion
+  fusion: clip_gate_constant
+  protocol: natural
+  event_representation: activity
+  objects:
+  - soho
+- name: f-clip_gate_fixed-natural-activity-cassini
+  modality: fusion
+  fusion: clip_gate_fixed
+  protocol: natural
+  event_representation: activity
+  objects:
+  - cassini
+- name: f-clip_gate_fixed-natural-activity-satty
+  modality: fusion
+  fusion: clip_gate_fixed
+  protocol: natural
+  event_representation: activity
+  objects:
+  - satty
+- name: f-clip_gate_fixed-natural-activity-soho
+  modality: fusion
+  fusion: clip_gate_fixed
+  protocol: natural
+  event_representation: activity
+  objects:
+  - soho
+- name: f-content_clip_gate-natural-activity-cassini
+  modality: fusion
+  fusion: content_clip_gate
+  protocol: natural
+  event_representation: activity
+  objects:
+  - cassini
+- name: f-content_clip_gate-natural-activity-satty
+  modality: fusion
+  fusion: content_clip_gate
+  protocol: natural
+  event_representation: activity
+  objects:
+  - satty
+- name: f-content_clip_gate-natural-activity-soho
+  modality: fusion
+  fusion: content_clip_gate
+  protocol: natural
+  event_representation: activity
+  objects:
+  - soho
+- name: f-clip_gate_signed-tss-activity-cassini
+  modality: fusion
+  fusion: clip_gate_signed
+  protocol: tss
+  objects:
+  - cassini
+- name: f-clip_gate_signed-tss-activity-satty
+  modality: fusion
+  fusion: clip_gate_signed
+  protocol: tss
+  objects:
+  - satty
+- name: f-clip_gate_signed-tss-activity-soho
+  modality: fusion
+  fusion: clip_gate_signed
+  protocol: tss
+  objects:
+  - soho
+- name: f-clip_gate-tss-activity-slope0.1-cassini
+  modality: fusion
+  fusion: clip_gate
+  protocol: tss
+  clip_slope_init: 0.1
+  objects:
+  - cassini
+- name: f-clip_gate-tss-activity-slope0.1-satty
+  modality: fusion
+  fusion: clip_gate
+  protocol: tss
+  clip_slope_init: 0.1
+  objects:
+  - satty
+- name: f-clip_gate-tss-activity-slope0.1-soho
+  modality: fusion
+  fusion: clip_gate
+  protocol: tss
+  clip_slope_init: 0.1
+  objects:
+  - soho
+- name: f-content_clip_gate-tss-activity-slope0.1-cassini
+  modality: fusion
+  fusion: content_clip_gate
+  protocol: tss
+  clip_slope_init: 0.1
+  objects:
+  - cassini
+- name: f-content_clip_gate-tss-activity-slope0.1-satty
+  modality: fusion
+  fusion: content_clip_gate
+  protocol: tss
+  clip_slope_init: 0.1
+  objects:
+  - satty
+- name: f-content_clip_gate-tss-activity-slope0.1-soho
+  modality: fusion
+  fusion: content_clip_gate
+  protocol: tss
+  clip_slope_init: 0.1
+  objects:
+  - soho
+- name: f-mean-natural-raw-cassini
+  modality: fusion
+  fusion: mean
+  protocol: natural
+  event_representation: raw
+  objects:
+  - cassini
+- name: f-mean-natural-raw-satty
+  modality: fusion
+  fusion: mean
+  protocol: natural
+  event_representation: raw
+  objects:
+  - satty
+- name: f-mean-natural-raw-soho
+  modality: fusion
+  fusion: mean
+  protocol: natural
+  event_representation: raw
+  objects:
+  - soho
+- name: f-content_gate-natural-raw-cassini
+  modality: fusion
+  fusion: content_gate
+  protocol: natural
+  event_representation: raw
+  objects:
+  - cassini
+- name: f-content_gate-natural-raw-satty
+  modality: fusion
+  fusion: content_gate
+  protocol: natural
+  event_representation: raw
+  objects:
+  - satty
+- name: f-content_gate-natural-raw-soho
+  modality: fusion
+  fusion: content_gate
+  protocol: natural
+  event_representation: raw
+  objects:
+  - soho
+- name: f-content_clip_gate-natural-raw-cassini
+  modality: fusion
+  fusion: content_clip_gate
+  protocol: natural
+  event_representation: raw
+  objects:
+  - cassini
+- name: f-content_clip_gate-natural-raw-satty
+  modality: fusion
+  fusion: content_clip_gate
+  protocol: natural
+  event_representation: raw
+  objects:
+  - satty
+- name: f-content_clip_gate-natural-raw-soho
+  modality: fusion
+  fusion: content_clip_gate
+  protocol: natural
+  event_representation: raw
+  objects:
+  - soho
+- name: f-mean-tss-raw-cassini
+  modality: fusion
+  fusion: mean
+  protocol: tss
+  event_representation: raw
+  objects:
+  - cassini
+- name: f-mean-tss-raw-satty
+  modality: fusion
+  fusion: mean
+  protocol: tss
+  event_representation: raw
+  objects:
+  - satty
+- name: f-mean-tss-raw-soho
+  modality: fusion
+  fusion: mean
+  protocol: tss
+  event_representation: raw
+  objects:
+  - soho
+- name: f-content_gate-tss-raw-cassini
+  modality: fusion
+  fusion: content_gate
+  protocol: tss
+  event_representation: raw
+  objects:
+  - cassini
+- name: f-content_gate-tss-raw-satty
+  modality: fusion
+  fusion: content_gate
+  protocol: tss
+  event_representation: raw
+  objects:
+  - satty
+- name: f-content_gate-tss-raw-soho
+  modality: fusion
+  fusion: content_gate
+  protocol: tss
+  event_representation: raw
+  objects:
+  - soho
+- name: f-content_clip_gate-tss-raw-cassini
+  modality: fusion
+  fusion: content_clip_gate
+  protocol: tss
+  event_representation: raw
+  objects:
+  - cassini
+- name: f-content_clip_gate-tss-raw-satty
+  modality: fusion
+  fusion: content_clip_gate
+  protocol: tss
+  event_representation: raw
+  objects:
+  - satty
+- name: f-content_clip_gate-tss-raw-soho
+  modality: fusion
+  fusion: content_clip_gate
+  protocol: tss
+  event_representation: raw
+  objects:
+  - soho
+- name: f-content_gate-tss0.25-activity-cassini
+  modality: fusion
+  fusion: content_gate
+  protocol: tss
+  tss_fraction: 0.25
+  objects:
+  - cassini
+- name: f-content_gate-tss0.25-activity-satty
+  modality: fusion
+  fusion: content_gate
+  protocol: tss
+  tss_fraction: 0.25
+  objects:
+  - satty
+- name: f-content_gate-tss0.25-activity-soho
+  modality: fusion
+  fusion: content_gate
+  protocol: tss
+  tss_fraction: 0.25
+  objects:
+  - soho
+- name: f-content_clip_gate-tss0.25-activity-cassini
+  modality: fusion
+  fusion: content_clip_gate
+  protocol: tss
+  tss_fraction: 0.25
+  objects:
+  - cassini
+- name: f-content_clip_gate-tss0.25-activity-satty
+  modality: fusion
+  fusion: content_clip_gate
+  protocol: tss
+  tss_fraction: 0.25
+  objects:
+  - satty
+- name: f-content_clip_gate-tss0.25-activity-soho
+  modality: fusion
+  fusion: content_clip_gate
+  protocol: tss
+  tss_fraction: 0.25
+  objects:
+  - soho
+- name: f-content_gate-tss-activity-s250-cassini
+  modality: fusion
+  fusion: content_gate
+  protocol: tss
+  event_representation: activity
+  seed: 250
+  objects:
+  - cassini
+- name: f-content_gate-tss-activity-s250-satty
+  modality: fusion
+  fusion: content_gate
+  protocol: tss
+  event_representation: activity
+  seed: 250
+  objects:
+  - satty
+- name: f-content_gate-tss-activity-s250-soho
+  modality: fusion
+  fusion: content_gate
+  protocol: tss
+  event_representation: activity
+  seed: 250
+  objects:
+  - soho
+- name: f-clip_gate-tss-activity-s250-cassini
+  modality: fusion
+  fusion: clip_gate
+  protocol: tss
+  event_representation: activity
+  seed: 250
+  objects:
+  - cassini
+- name: f-clip_gate-tss-activity-s250-satty
+  modality: fusion
+  fusion: clip_gate
+  protocol: tss
+  event_representation: activity
+  seed: 250
+  objects:
+  - satty
+- name: f-clip_gate-tss-activity-s250-soho
+  modality: fusion
+  fusion: clip_gate
+  protocol: tss
+  event_representation: activity
+  seed: 250
+  objects:
+  - soho
+- name: f-clip_gate_constant-tss-activity-s250-cassini
+  modality: fusion
+  fusion: clip_gate_constant
+  protocol: tss
+  event_representation: activity
+  seed: 250
+  objects:
+  - cassini
+- name: f-clip_gate_constant-tss-activity-s250-satty
+  modality: fusion
+  fusion: clip_gate_constant
+  protocol: tss
+  event_representation: activity
+  seed: 250
+  objects:
+  - satty
+- name: f-clip_gate_constant-tss-activity-s250-soho
+  modality: fusion
+  fusion: clip_gate_constant
+  protocol: tss
+  event_representation: activity
+  seed: 250
+  objects:
+  - soho
+- name: f-content_clip_gate-tss-activity-s250-cassini
+  modality: fusion
+  fusion: content_clip_gate
+  protocol: tss
+  event_representation: activity
+  seed: 250
+  objects:
+  - cassini
+- name: f-content_clip_gate-tss-activity-s250-satty
+  modality: fusion
+  fusion: content_clip_gate
+  protocol: tss
+  event_representation: activity
+  seed: 250
+  objects:
+  - satty
+- name: f-content_clip_gate-tss-activity-s250-soho
+  modality: fusion
+  fusion: content_clip_gate
+  protocol: tss
+  event_representation: activity
+  seed: 250
+  objects:
+  - soho
+- name: f-content_gate-tss-activity-s251-cassini
+  modality: fusion
+  fusion: content_gate
+  protocol: tss
+  event_representation: activity
+  seed: 251
+  objects:
+  - cassini
+- name: f-content_gate-tss-activity-s251-satty
+  modality: fusion
+  fusion: content_gate
+  protocol: tss
+  event_representation: activity
+  seed: 251
+  objects:
+  - satty
+- name: f-content_gate-tss-activity-s251-soho
+  modality: fusion
+  fusion: content_gate
+  protocol: tss
+  event_representation: activity
+  seed: 251
+  objects:
+  - soho
+- name: f-clip_gate-tss-activity-s251-cassini
+  modality: fusion
+  fusion: clip_gate
+  protocol: tss
+  event_representation: activity
+  seed: 251
+  objects:
+  - cassini
+- name: f-clip_gate-tss-activity-s251-satty
+  modality: fusion
+  fusion: clip_gate
+  protocol: tss
+  event_representation: activity
+  seed: 251
+  objects:
+  - satty
+- name: f-clip_gate-tss-activity-s251-soho
+  modality: fusion
+  fusion: clip_gate
+  protocol: tss
+  event_representation: activity
+  seed: 251
+  objects:
+  - soho
+- name: f-clip_gate_constant-tss-activity-s251-cassini
+  modality: fusion
+  fusion: clip_gate_constant
+  protocol: tss
+  event_representation: activity
+  seed: 251
+  objects:
+  - cassini
+- name: f-clip_gate_constant-tss-activity-s251-satty
+  modality: fusion
+  fusion: clip_gate_constant
+  protocol: tss
+  event_representation: activity
+  seed: 251
+  objects:
+  - satty
+- name: f-clip_gate_constant-tss-activity-s251-soho
+  modality: fusion
+  fusion: clip_gate_constant
+  protocol: tss
+  event_representation: activity
+  seed: 251
+  objects:
+  - soho
+- name: f-content_clip_gate-tss-activity-s251-cassini
+  modality: fusion
+  fusion: content_clip_gate
+  protocol: tss
+  event_representation: activity
+  seed: 251
+  objects:
+  - cassini
+- name: f-content_clip_gate-tss-activity-s251-satty
+  modality: fusion
+  fusion: content_clip_gate
+  protocol: tss
+  event_representation: activity
+  seed: 251
+  objects:
+  - satty
+- name: f-content_clip_gate-tss-activity-s251-soho
+  modality: fusion
+  fusion: content_clip_gate
+  protocol: tss
+  event_representation: activity
+  seed: 251
+  objects:
+  - soho
+- name: f-mean-tss-activity-s250-cassini
+  modality: fusion
+  fusion: mean
+  protocol: tss
+  seed: 250
+  objects:
+  - cassini
+- name: f-mean-tss-activity-s250-satty
+  modality: fusion
+  fusion: mean
+  protocol: tss
+  seed: 250
+  objects:
+  - satty
+- name: f-mean-tss-activity-s250-soho
+  modality: fusion
+  fusion: mean
+  protocol: tss
+  seed: 250
+  objects:
+  - soho
+- name: f-clip_gate_fixed-tss-activity-s250-cassini
+  modality: fusion
+  fusion: clip_gate_fixed
+  protocol: tss
+  seed: 250
+  objects:
+  - cassini
+- name: f-clip_gate_fixed-tss-activity-s250-satty
+  modality: fusion
+  fusion: clip_gate_fixed
+  protocol: tss
+  seed: 250
+  objects:
+  - satty
+- name: f-clip_gate_fixed-tss-activity-s250-soho
+  modality: fusion
+  fusion: clip_gate_fixed
+  protocol: tss
+  seed: 250
+  objects:
+  - soho
+- name: u-rgb-tss-s250-cassini
+  modality: rgb
+  protocol: tss
+  seed: 250
+  objects:
+  - cassini
+- name: u-rgb-tss-s250-satty
+  modality: rgb
+  protocol: tss
+  seed: 250
+  objects:
+  - satty
+- name: u-rgb-tss-s250-soho
+  modality: rgb
+  protocol: tss
+  seed: 250
+  objects:
+  - soho
+- name: f-mean-tss-activity-s251-cassini
+  modality: fusion
+  fusion: mean
+  protocol: tss
+  seed: 251
+  objects:
+  - cassini
+- name: f-mean-tss-activity-s251-satty
+  modality: fusion
+  fusion: mean
+  protocol: tss
+  seed: 251
+  objects:
+  - satty
+- name: f-mean-tss-activity-s251-soho
+  modality: fusion
+  fusion: mean
+  protocol: tss
+  seed: 251
+  objects:
+  - soho
+- name: f-clip_gate_fixed-tss-activity-s251-cassini
+  modality: fusion
+  fusion: clip_gate_fixed
+  protocol: tss
+  seed: 251
+  objects:
+  - cassini
+- name: f-clip_gate_fixed-tss-activity-s251-satty
+  modality: fusion
+  fusion: clip_gate_fixed
+  protocol: tss
+  seed: 251
+  objects:
+  - satty
+- name: f-clip_gate_fixed-tss-activity-s251-soho
+  modality: fusion
+  fusion: clip_gate_fixed
+  protocol: tss
+  seed: 251
+  objects:
+  - soho
+- name: u-rgb-tss-s251-cassini
+  modality: rgb
+  protocol: tss
+  seed: 251
+  objects:
+  - cassini
+- name: u-rgb-tss-s251-satty
+  modality: rgb
+  protocol: tss
+  seed: 251
+  objects:
+  - satty
+- name: u-rgb-tss-s251-soho
+  modality: rgb
+  protocol: tss
+  seed: 251
+  objects:
+  - soho

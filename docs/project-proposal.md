@@ -5,7 +5,7 @@
 | Name | Email | Student ID |
 | --- | --- | --- |
 | Advait Shinde | advait.shinde@sjsu.edu | 019129500 |
-| Jasper Morgal | jasper.morgal@sjsu.du | 015863016 |
+| Jasper Morgal | jasper.morgal@sjsu.edu | 015863016 |
 
 ## Saturation-Gated Attention Fusion for Event–RGB Spacecraft Pose Estimation Under Harsh Lighting
 

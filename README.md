@@ -29,12 +29,11 @@ See the [project proposal](docs/project-proposal.md) for the problem formulation
 
 ## Research roadmap
 
-The active [execution plan](plan.md) tracks the end goal, phase gates, current
-status, fallback strategies, and decision log. The longer
-[research and experimentation roadmap](docs/research-roadmap.md) defines the
-frozen-test protocol, model controls, statistical analysis, twelve-week schedule,
-and go/no-go criteria. Material web-verified decisions are tracked in the
-[research log](docs/research-log.md).
+The [research and experimentation roadmap](docs/research-roadmap.md) defines the
+frozen-test protocol, model controls, statistical analysis, schedule, and
+go/no-go criteria. Material web-verified decisions and their evidence are tracked
+in the [research log](docs/research-log.md); machine-readable results live under
+`outputs/`. The day-to-day execution plan is maintained locally by the team.
 
 ## Development environment
 
@@ -48,5 +47,4 @@ uv run pytest
 ```
 
 Raw datasets, external baseline checkouts, checkpoints, and experiment outputs
-must remain outside version control; see [AGENTS.md](AGENTS.md) for the scientific
-and engineering invariants.
+must remain outside version control.

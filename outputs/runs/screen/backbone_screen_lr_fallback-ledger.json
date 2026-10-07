@@ -1,0 +1,86 @@
+{
+  "screen-b2-a0-hrnet-event": {
+    "matrix": "configs\\experiments\\backbone_screen_lr_fallback.yaml",
+    "returncode": 0,
+    "seconds": 42.40657380002085,
+    "log": "checkpoints\\screen\\screen-b2-a0-hrnet-event\\train.log",
+    "status": "complete"
+  },
+  "screen-b2-a1-effb0-rgb": {
+    "matrix": "configs\\experiments\\backbone_screen_lr_fallback.yaml",
+    "returncode": 0,
+    "seconds": 29.175180200021714,
+    "log": "checkpoints\\screen\\screen-b2-a1-effb0-rgb\\train.log",
+    "status": "complete"
+  },
+  "screen-b2-a1-effb0-event": {
+    "matrix": "configs\\experiments\\backbone_screen_lr_fallback.yaml",
+    "returncode": 0,
+    "seconds": 29.512932699988596,
+    "log": "checkpoints\\screen\\screen-b2-a1-effb0-event\\train.log",
+    "status": "complete"
+  },
+  "screen-b2-a2-tinyvit-rgb": {
+    "matrix": "configs\\experiments\\backbone_screen_lr_fallback.yaml",
+    "returncode": 0,
+    "seconds": 41.3616350000957,
+    "log": "checkpoints\\screen\\screen-b2-a2-tinyvit-rgb\\train.log",
+    "status": "complete"
+  },
+  "screen-b2-a2-tinyvit-event": {
+    "matrix": "configs\\experiments\\backbone_screen_lr_fallback.yaml",
+    "returncode": 0,
+    "seconds": 41.57370509998873,
+    "log": "checkpoints\\screen\\screen-b2-a2-tinyvit-event\\train.log",
+    "status": "complete"
+  },
+  "screen-b2-a3-segformer-rgb": {
+    "matrix": "configs\\experiments\\backbone_screen_lr_fallback.yaml",
+    "returncode": 0,
+    "seconds": 22.800735000055283,
+    "log": "checkpoints\\screen\\screen-b2-a3-segformer-rgb\\train.log",
+    "status": "complete"
+  },
+  "screen-b2-a3-segformer-event": {
+    "matrix": "configs\\experiments\\backbone_screen_lr_fallback.yaml",
+    "returncode": 0,
+    "seconds": 23.012559800059535,
+    "log": "checkpoints\\screen\\screen-b2-a3-segformer-event\\train.log",
+    "status": "complete"
+  },
+  "screen-b2-a4-swinv2t-rgb": {
+    "matrix": "configs\\experiments\\backbone_screen_lr_fallback.yaml",
+    "returncode": 0,
+    "seconds": 59.32712559995707,
+    "log": "checkpoints\\screen\\screen-b2-a4-swinv2t-rgb\\train.log",
+    "status": "complete"
+  },
+  "screen-b2-a4-swinv2t-event": {
+    "matrix": "configs\\experiments\\backbone_screen_lr_fallback.yaml",
+    "returncode": 0,
+    "seconds": 59.5993235000642,
+    "log": "checkpoints\\screen\\screen-b2-a4-swinv2t-event\\train.log",
+    "status": "complete"
+  },
+  "screen-b2-a5-mobilevitv2-rgb": {
+    "matrix": "configs\\experiments\\backbone_screen_lr_fallback.yaml",
+    "returncode": 0,
+    "seconds": 39.341607599984854,
+    "log": "checkpoints\\screen\\screen-b2-a5-mobilevitv2-rgb\\train.log",
+    "status": "complete"
+  },
+  "screen-b2-a5-mobilevitv2-event": {
+    "matrix": "configs\\experiments\\backbone_screen_lr_fallback.yaml",
+    "returncode": 0,
+    "seconds": 38.841877799946815,
+    "log": "checkpoints\\screen\\screen-b2-a5-mobilevitv2-event\\train.log",
+    "status": "complete"
+  },
+  "screen-b-a0-hrnet-event-activity": {
+    "matrix": "configs\\experiments\\backbone_screen_lr_fallback.yaml",
+    "returncode": 0,
+    "seconds": 47.45795089995954,
+    "log": "checkpoints\\screen\\screen-b-a0-hrnet-event-activity\\train.log",
+    "status": "complete"
+  }
+}

@@ -1,0 +1,28 @@
+| name | modality | fusion | backbone | event_repr | protocol | seed | params_total | params_fusion | peak_vram_gib | minutes | stage | rmse_px | initial_rmse_px | passes | selected_epoch | epochs | natural:rmse_px | natural:are_med_deg | natural:ate_med_m | natural:succ_10deg_10mm | natural:pnp_valid | tss:rmse_px | tss:are_med_deg | tss:ate_med_m | tss:succ_10deg_10mm | tss:pnp_valid |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| screen-b-a0-hrnet-event | event |  | hrnet_w18_small_v2.ms_in1k | raw | natural | 249 | 5412162 |  | 1.73 | 0.6 | B | 10.4 | 62.72 | False |  |  |  |  |  |  |  |  |  |  |  |  |
+| screen-b-a0-hrnet-event-activity | event |  | hrnet_w18_small_v2.ms_in1k | activity | natural | 249 | 5412162 |  | 1.73 | 0.7 | B | 7.46 | 54.52 | False |  |  |  |  |  |  |  |  |  |  |  |  |
+| screen-b-a0-hrnet-rgb | rgb |  | hrnet_w18_small_v2.ms_in1k | raw | natural | 249 | 5412162 |  | 1.73 | 0.6 | B | 1.7 | 65.85 | True |  |  |  |  |  |  |  |  |  |  |  |  |
+| screen-b-a1-effb0-event | event |  | efficientnet_b0.ra_in1k | raw | natural | 249 | 3666702 |  | 1.94 | 0.4 | B | 49.91 | 61.02 | False |  |  |  |  |  |  |  |  |  |  |  |  |
+| screen-b-a1-effb0-rgb | rgb |  | efficientnet_b0.ra_in1k | raw | natural | 249 | 3666702 |  | 1.94 | 0.4 | B | 38.72 | 57.2 | False |  |  |  |  |  |  |  |  |  |  |  |  |
+| screen-b-a2-tinyvit-event | event |  | tiny_vit_5m_224.dist_in22k_ft_in1k | raw | natural | 249 | 5152614 |  | 2.26 | 0.5 | B | 19.06 | 88.27 | False |  |  |  |  |  |  |  |  |  |  |  |  |
+| screen-b-a2-tinyvit-rgb | rgb |  | tiny_vit_5m_224.dist_in22k_ft_in1k | raw | natural | 249 | 5152614 |  | 2.26 | 0.5 | B | 18.8 | 75.83 | False |  |  |  |  |  |  |  |  |  |  |  |  |
+| screen-b-a3-segformer-event | event |  | hf:nvidia/mit-b0 | raw | natural | 249 | 3390642 |  | 0.84 | 0.2 | B | 124.66 | 58.81 | False |  |  |  |  |  |  |  |  |  |  |  |  |
+| screen-b-a3-segformer-rgb | rgb |  | hf:nvidia/mit-b0 | raw | natural | 249 | 3390642 |  | 0.84 | 0.2 | B | 95.97 | 52.85 | False |  |  |  |  |  |  |  |  |  |  |  |  |
+| screen-b-a4-swinv2t-event | event |  | swinv2_tiny_window8_256.ms_in1k | raw | natural | 249 | 27707260 |  | 3.23 | 0.8 | B | 93.63 | 87.19 | False |  |  |  |  |  |  |  |  |  |  |  |  |
+| screen-b-a4-swinv2t-rgb | rgb |  | swinv2_tiny_window8_256.ms_in1k | raw | natural | 249 | 27707260 |  | 3.23 | 0.8 | B | 84.18 | 87.16 | False |  |  |  |  |  |  |  |  |  |  |  |  |
+| screen-b-a5-mobilevitv2-event | event |  | mobilevitv2_100.cvnets_in1k | raw | natural | 249 | 4513403 |  | 2.89 | 0.5 | B | 22.05 | 58.3 | False |  |  |  |  |  |  |  |  |  |  |  |  |
+| screen-b-a5-mobilevitv2-rgb | rgb |  | mobilevitv2_100.cvnets_in1k | raw | natural | 249 | 4513403 |  | 2.89 | 0.5 | B | 15.35 | 56.37 | False |  |  |  |  |  |  |  |  |  |  |  |  |
+| screen-b2-a0-hrnet-event | event |  | hrnet_w18_small_v2.ms_in1k | raw | natural | 249 | 5412162 |  | 1.73 | 0.6 | B | 11.11 | 62.72 | False |  |  |  |  |  |  |  |  |  |  |  |  |
+| screen-b2-a1-effb0-event | event |  | efficientnet_b0.ra_in1k | raw | natural | 249 | 3666702 |  | 1.94 | 0.4 | B | 65.35 | 61.02 | False |  |  |  |  |  |  |  |  |  |  |  |  |
+| screen-b2-a1-effb0-rgb | rgb |  | efficientnet_b0.ra_in1k | raw | natural | 249 | 3666702 |  | 1.94 | 0.3 | B | 46.27 | 57.2 | False |  |  |  |  |  |  |  |  |  |  |  |  |
+| screen-b2-a2-tinyvit-event | event |  | tiny_vit_5m_224.dist_in22k_ft_in1k | raw | natural | 249 | 5152614 |  | 2.26 | 0.6 | B | 41.98 | 88.27 | False |  |  |  |  |  |  |  |  |  |  |  |  |
+| screen-b2-a2-tinyvit-rgb | rgb |  | tiny_vit_5m_224.dist_in22k_ft_in1k | raw | natural | 249 | 5152614 |  | 2.26 | 0.5 | B | 36.65 | 75.83 | False |  |  |  |  |  |  |  |  |  |  |  |  |
+| screen-b2-a3-segformer-event | event |  | hf:nvidia/mit-b0 | raw | natural | 249 | 3390642 |  | 0.84 | 0.2 | B | 94.22 | 58.81 | False |  |  |  |  |  |  |  |  |  |  |  |  |
+| screen-b2-a3-segformer-rgb | rgb |  | hf:nvidia/mit-b0 | raw | natural | 249 | 3390642 |  | 0.84 | 0.2 | B | 101.69 | 52.85 | False |  |  |  |  |  |  |  |  |  |  |  |  |
+| screen-b2-a4-swinv2t-event | event |  | swinv2_tiny_window8_256.ms_in1k | raw | natural | 249 | 27707260 |  | 3.23 | 0.9 | B | 81.04 | 87.19 | False |  |  |  |  |  |  |  |  |  |  |  |  |
+| screen-b2-a4-swinv2t-rgb | rgb |  | swinv2_tiny_window8_256.ms_in1k | raw | natural | 249 | 27707260 |  | 3.23 | 0.8 | B | 55.56 | 87.16 | False |  |  |  |  |  |  |  |  |  |  |  |  |
+| screen-b2-a5-mobilevitv2-event | event |  | mobilevitv2_100.cvnets_in1k | raw | natural | 249 | 4513403 |  | 2.89 | 0.5 | B | 42.69 | 58.3 | False |  |  |  |  |  |  |  |  |  |  |  |  |
+| screen-b2-a5-mobilevitv2-rgb | rgb |  | mobilevitv2_100.cvnets_in1k | raw | natural | 249 | 4513403 |  | 2.89 | 0.5 | B | 35.13 | 56.37 | False |  |  |  |  |  |  |  |  |  |  |  |  |
+| screen-c-a0-hrnet-event | event |  | hrnet_w18_small_v2.ms_in1k | raw | natural | 249 | 5412162 |  | 1.73 | 3.6 | train |  |  |  | 12 | 12 | 10.15 | 4.651 | 0.0238 | 0.238 | 1.0 | 10.15 | 4.651 | 0.0238 | 0.238 | 1.0 |
+| screen-c-a0-hrnet-rgb | rgb |  | hrnet_w18_small_v2.ms_in1k | raw | natural | 249 | 5412162 |  | 1.73 | 3.6 | train |  |  |  | 12 | 12 | 7.84 | 3.599 | 0.014 | 0.297 | 1.0 | 33.81 | 8.003 | 0.0478 | 0.18 | 1.0 |

@@ -21,8 +21,14 @@ preprocessing:
   crop_source: annotation_xyxy_shared_oracle
   crop_transform: center_preserving_square
   crop_padding_factor: 1.2
-  off_frame_policy: constant_zero_padding
-  resize_interpolation: opencv_linear
+  # crop-v2: RGB pads with 0 (black space); events pad with the format neutral
+  # (127 synthetic, 128 real), matching the FRESH/UE-Pose loaders.
+  off_frame_policy: rgb_zero_event_neutral_padding
+  # Pillow BILINEAR antialiases (support-scaled filter) when downsampling; it is
+  # not OpenCV INTER_LINEAR. Both use the same half-pixel-center geometry. Keep a
+  # bilinear filter: its convex weights cannot create clipping, which the G1A
+  # saturation conclusion relies on (bicubic/Lanczos can overshoot).
+  resize_interpolation: pillow_bilinear_antialiased
   pixel_center_transform: half_pixel
 
 units:

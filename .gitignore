@@ -234,3 +234,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Per-run source snapshots (the run report keeps their SHA-256)
+outputs/runs/**/source_state.patch

@@ -18,13 +18,7 @@ from torch import Tensor, nn
 from torch.utils.data import DataLoader, Subset
 
 from saga_pose.data.dataset import FreshArchiveDataset, FreshItem
-from saga_pose.evaluation.metrics import (
-    range_normalized_translation_error,
-    rotation_error_degrees,
-    threshold_success_rate,
-    translation_error_meters,
-)
-from saga_pose.geometry.pnp import solve_pose_epnp
+from saga_pose.evaluation.pose import recover_poses, summarize_pose_errors
 from saga_pose.geometry.projection import rotation_matrix_diagnostics
 from saga_pose.models.heatmaps import (
     HRNetHeatmapRegressor,
@@ -177,12 +171,11 @@ def _evaluate(
     model.eval()
     squared_error_sum = 0.0
     coordinate_count = 0
-    ground_truth_poses: list[np.ndarray[Any, np.dtype[np.float64]]] = []
-    predicted_poses: list[np.ndarray[Any, np.dtype[np.float64]]] = []
-    reprojection_errors: list[float] = []
-    max_orthogonality_residual = 0.0
-    max_determinant_error = 0.0
     sample_count = 0
+    predicted_keypoints: list[np.ndarray[Any, np.dtype[np.float64]]] = []
+    landmarks: list[np.ndarray[Any, np.dtype[np.float64]]] = []
+    intrinsics: list[np.ndarray[Any, np.dtype[np.float64]]] = []
+    ground_truth_poses: list[np.ndarray[Any, np.dtype[np.float64]]] = []
     for batch in loader:
         inputs = _normalize(batch[modality], mean, std).to(device, non_blocking=True)
         predictions_px = _predict_keypoints_px(model, inputs, architecture).cpu()
@@ -190,58 +183,46 @@ def _evaluate(
         squared_error_sum += float(torch.sum((predictions_px - targets_px) ** 2))
         coordinate_count += targets_px.numel()
         sample_count += targets_px.shape[0]
-        if not recover_pose:
-            continue
-        for index in range(targets_px.shape[0]):
-            result = solve_pose_epnp(
-                batch["landmarks_object_mm"][index].double().numpy(),
-                predictions_px[index].double().numpy(),
-                batch["intrinsics"][index].double().numpy(),
-            )
-            if result is None:
-                continue
-            orthogonality, determinant = rotation_matrix_diagnostics(
-                result.object_to_camera[:3, :3]
-            )
-            max_orthogonality_residual = max(max_orthogonality_residual, orthogonality)
-            max_determinant_error = max(max_determinant_error, abs(determinant - 1.0))
-            ground_truth_poses.append(batch["pose_object_to_camera_mm"][index].double().numpy())
-            predicted_poses.append(result.object_to_camera)
-            reprojection_errors.append(result.reprojection_rmse_px)
+        if recover_pose:
+            predicted_keypoints.append(predictions_px.double().numpy())
+            landmarks.append(batch["landmarks_object_mm"].double().numpy())
+            intrinsics.append(batch["intrinsics"].double().numpy())
+            ground_truth_poses.append(batch["pose_object_to_camera_mm"].double().numpy())
     evaluation: dict[str, Any] = {
         "sample_count": sample_count,
         "coordinate_rmse_px": float(np.sqrt(squared_error_sum / coordinate_count)),
     }
     if not recover_pose:
         return evaluation
-    valid_count = len(predicted_poses)
+    poses, valid, reprojection = recover_poses(
+        np.concatenate(predicted_keypoints),
+        np.concatenate(landmarks),
+        np.concatenate(intrinsics),
+    )
+    max_orthogonality_residual = 0.0
+    max_determinant_error = 0.0
+    for pose in poses[valid]:
+        orthogonality, determinant = rotation_matrix_diagnostics(pose[:3, :3])
+        max_orthogonality_residual = max(max_orthogonality_residual, orthogonality)
+        max_determinant_error = max(max_determinant_error, abs(determinant - 1.0))
+    summary = summarize_pose_errors(np.concatenate(ground_truth_poses), poses, valid, reprojection)
+    # Top-level pose metrics include PnP failures under the FRESH default-pose
+    # policy; valid-only values are retained as a nested solver diagnostic.
     evaluation.update(
         {
-            "pnp_valid_count": valid_count,
-            "pnp_valid_fraction": valid_count / sample_count,
+            "pnp_valid_count": summary["pnp_valid_count"],
+            "pnp_valid_fraction": summary["pnp_valid_fraction"],
+            "pnp_failure_policy": summary["failure_policy"],
             "max_rotation_orthogonality_residual": max_orthogonality_residual,
             "max_rotation_determinant_error": max_determinant_error,
-        }
-    )
-    if valid_count == 0:
-        return evaluation
-    ground_truth = np.stack(ground_truth_poses)
-    prediction = np.stack(predicted_poses)
-    rotation_errors = rotation_error_degrees(ground_truth[:, :3, :3], prediction[:, :3, :3])
-    translation_errors = translation_error_meters(ground_truth[:, :3, 3], prediction[:, :3, 3])
-    normalized_errors = range_normalized_translation_error(
-        ground_truth[:, :3, 3], prediction[:, :3, 3]
-    )
-    evaluation.update(
-        {
-            "are_degrees_mean": float(np.mean(rotation_errors)),
-            "are_degrees_median": float(np.median(rotation_errors)),
-            "absolute_translation_error_m_mean": float(np.mean(translation_errors)),
-            "absolute_translation_error_m_median": float(np.median(translation_errors)),
-            "range_normalized_translation_error_mean": float(np.mean(normalized_errors)),
-            "success_rotation_below_10_deg": threshold_success_rate(rotation_errors, 10.0),
-            "success_translation_below_10_mm": threshold_success_rate(translation_errors, 0.01),
-            "reprojection_rmse_px_mean": float(np.mean(reprojection_errors)),
+            **summary["all_frames"],
+            # Kept at top level for schema continuity with frozen reports.
+            "reprojection_rmse_px_mean": (
+                summary["valid_only"]["reprojection_rmse_px_mean"]
+                if summary["valid_only"] is not None
+                else None
+            ),
+            "valid_only": summary["valid_only"],
         }
     )
     return evaluation

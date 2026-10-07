@@ -1,0 +1,1175 @@
+{
+  "schema_version": 1,
+  "status": "complete",
+  "scope": "Stage A static/compute feasibility; not a convergence or accuracy result",
+  "decision_rule": {
+    "required": [
+      "finite forward/loss/backward/update for RGB and event",
+      "Jx64x64 output through the shared decoder",
+      "effective batch 16 with peak allocated VRAM below 7.2 GiB",
+      "finest feature stride at most 8",
+      "resolved weights and license provenance (non-commercial research allowed)",
+      "inputs normalized with each package's own pretraining statistics"
+    ],
+    "stage_b_is_separate": true
+  },
+  "config": {
+    "dataset": "fresh-crop-v1 Cassini train shard",
+    "samples_consumed_per_step": 16,
+    "precision": "float32",
+    "warmup_steps": 3,
+    "timed_steps": 10,
+    "inference_warmup": 10,
+    "inference_steps": 30,
+    "seed": 249,
+    "target_output": "18x64x64 Gaussian heatmaps"
+  },
+  "provenance": {
+    "git_commit": "bb6f18e50e687423a5f7231a3f1aa764fe00d489",
+    "working_tree_dirty": true,
+    "uv_lock_sha256": "fe742a5ce27445c837714bca804d02a8d13cce0adfd580cd21a4f7d312b661c3",
+    "cache_manifest_sha256": "ed948c1875eb898df528684669ad513a743dbe6545179bebe8daecf50c885507",
+    "source_sha256": {
+      "scripts\\profile_architecture_stage_a.py": "3fb05f0b3f6257b85227f9d069732b89995ccfd5fb478ff87118edca978c1265",
+      "src\\saga_pose\\models\\heatmaps.py": "b62b9beb1839d57e3f44168227416905db6eb43715e0231b8fe07559f30cb991",
+      "src\\saga_pose\\data\\cache.py": "551e383e76b8e1a01b19f79dfdd5a234aa422197c1d223018cd194dc2dfb2146"
+    },
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.14",
+    "torch": "2.14.0+cu130",
+    "timm": "1.0.29",
+    "gpu": "NVIDIA GeForce RTX 5060 Laptop GPU",
+    "gpu_total_memory_bytes": 8518041600
+  },
+  "results": [
+    {
+      "candidate": {
+        "id": "A0",
+        "architecture": "HRNet-W18-Small-v2",
+        "family": "high-resolution CNN",
+        "provider": "timm",
+        "model_name": "hrnet_w18_small_v2.ms_in1k",
+        "pretraining": "supervised ImageNet-1k",
+        "license": "MIT (timm model card)",
+        "license_status": "cleared",
+        "scientific_question": "verified high-resolution CNN reference",
+        "source_flops": "2.42G at 224 for the official classifier",
+        "backbone_kwargs": {}
+      },
+      "status": "pass",
+      "feature_shapes": [
+        [
+          1,
+          64,
+          128,
+          128
+        ],
+        [
+          1,
+          128,
+          64,
+          64
+        ],
+        [
+          1,
+          256,
+          32,
+          32
+        ],
+        [
+          1,
+          512,
+          16,
+          16
+        ],
+        [
+          1,
+          1024,
+          8,
+          8
+        ]
+      ],
+      "feature_strides": [
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "parameters": {
+        "encoder": 5246640,
+        "decoder": 165522,
+        "total": 5412162,
+        "trainable": 5412162
+      },
+      "pretrained_provenance": {
+        "hf_hub_id": "timm/hrnet_w18_small_v2.ms_in1k",
+        "url": "",
+        "input_size": [
+          3,
+          224,
+          224
+        ],
+        "mean": [
+          0.485,
+          0.456,
+          0.406
+        ],
+        "std": [
+          0.229,
+          0.224,
+          0.225
+        ],
+        "applied_normalization": {
+          "mean": [
+            0.485,
+            0.456,
+            0.406
+          ],
+          "std": [
+            0.229,
+            0.224,
+            0.225
+          ]
+        }
+      },
+      "inference": {
+        "output_shape": [
+          1,
+          18,
+          64,
+          64
+        ],
+        "batch_size": 1,
+        "latency_seconds": {
+          "mean": 0.024977100000251086,
+          "median": 0.024191300035454333,
+          "p95": 0.030188614956568924,
+          "minimum": 0.0216391000431031,
+          "maximum": 0.031055300030857325
+        },
+        "samples_per_second": 40.03667359260872
+      },
+      "training": [
+        {
+          "modality": "rgb",
+          "effective_batch_size": 16,
+          "microbatch_size": 16,
+          "gradient_accumulation_steps": 1,
+          "warmup_steps": 3,
+          "timed_steps": 10,
+          "optimizer": "AdamW(lr=1e-3, weight_decay=1e-4)",
+          "finite_losses": true,
+          "finite_gradients": true,
+          "first_loss": 0.01463407278060913,
+          "last_loss": 0.0031107114627957344,
+          "effective_step_seconds": {
+            "mean": 0.16002136999741196,
+            "median": 0.1575421000015922,
+            "p95": 0.1778964250348508,
+            "minimum": 0.14835570007562637,
+            "maximum": 0.18355090008117259
+          },
+          "training_samples_per_second": 99.986645535273,
+          "peak_vram_allocated_bytes": 1860213760,
+          "peak_vram_reserved_bytes": 1973420032
+        },
+        {
+          "modality": "event",
+          "effective_batch_size": 16,
+          "microbatch_size": 16,
+          "gradient_accumulation_steps": 1,
+          "warmup_steps": 3,
+          "timed_steps": 10,
+          "optimizer": "AdamW(lr=1e-3, weight_decay=1e-4)",
+          "finite_losses": true,
+          "finite_gradients": true,
+          "first_loss": 0.01615907810628414,
+          "last_loss": 0.0033687688410282135,
+          "effective_step_seconds": {
+            "mean": 0.19523860999615864,
+            "median": 0.18468594999285415,
+            "p95": 0.26310200497391634,
+            "minimum": 0.15488789998926222,
+            "maximum": 0.26877159997820854
+          },
+          "training_samples_per_second": 81.95100344299114,
+          "peak_vram_allocated_bytes": 1903562752,
+          "peak_vram_reserved_bytes": 2095054848
+        }
+      ],
+      "stage_a_criteria": {
+        "output_is_jx64x64": true,
+        "finite_losses": true,
+        "finite_gradients": true,
+        "peak_vram_below_7_2_gib": true,
+        "finest_feature_stride_at_most_8": true,
+        "license_and_weights_resolved": true
+      },
+      "passes_stage_a": true
+    },
+    {
+      "candidate": {
+        "id": "A1",
+        "architecture": "EfficientNet-B0",
+        "family": "MBConv CNN",
+        "provider": "timm",
+        "model_name": "efficientnet_b0.ra_in1k",
+        "pretraining": "supervised ImageNet-1k with timm RandAugment recipe",
+        "license": "Apache-2.0 (timm)",
+        "license_status": "cleared",
+        "scientific_question": "can an efficient conventional CNN make attention unnecessary?",
+        "source_flops": "0.39G at 224",
+        "backbone_kwargs": {}
+      },
+      "status": "pass",
+      "feature_shapes": [
+        [
+          1,
+          16,
+          128,
+          128
+        ],
+        [
+          1,
+          24,
+          64,
+          64
+        ],
+        [
+          1,
+          40,
+          32,
+          32
+        ],
+        [
+          1,
+          112,
+          16,
+          16
+        ],
+        [
+          1,
+          320,
+          8,
+          8
+        ]
+      ],
+      "feature_strides": [
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "parameters": {
+        "encoder": 3595388,
+        "decoder": 71314,
+        "total": 3666702,
+        "trainable": 3666702
+      },
+      "pretrained_provenance": {
+        "hf_hub_id": "timm/efficientnet_b0.ra_in1k",
+        "url": "https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-weights/efficientnet_b0_ra-3dd342df.pth",
+        "input_size": [
+          3,
+          224,
+          224
+        ],
+        "mean": [
+          0.485,
+          0.456,
+          0.406
+        ],
+        "std": [
+          0.229,
+          0.224,
+          0.225
+        ],
+        "applied_normalization": {
+          "mean": [
+            0.485,
+            0.456,
+            0.406
+          ],
+          "std": [
+            0.229,
+            0.224,
+            0.225
+          ]
+        }
+      },
+      "inference": {
+        "output_shape": [
+          1,
+          18,
+          64,
+          64
+        ],
+        "batch_size": 1,
+        "latency_seconds": {
+          "mean": 0.012439193328221639,
+          "median": 0.011751499958336353,
+          "p95": 0.01657407499733381,
+          "minimum": 0.009252300020307302,
+          "maximum": 0.01680129999294877
+        },
+        "samples_per_second": 80.3910650485054
+      },
+      "training": [
+        {
+          "modality": "rgb",
+          "effective_batch_size": 16,
+          "microbatch_size": 16,
+          "gradient_accumulation_steps": 1,
+          "warmup_steps": 3,
+          "timed_steps": 10,
+          "optimizer": "AdamW(lr=1e-3, weight_decay=1e-4)",
+          "finite_losses": true,
+          "finite_gradients": true,
+          "first_loss": 0.02332933619618416,
+          "last_loss": 0.0033792881295084953,
+          "effective_step_seconds": {
+            "mean": 0.09877363999839872,
+            "median": 0.09826465003425255,
+            "p95": 0.11040329996612855,
+            "minimum": 0.09002759994473308,
+            "maximum": 0.1106840999564156
+          },
+          "training_samples_per_second": 161.98653811137655,
+          "peak_vram_allocated_bytes": 2094445056,
+          "peak_vram_reserved_bytes": 2510290944
+        },
+        {
+          "modality": "event",
+          "effective_batch_size": 16,
+          "microbatch_size": 16,
+          "gradient_accumulation_steps": 1,
+          "warmup_steps": 3,
+          "timed_steps": 10,
+          "optimizer": "AdamW(lr=1e-3, weight_decay=1e-4)",
+          "finite_losses": true,
+          "finite_gradients": true,
+          "first_loss": 0.023866495117545128,
+          "last_loss": 0.0037416592240333557,
+          "effective_step_seconds": {
+            "mean": 0.1031531599815935,
+            "median": 0.1010555499815382,
+            "p95": 0.11258290005498565,
+            "minimum": 0.0973967999452725,
+            "maximum": 0.1140733000356704
+          },
+          "training_samples_per_second": 155.10916003789916,
+          "peak_vram_allocated_bytes": 2120548864,
+          "peak_vram_reserved_bytes": 2537553920
+        }
+      ],
+      "stage_a_criteria": {
+        "output_is_jx64x64": true,
+        "finite_losses": true,
+        "finite_gradients": true,
+        "peak_vram_below_7_2_gib": true,
+        "finest_feature_stride_at_most_8": true,
+        "license_and_weights_resolved": true
+      },
+      "passes_stage_a": true
+    },
+    {
+      "candidate": {
+        "id": "A2",
+        "architecture": "TinyViT-5M",
+        "family": "compact hierarchical transformer",
+        "provider": "timm",
+        "model_name": "tiny_vit_5m_224.dist_in22k_ft_in1k",
+        "pretraining": "IN-22k CLIP distillation then IN-1k fine-tuning",
+        "license": "MIT (official Microsoft repository)",
+        "license_status": "cleared",
+        "scientific_question": "parameter-envelope test of hierarchical token mixing",
+        "source_flops": "1.3G MACs at 224",
+        "backbone_kwargs": {}
+      },
+      "status": "pass",
+      "feature_shapes": [
+        [
+          1,
+          64,
+          64,
+          64
+        ],
+        [
+          1,
+          128,
+          32,
+          32
+        ],
+        [
+          1,
+          160,
+          16,
+          16
+        ],
+        [
+          1,
+          320,
+          8,
+          8
+        ]
+      ],
+      "feature_strides": [
+        4,
+        8,
+        16,
+        32
+      ],
+      "parameters": {
+        "encoder": 5071124,
+        "decoder": 81490,
+        "total": 5152614,
+        "trainable": 5152614
+      },
+      "pretrained_provenance": {
+        "hf_hub_id": "timm/tiny_vit_5m_224.dist_in22k_ft_in1k",
+        "url": "",
+        "input_size": [
+          3,
+          224,
+          224
+        ],
+        "mean": [
+          0.485,
+          0.456,
+          0.406
+        ],
+        "std": [
+          0.229,
+          0.224,
+          0.225
+        ],
+        "applied_normalization": {
+          "mean": [
+            0.485,
+            0.456,
+            0.406
+          ],
+          "std": [
+            0.229,
+            0.224,
+            0.225
+          ]
+        }
+      },
+      "inference": {
+        "output_shape": [
+          1,
+          18,
+          64,
+          64
+        ],
+        "batch_size": 1,
+        "latency_seconds": {
+          "mean": 0.012346426661436757,
+          "median": 0.011707899975590408,
+          "p95": 0.016012159996898843,
+          "minimum": 0.00984980002976954,
+          "maximum": 0.01778350002132356
+        },
+        "samples_per_second": 80.99509497135989
+      },
+      "training": [
+        {
+          "modality": "rgb",
+          "effective_batch_size": 16,
+          "microbatch_size": 16,
+          "gradient_accumulation_steps": 1,
+          "warmup_steps": 3,
+          "timed_steps": 10,
+          "optimizer": "AdamW(lr=1e-3, weight_decay=1e-4)",
+          "finite_losses": true,
+          "finite_gradients": true,
+          "first_loss": 0.017825165763497353,
+          "last_loss": 0.00295946653932333,
+          "effective_step_seconds": {
+            "mean": 0.16633917998988182,
+            "median": 0.16286930005298927,
+            "p95": 0.18627192495041528,
+            "minimum": 0.1519055999815464,
+            "maximum": 0.1864264999749139
+          },
+          "training_samples_per_second": 96.18900370299563,
+          "peak_vram_allocated_bytes": 2430030848,
+          "peak_vram_reserved_bytes": 2652897280
+        },
+        {
+          "modality": "event",
+          "effective_batch_size": 16,
+          "microbatch_size": 16,
+          "gradient_accumulation_steps": 1,
+          "warmup_steps": 3,
+          "timed_steps": 10,
+          "optimizer": "AdamW(lr=1e-3, weight_decay=1e-4)",
+          "finite_losses": true,
+          "finite_gradients": true,
+          "first_loss": 0.019238565117120743,
+          "last_loss": 0.0032798689790070057,
+          "effective_step_seconds": {
+            "mean": 0.16650900997919962,
+            "median": 0.1645268999855034,
+            "p95": 0.18600603495724496,
+            "minimum": 0.1533388999523595,
+            "maximum": 0.19441279990132898
+          },
+          "training_samples_per_second": 96.09089623437632,
+          "peak_vram_allocated_bytes": 2478919168,
+          "peak_vram_reserved_bytes": 2621440000
+        }
+      ],
+      "stage_a_criteria": {
+        "output_is_jx64x64": true,
+        "finite_losses": true,
+        "finite_gradients": true,
+        "peak_vram_below_7_2_gib": true,
+        "finest_feature_stride_at_most_8": true,
+        "license_and_weights_resolved": true
+      },
+      "passes_stage_a": true
+    },
+    {
+      "candidate": {
+        "id": "A3",
+        "architecture": "SegFormer MiT-B0",
+        "family": "hierarchical dense-prediction transformer",
+        "provider": "transformers",
+        "model_name": "nvidia/mit-b0",
+        "pretraining": "supervised ImageNet-1k",
+        "license": "NVIDIA non-commercial research license",
+        "license_status": "cleared_noncommercial_research",
+        "scientific_question": "does a native dense-transformer hierarchy beat generic encoders?",
+        "source_flops": "full SegFormer-B0 reports 8.4G at 512; encoder measured by latency",
+        "backbone_kwargs": {}
+      },
+      "status": "pass",
+      "feature_shapes": [
+        [
+          1,
+          32,
+          64,
+          64
+        ],
+        [
+          1,
+          64,
+          32,
+          32
+        ],
+        [
+          1,
+          160,
+          16,
+          16
+        ],
+        [
+          1,
+          256,
+          8,
+          8
+        ]
+      ],
+      "feature_strides": [
+        4,
+        8,
+        16,
+        32
+      ],
+      "parameters": {
+        "encoder": 3319392,
+        "decoder": 71250,
+        "total": 3390642,
+        "trainable": 3390642
+      },
+      "pretrained_provenance": {
+        "hf_hub_id": "nvidia/mit-b0",
+        "url": "https://huggingface.co/nvidia/mit-b0",
+        "input_size": [
+          3,
+          256,
+          256
+        ],
+        "mean": [
+          0.485,
+          0.456,
+          0.406
+        ],
+        "std": [
+          0.229,
+          0.224,
+          0.225
+        ],
+        "applied_normalization": {
+          "mean": [
+            0.485,
+            0.456,
+            0.406
+          ],
+          "std": [
+            0.229,
+            0.224,
+            0.225
+          ]
+        }
+      },
+      "inference": {
+        "output_shape": [
+          1,
+          18,
+          64,
+          64
+        ],
+        "batch_size": 1,
+        "latency_seconds": {
+          "mean": 0.011333906662184746,
+          "median": 0.010664950008504093,
+          "p95": 0.015910884988261383,
+          "minimum": 0.008350700023584068,
+          "maximum": 0.019362499937415123
+        },
+        "samples_per_second": 88.23083071051497
+      },
+      "training": [
+        {
+          "modality": "rgb",
+          "effective_batch_size": 16,
+          "microbatch_size": 16,
+          "gradient_accumulation_steps": 1,
+          "warmup_steps": 3,
+          "timed_steps": 10,
+          "optimizer": "AdamW(lr=1e-3, weight_decay=1e-4)",
+          "finite_losses": true,
+          "finite_gradients": true,
+          "first_loss": 0.0458340048789978,
+          "last_loss": 0.00401353882625699,
+          "effective_step_seconds": {
+            "mean": 0.0523281899979338,
+            "median": 0.05179110000608489,
+            "p95": 0.05518235003110021,
+            "minimum": 0.05084879999049008,
+            "maximum": 0.05726270005106926
+          },
+          "training_samples_per_second": 305.76253450829785,
+          "peak_vram_allocated_bytes": 913062400,
+          "peak_vram_reserved_bytes": 1006632960
+        },
+        {
+          "modality": "event",
+          "effective_batch_size": 16,
+          "microbatch_size": 16,
+          "gradient_accumulation_steps": 1,
+          "warmup_steps": 3,
+          "timed_steps": 10,
+          "optimizer": "AdamW(lr=1e-3, weight_decay=1e-4)",
+          "finite_losses": true,
+          "finite_gradients": true,
+          "first_loss": 0.03301479294896126,
+          "last_loss": 0.003047849517315626,
+          "effective_step_seconds": {
+            "mean": 0.052417899982538076,
+            "median": 0.051964049984235317,
+            "p95": 0.055356444988865404,
+            "minimum": 0.050437400001101196,
+            "maximum": 0.05568130000028759
+          },
+          "training_samples_per_second": 305.2392408953824,
+          "peak_vram_allocated_bytes": 938252800,
+          "peak_vram_reserved_bytes": 1035993088
+        }
+      ],
+      "stage_a_criteria": {
+        "output_is_jx64x64": true,
+        "finite_losses": true,
+        "finite_gradients": true,
+        "peak_vram_below_7_2_gib": true,
+        "finest_feature_stride_at_most_8": true,
+        "license_and_weights_resolved": true
+      },
+      "passes_stage_a": true
+    },
+    {
+      "candidate": {
+        "id": "A4",
+        "architecture": "SwinV2-T window8-256",
+        "family": "shifted-window hierarchical transformer",
+        "provider": "timm",
+        "model_name": "swinv2_tiny_window8_256.ms_in1k",
+        "pretraining": "supervised ImageNet-1k at 256",
+        "license": "MIT (official Microsoft repository)",
+        "license_status": "cleared",
+        "scientific_question": "upper-capacity control for mature window attention",
+        "source_flops": "5.9G at 256",
+        "backbone_kwargs": {}
+      },
+      "status": "pass",
+      "feature_shapes": [
+        [
+          1,
+          96,
+          64,
+          64
+        ],
+        [
+          1,
+          192,
+          32,
+          32
+        ],
+        [
+          1,
+          384,
+          16,
+          16
+        ],
+        [
+          1,
+          768,
+          8,
+          8
+        ]
+      ],
+      "feature_strides": [
+        4,
+        8,
+        16,
+        32
+      ],
+      "parameters": {
+        "encoder": 27576618,
+        "decoder": 130642,
+        "total": 27707260,
+        "trainable": 27707260
+      },
+      "pretrained_provenance": {
+        "hf_hub_id": "timm/swinv2_tiny_window8_256.ms_in1k",
+        "url": "https://github.com/SwinTransformer/storage/releases/download/v2.0.0/swinv2_tiny_patch4_window8_256.pth",
+        "input_size": [
+          3,
+          256,
+          256
+        ],
+        "mean": [
+          0.485,
+          0.456,
+          0.406
+        ],
+        "std": [
+          0.229,
+          0.224,
+          0.225
+        ],
+        "applied_normalization": {
+          "mean": [
+            0.485,
+            0.456,
+            0.406
+          ],
+          "std": [
+            0.229,
+            0.224,
+            0.225
+          ]
+        }
+      },
+      "inference": {
+        "output_shape": [
+          1,
+          18,
+          64,
+          64
+        ],
+        "batch_size": 1,
+        "latency_seconds": {
+          "mean": 0.07661752000373477,
+          "median": 0.0652019499684684,
+          "p95": 0.13386443004710596,
+          "minimum": 0.04780549998395145,
+          "maximum": 0.17314909992273897
+        },
+        "samples_per_second": 13.051845060388986
+      },
+      "training": [
+        {
+          "modality": "rgb",
+          "effective_batch_size": 16,
+          "microbatch_size": 16,
+          "gradient_accumulation_steps": 1,
+          "warmup_steps": 3,
+          "timed_steps": 10,
+          "optimizer": "AdamW(lr=1e-3, weight_decay=1e-4)",
+          "finite_losses": true,
+          "finite_gradients": true,
+          "first_loss": 0.019143197685480118,
+          "last_loss": 0.002993362257257104,
+          "effective_step_seconds": {
+            "mean": 0.27009633999550714,
+            "median": 0.262388099974487,
+            "p95": 0.29950540499994527,
+            "minimum": 0.25275610003154725,
+            "maximum": 0.31251449999399483
+          },
+          "training_samples_per_second": 59.23812222063486,
+          "peak_vram_allocated_bytes": 3473613312,
+          "peak_vram_reserved_bytes": 3703570432
+        },
+        {
+          "modality": "event",
+          "effective_batch_size": 16,
+          "microbatch_size": 16,
+          "gradient_accumulation_steps": 1,
+          "warmup_steps": 3,
+          "timed_steps": 10,
+          "optimizer": "AdamW(lr=1e-3, weight_decay=1e-4)",
+          "finite_losses": true,
+          "finite_gradients": true,
+          "first_loss": 0.01929369568824768,
+          "last_loss": 0.004110717214643955,
+          "effective_step_seconds": {
+            "mean": 0.424784379999619,
+            "median": 0.37217310001142323,
+            "p95": 0.6401446999981997,
+            "minimum": 0.2981178000336513,
+            "maximum": 0.7420517000136897
+          },
+          "training_samples_per_second": 37.666168421763416,
+          "peak_vram_allocated_bytes": 3704012288,
+          "peak_vram_reserved_bytes": 3925868544
+        }
+      ],
+      "stage_a_criteria": {
+        "output_is_jx64x64": true,
+        "finite_losses": true,
+        "finite_gradients": true,
+        "peak_vram_below_7_2_gib": true,
+        "finest_feature_stride_at_most_8": true,
+        "license_and_weights_resolved": true
+      },
+      "passes_stage_a": true
+    },
+    {
+      "candidate": {
+        "id": "A5",
+        "architecture": "MobileViTv2-1.0",
+        "family": "CNN-transformer hybrid",
+        "provider": "timm",
+        "model_name": "mobilevitv2_100.cvnets_in1k",
+        "pretraining": "supervised ImageNet-1k",
+        "license": "Apple sample-code license; subcomponent terms apply",
+        "license_status": "cleared",
+        "scientific_question": "does convolutional locality plus light global context win?",
+        "source_flops": "about 1.8G at 256",
+        "backbone_kwargs": {}
+      },
+      "status": "pass",
+      "feature_shapes": [
+        [
+          1,
+          64,
+          128,
+          128
+        ],
+        [
+          1,
+          128,
+          64,
+          64
+        ],
+        [
+          1,
+          256,
+          32,
+          32
+        ],
+        [
+          1,
+          384,
+          16,
+          16
+        ],
+        [
+          1,
+          512,
+          8,
+          8
+        ]
+      ],
+      "feature_strides": [
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "parameters": {
+        "encoder": 4388841,
+        "decoder": 124562,
+        "total": 4513403,
+        "trainable": 4513403
+      },
+      "pretrained_provenance": {
+        "hf_hub_id": "timm/mobilevitv2_100.cvnets_in1k",
+        "url": "",
+        "input_size": [
+          3,
+          256,
+          256
+        ],
+        "mean": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "std": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "applied_normalization": {
+          "mean": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "std": [
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "inference": {
+        "output_shape": [
+          1,
+          18,
+          64,
+          64
+        ],
+        "batch_size": 1,
+        "latency_seconds": {
+          "mean": 0.03382779665989801,
+          "median": 0.032155450026039034,
+          "p95": 0.04825478502898477,
+          "minimum": 0.022105999989435077,
+          "maximum": 0.06432340003084391
+        },
+        "samples_per_second": 29.56148785136439
+      },
+      "training": [
+        {
+          "modality": "rgb",
+          "effective_batch_size": 16,
+          "microbatch_size": 16,
+          "gradient_accumulation_steps": 1,
+          "warmup_steps": 3,
+          "timed_steps": 10,
+          "optimizer": "AdamW(lr=1e-3, weight_decay=1e-4)",
+          "finite_losses": true,
+          "finite_gradients": true,
+          "first_loss": 0.02175537496805191,
+          "last_loss": 0.0035878904163837433,
+          "effective_step_seconds": {
+            "mean": 0.17293294001137838,
+            "median": 0.1659528500167653,
+            "p95": 0.20634346003062093,
+            "minimum": 0.14833680004812777,
+            "maximum": 0.20727370004169643
+          },
+          "training_samples_per_second": 92.52141320761248,
+          "peak_vram_allocated_bytes": 3177759232,
+          "peak_vram_reserved_bytes": 3443523584
+        },
+        {
+          "modality": "event",
+          "effective_batch_size": 16,
+          "microbatch_size": 16,
+          "gradient_accumulation_steps": 1,
+          "warmup_steps": 3,
+          "timed_steps": 10,
+          "optimizer": "AdamW(lr=1e-3, weight_decay=1e-4)",
+          "finite_losses": true,
+          "finite_gradients": true,
+          "first_loss": 0.022771844640374184,
+          "last_loss": 0.003731505712494254,
+          "effective_step_seconds": {
+            "mean": 0.16536105998093262,
+            "median": 0.16720074997283518,
+            "p95": 0.17940715000149793,
+            "minimum": 0.15079669991973788,
+            "maximum": 0.18410830001812428
+          },
+          "training_samples_per_second": 96.75796709240326,
+          "peak_vram_allocated_bytes": 3217312768,
+          "peak_vram_reserved_bytes": 3544186880
+        }
+      ],
+      "stage_a_criteria": {
+        "output_is_jx64x64": true,
+        "finite_losses": true,
+        "finite_gradients": true,
+        "peak_vram_below_7_2_gib": true,
+        "finest_feature_stride_at_most_8": true,
+        "license_and_weights_resolved": true
+      },
+      "passes_stage_a": true
+    },
+    {
+      "candidate": {
+        "id": "A6",
+        "architecture": "EfficientViT-M2",
+        "family": "cascaded-group-attention hybrid",
+        "provider": "timm",
+        "model_name": "efficientvit_m2.r224_in1k",
+        "pretraining": "supervised ImageNet-1k",
+        "license": "MIT (official Microsoft repository)",
+        "license_status": "cleared",
+        "scientific_question": "does very low nominal compute retain localization detail?",
+        "source_flops": "about 0.20G at 224",
+        "backbone_kwargs": {
+          "img_size": 256
+        }
+      },
+      "status": "pass",
+      "feature_shapes": [
+        [
+          1,
+          128,
+          16,
+          16
+        ],
+        [
+          1,
+          192,
+          8,
+          8
+        ],
+        [
+          1,
+          224,
+          4,
+          4
+        ]
+      ],
+      "feature_strides": [
+        16,
+        32,
+        64
+      ],
+      "parameters": {
+        "encoder": 3962106,
+        "decoder": 73234,
+        "total": 4035340,
+        "trainable": 4035340
+      },
+      "pretrained_provenance": {
+        "hf_hub_id": "timm/efficientvit_m2.r224_in1k",
+        "url": "",
+        "input_size": [
+          3,
+          224,
+          224
+        ],
+        "mean": [
+          0.485,
+          0.456,
+          0.406
+        ],
+        "std": [
+          0.229,
+          0.224,
+          0.225
+        ],
+        "applied_normalization": {
+          "mean": [
+            0.485,
+            0.456,
+            0.406
+          ],
+          "std": [
+            0.229,
+            0.224,
+            0.225
+          ]
+        }
+      },
+      "inference": {
+        "output_shape": [
+          1,
+          18,
+          64,
+          64
+        ],
+        "batch_size": 1,
+        "latency_seconds": {
+          "mean": 0.02644147666093583,
+          "median": 0.022567100066225976,
+          "p95": 0.03842110494151711,
+          "minimum": 0.018370799953117967,
+          "maximum": 0.04331470001488924
+        },
+        "samples_per_second": 37.81937040896745
+      },
+      "training": [
+        {
+          "modality": "rgb",
+          "effective_batch_size": 16,
+          "microbatch_size": 16,
+          "gradient_accumulation_steps": 1,
+          "warmup_steps": 3,
+          "timed_steps": 10,
+          "optimizer": "AdamW(lr=1e-3, weight_decay=1e-4)",
+          "finite_losses": true,
+          "finite_gradients": true,
+          "first_loss": 0.025321902707219124,
+          "last_loss": 0.0064964983612298965,
+          "effective_step_seconds": {
+            "mean": 0.2161353799630888,
+            "median": 0.2084558999631554,
+            "p95": 0.32162639992311587,
+            "minimum": 0.13186309998854995,
+            "maximum": 0.35363039991352707
+          },
+          "training_samples_per_second": 74.02767655500202,
+          "peak_vram_allocated_bytes": 550448640,
+          "peak_vram_reserved_bytes": 652214272
+        },
+        {
+          "modality": "event",
+          "effective_batch_size": 16,
+          "microbatch_size": 16,
+          "gradient_accumulation_steps": 1,
+          "warmup_steps": 3,
+          "timed_steps": 10,
+          "optimizer": "AdamW(lr=1e-3, weight_decay=1e-4)",
+          "finite_losses": true,
+          "finite_gradients": true,
+          "first_loss": 0.02440853975713253,
+          "last_loss": 0.006467087659984827,
+          "effective_step_seconds": {
+            "mean": 0.07742348001338542,
+            "median": 0.07573624997166917,
+            "p95": 0.08842179005150683,
+            "minimum": 0.0713433000491932,
+            "maximum": 0.08863950008526444
+          },
+          "training_samples_per_second": 206.65565532876886,
+          "peak_vram_allocated_bytes": 583148032,
+          "peak_vram_reserved_bytes": 685768704
+        }
+      ],
+      "stage_a_criteria": {
+        "output_is_jx64x64": true,
+        "finite_losses": true,
+        "finite_gradients": true,
+        "peak_vram_below_7_2_gib": true,
+        "finest_feature_stride_at_most_8": false,
+        "license_and_weights_resolved": true
+      },
+      "passes_stage_a": false
+    }
+  ]
+}
