@@ -42,8 +42,25 @@ def _arguments(entry: dict[str, Any]) -> list[str]:
     return arguments
 
 
+def _keep_system_awake() -> None:
+    """Ask Windows not to idle-sleep while this runner lives (no settings change).
+
+    On 2026-10-06 the laptop entered Modern Standby one minute after an
+    overnight launch and froze training for 13 hours. The request lapses
+    automatically when the process exits. Closing the lid can still force sleep.
+    """
+    if sys.platform != "win32":
+        return
+    import ctypes
+
+    es_continuous, es_system_required = 0x80000000, 0x00000001
+    ctypes.windll.kernel32.SetThreadExecutionState(es_continuous | es_system_required)
+
+
 def main() -> int:
     args = parse_args()
+    if not args.dry_run:
+        _keep_system_awake()
     matrix = yaml.safe_load(args.matrix.read_text(encoding="utf-8"))
     defaults = matrix.get("defaults", {})
     output_dir = Path(defaults.get("output_dir", "outputs/runs"))
