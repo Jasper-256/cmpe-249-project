@@ -22,9 +22,12 @@ def _local_pretrained_file(model_name: str) -> Path | None:
     """
     hub = Path(os.environ.get("HF_HUB_CACHE", Path.home() / ".cache" / "huggingface" / "hub"))
     for filename in ("model.safetensors", "pytorch_model.bin"):
-        matches = sorted(hub.glob(f"models--timm--{model_name}/snapshots/*/{filename}"))
+        matches = sorted(
+            hub.glob(f"models--timm--{model_name}/snapshots/*/{filename}"),
+            key=lambda path: path.stat().st_mtime,
+        )
         if matches:
-            return matches[-1]
+            return matches[-1]  # newest snapshot
     return None
 
 

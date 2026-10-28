@@ -24,7 +24,8 @@ Fusion rules
                          at the same starting gate as ``clip_gate``: separates the
                          clipping *signal* from the *monotone constraint*.
 
-``attention``            unrestricted cross-modal attention at the coarse levels
+``attention``            coarse-level cross-modal attention (the unrestricted-attention
+                         comparator) at the coarse levels
                          (stride >= 16): RGB and event tokens share one
                          transformer layer whose output is added as a residual on
                          top of mean fusion (zero-initialized, so training starts
@@ -32,7 +33,9 @@ Fusion rules
 ``attention_clip``       the original S1 design: the same attention, with a per-head
                          monotone clipping gate g = sigmoid(b - softplus(a) * s)
                          entering as key biases log(g) for RGB tokens and
-                         log(1 - g) for event tokens.
+                         log(1 - g) for event tokens. The gate reweights attention
+                         only: the mean-fusion term still carries saturated RGB, so
+                         S1 cannot fully exclude a modality (unlike LevelFusion).
 
 Under the natural protocol s == 0 throughout training, so clipping slopes
 receive no gradient: ``clip_gate`` and ``clip_gate_constant`` train identically
@@ -266,6 +269,11 @@ class AttentionLevelFusion(nn.Module):
     ) -> tuple[Tensor, Tensor | None]:
         batch, channels, height, width = rgb.shape
         tokens = height * width
+        if tokens != self.position.shape[0]:
+            raise ValueError(
+                f"attention level expects {self.position.shape[0]} tokens, got {tokens}; "
+                "the position embedding is sized for 256 x 256 inputs"
+            )
         rgb_tokens = self.project_rgb(rgb.flatten(2).transpose(1, 2))
         event_tokens = self.project_event(event.flatten(2).transpose(1, 2))
         sequence = torch.cat(

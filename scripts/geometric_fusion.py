@@ -146,6 +146,7 @@ def real(args: argparse.Namespace) -> int:
                 "inlier_fraction": inliers,
             }
             object_slices = {k: v for k, v in slices.items() if k in set(map(str, rgb["sequence"]))}
+            analysis = analyze_real_frames(frames, object_slices)
             out_dir.mkdir(parents=True, exist_ok=True)
             np.savez_compressed(out_dir / "frames_primary.npz", **frames)
             payload = {
@@ -156,7 +157,10 @@ def real(args: argparse.Namespace) -> int:
                 ),
                 "pair": spec,
                 "object": object_name,
-                "results": {"primary": {"analysis": analyze_real_frames(frames, object_slices)}},
+                # RANSAC is this method's native solver, so both conditions coincide.
+                "results": {
+                    condition: {"analysis": analysis} for condition in ("primary", "primary_ransac")
+                },
             }
             (out_dir / "real_report.json").write_text(
                 json.dumps(payload, indent=2, default=float) + "\n", encoding="utf-8"

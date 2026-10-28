@@ -785,3 +785,31 @@ On the same synthetic validation sets the best learned fusion reaches 3.15 deg /
 is currently the strongest comparator, especially in translation. This supports
 the FRESH authors' argument for geometric over learned fusion; the frozen real
 test decides. Caveat: both sides are selected on the reported validation set.
+
+### Correction: the geometric baseline's advantage was the solver (2026-10-28)
+
+An independent review flagged a confound: the geometric baseline used a robust
+solver (RANSAC, distinct-landmark inlier minimum, depth and residual checks)
+while learned models used plain EPnP+LM on all keypoints. A control
+(`scripts/solver_control.py`, `outputs/geometric/solver_control.md`) re-solved every
+run's saved synthetic-validation keypoints with the identical solver (4 px):
+
+- **Under the same solver, learned fusion matches or beats geometric fusion.**
+  TSS validation: mean fusion 4.65 deg / 15.0 mm, content gate 5.26 deg / 12.7 mm
+  (68.6% 10°/10 mm), concat 5.14 deg / 13.3 mm, geometric fusion 5.08 deg / 14.3 mm
+  (63.3%). Natural validation: geometric fusion (3.26 deg) is worse than RGB-only
+  with RANSAC (2.45 deg); adding event keypoints hurts on clean data.
+- **The solver itself is a large effect.** RANSAC improves every model: RGB-only
+  natural 3.70 -> 2.45 deg (16.8 -> 8.3 mm), TSS mean fusion 5.84 -> 4.65 deg,
+  natural concat 3.18 -> 2.06 deg with 80.2% 10°/10 mm success.
+
+The earlier statement that learning-free geometric fusion is the strongest
+comparator is withdrawn. The selection rule's distinct-landmark fix (6 distinct
+landmarks, not 6 correspondences) re-froze the threshold at 4 px (natural pair
+3.26 deg, TSS pair 5.08 deg). EPnP+LM stays the frozen primary solver; the
+RANSAC re-solve of every model's real keypoints is now a pre-registered
+secondary analysis (`primary_ransac`), computed by `evaluate_real.py` from the
+same saved keypoints and analysed with `analyze_real.py --condition
+primary_ransac`. Also from the review: S1 (`attention_clip`) can only reweight
+attention, as the mean-fusion term still carries saturated RGB, and `attention`
+is coarse-level attention (stride >= 16), so it is described that way.

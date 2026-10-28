@@ -28,6 +28,8 @@ from torch.utils.data import DataLoader
 from saga_pose.data.archives import open_fresh_archive
 from saga_pose.data.cache import FreshCropCacheDataset
 from saga_pose.data.real import load_real_slices
+from saga_pose.evaluation.geometric import ransac_pose_from_sets
+from saga_pose.evaluation.pose import pose_error_arrays
 from saga_pose.evaluation.real_analysis import analyze_real_frames
 from saga_pose.models.fusion import ClipMode
 from saga_pose.training.engine import ModelSpec, Protocol, build_model, evaluate
@@ -51,10 +53,37 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _ransac_frames(
+    frames: dict[str, Any], cache: FreshCropCacheDataset, threshold_px: float
+) -> dict[str, Any]:
+    """Re-solve saved keypoints with the frozen RANSAC solver (same failure policy)."""
+    index = {sample: position for position, sample in enumerate(cache.sample_ids)}
+    rows = np.asarray([index[str(sample)] for sample in frames["sample_id"]])
+    landmarks = np.asarray(cache.array("landmarks_object_mm"))[rows].astype(np.float64)
+    intrinsics = np.asarray(cache.array("intrinsics"))[rows].astype(np.float64)
+    truth = np.asarray(cache.array("pose_object_to_camera_mm"))[rows].astype(np.float64)
+    poses, valid, _ = ransac_pose_from_sets(
+        [np.asarray(frames["predicted_keypoints_xy"], dtype=np.float64)],
+        landmarks,
+        intrinsics,
+        threshold_px=threshold_px,
+    )
+    errors = pose_error_arrays(truth, poses)
+    return {
+        "sequence": frames["sequence"],
+        "frame_number": frames["frame_number"],
+        "pnp_valid": valid,
+        "rotation_error_deg": errors["rotation_error_deg"],
+        "translation_error_m": errors["translation_error_m"],
+    }
+
+
 def main() -> int:
     args = parse_args()
     device = torch.device("cuda")
     torch.backends.cudnn.benchmark = False
+    selection = json.loads(Path("outputs/geometric/selection.json").read_text(encoding="utf-8"))
+    ransac_threshold = float(selection["pairs"]["g-ransac-tss"]["threshold_px"])
     with open_fresh_archive("real", args.raw_root) as archive:
         slices = cast(dict[str, dict[str, tuple[int, int]]], load_real_slices(archive))
     for run_dir in args.runs:
@@ -97,7 +126,7 @@ def main() -> int:
                 ("clip_shuffle", spec, "shuffle", None),
                 ("clip_zero", spec, "zero", None),
             ]
-            if spec.fusion not in ("concat", "mean"):
+            if spec.fusion not in ("concat", "mean", "attention"):
                 conditions.append(("gate_bypass_0.5", spec, "normal", 0.5))
         results: dict[str, Any] = {}
         for label, condition_spec, clip_mode, override in conditions:
@@ -115,6 +144,15 @@ def main() -> int:
             frames = evaluation.pop("frames")
             np.savez_compressed(out_dir / f"frames_{label}.npz", **frames)
             results[label] = {**evaluation, "analysis": analyze_real_frames(frames, object_slices)}
+            if label == "primary":
+                # Pre-registered secondary analysis (2026-10-28): the same keypoints
+                # re-solved with the frozen RANSAC solver used by the geometric baseline.
+                results["primary_ransac"] = {
+                    "analysis": analyze_real_frames(
+                        _ransac_frames(frames, real, ransac_threshold), object_slices
+                    ),
+                    "ransac_threshold_px": ransac_threshold,
+                }
             overall = results[label]["analysis"]["overall_sequence_mean"]
             print(
                 f"[{report['name']}] {label}: seq-mean ARE={overall['are_degrees']:.2f}deg "
