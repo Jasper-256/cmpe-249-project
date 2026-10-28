@@ -27,8 +27,8 @@ from torch.utils.data import DataLoader
 
 from saga_pose.data.archives import open_fresh_archive
 from saga_pose.data.cache import FreshCropCacheDataset
-from saga_pose.data.real import load_real_slices, slice_mask
-from saga_pose.evaluation.metrics import aggregate_by_sequence, threshold_success_rate
+from saga_pose.data.real import load_real_slices
+from saga_pose.evaluation.real_analysis import analyze_real_frames
 from saga_pose.models.fusion import ClipMode
 from saga_pose.training.engine import ModelSpec, Protocol, build_model, evaluate
 
@@ -49,60 +49,6 @@ def _sha256(path: Path) -> str:
         for chunk in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
-
-
-def _summaries(
-    rotation: np.ndarray, translation: np.ndarray, valid: np.ndarray
-) -> dict[str, float]:
-    return {
-        "frames": int(rotation.size),
-        "are_degrees_mean": float(np.mean(rotation)),
-        "are_degrees_median": float(np.median(rotation)),
-        "ate_m_mean": float(np.mean(translation)),
-        "ate_m_median": float(np.median(translation)),
-        "success_rotation_below_10_deg": threshold_success_rate(rotation, 10.0),
-        "success_translation_below_10_mm": threshold_success_rate(translation, 0.01),
-        "pnp_valid_fraction": float(np.mean(valid)),
-    }
-
-
-def _analyze(
-    frames: dict[str, Any], slices: dict[str, dict[str, tuple[int, int]]]
-) -> dict[str, Any]:
-    rotation = np.asarray(frames["rotation_error_deg"])
-    translation = np.asarray(frames["translation_error_m"])
-    valid = np.asarray(frames["pnp_valid"])
-    sequences = list(frames["sequence"])
-    numbers = np.asarray(frames["frame_number"])
-    result: dict[str, Any] = {
-        "overall_frames": _summaries(rotation, translation, valid),
-        "sequence_mean_are_deg": aggregate_by_sequence(rotation, sequences),
-        "sequence_mean_ate_m": aggregate_by_sequence(translation, sequences),
-        "slices": {},
-    }
-    result["overall_sequence_mean"] = {
-        "are_degrees": float(np.mean(list(result["sequence_mean_are_deg"].values()))),
-        "ate_m": float(np.mean(list(result["sequence_mean_ate_m"].values()))),
-    }
-    sequence_array = np.asarray(sequences)
-    for slice_name in ("harsh", "low-motion"):
-        mask = np.zeros(rotation.size, dtype=bool)
-        unknown = set(slices) - set(sequences)
-        if unknown:
-            raise ValueError(f"slice sequences missing from predictions: {sorted(unknown)}")
-        for sequence, ranges in slices.items():
-            in_sequence = sequence_array == sequence
-            mask |= in_sequence & slice_mask(numbers, ranges[slice_name])  # type: ignore[index]
-        if not mask.any():
-            raise ValueError(f"empty {slice_name} slice")
-        result["slices"][slice_name] = _summaries(rotation[mask], translation[mask], valid[mask])
-        result["slices"][slice_name]["sequence_mean_are_deg"] = aggregate_by_sequence(
-            rotation[mask], list(sequence_array[mask])
-        )
-        result["slices"][slice_name]["sequence_mean_ate_m"] = aggregate_by_sequence(
-            translation[mask], list(sequence_array[mask])
-        )
-    return result
 
 
 def main() -> int:
@@ -168,7 +114,7 @@ def main() -> int:
             )
             frames = evaluation.pop("frames")
             np.savez_compressed(out_dir / f"frames_{label}.npz", **frames)
-            results[label] = {**evaluation, "analysis": _analyze(frames, object_slices)}
+            results[label] = {**evaluation, "analysis": analyze_real_frames(frames, object_slices)}
             overall = results[label]["analysis"]["overall_sequence_mean"]
             print(
                 f"[{report['name']}] {label}: seq-mean ARE={overall['are_degrees']:.2f}deg "

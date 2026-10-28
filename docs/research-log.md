@@ -757,3 +757,31 @@ Review-driven rules for this stage (recorded before it ran):
   (verified byte-identical: 960/960 tensors equal), `transformers` is imported
   lazily (SegFormer only), and the SegFormer test skips with the reason. No
   security setting was changed.
+
+## 2026-10-28 — FRESH-style geometric baseline (selected on synthetic validation)
+
+The published FRESH geometric pipeline is in the required comparison set but
+was not runnable as-is (it needs the authors' detector, temporal box logic, and
+their trained networks). `saga_pose.evaluation.geometric` implements the core
+idea learning-free: each landmark gets two candidate observations (RGB-only and
+event-only model keypoints), one RANSAC EPnP over all 2J correspondences keeps
+the consistent subset, and LM refines the inliers. Degenerate solutions (fewer
+than 6 inliers, inlier reprojection RMSE above the threshold, or depth outside
+(0, 100 m)) count as failures with the FRESH default pose; without this guard,
+LM diverged on degenerate inlier sets (mean ATE up to 6e53 m). It is labelled
+"FRESH-style", not the published pipeline.
+
+The only free parameter, the RANSAC inlier threshold, was selected by pooled
+synthetic-validation mean ARE over {1, 2, 4, 8, 16} px and frozen at 4 px for
+both predeclared pairs (`outputs/geometric/selection.json`):
+
+| Pair (validation set) | Mean ARE | Mean ATE | PnP valid |
+| --- | ---: | ---: | ---: |
+| RGB natural + event activity (natural) | 3.02 deg | 9.2 mm | 99.9% |
+| RGB TSS + event activity (TSS) | 5.03 deg | 13.3 mm | 99.8% |
+
+On the same synthetic validation sets the best learned fusion reaches 3.15 deg /
+15.1 mm (natural) and 5.84 deg / 27.6 mm (TSS), so learning-free geometric fusion
+is currently the strongest comparator, especially in translation. This supports
+the FRESH authors' argument for geometric over learned fusion; the frozen real
+test decides. Caveat: both sides are selected on the reported validation set.

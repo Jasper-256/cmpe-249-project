@@ -73,3 +73,29 @@ def test_all_failures_leave_valid_only_empty() -> None:
     assert summary["pnp_valid_count"] == 0
     assert summary["valid_only"] is None
     assert summary["all_frames"]["success_rotation_below_10_deg"] == 0.0
+
+
+def test_geometric_fusion_rejects_a_corrupted_modality() -> None:
+    from saga_pose.evaluation.geometric import fuse_keypoints_ransac
+    from saga_pose.evaluation.metrics import rotation_error_degrees
+
+    truth = _pose()
+    clean = project_points(POINTS, truth, INTRINSICS)
+    corrupted = clean + np.random.default_rng(0).normal(0.0, 40.0, clean.shape)
+    poses, valid, inliers = fuse_keypoints_ransac(
+        corrupted[None], clean[None], POINTS, INTRINSICS, threshold_px=2.0
+    )
+    assert valid[0]
+    assert inliers[0] >= 0.5  # at least the clean modality survives
+    error = rotation_error_degrees(truth[None, :3, :3], poses[:, :3, :3])
+    assert float(error[0]) < 0.1
+
+
+def test_geometric_fusion_failure_uses_default_pose() -> None:
+    from saga_pose.evaluation.geometric import fuse_keypoints_ransac
+    from saga_pose.evaluation.pose import default_failure_pose
+
+    missing = np.full((1, POINTS.shape[0], 2), np.nan)
+    poses, valid, _ = fuse_keypoints_ransac(missing, missing, POINTS, INTRINSICS, threshold_px=4.0)
+    assert not valid[0]
+    np.testing.assert_allclose(poses[0], default_failure_pose())
