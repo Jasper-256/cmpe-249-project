@@ -34,3 +34,8 @@ comparisons:
   - {candidate: f-content_gate-tss-activity, baseline: f-content_gate-tss0.25-activity, question: "full vs quarter-strength TSS (learned reliability)"}
   # Noise floor: these two train identically under the natural protocol.
   - {candidate: f-clip_gate-natural-activity, baseline: f-clip_gate_constant-natural-activity, question: "noise floor plus untrained slope prior"}
+  # Attention tier (added 2026-10-28, before any attention run trained).
+  - {candidate: f-attention_clip-tss-activity, baseline: f-attention-tss-activity, question: "S1: clipping as attention-logit bias vs unrestricted attention"}
+  - {candidate: f-attention-tss-activity, baseline: f-mean-tss-activity, question: "unrestricted attention vs mean fusion"}
+  - {candidate: f-attention_clip-tss-activity, baseline: f-clip_gate-tss-activity, question: "clipping inside attention vs per-location clipping gate"}
+  - {candidate: f-attention-tss-activity, baseline: f-attention-natural-activity, question: "TSS training effect on attention fusion"}

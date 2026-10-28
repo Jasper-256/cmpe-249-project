@@ -24,6 +24,16 @@ Fusion rules
                          at the same starting gate as ``clip_gate``: separates the
                          clipping *signal* from the *monotone constraint*.
 
+``attention``            unrestricted cross-modal attention at the coarse levels
+                         (stride >= 16): RGB and event tokens share one
+                         transformer layer whose output is added as a residual on
+                         top of mean fusion (zero-initialized, so training starts
+                         at mean fusion); finer levels use mean fusion.
+``attention_clip``       the original S1 design: the same attention, with a per-head
+                         monotone clipping gate g = sigmoid(b - softplus(a) * s)
+                         entering as key biases log(g) for RGB tokens and
+                         log(1 - g) for event tokens.
+
 Under the natural protocol s == 0 throughout training, so clipping slopes
 receive no gradient: ``clip_gate`` and ``clip_gate_constant`` train identically
 and the slope stays at its initialization. Natural-protocol clipping gates are
@@ -42,12 +52,17 @@ from __future__ import annotations
 
 from typing import Any, Final, Literal, cast
 
-import timm
 import torch
 from torch import Tensor, nn
 from torch.nn import functional as F
 
-from saga_pose.models.heatmaps import IMAGENET_MEAN, IMAGENET_STD, fuse_pyramid, normalize_inputs
+from saga_pose.models.heatmaps import (
+    IMAGENET_MEAN,
+    IMAGENET_STD,
+    create_timm_backbone,
+    fuse_pyramid,
+    normalize_inputs,
+)
 
 FusionRule = Literal[
     "mean",
@@ -58,6 +73,8 @@ FusionRule = Literal[
     "clip_gate_fixed",
     "content_clip_gate",
     "clip_gate_signed",
+    "attention",
+    "attention_clip",
 ]
 FUSION_RULES: Final[tuple[FusionRule, ...]] = (
     "mean",
@@ -68,7 +85,11 @@ FUSION_RULES: Final[tuple[FusionRule, ...]] = (
     "clip_gate_fixed",
     "content_clip_gate",
     "clip_gate_signed",
+    "attention",
+    "attention_clip",
 )
+ATTENTION_RULES: Final[tuple[FusionRule, ...]] = ("attention", "attention_clip")
+ATTENTION_MIN_STRIDE: Final[int] = 16
 ClipMode = Literal["normal", "shuffle", "zero"]
 FIXED_GATE_THRESHOLD: Final[float] = 0.01
 CLIP_SLOPE_INIT: Final[float] = 5.0
@@ -172,6 +193,110 @@ class LevelFusion(nn.Module):
         return torch.sigmoid(logits)
 
 
+class TransformerBlock(nn.Module):
+    """Pre-norm self-attention block with an additive per-key attention bias.
+
+    Written explicitly on ``scaled_dot_product_attention``: PyTorch's
+    ``TransformerEncoderLayer`` switches to a fused inference fast path in eval
+    mode that mishandled the per-head float mask here (constant 129 px validation
+    RMSE while training loss fell), so train and eval now share one code path.
+    """
+
+    def __init__(self, width: int, heads: int) -> None:
+        super().__init__()
+        if width % heads:
+            raise ValueError("width must be divisible by heads")
+        self.heads = heads
+        self.norm_attention = nn.LayerNorm(width)
+        self.qkv = nn.Linear(width, 3 * width)
+        self.projection = nn.Linear(width, width)
+        self.norm_mlp = nn.LayerNorm(width)
+        self.mlp = nn.Sequential(
+            nn.Linear(width, 2 * width), nn.GELU(), nn.Linear(2 * width, width)
+        )
+
+    def forward(self, tokens: Tensor, key_bias: Tensor | None = None) -> Tensor:
+        """``tokens`` is (B, L, C); ``key_bias`` is (B, heads, L) added to every query row."""
+        batch, length, width = tokens.shape
+        query, key, value = (
+            self.qkv(self.norm_attention(tokens))
+            .reshape(batch, length, 3, self.heads, width // self.heads)
+            .permute(2, 0, 3, 1, 4)
+        )
+        mask = None if key_bias is None else key_bias[:, :, None, :].to(query.dtype)
+        attended = F.scaled_dot_product_attention(query, key, value, attn_mask=mask)
+        tokens = tokens + self.projection(attended.transpose(1, 2).reshape(batch, length, width))
+        return tokens + cast(Tensor, self.mlp(self.norm_mlp(tokens)))
+
+
+class AttentionLevelFusion(nn.Module):
+    """Cross-modal transformer fusion at one coarse level (residual on mean fusion)."""
+
+    def __init__(
+        self,
+        channels: int,
+        tokens: int,
+        *,
+        use_clip: bool,
+        width: int = 128,
+        heads: int = 4,
+        clip_slope_init: float = CLIP_SLOPE_INIT,
+    ) -> None:
+        super().__init__()
+        self.heads = heads
+        self.use_clip = use_clip
+        self.project_rgb = nn.Linear(channels, width)
+        self.project_event = nn.Linear(channels, width)
+        self.modality = nn.Parameter(torch.zeros(2, width))
+        self.position = nn.Parameter(torch.zeros(tokens, width))
+        nn.init.trunc_normal_(self.position, std=0.02)
+        self.layer = TransformerBlock(width, heads)
+        self.output = nn.Linear(width, channels)
+        # Zero init: the level starts exactly as mean fusion.
+        nn.init.zeros_(self.output.weight)
+        nn.init.zeros_(self.output.bias)
+        self.clip_slope: nn.Parameter | None = None
+        self.clip_bias: nn.Parameter | None = None
+        if use_clip:
+            self.clip_slope = nn.Parameter(torch.full((heads,), _inverse_softplus(clip_slope_init)))
+            self.clip_bias = nn.Parameter(torch.zeros(heads))
+
+    def forward(
+        self, rgb: Tensor, event: Tensor, clipping: Tensor, gate_override: float | None
+    ) -> tuple[Tensor, Tensor | None]:
+        batch, channels, height, width = rgb.shape
+        tokens = height * width
+        rgb_tokens = self.project_rgb(rgb.flatten(2).transpose(1, 2))
+        event_tokens = self.project_event(event.flatten(2).transpose(1, 2))
+        sequence = torch.cat(
+            (
+                rgb_tokens + self.modality[0] + self.position[:tokens],
+                event_tokens + self.modality[1] + self.position[:tokens],
+            ),
+            dim=1,
+        )
+        key_bias: Tensor | None = None
+        gate_map: Tensor | None = None
+        if self.use_clip:
+            assert self.clip_slope is not None and self.clip_bias is not None
+            signal = clipping.flatten(1)  # (B, N)
+            gate = torch.sigmoid(
+                self.clip_bias[None, :, None]
+                - F.softplus(self.clip_slope)[None, :, None] * signal[:, None, :]
+            )  # (B, heads, N)
+            if gate_override is not None:
+                gate = torch.full_like(gate, gate_override)
+            epsilon = 1e-4
+            key_bias = torch.cat(
+                (torch.log(gate + epsilon), torch.log(1.0 - gate + epsilon)), dim=2
+            )  # (B, heads, 2N)
+            gate_map = gate.mean(dim=1).reshape(batch, 1, height, width)
+        mixed = self.layer(sequence, key_bias)
+        update = self.output((mixed[:, :tokens] + mixed[:, tokens:]) / 2.0)
+        update = update.transpose(1, 2).reshape(batch, channels, height, width)
+        return 0.5 * (rgb + event) + update, gate_map
+
+
 class FusionHeatmapRegressor(nn.Module):
     """Two pretrained timm pyramids, per-level fusion, and the shared heatmap decoder."""
 
@@ -192,12 +317,8 @@ class FusionHeatmapRegressor(nn.Module):
         self.fusion_rule = fusion
         self.backbone_name = backbone_name
         kwargs = backbone_kwargs or {}
-        self.rgb_encoder = timm.create_model(
-            backbone_name, pretrained=pretrained, features_only=True, **kwargs
-        )
-        self.event_encoder = timm.create_model(
-            backbone_name, pretrained=pretrained, features_only=True, **kwargs
-        )
+        self.rgb_encoder = create_timm_backbone(backbone_name, pretrained=pretrained, **kwargs)
+        self.event_encoder = create_timm_backbone(backbone_name, pretrained=pretrained, **kwargs)
         channels = tuple(cast(Any, self.rgb_encoder).feature_info.channels())
         self.feature_channels = channels
         pretrained_cfg = cast(dict[str, Any], getattr(self.rgb_encoder, "pretrained_cfg", {}))
@@ -218,10 +339,24 @@ class FusionHeatmapRegressor(nn.Module):
         with torch.random.fork_rng(devices=[]):
             # Seeded from the run seed so concat's mixer varies across seeds.
             torch.manual_seed(torch.initial_seed() + 1)
-            self.fusions = nn.ModuleList(
-                LevelFusion(fusion, channel, clip_slope_init=clip_slope_init)
-                for channel in channels
-            )
+            reductions = tuple(cast(Any, self.rgb_encoder).feature_info.reduction())
+            modules: list[nn.Module] = []
+            for channel, reduction in zip(channels, reductions, strict=True):
+                if fusion in ATTENTION_RULES and reduction >= ATTENTION_MIN_STRIDE:
+                    side = 256 // reduction
+                    modules.append(
+                        AttentionLevelFusion(
+                            channel,
+                            side * side,
+                            use_clip=fusion == "attention_clip",
+                            clip_slope_init=clip_slope_init,
+                        )
+                    )
+                elif fusion in ATTENTION_RULES:
+                    modules.append(LevelFusion("mean", channel))
+                else:
+                    modules.append(LevelFusion(fusion, channel, clip_slope_init=clip_slope_init))
+            self.fusions = nn.ModuleList(modules)
 
     def normalize(self, inputs: Tensor) -> Tensor:
         return normalize_inputs(inputs, self.input_mean, self.input_std)
@@ -240,7 +375,7 @@ class FusionHeatmapRegressor(nn.Module):
 
     @property
     def has_gate(self) -> bool:
-        return self.fusion_rule not in ("concat", "mean")
+        return self.fusion_rule not in ("concat", "mean", "attention")
 
     def forward(
         self,

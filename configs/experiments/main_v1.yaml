@@ -372,6 +372,60 @@ runs:
   event_representation: activity
   objects:
   - soho
+- name: f-attention-tss-activity-cassini
+  modality: fusion
+  fusion: attention
+  protocol: tss
+  objects:
+  - cassini
+- name: f-attention-tss-activity-satty
+  modality: fusion
+  fusion: attention
+  protocol: tss
+  objects:
+  - satty
+- name: f-attention-tss-activity-soho
+  modality: fusion
+  fusion: attention
+  protocol: tss
+  objects:
+  - soho
+- name: f-attention_clip-tss-activity-cassini
+  modality: fusion
+  fusion: attention_clip
+  protocol: tss
+  objects:
+  - cassini
+- name: f-attention_clip-tss-activity-satty
+  modality: fusion
+  fusion: attention_clip
+  protocol: tss
+  objects:
+  - satty
+- name: f-attention_clip-tss-activity-soho
+  modality: fusion
+  fusion: attention_clip
+  protocol: tss
+  objects:
+  - soho
+- name: f-attention-natural-activity-cassini
+  modality: fusion
+  fusion: attention
+  protocol: natural
+  objects:
+  - cassini
+- name: f-attention-natural-activity-satty
+  modality: fusion
+  fusion: attention
+  protocol: natural
+  objects:
+  - satty
+- name: f-attention-natural-activity-soho
+  modality: fusion
+  fusion: attention
+  protocol: natural
+  objects:
+  - soho
 - name: f-clip_gate_signed-tss-activity-cassini
   modality: fusion
   fusion: clip_gate_signed

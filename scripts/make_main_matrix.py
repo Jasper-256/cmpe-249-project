@@ -62,6 +62,33 @@ def main() -> int:
                 "event_representation": "activity",
             }
         )
+    # Tier 1b (added 2026-10-28): the unrestricted-attention comparator required by
+    # AGENTS.md and the original S1 design (clipping gate as attention-logit bias).
+    # attention_clip runs under TSS only; natural training gives its slope no gradient.
+    runs.append(
+        {
+            "name": "f-attention-tss-activity",
+            "modality": "fusion",
+            "fusion": "attention",
+            "protocol": "tss",
+        }
+    )
+    runs.append(
+        {
+            "name": "f-attention_clip-tss-activity",
+            "modality": "fusion",
+            "fusion": "attention_clip",
+            "protocol": "tss",
+        }
+    )
+    runs.append(
+        {
+            "name": "f-attention-natural-activity",
+            "modality": "fusion",
+            "fusion": "attention",
+            "protocol": "natural",
+        }
+    )
     # Tier 2a: gate-design ablations under TSS (natural would give these no gradient).
     runs.append(
         {

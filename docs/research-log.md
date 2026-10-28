@@ -733,3 +733,27 @@ Review-driven rules for this stage (recorded before it ran):
 - Fine-tuned models reselect on the same synthetic validation set, so their
   synthetic numbers are development diagnostics only; the frozen real test is
   the only estimate reported for them.
+
+## 2026-10-28 — Attention comparators added; host security change worked around
+
+- **Unrestricted attention and S1 added.** `AGENTS.md` lists unrestricted
+  attention in the minimum comparison set, and the proposal's original S1 design
+  used clipping as an attention-logit bias; neither had been implemented. New
+  rules `attention` and `attention_clip` fuse the stride-16/32 levels with one
+  pre-norm transformer block over both modalities' tokens (width 128, 4 heads),
+  added as a zero-initialized residual on mean fusion; finer levels use mean
+  fusion. `attention_clip` biases attention to RGB keys by log g and event keys by
+  log(1 - g), with g = sigmoid(b - softplus(a) s) per head. Nine runs (attention
+  under both protocols, attention_clip under TSS) and four comparisons were
+  pre-registered before any of them trained.
+- **Bug caught before training.** Built on `nn.TransformerEncoderLayer`, the
+  first attention smoke run produced a constant 129.32 px validation RMSE while
+  the training loss fell: PyTorch's eval-mode fast path mishandled the per-head
+  float mask. The block is now written explicitly on
+  `scaled_dot_product_attention`; a test asserts identical train/eval outputs.
+- **Host change.** Windows Application Control now blocks the unsigned OpenSSL
+  DLL in the managed Python, so `huggingface_hub`/`transformers` cannot import.
+  Pretrained timm weights are loaded directly from the local hub cache
+  (verified byte-identical: 960/960 tensors equal), `transformers` is imported
+  lazily (SegFormer only), and the SegFormer test skips with the reason. No
+  security setting was changed.
