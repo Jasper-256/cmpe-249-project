@@ -95,3 +95,26 @@ rules); effects concentrate in SOHO; validation curves are noisy (see
 `val-curve noise` in the generated table); and the real test may differ. The
 pre-registered primary comparison (`content_clip_gate` vs `content_gate`,
 TSS-trained) is decided only on the frozen real test.
+
+## Pose-solver control (added 2026-10-28)
+
+Every run's saved synthetic-validation keypoints were re-solved with the robust
+RANSAC solver used by the FRESH-style geometric baseline (4 px, frozen on
+synthetic validation; full table in
+[`outputs/geometric/solver_control.md`](../outputs/geometric/solver_control.md)).
+
+| Model [validation] | EPnP ARE / ATE | RANSAC ARE / ATE | RANSAC 10°/10 mm |
+| --- | ---: | ---: | ---: |
+| RGB only, natural [natural] | 3.70° / 16.8 mm | 2.45° / 8.3 mm | 72.4% |
+| Concat fusion, natural [natural] | 3.18° / 12.9 mm | **2.06° / 7.2 mm** | **80.2%** |
+| Geometric fusion, natural [natural] | — | 3.26° / 11.2 mm | 72.2% |
+| RGB only, TSS [TSS] | 13.72° / 61.8 mm | 12.02° / 27.5 mm | 51.5% |
+| Mean fusion, TSS [TSS] | 5.84° / 27.6 mm | **4.65°** / 15.0 mm | 64.6% |
+| Content gate, TSS [TSS] | 7.45° / 34.5 mm | 5.26° / **12.7 mm** | **68.6%** |
+| Geometric fusion, TSS [TSS] | — | 5.08° / 14.3 mm | 63.3% |
+
+5. **The pose solver matters as much as the fusion rule.** Robust solving
+   improves every model. Under an identical solver, learned fusion matches or
+   beats learning-free geometric fusion, so the geometric baseline's apparent
+   lead came from its solver. EPnP remains the frozen primary solver; the RANSAC
+   re-solve is a pre-registered secondary analysis on the real test.
