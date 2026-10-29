@@ -421,9 +421,261 @@
   },
   "f-content_clip_gate-tss-activity-slope0.1-cassini": {
     "matrix": "configs\\experiments\\main_v1.yaml",
-    "returncode": 3221226505,
-    "seconds": 1940.6773994000396,
+    "returncode": 0,
+    "seconds": 1478.7994992999884,
     "log": "checkpoints\\main-hrnet\\f-content_clip_gate-tss-activity-slope0.1-cassini\\train.log",
-    "status": "failed"
+    "status": "complete"
+  },
+  "f-attention-tss-activity-cassini": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1372.489504199999,
+    "log": "checkpoints\\main-hrnet\\f-attention-tss-activity-cassini\\train.log",
+    "status": "complete"
+  },
+  "f-attention-tss-activity-satty": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1457.9600080999953,
+    "log": "checkpoints\\main-hrnet\\f-attention-tss-activity-satty\\train.log",
+    "status": "complete"
+  },
+  "f-attention-tss-activity-soho": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1050.1606979999924,
+    "log": "checkpoints\\main-hrnet\\f-attention-tss-activity-soho\\train.log",
+    "status": "complete"
+  },
+  "f-attention_clip-tss-activity-cassini": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1368.3200041999953,
+    "log": "checkpoints\\main-hrnet\\f-attention_clip-tss-activity-cassini\\train.log",
+    "status": "complete"
+  },
+  "f-attention_clip-tss-activity-satty": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1408.7709217999945,
+    "log": "checkpoints\\main-hrnet\\f-attention_clip-tss-activity-satty\\train.log",
+    "status": "complete"
+  },
+  "f-attention_clip-tss-activity-soho": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1061.4368426,
+    "log": "checkpoints\\main-hrnet\\f-attention_clip-tss-activity-soho\\train.log",
+    "status": "complete"
+  },
+  "f-attention-natural-activity-cassini": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1454.0396454000002,
+    "log": "checkpoints\\main-hrnet\\f-attention-natural-activity-cassini\\train.log",
+    "status": "complete"
+  },
+  "f-attention-natural-activity-satty": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1454.597094200013,
+    "log": "checkpoints\\main-hrnet\\f-attention-natural-activity-satty\\train.log",
+    "status": "complete"
+  },
+  "f-attention-natural-activity-soho": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1465.1853585999925,
+    "log": "checkpoints\\main-hrnet\\f-attention-natural-activity-soho\\train.log",
+    "status": "complete"
+  },
+  "f-content_clip_gate-tss-activity-slope0.1-satty": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1487.9548857999907,
+    "log": "checkpoints\\main-hrnet\\f-content_clip_gate-tss-activity-slope0.1-satty\\train.log",
+    "status": "complete"
+  },
+  "f-content_clip_gate-tss-activity-slope0.1-soho": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1490.454278499994,
+    "log": "checkpoints\\main-hrnet\\f-content_clip_gate-tss-activity-slope0.1-soho\\train.log",
+    "status": "complete"
+  },
+  "f-mean-natural-raw-cassini": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1201.3852628000022,
+    "log": "checkpoints\\main-hrnet\\f-mean-natural-raw-cassini\\train.log",
+    "status": "complete"
+  },
+  "f-mean-natural-raw-satty": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1378.4015226000047,
+    "log": "checkpoints\\main-hrnet\\f-mean-natural-raw-satty\\train.log",
+    "status": "complete"
+  },
+  "f-mean-natural-raw-soho": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1377.938128400012,
+    "log": "checkpoints\\main-hrnet\\f-mean-natural-raw-soho\\train.log",
+    "status": "complete"
+  },
+  "f-content_gate-natural-raw-cassini": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1486.4377527999895,
+    "log": "checkpoints\\main-hrnet\\f-content_gate-natural-raw-cassini\\train.log",
+    "status": "complete"
+  },
+  "f-content_gate-natural-raw-satty": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1466.5216931000032,
+    "log": "checkpoints\\main-hrnet\\f-content_gate-natural-raw-satty\\train.log",
+    "status": "complete"
+  },
+  "f-content_gate-natural-raw-soho": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1105.880285799998,
+    "log": "checkpoints\\main-hrnet\\f-content_gate-natural-raw-soho\\train.log",
+    "status": "complete"
+  },
+  "f-content_clip_gate-natural-raw-cassini": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1492.7240909999964,
+    "log": "checkpoints\\main-hrnet\\f-content_clip_gate-natural-raw-cassini\\train.log",
+    "status": "complete"
+  },
+  "f-content_clip_gate-natural-raw-satty": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1495.066771400001,
+    "log": "checkpoints\\main-hrnet\\f-content_clip_gate-natural-raw-satty\\train.log",
+    "status": "complete"
+  },
+  "f-content_clip_gate-natural-raw-soho": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1112.9387114000128,
+    "log": "checkpoints\\main-hrnet\\f-content_clip_gate-natural-raw-soho\\train.log",
+    "status": "complete"
+  },
+  "f-mean-tss-raw-cassini": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1290.3169673999946,
+    "log": "checkpoints\\main-hrnet\\f-mean-tss-raw-cassini\\train.log",
+    "status": "complete"
+  },
+  "f-mean-tss-raw-satty": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1436.9255900999997,
+    "log": "checkpoints\\main-hrnet\\f-mean-tss-raw-satty\\train.log",
+    "status": "complete"
+  },
+  "f-mean-tss-raw-soho": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 968.9353416000085,
+    "log": "checkpoints\\main-hrnet\\f-mean-tss-raw-soho\\train.log",
+    "status": "complete"
+  },
+  "f-content_gate-tss-raw-cassini": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1487.9134308000212,
+    "log": "checkpoints\\main-hrnet\\f-content_gate-tss-raw-cassini\\train.log",
+    "status": "complete"
+  },
+  "f-content_gate-tss-raw-satty": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1487.338870800013,
+    "log": "checkpoints\\main-hrnet\\f-content_gate-tss-raw-satty\\train.log",
+    "status": "complete"
+  },
+  "f-content_gate-tss-raw-soho": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1391.3516571999935,
+    "log": "checkpoints\\main-hrnet\\f-content_gate-tss-raw-soho\\train.log",
+    "status": "complete"
+  },
+  "f-content_clip_gate-tss-raw-cassini": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1397.210672599991,
+    "log": "checkpoints\\main-hrnet\\f-content_clip_gate-tss-raw-cassini\\train.log",
+    "status": "complete"
+  },
+  "f-content_clip_gate-tss-raw-satty": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1496.2566196999978,
+    "log": "checkpoints\\main-hrnet\\f-content_clip_gate-tss-raw-satty\\train.log",
+    "status": "complete"
+  },
+  "f-content_clip_gate-tss-raw-soho": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1019.4011186000134,
+    "log": "checkpoints\\main-hrnet\\f-content_clip_gate-tss-raw-soho\\train.log",
+    "status": "complete"
+  },
+  "f-content_gate-tss0.25-activity-cassini": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1506.6320722000091,
+    "log": "checkpoints\\main-hrnet\\f-content_gate-tss0.25-activity-cassini\\train.log",
+    "status": "complete"
+  },
+  "f-content_gate-tss0.25-activity-satty": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1510.20553929999,
+    "log": "checkpoints\\main-hrnet\\f-content_gate-tss0.25-activity-satty\\train.log",
+    "status": "complete"
+  },
+  "f-content_gate-tss0.25-activity-soho": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1020.2876074000087,
+    "log": "checkpoints\\main-hrnet\\f-content_gate-tss0.25-activity-soho\\train.log",
+    "status": "complete"
+  },
+  "f-content_clip_gate-tss0.25-activity-cassini": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1238.3336386000155,
+    "log": "checkpoints\\main-hrnet\\f-content_clip_gate-tss0.25-activity-cassini\\train.log",
+    "status": "complete"
+  },
+  "f-content_clip_gate-tss0.25-activity-satty": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1536.817028200021,
+    "log": "checkpoints\\main-hrnet\\f-content_clip_gate-tss0.25-activity-satty\\train.log",
+    "status": "complete"
+  },
+  "f-content_clip_gate-tss0.25-activity-soho": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1127.0918324000086,
+    "log": "checkpoints\\main-hrnet\\f-content_clip_gate-tss0.25-activity-soho\\train.log",
+    "status": "complete"
+  },
+  "f-content_gate-tss-activity-s250-cassini": {
+    "matrix": "configs\\experiments\\main_v1.yaml",
+    "returncode": 0,
+    "seconds": 1198.8418017000076,
+    "log": "checkpoints\\main-hrnet\\f-content_gate-tss-activity-s250-cassini\\train.log",
+    "status": "complete"
   }
 }

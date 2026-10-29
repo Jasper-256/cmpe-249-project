@@ -1,0 +1,86 @@
+{
+  "ft-mean-tss-activity-cassini": {
+    "matrix": "configs\\experiments\\finetune_v1.yaml",
+    "returncode": 0,
+    "seconds": 1965.081932999994,
+    "log": "checkpoints\\finetune-hrnet\\ft-mean-tss-activity-cassini\\train.log",
+    "status": "complete"
+  },
+  "ft-mean-tss-activity-satty": {
+    "matrix": "configs\\experiments\\finetune_v1.yaml",
+    "returncode": 0,
+    "seconds": 1957.3998130999971,
+    "log": "checkpoints\\finetune-hrnet\\ft-mean-tss-activity-satty\\train.log",
+    "status": "complete"
+  },
+  "ft-mean-tss-activity-soho": {
+    "matrix": "configs\\experiments\\finetune_v1.yaml",
+    "returncode": 0,
+    "seconds": 1521.4653169000085,
+    "log": "checkpoints\\finetune-hrnet\\ft-mean-tss-activity-soho\\train.log",
+    "status": "complete"
+  },
+  "ft-content_gate-tss-activity-cassini": {
+    "matrix": "configs\\experiments\\finetune_v1.yaml",
+    "returncode": 0,
+    "seconds": 2074.6312331999943,
+    "log": "checkpoints\\finetune-hrnet\\ft-content_gate-tss-activity-cassini\\train.log",
+    "status": "complete"
+  },
+  "ft-content_gate-tss-activity-satty": {
+    "matrix": "configs\\experiments\\finetune_v1.yaml",
+    "returncode": 0,
+    "seconds": 1955.0979862000095,
+    "log": "checkpoints\\finetune-hrnet\\ft-content_gate-tss-activity-satty\\train.log",
+    "status": "complete"
+  },
+  "ft-content_gate-tss-activity-soho": {
+    "matrix": "configs\\experiments\\finetune_v1.yaml",
+    "returncode": 0,
+    "seconds": 2256.953115700002,
+    "log": "checkpoints\\finetune-hrnet\\ft-content_gate-tss-activity-soho\\train.log",
+    "status": "complete"
+  },
+  "ft-content_clip_gate-tss-activity-cassini": {
+    "matrix": "configs\\experiments\\finetune_v1.yaml",
+    "returncode": 0,
+    "seconds": 1944.2661927000008,
+    "log": "checkpoints\\finetune-hrnet\\ft-content_clip_gate-tss-activity-cassini\\train.log",
+    "status": "complete"
+  },
+  "ft-content_clip_gate-tss-activity-satty": {
+    "matrix": "configs\\experiments\\finetune_v1.yaml",
+    "returncode": 0,
+    "seconds": 1960.3144826999924,
+    "log": "checkpoints\\finetune-hrnet\\ft-content_clip_gate-tss-activity-satty\\train.log",
+    "status": "complete"
+  },
+  "ft-content_clip_gate-tss-activity-soho": {
+    "matrix": "configs\\experiments\\finetune_v1.yaml",
+    "returncode": 0,
+    "seconds": 1228.8699920000072,
+    "log": "checkpoints\\finetune-hrnet\\ft-content_clip_gate-tss-activity-soho\\train.log",
+    "status": "complete"
+  },
+  "ft-rgb-tss-cassini": {
+    "matrix": "configs\\experiments\\finetune_v1.yaml",
+    "returncode": 0,
+    "seconds": 1094.4291482000117,
+    "log": "checkpoints\\finetune-hrnet\\ft-rgb-tss-cassini\\train.log",
+    "status": "complete"
+  },
+  "ft-rgb-tss-satty": {
+    "matrix": "configs\\experiments\\finetune_v1.yaml",
+    "returncode": 0,
+    "seconds": 1239.320432499997,
+    "log": "checkpoints\\finetune-hrnet\\ft-rgb-tss-satty\\train.log",
+    "status": "complete"
+  },
+  "ft-rgb-tss-soho": {
+    "matrix": "configs\\experiments\\finetune_v1.yaml",
+    "returncode": 0,
+    "seconds": 989.635574400003,
+    "log": "checkpoints\\finetune-hrnet\\ft-rgb-tss-soho\\train.log",
+    "status": "complete"
+  }
+}

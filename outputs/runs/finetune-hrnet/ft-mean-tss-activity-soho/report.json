@@ -1,0 +1,263 @@
+{
+  "schema_version": 1,
+  "name": "ft-mean-tss-activity-soho",
+  "spec": {
+    "modality": "fusion",
+    "backbone": "hrnet_w18_small_v2.ms_in1k",
+    "fusion": "mean",
+    "event_representation": "activity",
+    "decoder_channels": 64,
+    "clip_slope_init": 5.0
+  },
+  "protocol": "tss",
+  "config": {
+    "name": "ft-mean-tss-activity-soho",
+    "cache_dir": "data\\fresh\\cache\\crop-v2",
+    "objects": [
+      "soho"
+    ],
+    "modality": "fusion",
+    "fusion": "mean",
+    "backbone": "hrnet_w18_small_v2.ms_in1k",
+    "event_representation": "activity",
+    "protocol": "tss",
+    "clip_slope_init": 5.0,
+    "tss_fraction": 1.0,
+    "train_stride": 1,
+    "train_limit": null,
+    "validation_limit": null,
+    "epochs": 5,
+    "batch_size": 16,
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0001,
+    "warmup_steps": 100,
+    "schedule": "cosine",
+    "patience": 3,
+    "min_improvement_px": 0.05,
+    "precision": "fp32",
+    "no_pretrained": false,
+    "init_from": "checkpoints\\main-hrnet\\f-mean-tss-activity-soho\\best.pt",
+    "seed": 249,
+    "workers": 0,
+    "overfit": 0,
+    "overfit_steps": 200,
+    "output_dir": "outputs\\runs\\finetune-hrnet",
+    "checkpoint_dir": "checkpoints\\finetune-hrnet"
+  },
+  "data": {
+    "train_samples": 11920,
+    "validation_samples": 640,
+    "train_steps_per_epoch": 745,
+    "cache_manifests_sha256": {
+      "soho-train": "efaca086d135fb447f31a9f20f2ca057eb1e8d9e2948752edc98eb444b6beda4",
+      "soho-validation": "ea969fcc91ad3682dbf7f0c491bee24a189fb05dee41d61c4098c30b0871e80d"
+    }
+  },
+  "parameters": {
+    "total": 10659322,
+    "trainable": 10659322,
+    "fusion_specific": 0,
+    "fusion_specific_effective": 0
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.00031092491851738283,
+      "validation_rmse_px": 13.510643720233812,
+      "gate_mean_clipped": 0.5,
+      "gate_mean_unclipped": 0.5,
+      "learning_rate": 9.238964287851275e-05,
+      "epoch_seconds": 513.4370146000001,
+      "checkpoint": false
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.00018442704591543834,
+      "validation_rmse_px": 12.828760536196441,
+      "gate_mean_clipped": 0.5,
+      "gate_mean_unclipped": 0.5,
+      "learning_rate": 6.790154039324975e-05,
+      "epoch_seconds": 481.39248110000335,
+      "checkpoint": false
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.00013118190474061282,
+      "validation_rmse_px": 12.648908191861414,
+      "gate_mean_clipped": 0.5,
+      "gate_mean_unclipped": 0.5,
+      "learning_rate": 3.6206562138568155e-05,
+      "epoch_seconds": 468.764214099996,
+      "checkpoint": false
+    }
+  ],
+  "outcome": {
+    "stage": "train",
+    "selected_epoch": 0,
+    "selected_validation_rmse_px": 6.137330800813527,
+    "epochs_completed": 3,
+    "resumed_evaluation": false,
+    "evaluations": {
+      "validation_natural": {
+        "frame_count": 640,
+        "coordinate_rmse_px": 5.833102037085152,
+        "protocol": "natural",
+        "clip_mode": "normal",
+        "gate_override": null,
+        "gate_mean_clipped_patches": null,
+        "gate_mean_unclipped_patches": 0.5,
+        "pose": {
+          "frame_count": 640,
+          "pnp_valid_count": 640,
+          "pnp_valid_fraction": 1.0,
+          "failure_policy": "FRESH default pose: identity rotation (zero rotation vector), zero translation",
+          "all_frames": {
+            "are_degrees_mean": 5.220227729380361,
+            "are_degrees_median": 2.5934528020817016,
+            "absolute_translation_error_m_mean": 0.021321022110242047,
+            "absolute_translation_error_m_median": 0.007817588458719753,
+            "range_normalized_translation_error_mean": 0.01945895146196002,
+            "success_rotation_below_10_deg": 0.959375,
+            "success_translation_below_10_mm": 0.5953125,
+            "success_joint_10_deg_10_mm": 0.5890625
+          },
+          "valid_only": {
+            "are_degrees_mean": 5.220227729380361,
+            "are_degrees_median": 2.5934528020817016,
+            "absolute_translation_error_m_mean": 0.021321022110242047,
+            "absolute_translation_error_m_median": 0.007817588458719753,
+            "range_normalized_translation_error_mean": 0.01945895146196002,
+            "success_rotation_below_10_deg": 0.959375,
+            "success_translation_below_10_mm": 0.5953125,
+            "success_joint_10_deg_10_mm": 0.5890625,
+            "reprojection_rmse_px_mean": 2.5622162066662333
+          }
+        }
+      },
+      "validation_tss": {
+        "frame_count": 640,
+        "coordinate_rmse_px": 6.137330800813527,
+        "protocol": "tss",
+        "clip_mode": "normal",
+        "gate_override": null,
+        "gate_mean_clipped_patches": 0.5,
+        "gate_mean_unclipped_patches": 0.5,
+        "pose": {
+          "frame_count": 640,
+          "pnp_valid_count": 640,
+          "pnp_valid_fraction": 1.0,
+          "failure_policy": "FRESH default pose: identity rotation (zero rotation vector), zero translation",
+          "all_frames": {
+            "are_degrees_mean": 5.841617137586193,
+            "are_degrees_median": 2.820798576705746,
+            "absolute_translation_error_m_mean": 0.019891629770341552,
+            "absolute_translation_error_m_median": 0.008693959281010317,
+            "range_normalized_translation_error_mean": 0.018560749971730572,
+            "success_rotation_below_10_deg": 0.9453125,
+            "success_translation_below_10_mm": 0.55625,
+            "success_joint_10_deg_10_mm": 0.5515625
+          },
+          "valid_only": {
+            "are_degrees_mean": 5.841617137586193,
+            "are_degrees_median": 2.820798576705746,
+            "absolute_translation_error_m_mean": 0.019891629770341552,
+            "absolute_translation_error_m_median": 0.008693959281010317,
+            "range_normalized_translation_error_mean": 0.018560749971730572,
+            "success_rotation_below_10_deg": 0.9453125,
+            "success_translation_below_10_mm": 0.55625,
+            "success_joint_10_deg_10_mm": 0.5515625,
+            "reprojection_rmse_px_mean": 2.9259073212862807
+          }
+        }
+      },
+      "validation_tss_clip_shuffle": {
+        "frame_count": 640,
+        "coordinate_rmse_px": 6.137330800813527,
+        "protocol": "tss",
+        "clip_mode": "shuffle",
+        "gate_override": null,
+        "gate_mean_clipped_patches": 0.5,
+        "gate_mean_unclipped_patches": 0.5,
+        "pose": {
+          "frame_count": 640,
+          "pnp_valid_count": 640,
+          "pnp_valid_fraction": 1.0,
+          "failure_policy": "FRESH default pose: identity rotation (zero rotation vector), zero translation",
+          "all_frames": {
+            "are_degrees_mean": 5.841617137586193,
+            "are_degrees_median": 2.820798576705746,
+            "absolute_translation_error_m_mean": 0.019891629770341552,
+            "absolute_translation_error_m_median": 0.008693959281010317,
+            "range_normalized_translation_error_mean": 0.018560749971730572,
+            "success_rotation_below_10_deg": 0.9453125,
+            "success_translation_below_10_mm": 0.55625,
+            "success_joint_10_deg_10_mm": 0.5515625
+          },
+          "valid_only": {
+            "are_degrees_mean": 5.841617137586193,
+            "are_degrees_median": 2.820798576705746,
+            "absolute_translation_error_m_mean": 0.019891629770341552,
+            "absolute_translation_error_m_median": 0.008693959281010317,
+            "range_normalized_translation_error_mean": 0.018560749971730572,
+            "success_rotation_below_10_deg": 0.9453125,
+            "success_translation_below_10_mm": 0.55625,
+            "success_joint_10_deg_10_mm": 0.5515625,
+            "reprojection_rmse_px_mean": 2.9259073212862807
+          }
+        }
+      },
+      "validation_tss_clip_zero": {
+        "frame_count": 640,
+        "coordinate_rmse_px": 6.137330800813527,
+        "protocol": "tss",
+        "clip_mode": "zero",
+        "gate_override": null,
+        "gate_mean_clipped_patches": 0.5,
+        "gate_mean_unclipped_patches": 0.5,
+        "pose": {
+          "frame_count": 640,
+          "pnp_valid_count": 640,
+          "pnp_valid_fraction": 1.0,
+          "failure_policy": "FRESH default pose: identity rotation (zero rotation vector), zero translation",
+          "all_frames": {
+            "are_degrees_mean": 5.841617137586193,
+            "are_degrees_median": 2.820798576705746,
+            "absolute_translation_error_m_mean": 0.019891629770341552,
+            "absolute_translation_error_m_median": 0.008693959281010317,
+            "range_normalized_translation_error_mean": 0.018560749971730572,
+            "success_rotation_below_10_deg": 0.9453125,
+            "success_translation_below_10_mm": 0.55625,
+            "success_joint_10_deg_10_mm": 0.5515625
+          },
+          "valid_only": {
+            "are_degrees_mean": 5.841617137586193,
+            "are_degrees_median": 2.820798576705746,
+            "absolute_translation_error_m_mean": 0.019891629770341552,
+            "absolute_translation_error_m_median": 0.008693959281010317,
+            "range_normalized_translation_error_mean": 0.018560749971730572,
+            "success_rotation_below_10_deg": 0.9453125,
+            "success_translation_below_10_mm": 0.55625,
+            "success_joint_10_deg_10_mm": 0.5515625,
+            "reprojection_rmse_px_mean": 2.9259073212862807
+          }
+        }
+      }
+    }
+  },
+  "compute": {
+    "elapsed_seconds": 1499.4224910000048,
+    "peak_vram_allocated_bytes": 3475049984,
+    "precision": "fp32",
+    "gpu": "NVIDIA GeForce RTX 5060 Laptop GPU"
+  },
+  "provenance": {
+    "git_commit": "b4b71c6ff63eda4fd896e4ecb7d10467416ae2e0",
+    "working_tree_dirty": true,
+    "source_state_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "uv_lock_sha256": "fe742a5ce27445c837714bca804d02a8d13cce0adfd580cd21a4f7d312b661c3",
+    "python": "3.12.14",
+    "torch": "2.14.0+cu130",
+    "timm": "1.0.29",
+    "checkpoint": "checkpoints\\finetune-hrnet\\ft-mean-tss-activity-soho\\best.pt"
+  }
+}
