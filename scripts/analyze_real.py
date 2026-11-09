@@ -12,6 +12,7 @@ small gap cannot hide poor synthetic competence.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 from typing import Any
@@ -32,6 +33,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--condition", default="primary")
     parser.add_argument("--output", type=Path, default=Path("outputs/real/analysis.json"))
     return parser.parse_args()
+
+
+def _sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def _load(path: Path) -> dict[str, Any]:
@@ -60,10 +65,6 @@ def _holm(p_values: list[float]) -> list[float]:
         running = max(running, (len(p_values) - rank) * p_values[index])
         adjusted[index] = min(1.0, running)
     return adjusted
-
-
-def _is_tss(method: str) -> bool:
-    return "-tss" in method
 
 
 OBJECTS = ("cassini", "satty", "soho")
@@ -140,6 +141,7 @@ def _seed_summary(real_dir: Path, condition: str) -> dict[str, Any]:
             try:
                 merged = _merge(variant, real_dir, condition)
             except FileNotFoundError:
+                print(f"warning: {variant} lacks a real report for every object; omitted")
                 continue
             rows.append(
                 {
@@ -164,10 +166,52 @@ def _seed_summary(real_dir: Path, condition: str) -> dict[str, Any]:
     return summary
 
 
+def _interventions(real_dir: Path) -> dict[str, Any]:
+    """Descriptive deltas (condition minus primary) per method, pooled over objects."""
+    methods = sorted({path.name.removesuffix("-cassini") for path in real_dir.glob("*-cassini")})
+    result: dict[str, Any] = {}
+    for method in methods:
+        reports = [real_dir / f"{method}-{o}" / "real_report.json" for o in OBJECTS]
+        if not all(path.is_file() for path in reports):
+            continue
+        conditions = set(_load(reports[0])["results"]) - {"primary", "primary_ransac"}
+        if not conditions:
+            continue
+        base = _merge(method, real_dir, "primary")
+        base_are = float(np.mean(list(base["sequence_mean_are_deg"].values())))
+        base_ate = float(np.mean(list(base["sequence_mean_ate_m"].values())))
+        result[method] = {}
+        for condition in sorted(conditions):
+            merged = _merge(method, real_dir, condition)
+            result[method][condition] = {
+                "delta_are_deg": float(np.mean(list(merged["sequence_mean_are_deg"].values())))
+                - base_are,
+                "delta_ate_m": float(np.mean(list(merged["sequence_mean_ate_m"].values())))
+                - base_ate,
+            }
+    return result
+
+
 def main() -> int:
     args = parse_args()
     spec = yaml.safe_load(args.comparisons.read_text(encoding="utf-8"))
-    output: dict[str, Any] = {"condition": args.condition, "gaps": {}, "comparisons": []}
+    output: dict[str, Any] = {
+        "condition": args.condition,
+        "provenance": {
+            "freeze_manifest_sha256": (
+                _sha256(Path("outputs/real/freeze_manifest.json"))
+                if Path("outputs/real/freeze_manifest.json").is_file()
+                else None
+            ),
+            "comparisons_sha256": _sha256(args.comparisons),
+        },
+        "gaps_note": (
+            "gaps compare real errors under this condition's solver with EPnP synthetic "
+            "validation errors"
+        ),
+        "gaps": {},
+        "comparisons": [],
+    }
     names = {name for pair in spec["comparisons"] for name in (pair["candidate"], pair["baseline"])}
     for name in sorted(names):
         real = _merge(name, args.real_dir, args.condition)
@@ -224,24 +268,31 @@ def main() -> int:
             ),
             "ate_m": _bootstrap(candidate["sequence_mean_ate_m"], baseline["sequence_mean_ate_m"]),
         }
-    # Holm correction across the TSS secondary family, per metric (overall).
+    # Holm correction across the explicitly pre-registered family (list in the YAML).
+    members = set(spec.get("holm_family", []))
     family = [
         entry
         for entry in output["comparisons"]
-        if _is_tss(entry["candidate"])
-        and _is_tss(entry["baseline"])
-        and not (
-            primary
-            and entry["candidate"] == primary["candidate"]
-            and entry["baseline"] == primary["baseline"]
-        )
+        if f"{entry['candidate']}|{entry['baseline']}" in members
     ]
+    if len(family) != len(members):
+        raise SystemExit("holm_family lists comparisons absent from the comparisons list")
     for metric in ("are_deg", "ate_m"):
         adjusted = _holm([entry["overall"][metric]["p_two_sided"] for entry in family])
         for entry, value in zip(family, adjusted, strict=True):
             entry["overall"][metric]["p_holm_tss_family"] = value
     for entry in output["comparisons"]:
-        entry["family"] = "tss_holm" if entry in family else "exploratory"
+        is_primary = bool(
+            primary
+            and entry["candidate"] == primary["candidate"]
+            and entry["baseline"] == primary["baseline"]
+        )
+        entry["family"] = (
+            "primary" if is_primary else "tss_holm" if entry in family else "exploratory"
+        )
+    # Pre-specified descriptive interventions: change in overall sequence-mean ARE/ATE
+    # under clipping shuffle/zero, gate bypass, and the magnitude event encoding.
+    output["interventions"] = _interventions(args.real_dir)
     # Seed variation, reported separately from the sequence bootstrap (AGENTS.md).
     output["seeds"] = _seed_summary(args.real_dir, args.condition)
     args.output.parent.mkdir(parents=True, exist_ok=True)

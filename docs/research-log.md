@@ -805,11 +805,46 @@ run's saved synthetic-validation keypoints with the identical solver (4 px):
 
 The earlier statement that learning-free geometric fusion is the strongest
 comparator is withdrawn. The selection rule's distinct-landmark fix (6 distinct
-landmarks, not 6 correspondences) re-froze the threshold at 4 px (natural pair
-3.26 deg, TSS pair 5.08 deg). EPnP+LM stays the frozen primary solver; the
+landmarks, not 6 correspondences) re-froze the thresholds: 8 px for the natural
+pair (3.06 deg; 4 px gave 3.26 deg) and 4 px for the TSS pair (5.08 deg). The
+solver-control table and the `primary_ransac` real re-solve use 4 px for every
+model. (Corrected 2026-11-09: an earlier version of this entry said 4 px for both.) EPnP+LM stays the frozen primary solver; the
 RANSAC re-solve of every model's real keypoints is now a pre-registered
 secondary analysis (`primary_ransac`), computed by `evaluate_real.py` from the
 same saved keypoints and analysed with `analyze_real.py --condition
 primary_ransac`. Also from the review: S1 (`attention_clip`) can only reweight
 attention, as the mean-fusion term still carries saturated RGB, and `attention`
 is coarse-level attention (stride >= 16), so it is described that way.
+
+## 2026-11-09 — Pre-unblinding audit and G6 decisions (before any real read)
+
+An independent audit of the one-shot real-evaluation pipeline found a blocker:
+`run_g6.sh` read a CRLF, backslash-path run list written by Windows Python, so
+every evaluation would have failed silently and G6 would have produced nothing.
+Fixed (POSIX paths in the freeze manifest, CR stripped, child stdin detached,
+failures logged without aborting, final completeness check). Decisions fixed
+before unblinding:
+
+- **Holm family is an explicit list** in `main_v1_comparisons.yaml` (13
+  comparisons): both sides learned `main_v1` models trained under TSS. The
+  fine-tuned models (an exploratory final model, 2026-10-06) and the
+  learning-free geometric baseline are excluded; their comparisons are
+  exploratory. The primary comparison is tagged `primary`, never adjusted.
+- **Freeze enforcement.** `freeze_manifest.py` records checkpoint SHA-256s,
+  commit, dirty-tree flag, `uv.lock`, selection and comparison hashes, and
+  refuses a partial matrix. `evaluate_real.py` refuses any checkpoint whose hash
+  differs from the manifest; it and `geometric_fusion.py real` refuse a
+  geometric selection changed after the freeze. Real reports and analyses
+  record commit, lock hash, torch version, device, precision, batch size, and
+  the manifest hash.
+- **Pre-specified descriptive reports:** intervention deltas (clipping shuffle,
+  clipping zero, gate bypass, magnitude encoding minus primary; overall
+  sequence-mean ARE/ATE per method), seed mean and SD separately from the
+  bootstrap, and label-free real clipping prevalence
+  (`scripts/real_clipping_prevalence.py`: share of crops with any patch
+  s >= 0.01, overall, per object, harsh slice).
+- **Interpretation notes.** Under `primary_ransac` the synthetic-to-real gaps
+  mix solvers (RANSAC real vs EPnP synthetic) and are labelled so.
+  `ft-mean-tss-activity-soho` selected its epoch-0 starting checkpoint, so its
+  SOHO sequences are identical to `f-mean-tss-activity-soho` and contribute zero
+  differences to that fine-tuning comparison by construction.

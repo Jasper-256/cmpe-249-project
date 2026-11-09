@@ -4,7 +4,20 @@ primary:
   candidate: f-content_clip_gate-tss-activity
   baseline: f-content_gate-tss-activity
   metrics: [are_deg, ate_m]   # co-primary, overall sequence means
-holm_family: tss   # secondary comparisons whose candidate and baseline are both TSS-trained
+holm_family:  # explicit list (2026-11-09, before unblinding): both sides learned main_v1 TSS-trained models
+  - "f-clip_gate-tss-activity|f-clip_gate_constant-tss-activity"
+  - "f-clip_gate-tss-activity|f-content_gate-tss-activity"
+  - "f-clip_gate_fixed-tss-activity|f-mean-tss-activity"
+  - "f-clip_gate-tss-activity|f-mean-tss-activity"
+  - "f-clip_gate-tss-activity|f-clip_gate_signed-tss-activity"
+  - "f-clip_gate-tss-activity|f-clip_gate-tss-activity-slope0.1"
+  - "f-content_clip_gate-tss-activity|f-content_clip_gate-tss-activity-slope0.1"
+  - "f-content_clip_gate-tss-activity|u-rgb-tss"
+  - "f-content_clip_gate-tss-activity|f-content_clip_gate-tss0.25-activity"
+  - "f-content_gate-tss-activity|f-content_gate-tss0.25-activity"
+  - "f-attention_clip-tss-activity|f-attention-tss-activity"
+  - "f-attention-tss-activity|f-mean-tss-activity"
+  - "f-attention_clip-tss-activity|f-clip_gate-tss-activity"
 comparisons:
   # Does fusion beat each sensor alone?
   - {candidate: f-mean-natural-activity, baseline: u-rgb-natural, question: "fusion vs RGB-only (natural)"}

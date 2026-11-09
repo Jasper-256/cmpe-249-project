@@ -16,6 +16,7 @@ import argparse
 import hashlib
 import json
 import os
+import subprocess
 from pathlib import Path
 from typing import Any, cast
 
@@ -82,7 +83,25 @@ def main() -> int:
     args = parse_args()
     device = torch.device("cuda")
     torch.backends.cudnn.benchmark = False
-    selection = json.loads(Path("outputs/geometric/selection.json").read_text(encoding="utf-8"))
+    # The freeze manifest is mandatory: only frozen checkpoints, byte-identical to the
+    # ones recorded before any real read, may be evaluated.
+    manifest_path = Path("outputs/real/freeze_manifest.json")
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    selection_path = Path("outputs/geometric/selection.json")
+    if _sha256(selection_path) != manifest["geometric_selection_sha256"]:
+        raise SystemExit("geometric selection changed after the freeze")
+    selection = json.loads(selection_path.read_text(encoding="utf-8"))
+    provenance = {
+        "freeze_manifest_sha256": _sha256(manifest_path),
+        "git_commit": subprocess.run(
+            ["git", "rev-parse", "HEAD"], check=True, capture_output=True, text=True
+        ).stdout.strip(),
+        "uv_lock_sha256": _sha256(Path("uv.lock")),
+        "torch": torch.__version__,
+        "device": torch.cuda.get_device_name(device),
+        "precision": "float32",
+        "batch_size": 32,
+    }
     ransac_threshold = float(selection["pairs"]["g-ransac-tss"]["threshold_px"])
     with open_fresh_archive("real", args.raw_root) as archive:
         slices = cast(dict[str, dict[str, tuple[int, int]]], load_real_slices(archive))
@@ -99,6 +118,9 @@ def main() -> int:
         }
         spec = ModelSpec(**report["spec"])
         checkpoint = Path(report["provenance"]["checkpoint"])
+        frozen = manifest["runs"].get(report["name"])
+        if frozen is None or _sha256(checkpoint) != frozen["checkpoint_sha256"]:
+            raise SystemExit(f"{report['name']}: checkpoint is not the frozen one")
         state = torch.load(checkpoint, map_location=device, weights_only=True)
         num_keypoints = int(real[0]["keypoints_xy"].shape[0])
         model = build_model(spec, num_keypoints, pretrained=False).to(device)
@@ -165,6 +187,11 @@ def main() -> int:
             "spec": report["spec"],
             "training_protocol": report["protocol"],
             "checkpoint_sha256": _sha256(checkpoint),
+            "provenance": provenance,
+            "ransac_threshold_note": (
+                "primary_ransac uses the TSS-pair threshold (4 px) for every model, "
+                "the identical solver of the 2026-10-28 control"
+            ),
             "real_cache_manifest_sha256": _sha256(real_cache / "manifest.json"),
             "object": objects[0],
             "selected_epoch": report["outcome"].get("selected_epoch"),

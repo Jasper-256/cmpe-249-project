@@ -49,25 +49,32 @@ def main() -> int:
             report = json.loads(report_path.read_text(encoding="utf-8"))
             checkpoint = Path(report["provenance"]["checkpoint"])
             runs[entry["name"]] = {
-                "run_dir": str(run_dir),
+                "run_dir": run_dir.as_posix(),
                 "matrix": str(matrix_path),
                 "spec": report["spec"],
                 "protocol": report["protocol"],
                 "seed": report["config"]["seed"],
                 "selected_epoch": report["outcome"]["selected_epoch"],
                 "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
-                "checkpoint": str(checkpoint),
+                "checkpoint": checkpoint.as_posix(),
                 "checkpoint_sha256": _sha256(checkpoint),
             }
     if missing:
         raise SystemExit(f"refusing to freeze: {len(missing)} declared runs incomplete: {missing}")
-    commit = subprocess.run(
-        ["git", "rev-parse", "HEAD"], check=True, capture_output=True, text=True
-    ).stdout.strip()
+
+    def git(*command: str) -> str:
+        return subprocess.run(
+            ["git", *command], check=True, capture_output=True, text=True
+        ).stdout.strip()
+
+    commit = git("rev-parse", "HEAD")
+    dirty = bool(git("status", "--porcelain", "--", "src", "scripts", "configs"))
     manifest = {
         "schema_version": 1,
         "frozen_at": datetime.now(UTC).isoformat(),
         "git_commit": commit,
+        "source_tree_dirty": dirty,
+        "uv_lock_sha256": _sha256(Path("uv.lock")),
         "geometric_selection_sha256": _sha256(Path("outputs/geometric/selection.json")),
         "comparisons_sha256": _sha256(Path("configs/experiments/main_v1_comparisons.yaml")),
         "runs": runs,

@@ -14,6 +14,7 @@ baseline like any other method. Runs once per pair and object.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 from typing import Any
@@ -113,6 +114,11 @@ def select(args: argparse.Namespace) -> int:
 
 
 def real(args: argparse.Namespace) -> int:
+    manifest_path = Path("outputs/real/freeze_manifest.json")
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    digest = hashlib.sha256(args.selection.read_bytes()).hexdigest()
+    if digest != manifest["geometric_selection_sha256"]:
+        raise SystemExit("geometric selection changed after the freeze")
     selection = json.loads(args.selection.read_text(encoding="utf-8"))
     with open_fresh_archive("real", args.raw_root) as archive:
         slices = load_real_slices(archive)
@@ -156,6 +162,7 @@ def real(args: argparse.Namespace) -> int:
                     "FRESH-style RANSAC fusion of unimodal keypoints (not the published pipeline)"
                 ),
                 "pair": spec,
+                "freeze_manifest_sha256": hashlib.sha256(manifest_path.read_bytes()).hexdigest(),
                 "object": object_name,
                 # RANSAC is this method's native solver, so both conditions coincide.
                 "results": {
