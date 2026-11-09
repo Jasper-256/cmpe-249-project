@@ -39,3 +39,9 @@ comparisons:
   - {candidate: f-attention-tss-activity, baseline: f-mean-tss-activity, question: "unrestricted attention vs mean fusion"}
   - {candidate: f-attention_clip-tss-activity, baseline: f-clip_gate-tss-activity, question: "clipping inside attention vs per-location clipping gate"}
   - {candidate: f-attention-tss-activity, baseline: f-attention-natural-activity, question: "TSS training effect on attention fusion"}
+  # Fine-tuning stage and geometric baseline (added 2026-11-09, before any real evaluation).
+  - {candidate: ft-mean-tss-activity, baseline: f-mean-tss-activity, question: "fine-tuning effect on the final-model candidate"}
+  - {candidate: ft-content_clip_gate-tss-activity, baseline: ft-content_gate-tss-activity, question: "primary question after identical fine-tuning (secondary)"}
+  - {candidate: ft-mean-tss-activity, baseline: ft-rgb-tss, question: "final model vs fine-tuned RGB-only"}
+  - {candidate: ft-mean-tss-activity, baseline: g-ransac-tss, question: "final model vs FRESH-style geometric fusion (TSS pair)"}
+  - {candidate: f-mean-natural-activity, baseline: g-ransac-natural, question: "learned vs FRESH-style geometric fusion (natural pair)"}

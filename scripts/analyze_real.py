@@ -16,6 +16,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+import numpy as np
 import yaml
 
 from saga_pose.evaluation.bootstrap import paired_sequence_bootstrap
@@ -25,7 +26,9 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("comparisons", type=Path, help="YAML with a 'comparisons' list")
     parser.add_argument("--real-dir", type=Path, default=Path("outputs/real"))
-    parser.add_argument("--runs-dir", type=Path, required=True)
+    parser.add_argument(
+        "--runs-dir", type=Path, nargs="+", required=True, help="dirs holding synthetic reports"
+    )
     parser.add_argument("--condition", default="primary")
     parser.add_argument("--output", type=Path, default=Path("outputs/real/analysis.json"))
     return parser.parse_args()
@@ -95,7 +98,13 @@ def _merge(method: str, real_dir: Path, condition: str) -> dict[str, Any]:
     return merged
 
 
-def _synthetic_natural(method: str, runs_dir: Path) -> tuple[str, float, float]:
+def _synthetic_natural(method: str, runs_dirs: list[Path]) -> tuple[str, float, float] | None:
+    """Pooled natural-validation means, or None for methods without synthetic runs."""
+    runs_dir = next(
+        (d for d in runs_dirs if (d / f"{method}-{OBJECTS[0]}" / "report.json").is_file()), None
+    )
+    if runs_dir is None:
+        return None  # e.g. the learning-free geometric baseline
     are_sum = ate_sum = 0.0
     count = 0
     protocol = ""
@@ -110,6 +119,51 @@ def _synthetic_natural(method: str, runs_dir: Path) -> tuple[str, float, float]:
     return protocol, are_sum / count, ate_sum / count
 
 
+def _seed_summary(real_dir: Path, condition: str) -> dict[str, Any]:
+    """Overall sequence-mean ARE/ATE per seed for methods trained with extra seeds."""
+    seeded = sorted(
+        {
+            path.name.rsplit("-", maxsplit=2)[0]
+            for path in real_dir.glob("*-s25[0-9]-cassini")
+            if (path / "real_report.json").is_file()
+        }
+    )
+    summary: dict[str, Any] = {}
+    for base in seeded:
+        variants = [base] + [
+            f"{base}-s{seed}"
+            for seed in (250, 251)
+            if (real_dir / f"{base}-s{seed}-cassini").is_dir()
+        ]
+        rows = []
+        for variant in variants:
+            try:
+                merged = _merge(variant, real_dir, condition)
+            except FileNotFoundError:
+                continue
+            rows.append(
+                {
+                    "variant": variant,
+                    "sequence_mean_are_deg": float(
+                        np.mean(list(merged["sequence_mean_are_deg"].values()))
+                    ),
+                    "sequence_mean_ate_m": float(
+                        np.mean(list(merged["sequence_mean_ate_m"].values()))
+                    ),
+                }
+            )
+        are = np.array([row["sequence_mean_are_deg"] for row in rows])
+        ate = np.array([row["sequence_mean_ate_m"] for row in rows])
+        summary[base] = {
+            "seeds": rows,
+            "are_mean_deg": float(are.mean()),
+            "are_sd_deg": float(are.std(ddof=1)) if are.size > 1 else None,
+            "ate_mean_m": float(ate.mean()),
+            "ate_sd_m": float(ate.std(ddof=1)) if ate.size > 1 else None,
+        }
+    return summary
+
+
 def main() -> int:
     args = parse_args()
     spec = yaml.safe_load(args.comparisons.read_text(encoding="utf-8"))
@@ -117,7 +171,10 @@ def main() -> int:
     names = {name for pair in spec["comparisons"] for name in (pair["candidate"], pair["baseline"])}
     for name in sorted(names):
         real = _merge(name, args.real_dir, args.condition)
-        protocol, synthetic_are, synthetic_ate = _synthetic_natural(name, args.runs_dir)
+        synthetic = _synthetic_natural(name, args.runs_dir)
+        if synthetic is None:
+            continue
+        protocol, synthetic_are, synthetic_ate = synthetic
         output["gaps"][name] = {
             "training_protocol": protocol,
             "synthetic_are_mean_deg": synthetic_are,
@@ -185,6 +242,8 @@ def main() -> int:
             entry["overall"][metric]["p_holm_tss_family"] = value
     for entry in output["comparisons"]:
         entry["family"] = "tss_holm" if entry in family else "exploratory"
+    # Seed variation, reported separately from the sequence bootstrap (AGENTS.md).
+    output["seeds"] = _seed_summary(args.real_dir, args.condition)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(output, indent=2) + "\n", encoding="utf-8")
     print(f"analysis: {args.output}")
