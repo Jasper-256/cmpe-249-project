@@ -237,3 +237,8 @@ __marimo__/
 
 # Per-run source snapshots (the run report keeps their SHA-256)
 outputs/runs/**/source_state.patch
+
+# Live monitor: regenerated every refresh
+outputs/monitor/status.json
+outputs/monitor/feed.json
+outputs/monitor/monitor.publish.html

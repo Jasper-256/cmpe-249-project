@@ -1,0 +1,296 @@
+<title>SAGA Pose Monitor</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: a single readable column; a live operations band on top, the research story and expanders below. */
+:root{
+  --bg:#f5f6f8; --surface:#ffffff; --ink:#151a24; --muted:#5a6273; --line:#dfe3ea;
+  --accent:#2448c8; --accent-soft:#e7ecfb; --glare:#c97a00; --glare-soft:#fbf0dc;
+  --good:#1b7f4b; --good-soft:#e2f3ea; --bad:#b4352c; --bad-soft:#f8e4e2;
+  --display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f1218; --surface:#171b24; --ink:#e7eaf0; --muted:#9aa3b5; --line:#2a303d;
+  --accent:#7d9bff; --accent-soft:#1d2540; --glare:#f0a93a; --glare-soft:#3a2a10;
+  --good:#5fd39a; --good-soft:#123222; --bad:#ff8a80; --bad-soft:#3d1a18; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1218; --surface:#171b24; --ink:#e7eaf0; --muted:#9aa3b5; --line:#2a303d;
+  --accent:#7d9bff; --accent-soft:#1d2540; --glare:#f0a93a; --glare-soft:#3a2a10;
+  --good:#5fd39a; --good-soft:#123222; --bad:#ff8a80; --bad-soft:#3d1a18; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.6 var(--body)}
+.wrap{max-width:1040px;margin:0 auto;padding-block:28px 64px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:grid;gap:28px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:clamp(28px,4.5vw,40px);font-weight:700;letter-spacing:-.01em}
+h2{font-size:22px;font-weight:600}
+h3{font-size:16px;font-weight:600}
+p{margin:0;max-width:68ch}
+.eyebrow{font:500 11.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.mono,.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+header{display:grid;gap:10px}
+.lede{color:var(--muted);font-size:16px}
+.statusline{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;font-size:13px;color:var(--muted)}
+.pill{display:inline-flex;align-items:center;gap:7px;padding:4px 11px;border-radius:999px;font:600 12.5px/1.4 var(--body);
+  background:var(--accent-soft);color:var(--accent)}
+.pill.good{background:var(--good-soft);color:var(--good)} .pill.bad{background:var(--bad-soft);color:var(--bad)}
+.pill.glare{background:var(--glare-soft);color:var(--glare)}
+.dot{width:8px;height:8px;border-radius:50%;background:currentColor}
+.live .dot{animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.live .dot{animation:none}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;gap:16px;min-width:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.bar{height:10px;border-radius:5px;background:var(--line);overflow:hidden}
+.bar>span{display:block;height:100%;background:var(--accent);border-radius:5px;transition:width .6s}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:13.5px}
+.kv dt{color:var(--muted)} .kv dd{margin:0;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.stat{display:grid;gap:6px}
+.stat .big{font:600 30px/1 var(--display)}
+.pipeline{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;list-style:none;margin:0;padding:0}
+.pipeline li{border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:grid;gap:4px;font-size:13px}
+.pipeline li b{font:600 13.5px/1.3 var(--display)}
+.pipeline li.done{border-color:var(--good);background:var(--good-soft)}
+.pipeline li.active{border-color:var(--accent);background:var(--accent-soft)}
+.pipeline li .s{font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+ul.plain{list-style:none;margin:0;padding:0;display:grid;gap:4px;font-size:13px}
+ul.plain li{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dashed var(--line);padding-block:3px}
+ul.plain li span:first-child{overflow-wrap:anywhere;font-family:var(--mono)}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:620px}
+th,td{padding:7px 10px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{font:500 11.5px/1.3 var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+td{font-family:var(--mono);font-variant-numeric:tabular-nums}
+td:first-child{font-family:var(--body)}
+tr.best td{background:var(--good-soft)}
+.cellbar{display:inline-block;height:6px;border-radius:3px;background:var(--glare);vertical-align:middle;margin-left:6px;opacity:.8}
+details{border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+details+details{margin-top:8px}
+summary{cursor:pointer;padding:14px 18px;list-style:none;display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font:500 18px/1 var(--mono);color:var(--muted)}
+details[open] summary::after{content:"−"}
+summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:10px}
+summary .tag{font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-left:auto;margin-right:10px;white-space:nowrap}
+.dbody{padding:0 18px 18px;display:grid;gap:10px;font-size:14.5px}
+.dbody ul{margin:0;padding-left:20px;display:grid;gap:4px}
+.verdict{font:600 12px/1 var(--body);padding:3px 8px;border-radius:5px;white-space:nowrap}
+.v-keep{background:var(--good-soft);color:var(--good)} .v-stop{background:var(--bad-soft);color:var(--bad)}
+.v-open{background:var(--accent-soft);color:var(--accent)} .v-glare{background:var(--glare-soft);color:var(--glare)}
+.story{display:grid;gap:14px;counter-reset:step}
+.story li{list-style:none;display:grid;grid-template-columns:30px 1fr;gap:12px}
+.story li::before{counter-increment:step;content:counter(step);font:600 13px/28px var(--mono);text-align:center;
+  width:28px;height:28px;border-radius:50%;border:1px solid var(--line);color:var(--muted)}
+.story{padding:0;margin:0}
+.callout{border-left:3px solid var(--glare);background:var(--glare-soft);padding:12px 16px;border-radius:0 8px 8px 0;font-size:14.5px}
+.muted{color:var(--muted)}
+.flow{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;overflow-x:auto}
+.flow .col{display:grid;gap:8px;min-width:0;flex:1 1 0}
+.flow .node{border:1px solid var(--line);border-radius:7px;padding:8px 10px;font:600 13px/1.3 var(--display);display:grid;gap:2px;min-width:118px;background:var(--bg)}
+.flow .node small{font:400 11.5px/1.3 var(--mono);color:var(--muted)}
+.flow .node.glare{border-color:var(--glare);background:var(--glare-soft);color:var(--glare)}
+.flow .node.accent{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+.flow .node.ghost{border-style:dashed;background:none;color:var(--muted);font-weight:500}
+.flow .arrow{color:var(--muted);font:500 18px/1 var(--mono)}
+@media (max-width:720px){.flow{flex-direction:column;align-items:stretch}.flow .arrow{transform:rotate(90deg);text-align:center}}
+.empty{color:var(--muted);font-size:13.5px}
+</style>
+
+<div class="wrap">
+<header>
+  <span class="eyebrow">CMPE 249 · Event–RGB spacecraft pose under harsh lighting</span>
+  <h1>Does an explicit glare signal help a pose network trust the right sensor?</h1>
+  <p class="lede">A controlled study on the FRESH dataset: models train on synthetic renders only and are scored once on 24 real lab sequences. This page shows the live state of the experiment queue, the evidence so far, and how the project got here.</p>
+  <div class="statusline">
+    <span id="stage" class="pill live"><span class="dot"></span><span id="stage-text">Loading status…</span></span>
+    <span>Updated <span id="updated" class="mono">—</span></span>
+    <span id="source" class="muted"></span>
+  </div>
+</header>
+
+<section class="panel" aria-labelledby="ops">
+  <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline">
+    <h2 id="ops">Live operations</h2>
+    <span class="eyebrow">Local RTX 5060 · FP32 · batch 16</span>
+  </div>
+  <ol class="pipeline" id="pipeline"></ol>
+  <div class="grid2">
+    <div class="stat">
+      <span class="eyebrow">Main matrix</span>
+      <span class="big num" id="main-count">—</span>
+      <div class="bar" role="progressbar" aria-label="Main matrix progress"><span id="main-bar" style="width:0"></span></div>
+      <span class="muted" style="font-size:13px" id="main-eta"></span>
+    </div>
+    <div class="stat">
+      <span class="eyebrow">Fine-tuning stage</span>
+      <span class="big num" id="ft-count">—</span>
+      <div class="bar" role="progressbar" aria-label="Fine-tuning progress"><span id="ft-bar" style="width:0"></span></div>
+      <span class="muted" style="font-size:13px" id="ft-note"></span>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="panel" style="padding:16px">
+      <h3>Current run</h3>
+      <div id="current" class="empty">No run in progress.</div>
+    </div>
+    <div class="panel" style="padding:16px">
+      <h3>Recently finished</h3>
+      <ul class="plain" id="recent"></ul>
+      <h3 style="margin-top:6px">Up next</h3>
+      <ul class="plain" id="next"></ul>
+    </div>
+  </div>
+  <div id="g6box"></div>
+</section>
+
+<section class="panel" aria-labelledby="results">
+  <div style="display:grid;gap:6px">
+    <h2 id="results">Evidence so far</h2>
+    <p class="muted" style="font-size:14px">Synthetic validation, pooled over the three per-object models. Rotation and translation errors are means with PnP failures counted; success is the share of frames within both 10° and 10 mm. <b>TSS</b> is the glare-corrupted validation set. These are selection-biased development numbers; the frozen real test decides.</p>
+  </div>
+  <div class="tablewrap"><table id="results-table" aria-label="Synthetic validation results"><thead><tr>
+    <th>Method</th><th>Trained</th><th>Clean ARE °</th><th>Glare ARE °</th><th>Glare ATE mm</th><th>Glare 10°/10 mm</th>
+  </tr></thead><tbody></tbody></table></div>
+  <div id="real-result"></div>
+</section>
+
+<section class="panel" aria-labelledby="story">
+  <h2 id="story">The research question, start to finish</h2>
+  <ol class="story">
+    <li><div><h3>The problem</h3><p>Spacecraft docking needs accurate 6-DoF pose of the target. Direct sunlight saturates RGB cameras exactly when precision matters. Event cameras record brightness changes and do not saturate the same way, so fusing the two should help. The FRESH authors argued that learned attention fusion overfits synthetic data and used learning-free RANSAC fusion instead.</p></div></li>
+    <li><div><h3>The hypothesis</h3><p>A gate driven by a physically measured signal (the fraction of clipped RGB pixels per 16×16 patch) should tell the network where to trust events, and should generalize from synthetic to real better than unrestricted learned fusion. The test must separate the physical signal from simply having fewer parameters.</p></div></li>
+    <li><div><h3>The first surprise: synthetic data never clips</h3><p>Before any training, a screen of 384 synthetic crops found no pixel above 233 out of 255. FRESH deliberately rendered without harsh lighting, so a learned clipping gate had nothing to learn from. A stock sun-flare augmentation also failed to reach the target. The fix was a targeted specular saturation protocol (TSS) that adds glare on the spacecraft itself in half the training images, run alongside the natural protocol.</p></div></li>
+    <li><div><h3>Fixing the data before trusting it</h3><p>An audit found a wrong real ground truth (one sequence off by a median 59°), synthetic and real event frames encoded differently, event crops padded with a value that never occurs in synthetic data, and an evaluator that silently dropped failed pose solves. All were fixed and independently reviewed before the main experiments.</p></div></li>
+    <li><div><h3>Controlled comparison</h3><p>Eight fusion rules share the same pretrained HRNet encoders, decoder, data and budget; only the fusion rule changes. Matched controls include a gate with identical parameters but no clipping input, a fixed physical gate, and shuffle, zero and bypass interventions. Comparisons were pre-registered before training, with one primary question and a Holm-corrected secondary family.</p></div></li>
+    <li><div><h3>What the evidence says so far</h3><p>Training with glare decides robustness: every model trained on clean data collapses under glare. Fusion beats either sensor alone under glare. The explicit clipping gates do not beat plain averaging; strongly initialized gates are worst exactly on the glare frames they target. A robust pose solver improves every model about as much as the choice of fusion rule.</p></div></li>
+    <li><div><h3>What happens next</h3><p>When the queue finishes, every chosen checkpoint is hashed and frozen, each model is evaluated once on the 24 real sequences, and the pre-registered analysis runs under both pose solvers. A positive, mixed, null or negative answer are all reportable outcomes.</p></div></li>
+  </ol>
+  <p class="callout">Primary pre-registered question: on real data, does the content + clipping gate beat the content-only gate (TSS-trained), in sequence-mean rotation and translation error?</p>
+</section>
+
+<section aria-labelledby="arch" style="display:grid;gap:12px">
+  <h2 id="arch">Architectural directions</h2>
+  <div class="flow" role="img" aria-label="Pipeline: RGB crop and event map each go through an HRNet encoder; the clipping grid joins them at fusion; a shared decoder predicts keypoint heatmaps; a PnP solver recovers pose.">
+    <div class="col">
+      <div class="node">RGB crop <small>256 × 256</small></div>
+      <div class="node glare">Clipping grid s <small>16 × 16, max(RGB) ≥ 254</small></div>
+      <div class="node">Event map <small>raw · activity · magnitude</small></div>
+    </div>
+    <div class="arrow">→</div>
+    <div class="col">
+      <div class="node">HRNet-W18 RGB encoder</div>
+      <div class="node ghost">s feeds the gate only</div>
+      <div class="node">HRNet-W18 event encoder</div>
+    </div>
+    <div class="arrow">→</div>
+    <div class="col"><div class="node accent">Fusion rule at 5 pyramid levels <small>the only thing that varies</small></div></div>
+    <div class="arrow">→</div>
+    <div class="col"><div class="node">Heatmap decoder <small>64 × 64, 18 or 26 keypoints</small></div></div>
+    <div class="arrow">→</div>
+    <div class="col"><div class="node">Pose <small>EPnP + LM, or RANSAC re-solve</small></div></div>
+  </div>
+  <div id="arch-list"></div>
+</section>
+
+<section aria-labelledby="exps" style="display:grid;gap:12px">
+  <h2 id="exps">Experiments</h2>
+  <div id="exp-list"></div>
+</section>
+</div>
+
+<script type="application/json" id="snapshot">__SNAPSHOT__</script>
+<script>
+const ARCH = [
+  {t:"Mean fusion", tag:"0 params", v:["keep","Best under glare so far"], b:"Average RGB and event features at every level. The simplest rule, and currently the strongest on synthetic glare validation: 5.84° mean rotation error, 5.22° after the fine-tuning stage."},
+  {t:"Concat fusion", tag:"2.8M params", v:["open","Best on clean data"], b:"A 1×1 convolution over both feature maps. Best clean-data result with a robust solver: 2.06° and 80% within 10°/10 mm."},
+  {t:"Content gate (learned reliability)", tag:"2.8M params", v:["open","Strong comparator"], b:"A per-location gate learned from both features, with no physical input. This is the 'learned reliability' that the clipping signal must beat."},
+  {t:"Clipping gate (proposed)", tag:"3,968 params", v:["glare","Uses the signal, does not win"], b:"Gate g = σ(b − softplus(a)·s), monotone in measured clipping. Within 3% of the content gate's accuracy at 700× fewer fusion parameters, and its predictions depend on the clipping input. But it routes clipped patches almost entirely to events and is worst on exactly those frames; its parameters barely move from initialization."},
+  {t:"Constant control", tag:"3,968 params", v:["keep","Matched control"], b:"Identical module and parameter count with the clipping input replaced by zero. Separates the physical signal from capacity."},
+  {t:"Fixed clipping gate", tag:"0 params", v:["stop","Hurts"], b:"Mean fusion plus a hard switch to events wherever a patch clips. Nearly doubles rotation error on glare frames, mostly on SOHO."},
+  {t:"Content + clipping gate", tag:"2.8M params", v:["open","Primary question"], b:"The learned content gate plus the monotone clipping term. Lower keypoint error and better clean accuracy, but worse glare translation and success rate than the content gate alone. Decided on the real test."},
+  {t:"Signed gate and weak initialization", tag:"ablations", v:["open","Explains the gate"], b:"Removing the monotone constraint or starting the slope near zero. The weak start learns only slight event routing (trust 0.48 vs 0.50) and lands near mean fusion, which suggests the data prefer mild, not hard, routing."},
+  {t:"Coarse attention and attention + clipping bias", tag:"S1 design", v:["open","Close to mean fusion"], b:"A transformer block over both modalities' tokens at strides 16 and 32, added on top of mean fusion. The clipping variant biases attention by log g toward RGB and log(1 − g) toward events: the proposal's original S1 idea. On glare validation they reach 6.03° and 5.96°, close to mean fusion but not better, and the clipping bias lowers the 10°/10 mm success rate. A PyTorch fast-path bug was caught before these trained."},
+  {t:"FRESH-style geometric fusion", tag:"learning-free", v:["stop","Lead was the solver"], b:"RANSAC PnP over both unimodal models' keypoints. It looked strongest until a control gave every model the same robust solver; then learned fusion matched or beat it."},
+  {t:"Backbone screen", tag:"HRNet kept", v:["keep","Bounded null"], b:"EfficientNet-B0, TinyViT-5M, SegFormer-B0, SwinV2-T, MobileViTv2 and EfficientViT-M2 were screened under one shared decoder. None fit 16 samples, including at a lower learning rate; HRNet was kept. This says nothing general about CNNs versus transformers."}
+];
+const EXPS = [
+  {t:"G1A clipping screen", tag:"stop rule hit", b:"384 stratified synthetic crops: 0% contained clipping at 250, 254 or 255. The learned-gate plan was stopped before any GPU time."},
+  {t:"Sun-flare augmentation (S1A)", tag:"stopped", b:"Albumentations physics-based flare at two strengths reached 0% and 15.6% of crops, below the 90% coverage rule."},
+  {t:"Targeted specular saturation (TSS-v1)", tag:"adopted", b:"1–3 white Gaussian highlights with bloom on object pixels in half the samples. 100% of corrupted crops activate the clipping signal with a median 16% of patches."},
+  {t:"Grouped synthetic split", tag:"leakage fix", b:"The author split held out every 100th frame next to near-duplicates. Eight 80-frame validation blocks per object with a 5° rotation guard replaced it."},
+  {t:"crop-v2 data contract", tag:"fixes", b:"Corrected satty-4-far real labels, neutral event padding, three event encodings (raw, activity, magnitude), PnP failures scored with the FRESH default pose."},
+  {t:"Tier 1: every rule, both protocols", tag:"54 runs", b:"Unimodal baselines plus seven fusion rules under natural and TSS training. Natural-trained models all collapse under glare (25–35°)."},
+  {t:"Gate-design ablations", tag:"signed, slope 0.1", b:"Test whether the monotone constraint or the strong starting prior causes the clipping gates' losses."},
+  {t:"Event representation and TSS strength", tag:"ablations", b:"Raw vs activity events inside fusion, and quarter-strength TSS (12.5% corrupted) for the central rules."},
+  {t:"Extra seeds", tag:"seeds 250, 251", b:"The central TSS rules, mean, fixed gate and RGB-only get three seeds, because single-seed noise was as large as some effects."},
+  {t:"Fine-tuning stage", tag:"12 runs, done", b:"The final-model candidate (mean fusion), the primary pair and RGB-only continue on every training frame at a lower learning rate."},
+  {t:"Solver control", tag:"confound found", b:"Re-solving every model's keypoints with RANSAC showed the robust solver improves every model; learned fusion then matches geometric fusion."},
+  {t:"G6 frozen real test", tag:"automatic", b:"Freeze and hash checkpoints, evaluate each once on 24 real sequences, then the pre-registered paired bootstrap, Holm family, seed summary, interventions and clipping prevalence."}
+];
+const vClass={keep:"v-keep",stop:"v-stop",open:"v-open",glare:"v-glare"};
+function details(items, withVerdict){
+  return items.map(i=>`<details><summary><h3>${i.t}</h3><span class="tag">${i.tag}</span>${withVerdict?`<span class="verdict ${vClass[i.v[0]]}">${i.v[1]}</span>`:""}</summary><div class="dbody"><p>${i.b}</p></div></details>`).join("");
+}
+document.getElementById("arch-list").innerHTML=details(ARCH,true);
+document.getElementById("exp-list").innerHTML=details(EXPS,false);
+
+const $=id=>document.getElementById(id);
+function fmtAge(iso){const m=Math.round((Date.now()-Date.parse(iso))/60000);return m<1?"just now":m<60?`${m} min ago`:`${(m/60).toFixed(1)} h ago`;}
+function pct(a,b){return b?Math.round(100*a/b):0;}
+let lastStatus=null, lastSource="";
+function render(s, source){
+  if(!s) return;
+  lastStatus=s; lastSource=source;
+  const ageMin=(Date.now()-Date.parse(s.generated_at))/60000, stale=ageMin>45;
+  $("stage-text").textContent=stale?`${s.stage} · no update for ${fmtAge(s.generated_at).replace(" ago","")}`:s.stage;
+  $("stage").className="pill"+(stale?" bad":" live"+(s.stage.includes("complete")?" good":""));
+  $("updated").textContent=new Date(s.generated_at).toLocaleString()+" ("+fmtAge(s.generated_at)+")";
+  $("source").textContent=source;
+  const m=s.matrices.main, f=s.matrices.finetune;
+  $("main-count").textContent=`${m.done} / ${m.total}`;
+  $("main-bar").style.width=pct(m.done,m.total)+"%";
+  $("main-eta").textContent=m.remaining?`${m.remaining} runs left · about ${m.eta_hours} h at ${m.avg_run_minutes} min per run`+(m.failed_pending_retry.length?` · ${m.failed_pending_retry.length} to retry`:""):"All runs complete";
+  $("ft-count").textContent=`${f.done} / ${f.total}`;
+  $("ft-bar").style.width=pct(f.done,f.total)+"%";
+  $("ft-note").textContent=f.remaining?`${f.remaining} runs left`:"Complete";
+  const c=m.current||f.current;
+  if(c&&c.epoch){
+    $("current").innerHTML=`<div style="display:grid;gap:10px"><span class="mono" style="overflow-wrap:anywhere">${c.name}</span>
+      <div class="bar" role="progressbar" aria-label="Epoch progress"><span style="width:${pct(c.epoch,c.epochs)}%"></span></div>
+      <dl class="kv"><dt>Epoch</dt><dd>${c.epoch} of ${c.epochs}</dd><dt>Validation RMSE</dt><dd>${c.val_rmse_px.toFixed(2)} px</dd>
+      <dt>Best so far</dt><dd>${c.best_px.toFixed(2)} px at epoch ${c.best_epoch}</dd><dt>Epoch time</dt><dd>${c.epoch_seconds} s</dd>
+      <dt>Log updated</dt><dd>${fmtAge(c.updated)}</dd></dl></div>`;
+  } else if(c){ $("current").innerHTML=`<span class="mono">${c.name}</span><p class="empty">Starting up.</p>`; }
+  else $("current").innerHTML=`<p class="empty">No run in progress.</p>`;
+  $("recent").innerHTML=(m.recent||[]).map(r=>`<li><span>${r.name}</span><span class="num">${r.minutes} min</span></li>`).join("")||`<li class="empty">None yet.</li>`;
+  $("next").innerHTML=(m.next||[]).map(n=>`<li><span>${n}</span></li>`).join("")||`<li class="empty">Nothing queued.</li>`;
+  const g=s.g6||{}, trainingDone=!m.remaining&&!f.remaining;
+  const steps=[["Train matrix",trainingDone?"done":"active"],["Retry failures",trainingDone?(g.started?"done":"active"):"wait"],
+    ["Freeze checkpoints",g.frozen?"done":g.started?"active":"wait"],["Real evaluation",g.done?"done":g.started&&g.frozen?"active":"wait"],["Analysis",g.done?"done":"wait"]];
+  $("pipeline").innerHTML=steps.map(([n,st])=>`<li class="${st==="wait"?"":st}"><span class="s">${st==="done"?"Done":st==="active"?"In progress":"Waiting"}</span><b>${n}</b></li>`).join("");
+  $("g6box").innerHTML=g.started?`<p class="muted" style="font-size:13.5px">Real test: ${g.evaluated} of ${g.total??"?"} models evaluated${g.failed?` · <b style="color:var(--bad)">${g.failed} failures logged</b>`:""}.</p>`:"";
+  const rows=s.results||[], best=Math.min(...rows.filter(r=>r.trained==="tss").map(r=>r.tss.are)), maxAre=Math.max(...rows.map(r=>r.tss.are));
+  $("results-table").querySelector("tbody").innerHTML=rows.map(r=>`<tr class="${r.tss.are===best?"best":""}"><td>${r.label}</td><td>${r.trained==="tss"?"glare":"clean"}</td>
+    <td>${r.natural.are.toFixed(2)}</td><td>${r.tss.are.toFixed(2)}<span class="cellbar" style="width:${Math.round(40*r.tss.are/maxAre)}px"></span></td>
+    <td>${r.tss.ate.toFixed(1)}</td><td>${(100*r.tss.succ).toFixed(1)}%</td></tr>`).join("");
+  const p=s.primary_real;
+  $("real-result").innerHTML=p?`<p class="callout">Real test, primary comparison: content + clipping minus content-only. Rotation ${p.are_deg.mean_difference.toFixed(2)}° (95% CI ${p.are_deg.ci95.map(x=>x.toFixed(2)).join(" to ")}); translation ${(1000*p.ate_m.mean_difference).toFixed(1)} mm (95% CI ${p.ate_m.ci95.map(x=>(1000*x).toFixed(1)).join(" to ")}). Negative favors the clipping gate.</p>`:`<p class="muted" style="font-size:13.5px">Real-test results appear here after the frozen evaluation.</p>`;
+}
+setInterval(()=>render(lastStatus,lastSource),60000);
+let snapshot=null;
+try{snapshot=JSON.parse(document.getElementById("snapshot").textContent);}catch(e){}
+render(snapshot,"Snapshot embedded in the page");
+(async()=>{
+  const db=await window.claude?.use?.("db");
+  if(!db){$("source").textContent="Live feed unavailable here; showing the embedded snapshot";return;}
+  db.doc("status/current").onSnapshot(doc=>{
+    const data=doc&&(doc.data?doc.data():doc);
+    if(data&&data.payload){try{render(JSON.parse(data.payload),"Live feed");}catch(e){}}
+  },()=>{$("source").textContent="Live feed interrupted; showing the last data received";});
+})();
+</script>
