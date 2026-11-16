@@ -438,6 +438,134 @@ def synthetic_table() -> list[dict[str, Any]]:
     return rows
 
 
+# --- 6. current study (sim2real-v1) ----------------------------------------------------------
+
+S2R = Path("outputs/runs/sim2real-hrnet")
+S2R_ROWS = [
+    ("RGB only", "s2r-u-rgb-tss", "u-rgb-tss", "rgb"),
+    ("Event only", "s2r-u-event-activity", "u-event-activity", "event"),
+    ("Mean fusion", "s2r-f-mean-tss-activity", "f-mean-tss-activity", "mean"),
+    ("Content gate", "s2r-f-content_gate-tss-activity", None, "content_gate"),
+    ("Content + clipping gate", "s2r-f-content_clip_gate-tss-activity", None, "content_clip_gate"),
+    ("Clipping gate", "s2r-f-clip_gate-tss-activity", "f-clip_gate-tss-activity", "clip_gate"),
+    (
+        "Constant control (no s)",
+        "s2r-f-clip_gate_constant-tss-activity",
+        None,
+        "clip_gate_constant",
+    ),
+    ("Coarse attention", "s2r-f-attention-tss-activity", None, "attention"),
+    ("Attention + clipping bias", "s2r-f-attention_clip-tss-activity", None, "attention"),
+    ("RGB only, clean-trained", "s2r-u-rgb-natural", "u-rgb-natural", "rgb"),
+    (
+        "Mean fusion, clean-trained",
+        "s2r-f-mean-natural-activity",
+        "f-mean-natural-activity",
+        "mean",
+    ),
+]
+
+
+def current_study() -> dict[str, Any]:
+    """Synthetic results of the augmented study on the objects finished so far."""
+    gap_path = Path("outputs/sim2real/baseline_gap.json")
+    before = json.loads(gap_path.read_text(encoding="utf-8"))["runs"] if gap_path.is_file() else {}
+    keys = {
+        "clean": "validation_natural_sim2real",
+        "glare": "validation_tss_sim2real",
+        "glare_plain": "validation_tss",
+    }
+    rows = []
+    for label, method, earlier, colour in S2R_ROWS:
+        objects, frames = [], 0
+        total = {k: np.zeros(3) for k in keys}
+        old = np.zeros(2)
+        old_frames = 0
+        for obj in OBJECTS:
+            path = S2R / f"{method}-{obj}" / "report.json"
+            if not path.is_file():
+                continue
+            report = json.loads(path.read_text(encoding="utf-8"))
+            objects.append(obj)
+            for name, key in keys.items():
+                evaluation = report["outcome"]["evaluations"][key]
+                n = evaluation["frame_count"]
+                pose = evaluation["pose"]["all_frames"]
+                total[name] += n * np.array(
+                    [
+                        pose["are_degrees_mean"],
+                        pose["are_degrees_median"],
+                        100 * pose["success_joint_10_deg_10_mm"],
+                    ]
+                )
+            frames += n
+            if earlier and f"{earlier}-{obj}" in before:
+                entry = before[f"{earlier}-{obj}"]
+                old += entry["natural_sim2real"]["frames"] * np.array(
+                    [entry["natural_sim2real"]["are_deg"], entry["tss_sim2real"]["are_deg"]]
+                )
+                old_frames += entry["natural_sim2real"]["frames"]
+        if not objects:
+            continue
+        row: dict[str, Any] = {
+            "label": label,
+            "method": method,
+            "objects": objects,
+            "color": COLORS[colour],
+        }
+        for name in keys:
+            are, median, success = total[name] / frames
+            row[name] = {"are_deg": are, "are_median_deg": median, "success_pct": success}
+        if old_frames:
+            row["earlier"] = {
+                "clean_are_deg": old[0] / old_frames,
+                "glare_are_deg": old[1] / old_frames,
+            }
+        rows.append(row)
+    planned = len(S2R_ROWS) * len(OBJECTS)
+    done = sum(len(r["objects"]) for r in rows)
+
+    with_earlier = [r for r in rows if "earlier" in r]
+    if with_earlier:
+        fig, ax = plt.subplots(figsize=(7.2, 0.52 * len(with_earlier) + 1.3))
+        fig.patch.set_facecolor(SURFACE)
+        for i, row in enumerate(with_earlier):
+            y = len(with_earlier) - 1 - i
+            a, b = row["earlier"]["glare_are_deg"], row["glare"]["are_deg"]
+            ax.plot([a, b], [y, y], color=GRID, lw=2.2, zorder=1)
+            ax.scatter([a], [y], color=row["color"], s=34, marker="X", zorder=3)
+            ax.scatter(
+                [b],
+                [y],
+                color=row["color"],
+                s=38,
+                marker="o",
+                zorder=3,
+                edgecolor=TEXT,
+                linewidth=0.5,
+            )
+            ax.text(a + 2.5, y, f"{a:.0f}", va="center", fontsize=8)
+            ax.text(b + 2.5, y, f"{b:.1f}", va="center", fontsize=8)
+        ax.set_yticks(
+            range(len(with_earlier)),
+            [
+                f"{r['label']} ({', '.join(o.capitalize() for o in r['objects'])})"
+                for r in reversed(with_earlier)
+            ],
+        )
+        ax.set_xlim(0, 125)
+        ax.set_ylim(-0.6, len(with_earlier) - 0.4)
+        ax.set_xlabel(
+            "rotation error on augmented glare validation, degrees  (x before, o now)",
+            color=MUTED,
+        )
+        _style(ax)
+        fig.tight_layout()
+        fig.savefig(FIG / "augmentation_effect.png", dpi=200, facecolor=SURFACE)
+        plt.close(fig)
+    return {"rows": rows, "models_done": done, "models_planned": planned}
+
+
 def main() -> int:
     FIG.mkdir(parents=True, exist_ok=True)
     architecture()
@@ -468,6 +596,7 @@ def main() -> int:
         .splitlines()[-1]
         .startswith("G6 done"),
         "analyses": analyses,
+        "current_study": current_study(),
     }
     out = Path("outputs/report/progress_data.json")
     out.parent.mkdir(parents=True, exist_ok=True)
