@@ -1,0 +1,543 @@
+{
+ "seeds": [
+  {
+   "label": "RGB only",
+   "method": "u-rgb-tss",
+   "color": "#52514e",
+   "seeds": 3,
+   "are_each": [
+    13.72,
+    16.25,
+    16.67
+   ],
+   "are_mean": 15.54736225892925,
+   "are_sd": 1.5959746665520984,
+   "ate_mean": 59.898869828338775,
+   "ate_sd": 10.746935158020916,
+   "success_mean": 35.29513888888889,
+   "success_sd": 5.822472528281489
+  },
+  {
+   "label": "Mean fusion",
+   "method": "f-mean-tss-activity",
+   "color": "#2a78d6",
+   "seeds": 3,
+   "are_each": [
+    5.84,
+    6.24,
+    8.23
+   ],
+   "are_mean": 6.769449928665009,
+   "are_sd": 1.2828566688179424,
+   "ate_mean": 31.464845732166804,
+   "ate_sd": 5.8663797794320365,
+   "success_mean": 50.19097222222222,
+   "success_sd": 5.49086138401125
+  },
+  {
+   "label": "Content gate",
+   "method": "f-content_gate-tss-activity",
+   "color": "#1baf7a",
+   "seeds": 3,
+   "are_each": [
+    7.45,
+    6.02,
+    8.54
+   ],
+   "are_mean": 7.33569027467247,
+   "are_sd": 1.2620105864512494,
+   "ate_mean": 33.14185335348624,
+   "ate_sd": 6.536359310341012,
+   "success_mean": 51.99652777777778,
+   "success_sd": 4.44217199934438
+  },
+  {
+   "label": "Content + clipping gate",
+   "method": "f-content_clip_gate-tss-activity",
+   "color": "#4a3aa7",
+   "seeds": 3,
+   "are_each": [
+    7.45,
+    6.04,
+    9.72
+   ],
+   "are_mean": 7.735247966550921,
+   "are_sd": 1.858460127692293,
+   "ate_mean": 35.77413443037829,
+   "ate_sd": 6.56001531723049,
+   "success_mean": 46.71875,
+   "success_sd": 7.877507316897761
+  },
+  {
+   "label": "Clipping gate",
+   "method": "f-clip_gate-tss-activity",
+   "color": "#eda100",
+   "seeds": 3,
+   "are_each": [
+    8.16,
+    6.04,
+    9.4
+   ],
+   "are_mean": 7.869208293740596,
+   "are_sd": 1.7008568440696494,
+   "ate_mean": 36.85900719743115,
+   "ate_sd": 3.6066448028913514,
+   "success_mean": 45.729166666666664,
+   "success_sd": 6.063180087856355
+  },
+  {
+   "label": "Constant control (no s)",
+   "method": "f-clip_gate_constant-tss-activity",
+   "color": "#e87ba4",
+   "seeds": 3,
+   "are_each": [
+    8.81,
+    5.98,
+    10.29
+   ],
+   "are_mean": 8.358250338642927,
+   "are_sd": 2.1911059323864928,
+   "ate_mean": 36.15707126196512,
+   "ate_sd": 12.049759444429455,
+   "success_mean": 49.010416666666664,
+   "success_sd": 2.1162760056156276
+  },
+  {
+   "label": "Fixed clipping gate",
+   "method": "f-clip_gate_fixed-tss-activity",
+   "color": "#008300",
+   "seeds": 3,
+   "are_each": [
+    9.03,
+    7.26,
+    9.42
+   ],
+   "are_mean": 8.569399957395536,
+   "are_sd": 1.148849582099267,
+   "ate_mean": 39.26459940428564,
+   "ate_sd": 3.0675558118532202,
+   "success_mean": 44.56597222222222,
+   "success_sd": 2.334085010373047
+  }
+ ],
+ "synthetic_table": [
+  {
+   "label": "RGB only",
+   "method": "u-rgb-natural",
+   "trained": "clean",
+   "clean": {
+    "are_deg": 3.6958882288595807,
+    "ate_mm": 16.82419373498859,
+    "success_pct": 64.47916666666667
+   },
+   "glare": {
+    "are_deg": 34.52431022136921,
+    "ate_mm": 228.14597745439934,
+    "success_pct": 35.885416666666664
+   },
+   "total_params": 5412162,
+   "fusion_params": null
+  },
+  {
+   "label": "RGB only",
+   "method": "u-rgb-tss",
+   "trained": "glare",
+   "clean": {
+    "are_deg": 5.36294925575434,
+    "ate_mm": 21.953067479984703,
+    "success_pct": 48.697916666666664
+   },
+   "glare": {
+    "are_deg": 13.720335095644364,
+    "ate_mm": 61.80530530253786,
+    "success_pct": 38.17708333333334
+   },
+   "total_params": 5412162,
+   "fusion_params": null
+  },
+  {
+   "label": "Event only",
+   "method": "u-event-activity",
+   "trained": "clean",
+   "clean": {
+    "are_deg": 9.059309241994724,
+    "ate_mm": 38.19482157356435,
+    "success_pct": 42.447916666666664
+   },
+   "glare": {
+    "are_deg": 9.059309241994724,
+    "ate_mm": 38.19482157356435,
+    "success_pct": 42.447916666666664
+   },
+   "total_params": 5412162,
+   "fusion_params": null
+  },
+  {
+   "label": "Mean fusion",
+   "method": "f-mean-natural-activity",
+   "trained": "clean",
+   "clean": {
+    "are_deg": 3.272300034072226,
+    "ate_mm": 15.486918071360735,
+    "success_pct": 60.0
+   },
+   "glare": {
+    "are_deg": 30.67058716575695,
+    "ate_mm": 191.26463666170997,
+    "success_pct": 33.177083333333336
+   },
+   "total_params": 10658802,
+   "fusion_params": 0
+  },
+  {
+   "label": "Mean fusion",
+   "method": "f-mean-tss-activity",
+   "trained": "glare",
+   "clean": {
+    "are_deg": 4.927387652159263,
+    "ate_mm": 23.237695331471134,
+    "success_pct": 57.96875
+   },
+   "glare": {
+    "are_deg": 5.838977740157865,
+    "ate_mm": 27.649220637189767,
+    "success_pct": 53.177083333333336
+   },
+   "total_params": 10658802,
+   "fusion_params": 0
+  },
+  {
+   "label": "Concat fusion",
+   "method": "f-concat-tss-activity",
+   "trained": "glare",
+   "clean": {
+    "are_deg": 6.35817155804854,
+    "ate_mm": 27.469564680075447,
+    "success_pct": 58.645833333333336
+   },
+   "glare": {
+    "are_deg": 8.811850606672932,
+    "ate_mm": 39.77025103870944,
+    "success_pct": 52.760416666666664
+   },
+   "total_params": 13454258,
+   "fusion_params": 2795456
+  },
+  {
+   "label": "Content gate",
+   "method": "f-content_gate-tss-activity",
+   "trained": "glare",
+   "clean": {
+    "are_deg": 5.813698780559986,
+    "ate_mm": 31.295691437565832,
+    "success_pct": 59.322916666666664
+   },
+   "glare": {
+    "are_deg": 7.4495933331701645,
+    "ate_mm": 34.506128583661166,
+    "success_pct": 53.177083333333336
+   },
+   "total_params": 13454258,
+   "fusion_params": 2795456
+  },
+  {
+   "label": "Content + clipping gate",
+   "method": "f-content_clip_gate-tss-activity",
+   "trained": "glare",
+   "clean": {
+    "are_deg": 4.270257652382437,
+    "ate_mm": 21.53033869297495,
+    "success_pct": 52.1875
+   },
+   "glare": {
+    "are_deg": 7.450042660937939,
+    "ate_mm": 36.9836283660539,
+    "success_pct": 46.197916666666664
+   },
+   "total_params": 13456242,
+   "fusion_params": 2797440
+  },
+  {
+   "label": "Clipping gate",
+   "method": "f-clip_gate-tss-activity",
+   "trained": "glare",
+   "clean": {
+    "are_deg": 4.815227694663853,
+    "ate_mm": 23.397735146010085,
+    "success_pct": 54.010416666666664
+   },
+   "glare": {
+    "are_deg": 8.163873850794023,
+    "ate_mm": 38.67639732329799,
+    "success_pct": 48.020833333333336
+   },
+   "total_params": 10662770,
+   "fusion_params": 3968
+  },
+  {
+   "label": "Constant control (no s)",
+   "method": "f-clip_gate_constant-tss-activity",
+   "trained": "glare",
+   "clean": {
+    "are_deg": 6.45444714027067,
+    "ate_mm": 34.52375153086384,
+    "success_pct": 54.53125
+   },
+   "glare": {
+    "are_deg": 8.811020601667941,
+    "ate_mm": 44.55018243210006,
+    "success_pct": 48.4375
+   },
+   "total_params": 10662770,
+   "fusion_params": 3968
+  },
+  {
+   "label": "Fixed clipping gate",
+   "method": "f-clip_gate_fixed-tss-activity",
+   "trained": "glare",
+   "clean": {
+    "are_deg": 5.198491476307256,
+    "ate_mm": 22.20204886627998,
+    "success_pct": 52.291666666666664
+   },
+   "glare": {
+    "are_deg": 9.03101500375261,
+    "ate_mm": 40.3106552012328,
+    "success_pct": 46.041666666666664
+   },
+   "total_params": 10658802,
+   "fusion_params": 0
+  },
+  {
+   "label": "Coarse attention",
+   "method": "f-attention-tss-activity",
+   "trained": "glare",
+   "clean": {
+    "are_deg": 5.4159762853922535,
+    "ate_mm": 29.25567842586585,
+    "success_pct": 52.604166666666664
+   },
+   "glare": {
+    "are_deg": 6.03195236120881,
+    "ate_mm": 33.008711871671274,
+    "success_pct": 49.010416666666664
+   },
+   "total_params": 11557106,
+   "fusion_params": 898304
+  },
+  {
+   "label": "Attention + clipping bias",
+   "method": "f-attention_clip-tss-activity",
+   "trained": "glare",
+   "clean": {
+    "are_deg": 4.580206222336937,
+    "ate_mm": 23.49072015872134,
+    "success_pct": 50.364583333333336
+   },
+   "glare": {
+    "are_deg": 5.957324397797977,
+    "ate_mm": 32.947417010078,
+    "success_pct": 46.197916666666664
+   },
+   "total_params": 11557122,
+   "fusion_params": 898320
+  }
+ ],
+ "sim_to_real": [
+  {
+   "label": "RGB only",
+   "method": "u-rgb-natural",
+   "trained": "natural",
+   "color": "#52514e",
+   "synthetic": {
+    "are_deg": 3.6958882288595807,
+    "ate_mm": 16.82419373498859,
+    "success_pct": 64.47916666666667
+   },
+   "real": {
+    "are_deg": 113.02797596620817,
+    "are_median_deg": 116.31366059105099,
+    "ate_median_mm": 364.024871479851,
+    "rot10_pct": 0.6080567519635166,
+    "trans10mm_pct": 0.01266784899923993,
+    "frames": 7894
+   }
+  },
+  {
+   "label": "RGB only",
+   "method": "u-rgb-tss",
+   "trained": "tss",
+   "color": "#52514e",
+   "synthetic": {
+    "are_deg": 5.36294925575434,
+    "ate_mm": 21.953067479984703,
+    "success_pct": 48.697916666666664
+   },
+   "real": {
+    "are_deg": 85.37035322210323,
+    "are_median_deg": 75.08192259094213,
+    "ate_median_mm": 325.89339844269375,
+    "rot10_pct": 0.8614137319483152,
+    "trans10mm_pct": 1.6468203699011907,
+    "frames": 7894
+   }
+  },
+  {
+   "label": "Event only",
+   "method": "u-event-activity",
+   "trained": "natural",
+   "color": "#a3a29b",
+   "synthetic": {
+    "are_deg": 9.059309241994724,
+    "ate_mm": 38.19482157356435,
+    "success_pct": 42.447916666666664
+   },
+   "real": {
+    "are_deg": 116.04827561610925,
+    "are_median_deg": 120.71541280479913,
+    "ate_median_mm": 291.08770198718986,
+    "rot10_pct": 0.11401064099315936,
+    "trans10mm_pct": 0.050671395996959724,
+    "frames": 7894
+   }
+  },
+  {
+   "label": "Mean fusion",
+   "method": "f-mean-natural-activity",
+   "trained": "natural",
+   "color": "#2a78d6",
+   "synthetic": {
+    "are_deg": 3.272300034072226,
+    "ate_mm": 15.486918071360735,
+    "success_pct": 60.0
+   },
+   "real": {
+    "are_deg": 108.91656305694869,
+    "are_median_deg": 108.54834898248941,
+    "ate_median_mm": 377.4680553302003,
+    "rot10_pct": 0.5193818089688371,
+    "trans10mm_pct": 0.01266784899923993,
+    "frames": 7894
+   }
+  },
+  {
+   "label": "Mean fusion",
+   "method": "f-mean-tss-activity",
+   "trained": "tss",
+   "color": "#2a78d6",
+   "synthetic": {
+    "are_deg": 4.927387652159263,
+    "ate_mm": 23.237695331471134,
+    "success_pct": 57.96875
+   },
+   "real": {
+    "are_deg": 106.23538204372376,
+    "are_median_deg": 104.50313142401075,
+    "ate_median_mm": 338.0945263346159,
+    "rot10_pct": 0.20268558398783887,
+    "trans10mm_pct": 0.25335697998479856,
+    "frames": 7894
+   }
+  },
+  {
+   "label": "Concat fusion",
+   "method": "f-concat-natural-activity",
+   "trained": "natural",
+   "color": "#eb6834",
+   "synthetic": {
+    "are_deg": 3.1845422384195325,
+    "ate_mm": 12.928232931872834,
+    "success_pct": 68.33333333333333
+   },
+   "real": {
+    "are_deg": 106.71451293806771,
+    "are_median_deg": 106.24003829125968,
+    "ate_median_mm": 314.13029416052353,
+    "rot10_pct": 0.2913605269825184,
+    "trans10mm_pct": 0.06333924499619964,
+    "frames": 7894
+   }
+  },
+  {
+   "label": "Content gate",
+   "method": "f-content_gate-tss-activity",
+   "trained": "tss",
+   "color": "#1baf7a",
+   "synthetic": {
+    "are_deg": 5.813698780559986,
+    "ate_mm": 31.295691437565832,
+    "success_pct": 59.322916666666664
+   },
+   "real": {
+    "are_deg": 104.92800232364614,
+    "are_median_deg": 105.54295072002965,
+    "ate_median_mm": 315.9105108563299,
+    "rot10_pct": 0.20268558398783887,
+    "trans10mm_pct": 0.20268558398783884,
+    "frames": 7894
+   }
+  },
+  {
+   "label": "Content + clipping gate",
+   "method": "f-content_clip_gate-tss-activity",
+   "trained": "tss",
+   "color": "#4a3aa7",
+   "synthetic": {
+    "are_deg": 4.270257652382437,
+    "ate_mm": 21.53033869297495,
+    "success_pct": 52.1875
+   },
+   "real": {
+    "are_deg": 89.57972154023906,
+    "are_median_deg": 84.02048632062528,
+    "ate_median_mm": 294.9714504613377,
+    "rot10_pct": 0.3800354699771979,
+    "trans10mm_pct": 0.7220673929566759,
+    "frames": 7894
+   }
+  },
+  {
+   "label": "Clipping gate",
+   "method": "f-clip_gate-tss-activity",
+   "trained": "tss",
+   "color": "#eda100",
+   "synthetic": {
+    "are_deg": 4.815227694663853,
+    "ate_mm": 23.397735146010085,
+    "success_pct": 54.010416666666664
+   },
+   "real": {
+    "are_deg": 101.74383132739197,
+    "are_median_deg": 99.10965143025922,
+    "ate_median_mm": 356.07397965225744,
+    "rot10_pct": 0.354699771978718,
+    "trans10mm_pct": 0.19001773498859895,
+    "frames": 7894
+   }
+  },
+  {
+   "label": "Coarse attention",
+   "method": "f-attention-tss-activity",
+   "trained": "tss",
+   "color": "#7a5c3e",
+   "synthetic": {
+    "are_deg": 5.4159762853922535,
+    "ate_mm": 29.25567842586585,
+    "success_pct": 52.604166666666664
+   },
+   "real": {
+    "are_deg": 106.81528559069704,
+    "are_median_deg": 107.3021515704435,
+    "ate_median_mm": 403.2148736386216,
+    "rot10_pct": 0.24068913098555866,
+    "trans10mm_pct": 0.10134279199391942,
+    "frames": 7894
+   }
+  }
+ ],
+ "real_reports": 82,
+ "frozen_runs": 150,
+ "freeze_commit": "0235d4d06f3d6101e73cf5d6d1a0f7bb027f0b42",
+ "g6_complete": false,
+ "analyses": {}
+}

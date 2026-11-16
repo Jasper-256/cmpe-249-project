@@ -242,3 +242,6 @@ outputs/runs/**/source_state.patch
 outputs/monitor/status.json
 outputs/monitor/feed.json
 outputs/monitor/monitor.publish.html
+
+# Per-frame real-test predictions (bulky; regenerate with scripts/run_g6.sh)
+outputs/real/*/frames_*.npz

@@ -6,7 +6,7 @@
 /* Layout: a single readable column; a live operations band on top, the research story and expanders below. */
 :root{
   --bg:#f5f6f8; --surface:#ffffff; --ink:#151a24; --muted:#5a6273; --line:#dfe3ea;
-  --accent:#2448c8; --accent-soft:#e7ecfb; --glare:#c97a00; --glare-soft:#fbf0dc;
+  --accent:#2448c8; --accent-soft:#e7ecfb; --glare:#8f5600; --glare-soft:#fbf0dc;
   --good:#1b7f4b; --good-soft:#e2f3ea; --bad:#b4352c; --bad-soft:#f8e4e2;
   --display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
   --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -56,6 +56,7 @@ header{display:grid;gap:10px}
 .pipeline li b{font:600 13.5px/1.3 var(--display)}
 .pipeline li.done{border-color:var(--good);background:var(--good-soft)}
 .pipeline li.active{border-color:var(--accent);background:var(--accent-soft)}
+.pipeline li.done .s{color:var(--good)} .pipeline li.active .s{color:var(--accent)}
 .pipeline li .s{font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 ul.plain{list-style:none;margin:0;padding:0;display:grid;gap:4px;font-size:13px}
 ul.plain li{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dashed var(--line);padding-block:3px}
@@ -87,7 +88,7 @@ summary .tag{font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:upp
 .story li::before{counter-increment:step;content:counter(step);font:600 13px/28px var(--mono);text-align:center;
   width:28px;height:28px;border-radius:50%;border:1px solid var(--line);color:var(--muted)}
 .story{padding:0;margin:0}
-.callout{border-left:3px solid var(--glare);background:var(--glare-soft);padding:12px 16px;border-radius:0 8px 8px 0;font-size:14.5px}
+.callout{border:1px solid var(--glare);background:var(--glare-soft);padding:12px 16px;border-radius:8px;font-size:14.5px}
 .muted{color:var(--muted)}
 .flow{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;overflow-x:auto}
 .flow .col{display:grid;gap:8px;min-width:0;flex:1 1 0}

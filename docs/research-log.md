@@ -848,3 +848,56 @@ before unblinding:
   `ft-mean-tss-activity-soho` selected its epoch-0 starting checkpoint, so its
   SOHO sequences are identical to `f-mean-tss-activity-soho` and contribute zero
   differences to that fine-tuning comparison by construction.
+
+## 2026-11-15: Real test round 1 fails for every model; cause analysis; sim2real-v1 (round 2, post-hoc)
+
+**Round-1 real results (own, frozen checkpoints, commit 0235d4d).** On the
+reports available at the time of writing, every model, including RGB-only and
+event-only, has a pooled mean ARE of 85-116 degrees on the real sequences (a
+uniformly random rotation averages 126.5 degrees) and under 2% of frames within
+10 mm. The G6 run was interrupted on 2026-11-10 by a graphics-driver crash
+(Windows bug check 116) and resumed on 2026-11-15; completed reports are never
+re-evaluated. `engine.evaluate` gained an optional `augment` argument during
+the resume; with the default `None` its computation is unchanged.
+
+**Checks (labels and inputs only, no model selection).**
+
+- PnP from ground-truth real keypoints recovers the ground-truth pose (median
+  ARE < 0.01 degrees, all objects): intrinsics, units, and conventions are right.
+- **Pose coverage.** Every synthetic train and validation pose has exactly zero
+  in-plane roll (`R[1,0] == 0`). Real frames need a median 42-83 degrees of roll
+  to reach the nearest training rotation. Without roll, 18-32% of real frames
+  are within 15 degrees of a training rotation; allowing roll, 100% are.
+- **Appearance.** Real crops have a lit background (Satty 10th-percentile
+  intensity 30 vs 0 synthetic), 4-13% clipped pixels (synthetic natural: 0),
+  and noisier event frames.
+- Source-reported reference: FRESH's HRNet baselines reach 29% (RGB), 32%
+  (event), and 45% (RANSAC fusion) of real frames within 10 mm, training at
+  512 px with random rotation/translation, blur, colour jitter and noise, and
+  event noise (https://arxiv.org/html/2507.05698v3, accessed 2026-11-15, Table
+  of Omega success rates and Section on training). Not reproduced; different
+  crop source and resolution, so only a rough reference.
+
+**Interpretation (ours).** The round-1 comparison cannot test the hypothesis:
+with every model near chance, differences between fusion rules on real data are
+not meaningful. The synthetic findings stand as synthetic findings.
+
+**Decision (user-approved 2026-11-15): add sim2real-v1 and a second real
+evaluation, reported as post-hoc.** `saga_pose.data.sim2real` applies a shared
+geometric transform (roll +-180 degrees, scale 0.8-1.15, shift +-8%) to RGB,
+events, and the clipping grid, plus RGB brightness/contrast/colour/ambient/blur/
+noise and event dropout/noise/blur. Magnitudes are fixed in code, follow the
+augmentation families FRESH reports, and were not tuned on real data. The roll
+range is motivated by the label-only pose statistics above; that is a use of
+real-test labels and is disclosed as such. Checkpoints are selected on the
+deterministically augmented synthetic validation set. The core matrix
+(`configs/experiments/sim2real_v1.yaml`: RGB-only, event-only, mean, content
+gate, content + clipping gate, clipping gate, constant control; TSS protocol;
+three per-object models each; 30 epochs, patience 6) is trained first with one
+seed. Round 2 will be frozen and evaluated once, and every table will show
+round 1 and round 2 side by side. Round 2 is exploratory with respect to the
+pre-registration: the real set has been seen once.
+
+**Falsifiable synthetic check.** `scripts/synthetic_gap.py` evaluates round-1
+checkpoints on synthetic validation with roll only. If the roll explanation is
+right, their synthetic error must rise sharply under roll.

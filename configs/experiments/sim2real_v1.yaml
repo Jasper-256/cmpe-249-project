@@ -1,0 +1,122 @@
+description: 'sim2real-v1 core matrix: glare-trained (TSS) per-object models with
+  in-plane roll, scale/shift, photometric, blur, and event-noise augmentation. Checkpoints
+  are selected on the deterministically augmented synthetic validation set. Real data
+  are never used here.'
+defaults:
+  backbone: hrnet_w18_small_v2.ms_in1k
+  train_stride: 4
+  epochs: 30
+  batch_size: 16
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  schedule: cosine
+  warmup_steps: 300
+  patience: 6
+  min_improvement_px: 0.05
+  protocol: tss
+  event_representation: activity
+  augment: sim2real-v1
+  seed: 249
+  workers: 0
+  output_dir: outputs/runs/sim2real-hrnet
+  checkpoint_dir: checkpoints/sim2real-hrnet
+runs:
+- name: s2r-u-rgb-tss-cassini
+  modality: rgb
+  objects:
+  - cassini
+- name: s2r-u-event-activity-cassini
+  modality: event
+  objects:
+  - cassini
+- name: s2r-f-mean-tss-activity-cassini
+  modality: fusion
+  fusion: mean
+  objects:
+  - cassini
+- name: s2r-f-content_gate-tss-activity-cassini
+  modality: fusion
+  fusion: content_gate
+  objects:
+  - cassini
+- name: s2r-f-content_clip_gate-tss-activity-cassini
+  modality: fusion
+  fusion: content_clip_gate
+  objects:
+  - cassini
+- name: s2r-f-clip_gate-tss-activity-cassini
+  modality: fusion
+  fusion: clip_gate
+  objects:
+  - cassini
+- name: s2r-f-clip_gate_constant-tss-activity-cassini
+  modality: fusion
+  fusion: clip_gate_constant
+  objects:
+  - cassini
+- name: s2r-u-rgb-tss-satty
+  modality: rgb
+  objects:
+  - satty
+- name: s2r-u-event-activity-satty
+  modality: event
+  objects:
+  - satty
+- name: s2r-f-mean-tss-activity-satty
+  modality: fusion
+  fusion: mean
+  objects:
+  - satty
+- name: s2r-f-content_gate-tss-activity-satty
+  modality: fusion
+  fusion: content_gate
+  objects:
+  - satty
+- name: s2r-f-content_clip_gate-tss-activity-satty
+  modality: fusion
+  fusion: content_clip_gate
+  objects:
+  - satty
+- name: s2r-f-clip_gate-tss-activity-satty
+  modality: fusion
+  fusion: clip_gate
+  objects:
+  - satty
+- name: s2r-f-clip_gate_constant-tss-activity-satty
+  modality: fusion
+  fusion: clip_gate_constant
+  objects:
+  - satty
+- name: s2r-u-rgb-tss-soho
+  modality: rgb
+  objects:
+  - soho
+- name: s2r-u-event-activity-soho
+  modality: event
+  objects:
+  - soho
+- name: s2r-f-mean-tss-activity-soho
+  modality: fusion
+  fusion: mean
+  objects:
+  - soho
+- name: s2r-f-content_gate-tss-activity-soho
+  modality: fusion
+  fusion: content_gate
+  objects:
+  - soho
+- name: s2r-f-content_clip_gate-tss-activity-soho
+  modality: fusion
+  fusion: content_clip_gate
+  objects:
+  - soho
+- name: s2r-f-clip_gate-tss-activity-soho
+  modality: fusion
+  fusion: clip_gate
+  objects:
+  - soho
+- name: s2r-f-clip_gate_constant-tss-activity-soho
+  modality: fusion
+  fusion: clip_gate_constant
+  objects:
+  - soho

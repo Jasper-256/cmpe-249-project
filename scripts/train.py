@@ -26,12 +26,14 @@ from torch.utils.data import ConcatDataset, DataLoader, Dataset, Subset
 
 from saga_pose.data.cache import FreshCropCacheDataset
 from saga_pose.data.dataset import FreshItem
+from saga_pose.data.sim2real import Sim2RealConfig, augment_batch, roll_only_config
 from saga_pose.models.fusion import FUSION_RULES, FusionHeatmapRegressor
 from saga_pose.training.engine import (
     ModelSpec,
     Protocol,
     build_model,
     evaluate,
+    event_neutral_level,
     forward,
     heatmap_loss,
     protocol_inputs,
@@ -53,6 +55,13 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--protocol", choices=("natural", "tss"), default="natural")
     parser.add_argument("--clip-slope-init", type=float, default=5.0)
+    parser.add_argument(
+        "--augment",
+        choices=("none", "sim2real-v1"),
+        default="none",
+        help="training augmentation; with sim2real-v1 the checkpoint is selected on the "
+        "deterministically augmented synthetic validation set",
+    )
     parser.add_argument(
         "--tss-fraction", type=float, default=1.0, help="training-only TSS strength ablation"
     )
@@ -192,6 +201,8 @@ def main() -> int:
         clip_slope_init=args.clip_slope_init,
     )
     protocol = cast(Protocol, args.protocol)
+    augment = Sim2RealConfig() if args.augment == "sim2real-v1" else None
+    augment_generator = torch.Generator().manual_seed(args.seed + 7919)
     if not torch.cuda.is_available():
         raise RuntimeError("training requires CUDA")
     device = torch.device("cuda")
@@ -258,7 +269,18 @@ def main() -> int:
     def train_step(batch: FreshItem) -> float:
         model.train()
         inputs = protocol_inputs(batch, spec, protocol, tss_fraction=args.tss_fraction)
-        targets = batch["keypoints_xy"].to(device, non_blocking=True)
+        keypoints = batch["keypoints_xy"]
+        if augment is not None:
+            # The generator is not checkpointed: a resumed run draws a different
+            # (still seeded) augmentation stream than an uninterrupted one.
+            inputs, keypoints, _ = augment_batch(
+                inputs,
+                keypoints,
+                augment,
+                augment_generator,
+                event_neutral=event_neutral_level(spec),
+            )
+        targets = keypoints.to(device, non_blocking=True)
         optimizer.zero_grad(set_to_none=True)
         with torch.autocast(
             "cuda", dtype=autocast_dtype or torch.float32, enabled=autocast_dtype is not None
@@ -341,7 +363,15 @@ def main() -> int:
         if args.init_from is not None and not resumed_evaluation and start_epoch == 1:
             # Fine-tuning: the starting checkpoint is epoch 0, so a fine-tune that
             # only makes the model worse can never be selected over it.
-            initial = evaluate(model, validation_loader, spec, protocol, device, recover_pose=False)
+            initial = evaluate(
+                model,
+                validation_loader,
+                spec,
+                protocol,
+                device,
+                recover_pose=False,
+                augment=augment,
+            )
             best_rmse, best_epoch = initial["coordinate_rmse_px"], 0
             torch.save(
                 {"model": model.state_dict(), "spec": spec.as_dict(), "epoch": 0},
@@ -352,7 +382,13 @@ def main() -> int:
             epoch_started = time.perf_counter()
             losses = [train_step(batch) for batch in train_loader]
             validation = evaluate(
-                model, validation_loader, spec, protocol, device, recover_pose=False
+                model,
+                validation_loader,
+                spec,
+                protocol,
+                device,
+                recover_pose=False,
+                augment=augment,
             )
             rmse = validation["coordinate_rmse_px"]
             improved = rmse <= best_rmse - args.min_improvement_px
@@ -445,6 +481,25 @@ def main() -> int:
                 device,
                 keep_frames=evaluation_protocol == protocol,
             )
+        # Synthetic stand-ins for the real pose and appearance gaps (every run, so
+        # models trained without augmentation are measured on the same sets).
+        for evaluation_protocol in ("natural", "tss"):
+            evaluations[f"validation_{evaluation_protocol}_roll"] = evaluate_with_retry(
+                model,
+                validation_loader,
+                spec,
+                cast(Protocol, evaluation_protocol),
+                device,
+                augment=roll_only_config(),
+            )
+            evaluations[f"validation_{evaluation_protocol}_sim2real"] = evaluate_with_retry(
+                model,
+                validation_loader,
+                spec,
+                cast(Protocol, evaluation_protocol),
+                device,
+                augment=Sim2RealConfig(),
+            )
         frames = evaluations[f"validation_{protocol}"].pop("frames")
         np.savez_compressed(run_dir / "validation_frames.npz", **frames)
         if spec.modality == "fusion":
@@ -487,6 +542,9 @@ def main() -> int:
                 for role in ("train", "validation")
             },
         },
+        "augmentation": augment.as_dict() if augment is not None else None,
+        "checkpoint_selection": "minimum synthetic-validation keypoint RMSE (own protocol"
+        + (", sim2real-v1 augmented, seeded)" if augment is not None else ")"),
         "parameters": _parameter_report(model),
         "history": history,
         "outcome": outcome,
