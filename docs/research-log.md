@@ -733,3 +733,171 @@ Review-driven rules for this stage (recorded before it ran):
 - Fine-tuned models reselect on the same synthetic validation set, so their
   synthetic numbers are development diagnostics only; the frozen real test is
   the only estimate reported for them.
+
+## 2026-10-28 — Attention comparators added; host security change worked around
+
+- **Unrestricted attention and S1 added.** `AGENTS.md` lists unrestricted
+  attention in the minimum comparison set, and the proposal's original S1 design
+  used clipping as an attention-logit bias; neither had been implemented. New
+  rules `attention` and `attention_clip` fuse the stride-16/32 levels with one
+  pre-norm transformer block over both modalities' tokens (width 128, 4 heads),
+  added as a zero-initialized residual on mean fusion; finer levels use mean
+  fusion. `attention_clip` biases attention to RGB keys by log g and event keys by
+  log(1 - g), with g = sigmoid(b - softplus(a) s) per head. Nine runs (attention
+  under both protocols, attention_clip under TSS) and four comparisons were
+  pre-registered before any of them trained.
+- **Bug caught before training.** Built on `nn.TransformerEncoderLayer`, the
+  first attention smoke run produced a constant 129.32 px validation RMSE while
+  the training loss fell: PyTorch's eval-mode fast path mishandled the per-head
+  float mask. The block is now written explicitly on
+  `scaled_dot_product_attention`; a test asserts identical train/eval outputs.
+- **Host change.** Windows Application Control now blocks the unsigned OpenSSL
+  DLL in the managed Python, so `huggingface_hub`/`transformers` cannot import.
+  Pretrained timm weights are loaded directly from the local hub cache
+  (verified byte-identical: 960/960 tensors equal), `transformers` is imported
+  lazily (SegFormer only), and the SegFormer test skips with the reason. No
+  security setting was changed.
+
+## 2026-10-28 — FRESH-style geometric baseline (selected on synthetic validation)
+
+The published FRESH geometric pipeline is in the required comparison set but
+was not runnable as-is (it needs the authors' detector, temporal box logic, and
+their trained networks). `saga_pose.evaluation.geometric` implements the core
+idea learning-free: each landmark gets two candidate observations (RGB-only and
+event-only model keypoints), one RANSAC EPnP over all 2J correspondences keeps
+the consistent subset, and LM refines the inliers. Degenerate solutions (fewer
+than 6 inliers, inlier reprojection RMSE above the threshold, or depth outside
+(0, 100 m)) count as failures with the FRESH default pose; without this guard,
+LM diverged on degenerate inlier sets (mean ATE up to 6e53 m). It is labelled
+"FRESH-style", not the published pipeline.
+
+The only free parameter, the RANSAC inlier threshold, was selected by pooled
+synthetic-validation mean ARE over {1, 2, 4, 8, 16} px and frozen at 4 px for
+both predeclared pairs (`outputs/geometric/selection.json`):
+
+| Pair (validation set) | Mean ARE | Mean ATE | PnP valid |
+| --- | ---: | ---: | ---: |
+| RGB natural + event activity (natural) | 3.02 deg | 9.2 mm | 99.9% |
+| RGB TSS + event activity (TSS) | 5.03 deg | 13.3 mm | 99.8% |
+
+On the same synthetic validation sets the best learned fusion reaches 3.15 deg /
+15.1 mm (natural) and 5.84 deg / 27.6 mm (TSS), so learning-free geometric fusion
+is currently the strongest comparator, especially in translation. This supports
+the FRESH authors' argument for geometric over learned fusion; the frozen real
+test decides. Caveat: both sides are selected on the reported validation set.
+
+### Correction: the geometric baseline's advantage was the solver (2026-10-28)
+
+An independent review flagged a confound: the geometric baseline used a robust
+solver (RANSAC, distinct-landmark inlier minimum, depth and residual checks)
+while learned models used plain EPnP+LM on all keypoints. A control
+(`scripts/solver_control.py`, `outputs/geometric/solver_control.md`) re-solved every
+run's saved synthetic-validation keypoints with the identical solver (4 px):
+
+- **Under the same solver, learned fusion matches or beats geometric fusion.**
+  TSS validation: mean fusion 4.65 deg / 15.0 mm, content gate 5.26 deg / 12.7 mm
+  (68.6% 10°/10 mm), concat 5.14 deg / 13.3 mm, geometric fusion 5.08 deg / 14.3 mm
+  (63.3%). Natural validation: geometric fusion (3.26 deg) is worse than RGB-only
+  with RANSAC (2.45 deg); adding event keypoints hurts on clean data.
+- **The solver itself is a large effect.** RANSAC improves every model: RGB-only
+  natural 3.70 -> 2.45 deg (16.8 -> 8.3 mm), TSS mean fusion 5.84 -> 4.65 deg,
+  natural concat 3.18 -> 2.06 deg with 80.2% 10°/10 mm success.
+
+The earlier statement that learning-free geometric fusion is the strongest
+comparator is withdrawn. The selection rule's distinct-landmark fix (6 distinct
+landmarks, not 6 correspondences) re-froze the thresholds: 8 px for the natural
+pair (3.06 deg; 4 px gave 3.26 deg) and 4 px for the TSS pair (5.08 deg). The
+solver-control table and the `primary_ransac` real re-solve use 4 px for every
+model. (Corrected 2026-11-09: an earlier version of this entry said 4 px for both.) EPnP+LM stays the frozen primary solver; the
+RANSAC re-solve of every model's real keypoints is now a pre-registered
+secondary analysis (`primary_ransac`), computed by `evaluate_real.py` from the
+same saved keypoints and analysed with `analyze_real.py --condition
+primary_ransac`. Also from the review: S1 (`attention_clip`) can only reweight
+attention, as the mean-fusion term still carries saturated RGB, and `attention`
+is coarse-level attention (stride >= 16), so it is described that way.
+
+## 2026-11-09 — Pre-unblinding audit and G6 decisions (before any real read)
+
+An independent audit of the one-shot real-evaluation pipeline found a blocker:
+`run_g6.sh` read a CRLF, backslash-path run list written by Windows Python, so
+every evaluation would have failed silently and G6 would have produced nothing.
+Fixed (POSIX paths in the freeze manifest, CR stripped, child stdin detached,
+failures logged without aborting, final completeness check). Decisions fixed
+before unblinding:
+
+- **Holm family is an explicit list** in `main_v1_comparisons.yaml` (13
+  comparisons): both sides learned `main_v1` models trained under TSS. The
+  fine-tuned models (an exploratory final model, 2026-10-06) and the
+  learning-free geometric baseline are excluded; their comparisons are
+  exploratory. The primary comparison is tagged `primary`, never adjusted.
+- **Freeze enforcement.** `freeze_manifest.py` records checkpoint SHA-256s,
+  commit, dirty-tree flag, `uv.lock`, selection and comparison hashes, and
+  refuses a partial matrix. `evaluate_real.py` refuses any checkpoint whose hash
+  differs from the manifest; it and `geometric_fusion.py real` refuse a
+  geometric selection changed after the freeze. Real reports and analyses
+  record commit, lock hash, torch version, device, precision, batch size, and
+  the manifest hash.
+- **Pre-specified descriptive reports:** intervention deltas (clipping shuffle,
+  clipping zero, gate bypass, magnitude encoding minus primary; overall
+  sequence-mean ARE/ATE per method), seed mean and SD separately from the
+  bootstrap, and label-free real clipping prevalence
+  (`scripts/real_clipping_prevalence.py`: share of crops with any patch
+  s >= 0.01, overall, per object, harsh slice).
+- **Interpretation notes.** Under `primary_ransac` the synthetic-to-real gaps
+  mix solvers (RANSAC real vs EPnP synthetic) and are labelled so.
+  `ft-mean-tss-activity-soho` selected its epoch-0 starting checkpoint, so its
+  SOHO sequences are identical to `f-mean-tss-activity-soho` and contribute zero
+  differences to that fine-tuning comparison by construction.
+
+## 2026-11-15: Real test round 1 fails for every model; cause analysis; sim2real-v1 (round 2, post-hoc)
+
+**Round-1 real results (own, frozen checkpoints, commit 0235d4d).** On the
+reports available at the time of writing, every model, including RGB-only and
+event-only, has a pooled mean ARE of 85-116 degrees on the real sequences (a
+uniformly random rotation averages 126.5 degrees) and under 2% of frames within
+10 mm. The G6 run was interrupted on 2026-11-10 by a graphics-driver crash
+(Windows bug check 116) and resumed on 2026-11-15; completed reports are never
+re-evaluated. `engine.evaluate` gained an optional `augment` argument during
+the resume; with the default `None` its computation is unchanged.
+
+**Checks (labels and inputs only, no model selection).**
+
+- PnP from ground-truth real keypoints recovers the ground-truth pose (median
+  ARE < 0.01 degrees, all objects): intrinsics, units, and conventions are right.
+- **Pose coverage.** Every synthetic train and validation pose has exactly zero
+  in-plane roll (`R[1,0] == 0`). Real frames need a median 42-83 degrees of roll
+  to reach the nearest training rotation. Without roll, 18-32% of real frames
+  are within 15 degrees of a training rotation; allowing roll, 100% are.
+- **Appearance.** Real crops have a lit background (Satty 10th-percentile
+  intensity 30 vs 0 synthetic), 4-13% clipped pixels (synthetic natural: 0),
+  and noisier event frames.
+- Source-reported reference: FRESH's HRNet baselines reach 29% (RGB), 32%
+  (event), and 45% (RANSAC fusion) of real frames within 10 mm, training at
+  512 px with random rotation/translation, blur, colour jitter and noise, and
+  event noise (https://arxiv.org/html/2507.05698v3, accessed 2026-11-15, Table
+  of Omega success rates and Section on training). Not reproduced; different
+  crop source and resolution, so only a rough reference.
+
+**Interpretation (ours).** The round-1 comparison cannot test the hypothesis:
+with every model near chance, differences between fusion rules on real data are
+not meaningful. The synthetic findings stand as synthetic findings.
+
+**Decision (user-approved 2026-11-15): add sim2real-v1 and a second real
+evaluation, reported as post-hoc.** `saga_pose.data.sim2real` applies a shared
+geometric transform (roll +-180 degrees, scale 0.8-1.15, shift +-8%) to RGB,
+events, and the clipping grid, plus RGB brightness/contrast/colour/ambient/blur/
+noise and event dropout/noise/blur. Magnitudes are fixed in code, follow the
+augmentation families FRESH reports, and were not tuned on real data. The roll
+range is motivated by the label-only pose statistics above; that is a use of
+real-test labels and is disclosed as such. Checkpoints are selected on the
+deterministically augmented synthetic validation set. The core matrix
+(`configs/experiments/sim2real_v1.yaml`: RGB-only, event-only, mean, attention, attention + clipping bias, content
+gate, content + clipping gate, clipping gate, constant control; TSS protocol;
+three per-object models each, plus clean-trained RGB-only and mean-fusion controls; all training frames, 8 epochs, patience 3) is trained first with one
+seed. Round 2 will be frozen and evaluated once, and every table will show
+round 1 and round 2 side by side. Round 2 is exploratory with respect to the
+pre-registration: the real set has been seen once.
+
+**Falsifiable synthetic check.** `scripts/synthetic_gap.py` evaluates round-1
+checkpoints on synthetic validation with roll only. If the roll explanation is
+right, their synthetic error must rise sharply under roll.

@@ -85,7 +85,8 @@ def main() -> int:
         log_path = Path(merged["checkpoint_dir"]) / name / "train.log"
         log_path.parent.mkdir(parents=True, exist_ok=True)
         started = time.perf_counter()
-        with log_path.open("w", encoding="utf-8") as log:
+        # Append: a resumed run must keep the log of its earlier epochs.
+        with log_path.open("a", encoding="utf-8") as log:
             completed = subprocess.run(command, stdout=log, stderr=subprocess.STDOUT, check=False)
         ledger[name] = {
             "matrix": str(args.matrix),

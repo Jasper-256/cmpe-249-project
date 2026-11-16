@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import pytest
 import torch
-from transformers import SegformerConfig
 
 from saga_pose.models.heatmaps import (
     HRNetHeatmapRegressor,
@@ -63,6 +62,9 @@ def test_generic_pyramid_heatmap_regressor_shape() -> None:
 
 
 def test_segformer_heatmap_regressor_shape() -> None:
+    # transformers imports SSL, which Windows Application Control may block here.
+    transformers = pytest.importorskip("transformers", exc_type=ImportError)
+    SegformerConfig = transformers.SegformerConfig
     config = SegformerConfig(
         depths=[1, 1, 1, 1],
         hidden_sizes=[8, 16, 32, 64],

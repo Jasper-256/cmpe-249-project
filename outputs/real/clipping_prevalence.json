@@ -1,0 +1,25 @@
+{
+  "cassini": {
+    "crops": 2361,
+    "crops_with_active_patch": 1.0,
+    "harsh_crops_with_active_patch": 1.0,
+    "median_active_patch_fraction_when_active": 0.08984375
+  },
+  "satty": {
+    "crops": 2563,
+    "crops_with_active_patch": 1.0,
+    "harsh_crops_with_active_patch": 1.0,
+    "median_active_patch_fraction_when_active": 0.13671875
+  },
+  "soho": {
+    "crops": 2970,
+    "crops_with_active_patch": 1.0,
+    "harsh_crops_with_active_patch": 1.0,
+    "median_active_patch_fraction_when_active": 0.140625
+  },
+  "pooled": {
+    "crops": 7894,
+    "crops_with_active_patch": 1.0,
+    "harsh_crops_with_active_patch": 1.0
+  }
+}

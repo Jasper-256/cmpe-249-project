@@ -4,7 +4,20 @@ primary:
   candidate: f-content_clip_gate-tss-activity
   baseline: f-content_gate-tss-activity
   metrics: [are_deg, ate_m]   # co-primary, overall sequence means
-holm_family: tss   # secondary comparisons whose candidate and baseline are both TSS-trained
+holm_family:  # explicit list (2026-11-09, before unblinding): both sides learned main_v1 TSS-trained models
+  - "f-clip_gate-tss-activity|f-clip_gate_constant-tss-activity"
+  - "f-clip_gate-tss-activity|f-content_gate-tss-activity"
+  - "f-clip_gate_fixed-tss-activity|f-mean-tss-activity"
+  - "f-clip_gate-tss-activity|f-mean-tss-activity"
+  - "f-clip_gate-tss-activity|f-clip_gate_signed-tss-activity"
+  - "f-clip_gate-tss-activity|f-clip_gate-tss-activity-slope0.1"
+  - "f-content_clip_gate-tss-activity|f-content_clip_gate-tss-activity-slope0.1"
+  - "f-content_clip_gate-tss-activity|u-rgb-tss"
+  - "f-content_clip_gate-tss-activity|f-content_clip_gate-tss0.25-activity"
+  - "f-content_gate-tss-activity|f-content_gate-tss0.25-activity"
+  - "f-attention_clip-tss-activity|f-attention-tss-activity"
+  - "f-attention-tss-activity|f-mean-tss-activity"
+  - "f-attention_clip-tss-activity|f-clip_gate-tss-activity"
 comparisons:
   # Does fusion beat each sensor alone?
   - {candidate: f-mean-natural-activity, baseline: u-rgb-natural, question: "fusion vs RGB-only (natural)"}
@@ -34,3 +47,14 @@ comparisons:
   - {candidate: f-content_gate-tss-activity, baseline: f-content_gate-tss0.25-activity, question: "full vs quarter-strength TSS (learned reliability)"}
   # Noise floor: these two train identically under the natural protocol.
   - {candidate: f-clip_gate-natural-activity, baseline: f-clip_gate_constant-natural-activity, question: "noise floor plus untrained slope prior"}
+  # Attention tier (added 2026-10-28, before any attention run trained).
+  - {candidate: f-attention_clip-tss-activity, baseline: f-attention-tss-activity, question: "S1: clipping as attention-logit bias vs unrestricted attention"}
+  - {candidate: f-attention-tss-activity, baseline: f-mean-tss-activity, question: "unrestricted attention vs mean fusion"}
+  - {candidate: f-attention_clip-tss-activity, baseline: f-clip_gate-tss-activity, question: "clipping inside attention vs per-location clipping gate"}
+  - {candidate: f-attention-tss-activity, baseline: f-attention-natural-activity, question: "TSS training effect on attention fusion"}
+  # Fine-tuning stage and geometric baseline (added 2026-11-09, before any real evaluation).
+  - {candidate: ft-mean-tss-activity, baseline: f-mean-tss-activity, question: "fine-tuning effect on the final-model candidate"}
+  - {candidate: ft-content_clip_gate-tss-activity, baseline: ft-content_gate-tss-activity, question: "primary question after identical fine-tuning (secondary)"}
+  - {candidate: ft-mean-tss-activity, baseline: ft-rgb-tss, question: "final model vs fine-tuned RGB-only"}
+  - {candidate: ft-mean-tss-activity, baseline: g-ransac-tss, question: "final model vs FRESH-style geometric fusion (TSS pair)"}
+  - {candidate: f-mean-natural-activity, baseline: g-ransac-natural, question: "learned vs FRESH-style geometric fusion (natural pair)"}

@@ -138,3 +138,55 @@ def test_decoder_initialization_is_identical_across_fusion_rules() -> None:
     for other in states[1:]:
         for key, value in states[0].items():
             torch.testing.assert_close(other[key], value)
+
+
+def test_attention_fusion_starts_as_mean_and_clip_bias_is_monotone() -> None:
+    from saga_pose.models.fusion import AttentionLevelFusion
+
+    torch.manual_seed(0)
+    rgb, event = torch.randn(2, 8, 4, 4), torch.randn(2, 8, 4, 4)
+    plain = AttentionLevelFusion(8, 16, use_clip=False, width=16, heads=2)
+    with torch.no_grad():
+        fused, gate = plain(rgb, event, torch.zeros(2, 4, 4), None)
+    torch.testing.assert_close(fused, 0.5 * (rgb + event))  # zero-init residual
+    assert gate is None
+
+    clipped = AttentionLevelFusion(8, 16, use_clip=True, width=16, heads=2)
+    with torch.no_grad():
+        _, low = clipped(rgb, event, torch.zeros(2, 4, 4), None)
+        _, high = clipped(rgb, event, torch.ones(2, 4, 4), None)
+        _, bypass = clipped(rgb, event, torch.ones(2, 4, 4), 0.5)
+    assert low is not None and high is not None and bypass is not None
+    assert torch.all(high < low)
+    torch.testing.assert_close(bypass, torch.full_like(bypass, 0.5))
+
+
+def test_attention_regressor_uses_attention_only_at_coarse_levels() -> None:
+    from saga_pose.models.fusion import AttentionLevelFusion
+
+    model = FusionHeatmapRegressor(4, backbone_name="efficientnet_b0", fusion="attention_clip")
+    kinds = [type(module).__name__ for module in model.fusions]
+    assert kinds[-2:] == ["AttentionLevelFusion", "AttentionLevelFusion"]
+    assert all(kind == "LevelFusion" for kind in kinds[:-2])
+    assert isinstance(model.fusions[-1], AttentionLevelFusion)
+    heatmaps = model(torch.rand(1, 3, 256, 256), torch.rand(1, 3, 256, 256), torch.rand(1, 16, 16))
+    assert heatmaps.shape == (1, 4, 64, 64)
+    assert model.has_gate
+
+
+def test_attention_fusion_train_and_eval_modes_agree() -> None:
+    from saga_pose.models.fusion import AttentionLevelFusion
+
+    torch.manual_seed(1)
+    fusion = AttentionLevelFusion(8, 16, use_clip=True, width=16, heads=2)
+    with torch.no_grad():
+        torch.nn.init.normal_(fusion.output.weight, std=0.1)  # leave the mean-fusion init
+    rgb, event, clipping = torch.randn(2, 8, 4, 4), torch.randn(2, 8, 4, 4), torch.rand(2, 4, 4)
+    fusion.train()
+    with torch.no_grad():
+        trained, _ = fusion(rgb, event, clipping, None)
+    fusion.eval()
+    with torch.inference_mode():
+        evaluated, _ = fusion(rgb, event, clipping, None)
+    assert torch.isfinite(evaluated).all()
+    torch.testing.assert_close(evaluated, trained)

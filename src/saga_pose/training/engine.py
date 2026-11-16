@@ -17,7 +17,8 @@ from torch import Tensor
 from torch.utils.data import DataLoader
 
 from saga_pose.data.dataset import FreshItem, event_input
-from saga_pose.data.representations import EventRepresentation
+from saga_pose.data.representations import SYNTHETIC_EVENT_NEUTRAL, EventRepresentation
+from saga_pose.data.sim2real import Sim2RealConfig, augment_batch, invert_points
 from saga_pose.evaluation.pose import pose_error_arrays, recover_poses, summarize_pose_errors
 from saga_pose.models.fusion import ClipMode, FusionHeatmapRegressor, FusionRule
 from saga_pose.models.heatmaps import (
@@ -124,6 +125,11 @@ def protocol_inputs(
     }
 
 
+def event_neutral_level(spec: ModelSpec) -> float:
+    """Background level of the model's event map in ``[0, 1]`` (for augmentation fill)."""
+    return SYNTHETIC_EVENT_NEUTRAL / 255.0 if spec.event_representation == "raw" else 0.0
+
+
 def forward(
     model: HeatmapModel,
     spec: ModelSpec,
@@ -175,8 +181,15 @@ def evaluate(
     gate_override: float | None = None,
     seed: int = 249,
     keep_frames: bool = False,
+    augment: Sim2RealConfig | None = None,
 ) -> dict[str, Any]:
-    """Keypoint RMSE, pose metrics (PnP failures included), and gate diagnostics."""
+    """Keypoint RMSE, pose metrics (PnP failures included), and gate diagnostics.
+
+    With ``augment``, each batch is transformed with a generator seeded by
+    ``seed`` and the batch index (deterministic for an unshuffled loader), and
+    predictions are mapped back to the original crop frame, so errors and poses
+    stay comparable with the unaugmented evaluation.
+    """
     model.eval()
     generator = torch.Generator().manual_seed(seed)
     squared_error = 0.0
@@ -190,8 +203,17 @@ def evaluate(
     sequences: list[str] = []
     frame_numbers: list[np.ndarray] = []
     gate_clipped_sum = gate_clipped_count = gate_clean_sum = gate_clean_count = 0.0
-    for batch in loader:
+    for batch_index, batch in enumerate(loader):
         inputs = protocol_inputs(batch, spec, protocol)
+        affine: Tensor | None = None
+        if augment is not None:
+            inputs, _, affine = augment_batch(
+                inputs,
+                batch["keypoints_xy"],
+                augment,
+                torch.Generator().manual_seed(seed * 100_003 + batch_index),
+                event_neutral=event_neutral_level(spec),
+            )
         heatmaps, gates = cast(
             tuple[Tensor, list[Tensor | None]],
             forward(
@@ -207,6 +229,8 @@ def evaluate(
         )
         predicted, _ = decode_heatmap_argmax(heatmaps.float())
         predicted = predicted.cpu()
+        if affine is not None:
+            predicted = invert_points(predicted, affine)
         targets = batch["keypoints_xy"]
         squared_error += float(torch.sum((predicted - targets) ** 2))
         coordinate_count += targets.numel()
@@ -235,6 +259,7 @@ def evaluate(
         "protocol": protocol,
         "clip_mode": clip_mode,
         "gate_override": gate_override,
+        "augment": augment.version if augment is not None else None,
         "gate_mean_clipped_patches": gate_clipped_sum / gate_clipped_count
         if gate_clipped_count
         else None,

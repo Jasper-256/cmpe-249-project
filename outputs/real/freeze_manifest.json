@@ -1,0 +1,2711 @@
+{
+  "schema_version": 1,
+  "frozen_at": "2026-11-10T19:03:02.761833+00:00",
+  "git_commit": "0235d4d06f3d6101e73cf5d6d1a0f7bb027f0b42",
+  "source_tree_dirty": false,
+  "uv_lock_sha256": "fe742a5ce27445c837714bca804d02a8d13cce0adfd580cd21a4f7d312b661c3",
+  "geometric_selection_sha256": "bbef621cb2155c39b08ca9af6de58f54053ba630cbebd9e9c48dce184a4ab53c",
+  "comparisons_sha256": "8d8237e37b515dac3480066a9e6d2bce001005965eb47f4b352109978b272520",
+  "runs": {
+    "u-rgb-natural-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/u-rgb-natural-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "rgb",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": null,
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 10,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/u-rgb-natural-cassini/best.pt",
+      "checkpoint_sha256": "07a7de8efd23952bc4bdafa7e1dfe1d18f42adf521facd9eed0a1ab512b11024"
+    },
+    "u-rgb-natural-satty": {
+      "run_dir": "outputs/runs/main-hrnet/u-rgb-natural-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "rgb",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": null,
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 14,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/u-rgb-natural-satty/best.pt",
+      "checkpoint_sha256": "802f61fd50228084dc7eb68a3a4c257b0019128b4b7040b3d32110295b657624"
+    },
+    "u-rgb-natural-soho": {
+      "run_dir": "outputs/runs/main-hrnet/u-rgb-natural-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "rgb",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": null,
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 15,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/u-rgb-natural-soho/best.pt",
+      "checkpoint_sha256": "da4ac72dead99459ca907a8f88a8c08c23da2f81a7ba6212a7bd790085a737fc"
+    },
+    "u-rgb-tss-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/u-rgb-tss-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "rgb",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": null,
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 10,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/u-rgb-tss-cassini/best.pt",
+      "checkpoint_sha256": "51e847929813ae72188caf90c0577e59e05188c51eb7c76a66c9c87b90309645"
+    },
+    "u-rgb-tss-satty": {
+      "run_dir": "outputs/runs/main-hrnet/u-rgb-tss-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "rgb",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": null,
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 14,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/u-rgb-tss-satty/best.pt",
+      "checkpoint_sha256": "121daf611ab4f94e2a715acdda56ecf3242419e13b0e2d9da9ddac14dc4b310b"
+    },
+    "u-rgb-tss-soho": {
+      "run_dir": "outputs/runs/main-hrnet/u-rgb-tss-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "rgb",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": null,
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 7,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/u-rgb-tss-soho/best.pt",
+      "checkpoint_sha256": "c6ee42e9b20fa5296855a0bbc92b85a0c2595f2732a8c2be3b844cecc7161cb9"
+    },
+    "u-event-raw-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/u-event-raw-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "event",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": null,
+        "event_representation": "raw",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 11,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/u-event-raw-cassini/best.pt",
+      "checkpoint_sha256": "11d053adbe4cb3d19c7a01b0aa4b2dc1ed34534d9aaf7fc01ed970441125b093"
+    },
+    "u-event-raw-satty": {
+      "run_dir": "outputs/runs/main-hrnet/u-event-raw-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "event",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": null,
+        "event_representation": "raw",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 11,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/u-event-raw-satty/best.pt",
+      "checkpoint_sha256": "943dd67af07a21ef5bce22b0eb99b0bada33ea129a3232fac304fe0a3b4ecd0d"
+    },
+    "u-event-raw-soho": {
+      "run_dir": "outputs/runs/main-hrnet/u-event-raw-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "event",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": null,
+        "event_representation": "raw",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 7,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/u-event-raw-soho/best.pt",
+      "checkpoint_sha256": "f67d25130e4c53bad74dd4b498f17d7d3e8959aa94aac045bd1a4a419082c03c"
+    },
+    "u-event-activity-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/u-event-activity-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "event",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": null,
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 10,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/u-event-activity-cassini/best.pt",
+      "checkpoint_sha256": "b12166350b2cbcecb6268a7333bae2f6b5abe3f6727e71b0fbced66ea5d64590"
+    },
+    "u-event-activity-satty": {
+      "run_dir": "outputs/runs/main-hrnet/u-event-activity-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "event",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": null,
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 11,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/u-event-activity-satty/best.pt",
+      "checkpoint_sha256": "b02345470fe6a023da820b84ab5e694a2910ff3f3e2b9ecada73cacded29ceeb"
+    },
+    "u-event-activity-soho": {
+      "run_dir": "outputs/runs/main-hrnet/u-event-activity-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "event",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": null,
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 7,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/u-event-activity-soho/best.pt",
+      "checkpoint_sha256": "3d00e97eb2f577a46a919614ea049ae8f1207e5d97ab4803f58083cfc1b083ea"
+    },
+    "f-content_gate-tss-activity-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_gate-tss-activity-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 10,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_gate-tss-activity-cassini/best.pt",
+      "checkpoint_sha256": "637287c291d9fe4d3a30cc4b7327d45bb78a1e173db3ccea323d33bbda6bbc1a"
+    },
+    "f-content_gate-tss-activity-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_gate-tss-activity-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 14,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_gate-tss-activity-satty/best.pt",
+      "checkpoint_sha256": "ed32e0a5d1b4134dd47b44647f0b369cba1807c95b7be6a3ddc252ae03c0c879"
+    },
+    "f-content_gate-tss-activity-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_gate-tss-activity-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 12,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_gate-tss-activity-soho/best.pt",
+      "checkpoint_sha256": "ccbf41bf2d9c40311711ac197e35ba25815e04fffe717e1d7f08911f321a8ea5"
+    },
+    "f-content_clip_gate-tss-activity-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_clip_gate-tss-activity-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 11,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_clip_gate-tss-activity-cassini/best.pt",
+      "checkpoint_sha256": "ffe95995fc2e9fcb043abaf88001d9f1b21233b2bea64096470dcf766f3d0511"
+    },
+    "f-content_clip_gate-tss-activity-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_clip_gate-tss-activity-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 13,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_clip_gate-tss-activity-satty/best.pt",
+      "checkpoint_sha256": "185fd000773501369012c896af08f112fd8b812bb11312e61f847a9d3cdab34a"
+    },
+    "f-content_clip_gate-tss-activity-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_clip_gate-tss-activity-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 7,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_clip_gate-tss-activity-soho/best.pt",
+      "checkpoint_sha256": "bcf579cf2257bf926a8743ba597c59d2784f516b0932b84f6354844a4f717fd9"
+    },
+    "f-clip_gate-tss-activity-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate-tss-activity-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 12,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate-tss-activity-cassini/best.pt",
+      "checkpoint_sha256": "f64e65b0b93879c7173454e4de0510edc4e37e2df5b7041579c95dadb1b4904a"
+    },
+    "f-clip_gate-tss-activity-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate-tss-activity-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 14,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate-tss-activity-satty/best.pt",
+      "checkpoint_sha256": "b5a8feca58800448eee60c7213113d7ab563e32f9ed09c26650cd0017824f8f2"
+    },
+    "f-clip_gate-tss-activity-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate-tss-activity-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate-tss-activity-soho/best.pt",
+      "checkpoint_sha256": "50658704c12eb53f4bdf8105c55b43e1a8a3ab5e7a4d01b0f9f742e92c4d7649"
+    },
+    "f-clip_gate_constant-tss-activity-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate_constant-tss-activity-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate_constant",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 10,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate_constant-tss-activity-cassini/best.pt",
+      "checkpoint_sha256": "2dce69fd45625b62177d24fc97c80b17edae5cdca3cb993a3230755ebd269fda"
+    },
+    "f-clip_gate_constant-tss-activity-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate_constant-tss-activity-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate_constant",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 14,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate_constant-tss-activity-satty/best.pt",
+      "checkpoint_sha256": "3786ed8270d85d4729d8fd1fa90bd85b9ce7fa67e13b2ef2a6fcc1db09a76296"
+    },
+    "f-clip_gate_constant-tss-activity-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate_constant-tss-activity-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate_constant",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 7,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate_constant-tss-activity-soho/best.pt",
+      "checkpoint_sha256": "401f25d1594ccda1c401877b5ea169a1caf21be9b9da7534fd2d6d1a69796532"
+    },
+    "f-mean-tss-activity-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-mean-tss-activity-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "mean",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 10,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-mean-tss-activity-cassini/best.pt",
+      "checkpoint_sha256": "f407770c2e9a44939b7365d10995567c5724b66b2e24f4803774e007125d2571"
+    },
+    "f-mean-tss-activity-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-mean-tss-activity-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "mean",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 12,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-mean-tss-activity-satty/best.pt",
+      "checkpoint_sha256": "72baf181d705c3b9b073aa20fb1644058b754db0566ce65ea5548466418a9b0a"
+    },
+    "f-mean-tss-activity-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-mean-tss-activity-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "mean",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 9,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-mean-tss-activity-soho/best.pt",
+      "checkpoint_sha256": "dd664c6888d0b3ae9f39aabf67b9cc31977eb07ad8a847f9cb189c52b8b455b2"
+    },
+    "f-concat-tss-activity-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-concat-tss-activity-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "concat",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 12,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-concat-tss-activity-cassini/best.pt",
+      "checkpoint_sha256": "5cbc521367ccd3b02548c54c363690e0c1599a7d8405d7c51e0c1c57dbfb9884"
+    },
+    "f-concat-tss-activity-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-concat-tss-activity-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "concat",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 9,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-concat-tss-activity-satty/best.pt",
+      "checkpoint_sha256": "55678e9a14ed351eba82e0c563a308b00e41a6eee35aea51ab2f13e323ea7440"
+    },
+    "f-concat-tss-activity-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-concat-tss-activity-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "concat",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 14,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-concat-tss-activity-soho/best.pt",
+      "checkpoint_sha256": "2aff6ff120692387eabe5c64782a67b428d2db0dbf6581cdeaa9a3f0260f8e65"
+    },
+    "f-clip_gate_fixed-tss-activity-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate_fixed-tss-activity-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate_fixed",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 10,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate_fixed-tss-activity-cassini/best.pt",
+      "checkpoint_sha256": "d2920751518e7c7d7cb2e349bb593510f4aebafe7fba5a049f4e2c37a3662756"
+    },
+    "f-clip_gate_fixed-tss-activity-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate_fixed-tss-activity-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate_fixed",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 14,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate_fixed-tss-activity-satty/best.pt",
+      "checkpoint_sha256": "e37a3a51357ec650dbd96d6d7be751692c3eeeba04ceea35637e0cb314839b8a"
+    },
+    "f-clip_gate_fixed-tss-activity-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate_fixed-tss-activity-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate_fixed",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 7,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate_fixed-tss-activity-soho/best.pt",
+      "checkpoint_sha256": "9fb3c2e7ec0c5439e34a352a0494ae5b9471962118758b004f59bf4f5d45e442"
+    },
+    "f-mean-natural-activity-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-mean-natural-activity-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "mean",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 10,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-mean-natural-activity-cassini/best.pt",
+      "checkpoint_sha256": "84d40c3a8ef550923b27fcc15d5a6a917eebbdba1c3aafe8560b13f8dd0650d0"
+    },
+    "f-mean-natural-activity-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-mean-natural-activity-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "mean",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-mean-natural-activity-satty/best.pt",
+      "checkpoint_sha256": "5dc07e7b054c7a61e867b9eda8452b93e2fa0f34cfda7c246545985985fdca79"
+    },
+    "f-mean-natural-activity-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-mean-natural-activity-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "mean",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 14,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-mean-natural-activity-soho/best.pt",
+      "checkpoint_sha256": "89c12282f0cfb9cf60b26cad85bc5d908f68196224cd36427ace0446be33c98f"
+    },
+    "f-concat-natural-activity-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-concat-natural-activity-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "concat",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 10,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-concat-natural-activity-cassini/best.pt",
+      "checkpoint_sha256": "8f89c09a34424305196bf218d91f9e3e36a499a393af47598b531b8073e39b00"
+    },
+    "f-concat-natural-activity-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-concat-natural-activity-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "concat",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 14,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-concat-natural-activity-satty/best.pt",
+      "checkpoint_sha256": "bcc628ddb8130ab4177cd640351344d7e1f74576a4a51a9df2e10e9f93f4e909"
+    },
+    "f-concat-natural-activity-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-concat-natural-activity-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "concat",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 13,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-concat-natural-activity-soho/best.pt",
+      "checkpoint_sha256": "0d502a4a459fcdf3fb4da072bc6e7d2e768a4e37cd193a5f010da7da7b949b30"
+    },
+    "f-content_gate-natural-activity-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_gate-natural-activity-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 12,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_gate-natural-activity-cassini/best.pt",
+      "checkpoint_sha256": "96e2f3892a9967a43359958e441a11ba1573b2a21d1cf20f8613a8fb9f9f2189"
+    },
+    "f-content_gate-natural-activity-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_gate-natural-activity-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 13,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_gate-natural-activity-satty/best.pt",
+      "checkpoint_sha256": "7f2ae52ca10702e5a2b47cd03797485cf8188ddeb0c63fe72d91921b3723b576"
+    },
+    "f-content_gate-natural-activity-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_gate-natural-activity-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 14,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_gate-natural-activity-soho/best.pt",
+      "checkpoint_sha256": "eb2d781db4c4bb148469cd88b4ea0198c9cdb988c3b6ebb0a0c5b5020de4a2f3"
+    },
+    "f-clip_gate-natural-activity-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate-natural-activity-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 12,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate-natural-activity-cassini/best.pt",
+      "checkpoint_sha256": "b570750e7a76ccff81555c91c48ab65c3e2909ea6b66dc0863bc6ba2cf90a631"
+    },
+    "f-clip_gate-natural-activity-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate-natural-activity-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate-natural-activity-satty/best.pt",
+      "checkpoint_sha256": "f750276ca6309a9d4c8439a901a19bde5bd3597aee69ff68f9af6638ec10fd20"
+    },
+    "f-clip_gate-natural-activity-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate-natural-activity-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 12,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate-natural-activity-soho/best.pt",
+      "checkpoint_sha256": "a264e7f2bd83075065d451dcd5fa9e0ec73485aaebe195d1724800086de2d775"
+    },
+    "f-clip_gate_constant-natural-activity-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate_constant-natural-activity-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate_constant",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 12,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate_constant-natural-activity-cassini/best.pt",
+      "checkpoint_sha256": "d4e407d419d74e99c6e991ab9c28e30eebb73f3476db52aef3dbdcea8a59d9fb"
+    },
+    "f-clip_gate_constant-natural-activity-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate_constant-natural-activity-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate_constant",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate_constant-natural-activity-satty/best.pt",
+      "checkpoint_sha256": "03aad4ce6b22c391a7983841fd9fc678d268653b169114eaf37a00553a5cefb4"
+    },
+    "f-clip_gate_constant-natural-activity-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate_constant-natural-activity-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate_constant",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 12,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate_constant-natural-activity-soho/best.pt",
+      "checkpoint_sha256": "20bf568008073f7983c8ef15b743cd134051f413ebe98be222bf0db819b61cd3"
+    },
+    "f-clip_gate_fixed-natural-activity-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate_fixed-natural-activity-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate_fixed",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 10,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate_fixed-natural-activity-cassini/best.pt",
+      "checkpoint_sha256": "1399868db491c19c04f1c9aa83292899a1fb5db7a1d823df94afa7c6c964a886"
+    },
+    "f-clip_gate_fixed-natural-activity-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate_fixed-natural-activity-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate_fixed",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate_fixed-natural-activity-satty/best.pt",
+      "checkpoint_sha256": "a3d180569e88d7789f007d55d548eba657f546ccc38eb485f2c6312bb3c8bbf3"
+    },
+    "f-clip_gate_fixed-natural-activity-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate_fixed-natural-activity-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate_fixed",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 14,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate_fixed-natural-activity-soho/best.pt",
+      "checkpoint_sha256": "f00497b1847734ef5b560e9316696aef8098188590876ca7182f04c0185bc913"
+    },
+    "f-content_clip_gate-natural-activity-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_clip_gate-natural-activity-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 12,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_clip_gate-natural-activity-cassini/best.pt",
+      "checkpoint_sha256": "1b2ee412f1803a7be12a1a1c2632510c77cbc941b809420a6a17621cfcd939b6"
+    },
+    "f-content_clip_gate-natural-activity-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_clip_gate-natural-activity-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 13,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_clip_gate-natural-activity-satty/best.pt",
+      "checkpoint_sha256": "7abd2575139d77914ca054f597bc045f7450d1f9c44dd1857406af22576b4f31"
+    },
+    "f-content_clip_gate-natural-activity-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_clip_gate-natural-activity-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 14,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_clip_gate-natural-activity-soho/best.pt",
+      "checkpoint_sha256": "c2972022692e2223e60faf4ad07a84f21f01fc62b6569ec21a1f9fd72439eb94"
+    },
+    "f-attention-tss-activity-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-attention-tss-activity-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "attention",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 10,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-attention-tss-activity-cassini/best.pt",
+      "checkpoint_sha256": "af083536607b184b450e5a320da072d6bce2d3f53ffd79fe3259f83583eb9de0"
+    },
+    "f-attention-tss-activity-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-attention-tss-activity-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "attention",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 11,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-attention-tss-activity-satty/best.pt",
+      "checkpoint_sha256": "33b78ae1acb2f953e37de2df0c1d2e24b2c04312ff2409e821acca756ce37c38"
+    },
+    "f-attention-tss-activity-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-attention-tss-activity-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "attention",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 7,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-attention-tss-activity-soho/best.pt",
+      "checkpoint_sha256": "382dcf6089d55d1a7ac1f8d3a6d2c9d860a6bfa8edb8691e49d36cc61537b650"
+    },
+    "f-attention_clip-tss-activity-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-attention_clip-tss-activity-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "attention_clip",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 10,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-attention_clip-tss-activity-cassini/best.pt",
+      "checkpoint_sha256": "0cfc531baba4b84bc41f9befed78103cb34df333a79d0a34349e9d1f12ff3e40"
+    },
+    "f-attention_clip-tss-activity-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-attention_clip-tss-activity-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "attention_clip",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 14,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-attention_clip-tss-activity-satty/best.pt",
+      "checkpoint_sha256": "b73719309b960f868785360f109bff95e881c42654ca3c206228f59796d46779"
+    },
+    "f-attention_clip-tss-activity-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-attention_clip-tss-activity-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "attention_clip",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 7,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-attention_clip-tss-activity-soho/best.pt",
+      "checkpoint_sha256": "04216ca55fc6811850bfd5586a19b8e0593054a719f961f127f41fb8a1c91df4"
+    },
+    "f-attention-natural-activity-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-attention-natural-activity-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "attention",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 14,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-attention-natural-activity-cassini/best.pt",
+      "checkpoint_sha256": "6fdca9f7ff59a73db7270409e84a3a25ed9a7aa720c556d328ffc7ef60fb4675"
+    },
+    "f-attention-natural-activity-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-attention-natural-activity-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "attention",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 15,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-attention-natural-activity-satty/best.pt",
+      "checkpoint_sha256": "d0762680e11755fc52c8ba842d834c1c6235e67bb5d31cb6ebb6699dc7e32520"
+    },
+    "f-attention-natural-activity-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-attention-natural-activity-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "attention",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 14,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-attention-natural-activity-soho/best.pt",
+      "checkpoint_sha256": "25d12b36a17070551c3f0e53d52e2ac1755fb4359d08e23c088a99e277948ed7"
+    },
+    "f-clip_gate_signed-tss-activity-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate_signed-tss-activity-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate_signed",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 12,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate_signed-tss-activity-cassini/best.pt",
+      "checkpoint_sha256": "0b0b90d6acfc10a25ceb7bd813b831fd5eb27d1c668339d1694b2c7bfcde5e06"
+    },
+    "f-clip_gate_signed-tss-activity-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate_signed-tss-activity-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate_signed",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 14,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate_signed-tss-activity-satty/best.pt",
+      "checkpoint_sha256": "351428dfa9000775e740832d0b4f817c6f2173cd8d9ed520a8ac8c1764213c3c"
+    },
+    "f-clip_gate_signed-tss-activity-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate_signed-tss-activity-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate_signed",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 14,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate_signed-tss-activity-soho/best.pt",
+      "checkpoint_sha256": "e777b153fbe634623c0fd6dcce8558642f788bc497d76b0c4fca8a70197c55d7"
+    },
+    "f-clip_gate-tss-activity-slope0.1-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate-tss-activity-slope0.1-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 0.1
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 11,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate-tss-activity-slope0.1-cassini/best.pt",
+      "checkpoint_sha256": "4cda0904c7d4344bf909d88f0df0ff64f1f4144203ff145c8b34f2b83bb33fff"
+    },
+    "f-clip_gate-tss-activity-slope0.1-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate-tss-activity-slope0.1-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 0.1
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 14,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate-tss-activity-slope0.1-satty/best.pt",
+      "checkpoint_sha256": "e38868c8153250d5add9a5e20cd3f58a0fce09ddb7312e6de2f09c8bac8ae572"
+    },
+    "f-clip_gate-tss-activity-slope0.1-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate-tss-activity-slope0.1-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 0.1
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 10,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate-tss-activity-slope0.1-soho/best.pt",
+      "checkpoint_sha256": "aa92d0a202a97fc7b8da0e321e05822f12c115f65ab765e4cfc65ad3f5e66122"
+    },
+    "f-content_clip_gate-tss-activity-slope0.1-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_clip_gate-tss-activity-slope0.1-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 0.1
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 14,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_clip_gate-tss-activity-slope0.1-cassini/best.pt",
+      "checkpoint_sha256": "43a5c463696c2857cb972381e355152feb448a695f26409cc92cc666205f0903"
+    },
+    "f-content_clip_gate-tss-activity-slope0.1-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_clip_gate-tss-activity-slope0.1-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 0.1
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 14,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_clip_gate-tss-activity-slope0.1-satty/best.pt",
+      "checkpoint_sha256": "16af537d4426d2d45fc10399789a50e70aefbf7e01d36c3c669462f116a07076"
+    },
+    "f-content_clip_gate-tss-activity-slope0.1-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_clip_gate-tss-activity-slope0.1-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 0.1
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 14,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_clip_gate-tss-activity-slope0.1-soho/best.pt",
+      "checkpoint_sha256": "1f31fb87f131b68683434c749dd442beda489168cf078ef4f411555a842b365a"
+    },
+    "f-mean-natural-raw-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-mean-natural-raw-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "mean",
+        "event_representation": "raw",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 9,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-mean-natural-raw-cassini/best.pt",
+      "checkpoint_sha256": "8263ab0b61117dcc84c209c9eb6393f553ff7cff38e84735bf76eba4b0958a79"
+    },
+    "f-mean-natural-raw-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-mean-natural-raw-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "mean",
+        "event_representation": "raw",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 13,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-mean-natural-raw-satty/best.pt",
+      "checkpoint_sha256": "5c24c2f4249b87b60c4834b8a280dc1eda3c6056f30cf17ad53a99ccfdd822c0"
+    },
+    "f-mean-natural-raw-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-mean-natural-raw-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "mean",
+        "event_representation": "raw",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 14,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-mean-natural-raw-soho/best.pt",
+      "checkpoint_sha256": "eef548c2675fa5621697873bdb90397cdaaae44a514a8e8a829a826e0ea6a6aa"
+    },
+    "f-content_gate-natural-raw-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_gate-natural-raw-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_gate",
+        "event_representation": "raw",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 12,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_gate-natural-raw-cassini/best.pt",
+      "checkpoint_sha256": "7eb5b86ff66d1bd6dedb04c31a06554f4fea20d1bb6b5e96ab863efb334d65e9"
+    },
+    "f-content_gate-natural-raw-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_gate-natural-raw-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_gate",
+        "event_representation": "raw",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 14,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_gate-natural-raw-satty/best.pt",
+      "checkpoint_sha256": "02a36e22ef2b3b6b8528dd014cfd9c3595bdbbd773825edfbccc02b6ddb328cc"
+    },
+    "f-content_gate-natural-raw-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_gate-natural-raw-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_gate",
+        "event_representation": "raw",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 7,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_gate-natural-raw-soho/best.pt",
+      "checkpoint_sha256": "7ebdfde712840c6b2c15de8f27833f194d9d17768ab8d52fb11e389a4aac2d4a"
+    },
+    "f-content_clip_gate-natural-raw-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_clip_gate-natural-raw-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_clip_gate",
+        "event_representation": "raw",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 12,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_clip_gate-natural-raw-cassini/best.pt",
+      "checkpoint_sha256": "bce9cd155af129c227c6fdd15c83b397abf94eb719178413c439428f319a281f"
+    },
+    "f-content_clip_gate-natural-raw-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_clip_gate-natural-raw-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_clip_gate",
+        "event_representation": "raw",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 14,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_clip_gate-natural-raw-satty/best.pt",
+      "checkpoint_sha256": "b3cd32665e58a18227f2967ad5876e26fa46a23a3599e2c482fabac972f3b091"
+    },
+    "f-content_clip_gate-natural-raw-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_clip_gate-natural-raw-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_clip_gate",
+        "event_representation": "raw",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 7,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_clip_gate-natural-raw-soho/best.pt",
+      "checkpoint_sha256": "1aa3ce53af4529f2b96e783d96687e93c5db7ac85a7284879f06ec666d46286a"
+    },
+    "f-mean-tss-raw-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-mean-tss-raw-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "mean",
+        "event_representation": "raw",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 10,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-mean-tss-raw-cassini/best.pt",
+      "checkpoint_sha256": "fbc60b644c519daeb9c4ab6b441e3601d141c5308f3734a2262a944b7f6f6734"
+    },
+    "f-mean-tss-raw-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-mean-tss-raw-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "mean",
+        "event_representation": "raw",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 14,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-mean-tss-raw-satty/best.pt",
+      "checkpoint_sha256": "3275c2425cdc3e00c6c1d378b72dc0360ba0662d23ebb60b0e46289422eb3686"
+    },
+    "f-mean-tss-raw-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-mean-tss-raw-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "mean",
+        "event_representation": "raw",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 6,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-mean-tss-raw-soho/best.pt",
+      "checkpoint_sha256": "c1edab30b2f3dbd6330ff3c974671a267b36b5ad55566699eed9cc18df5a27ad"
+    },
+    "f-content_gate-tss-raw-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_gate-tss-raw-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_gate",
+        "event_representation": "raw",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 14,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_gate-tss-raw-cassini/best.pt",
+      "checkpoint_sha256": "ef3ca35d1e695842822ee56b5203fae19449cda5f9d18567aa239afd2fe763cf"
+    },
+    "f-content_gate-tss-raw-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_gate-tss-raw-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_gate",
+        "event_representation": "raw",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 14,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_gate-tss-raw-satty/best.pt",
+      "checkpoint_sha256": "fd8cbfea1fad8354c509739638dd6b4302ecc4c05685da64511158d3c6727c19"
+    },
+    "f-content_gate-tss-raw-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_gate-tss-raw-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_gate",
+        "event_representation": "raw",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 10,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_gate-tss-raw-soho/best.pt",
+      "checkpoint_sha256": "72334f1a3538d6d7b81efa283c1da43c7d3fde0a494034aa4a7378e18706ddd4"
+    },
+    "f-content_clip_gate-tss-raw-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_clip_gate-tss-raw-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_clip_gate",
+        "event_representation": "raw",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 10,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_clip_gate-tss-raw-cassini/best.pt",
+      "checkpoint_sha256": "fd1223384af5b9cc49c7909cbec1b8ce399aa4967dcf8c53d12a2b0fe472fb05"
+    },
+    "f-content_clip_gate-tss-raw-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_clip_gate-tss-raw-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_clip_gate",
+        "event_representation": "raw",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 12,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_clip_gate-tss-raw-satty/best.pt",
+      "checkpoint_sha256": "82a59f49206cdbc785a2e5d13866ff4f1157b7d5d91b8c46d97deae06a6c0a57"
+    },
+    "f-content_clip_gate-tss-raw-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_clip_gate-tss-raw-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_clip_gate",
+        "event_representation": "raw",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 6,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_clip_gate-tss-raw-soho/best.pt",
+      "checkpoint_sha256": "baf7f202b043e8e75f0f93369cd53a2e5697457a15f13b01ba9c9e98ce59d19f"
+    },
+    "f-content_gate-tss0.25-activity-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_gate-tss0.25-activity-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 12,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_gate-tss0.25-activity-cassini/best.pt",
+      "checkpoint_sha256": "e4a53e4c6cc1c033839871aef425370c50230ab500de4ffbe053e94d08bad804"
+    },
+    "f-content_gate-tss0.25-activity-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_gate-tss0.25-activity-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 14,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_gate-tss0.25-activity-satty/best.pt",
+      "checkpoint_sha256": "32a05ca2cd04c1889fb9bffb54414bd828797f87d09fa2675fe830d8e8466757"
+    },
+    "f-content_gate-tss0.25-activity-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_gate-tss0.25-activity-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 6,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_gate-tss0.25-activity-soho/best.pt",
+      "checkpoint_sha256": "44803887e144c3c76d72b38c386e48cd7c6c509104095e1eae0a217a75fc1ea4"
+    },
+    "f-content_clip_gate-tss0.25-activity-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_clip_gate-tss0.25-activity-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_clip_gate-tss0.25-activity-cassini/best.pt",
+      "checkpoint_sha256": "9299f5db77a35f28782c9307d692ab295f05ae9c1ee49234f696318fc5909309"
+    },
+    "f-content_clip_gate-tss0.25-activity-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_clip_gate-tss0.25-activity-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 14,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_clip_gate-tss0.25-activity-satty/best.pt",
+      "checkpoint_sha256": "77dc9600eec7c825c18d03bcef3a492f6b5e6c98daf4f2c93244e1cec6eff010"
+    },
+    "f-content_clip_gate-tss0.25-activity-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_clip_gate-tss0.25-activity-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 7,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_clip_gate-tss0.25-activity-soho/best.pt",
+      "checkpoint_sha256": "dc5e14165e4db4e420df7d7b74493bb3af042e64473b36433adf0841858323fe"
+    },
+    "f-content_gate-tss-activity-s250-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_gate-tss-activity-s250-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 250,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_gate-tss-activity-s250-cassini/best.pt",
+      "checkpoint_sha256": "28a21c5a44f60b94abdeecf5dfba462c05b26ea32ded70e4bc30bb985eb72c64"
+    },
+    "f-content_gate-tss-activity-s250-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_gate-tss-activity-s250-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 250,
+      "selected_epoch": 13,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_gate-tss-activity-s250-satty/best.pt",
+      "checkpoint_sha256": "e2cc69082bde0a80eabb96aeac60c392a70e2c17d8486ae33b1475a7f3a6542b"
+    },
+    "f-content_gate-tss-activity-s250-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_gate-tss-activity-s250-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 250,
+      "selected_epoch": 13,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_gate-tss-activity-s250-soho/best.pt",
+      "checkpoint_sha256": "eff66373231ef7311b25e41fa1958a925f885ff11cbe4b816d91254c1afc9c87"
+    },
+    "f-clip_gate-tss-activity-s250-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate-tss-activity-s250-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 250,
+      "selected_epoch": 11,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate-tss-activity-s250-cassini/best.pt",
+      "checkpoint_sha256": "e9e158f24ea8ac0cf2c449cff7c1951558c455fb418848f5fa3a4ef35460f7b4"
+    },
+    "f-clip_gate-tss-activity-s250-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate-tss-activity-s250-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 250,
+      "selected_epoch": 13,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate-tss-activity-s250-satty/best.pt",
+      "checkpoint_sha256": "95a070d6c6e48845dd0dbf2832ada42c28ddf3e3f50a1561e9f01c6fced9a72d"
+    },
+    "f-clip_gate-tss-activity-s250-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate-tss-activity-s250-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 250,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate-tss-activity-s250-soho/best.pt",
+      "checkpoint_sha256": "988f478ac9a71a4dc70ad7bae6b61b4d3099542e7f196b0719075dbdd6d9f9be"
+    },
+    "f-clip_gate_constant-tss-activity-s250-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate_constant-tss-activity-s250-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate_constant",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 250,
+      "selected_epoch": 11,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate_constant-tss-activity-s250-cassini/best.pt",
+      "checkpoint_sha256": "1171ce70978a684f1ccd8d6f81e204746492c4ca3f83dbdd728421da3946d7ac"
+    },
+    "f-clip_gate_constant-tss-activity-s250-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate_constant-tss-activity-s250-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate_constant",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 250,
+      "selected_epoch": 9,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate_constant-tss-activity-s250-satty/best.pt",
+      "checkpoint_sha256": "574b04235c1cf14f41b603d005751a7708bf7528b3a7b393359afc313c988e76"
+    },
+    "f-clip_gate_constant-tss-activity-s250-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate_constant-tss-activity-s250-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate_constant",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 250,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate_constant-tss-activity-s250-soho/best.pt",
+      "checkpoint_sha256": "ad48d69572aa010f07cfc864e2afa5045f82d2efc4db9c168f16b2fbd11a9530"
+    },
+    "f-content_clip_gate-tss-activity-s250-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_clip_gate-tss-activity-s250-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 250,
+      "selected_epoch": 13,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_clip_gate-tss-activity-s250-cassini/best.pt",
+      "checkpoint_sha256": "44e761e50fad8eb2cad1a5c56e728ae6bec7b688191bca1c7e45b380ac88a247"
+    },
+    "f-content_clip_gate-tss-activity-s250-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_clip_gate-tss-activity-s250-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 250,
+      "selected_epoch": 13,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_clip_gate-tss-activity-s250-satty/best.pt",
+      "checkpoint_sha256": "0fae76a882437be97e1ecfe705305eb339933c6cca8e792b897f00763b4286c3"
+    },
+    "f-content_clip_gate-tss-activity-s250-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_clip_gate-tss-activity-s250-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 250,
+      "selected_epoch": 13,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_clip_gate-tss-activity-s250-soho/best.pt",
+      "checkpoint_sha256": "fd461da1decc64005cb088828e3cb9912915f901fb85fdceafb5a26b64957912"
+    },
+    "f-content_gate-tss-activity-s251-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_gate-tss-activity-s251-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 251,
+      "selected_epoch": 12,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_gate-tss-activity-s251-cassini/best.pt",
+      "checkpoint_sha256": "3412c80734d48d6d94728974f2ec9f6100381520ddd07517bdb90858d137aeff"
+    },
+    "f-content_gate-tss-activity-s251-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_gate-tss-activity-s251-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 251,
+      "selected_epoch": 11,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_gate-tss-activity-s251-satty/best.pt",
+      "checkpoint_sha256": "e859127047a922f8d5488d1db23df6e105d9b8b34aeb7ae42c9d6919a21981b4"
+    },
+    "f-content_gate-tss-activity-s251-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_gate-tss-activity-s251-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 251,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_gate-tss-activity-s251-soho/best.pt",
+      "checkpoint_sha256": "87e93305f0817425d276336455b953a30860c9c191b3aef9e8c75f8976df50a1"
+    },
+    "f-clip_gate-tss-activity-s251-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate-tss-activity-s251-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 251,
+      "selected_epoch": 12,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate-tss-activity-s251-cassini/best.pt",
+      "checkpoint_sha256": "be5f214a70c1efb267102663e44b002d20fe5408ba6a5ccbdcc805465ecb200f"
+    },
+    "f-clip_gate-tss-activity-s251-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate-tss-activity-s251-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 251,
+      "selected_epoch": 15,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate-tss-activity-s251-satty/best.pt",
+      "checkpoint_sha256": "20fc8469b19f0a77644abf4d2bdfa0137c053470fe7ccecfd8bb8d9037c54243"
+    },
+    "f-clip_gate-tss-activity-s251-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate-tss-activity-s251-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 251,
+      "selected_epoch": 6,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate-tss-activity-s251-soho/best.pt",
+      "checkpoint_sha256": "656eac0d9fbf86460d897b4212014bcb38da8e0a9639884c4d79254cb746a5dc"
+    },
+    "f-clip_gate_constant-tss-activity-s251-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate_constant-tss-activity-s251-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate_constant",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 251,
+      "selected_epoch": 11,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate_constant-tss-activity-s251-cassini/best.pt",
+      "checkpoint_sha256": "185d9d042b8cd6bc865f3c16ab0b64cf35491c2561797ab880154f84f5469900"
+    },
+    "f-clip_gate_constant-tss-activity-s251-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate_constant-tss-activity-s251-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate_constant",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 251,
+      "selected_epoch": 13,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate_constant-tss-activity-s251-satty/best.pt",
+      "checkpoint_sha256": "a5fe3264a7916563b81fdb2447dbd2223bf1865c246b8634c5ce82cda89f506e"
+    },
+    "f-clip_gate_constant-tss-activity-s251-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate_constant-tss-activity-s251-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate_constant",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 251,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate_constant-tss-activity-s251-soho/best.pt",
+      "checkpoint_sha256": "71e6ff64e3080dfecb688450cd8b40caf3a1ae0a56a47084b3786176db561fc7"
+    },
+    "f-content_clip_gate-tss-activity-s251-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_clip_gate-tss-activity-s251-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 251,
+      "selected_epoch": 15,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_clip_gate-tss-activity-s251-cassini/best.pt",
+      "checkpoint_sha256": "fce0c94181e84664d2037d22c32ee68603b5a68e3d4789397bf83fa398e09c88"
+    },
+    "f-content_clip_gate-tss-activity-s251-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_clip_gate-tss-activity-s251-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 251,
+      "selected_epoch": 11,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_clip_gate-tss-activity-s251-satty/best.pt",
+      "checkpoint_sha256": "50cb068840bb2104b82fc9b4254982c50e94c2743fd7b4d60c59d8300857cd8b"
+    },
+    "f-content_clip_gate-tss-activity-s251-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-content_clip_gate-tss-activity-s251-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 251,
+      "selected_epoch": 6,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-content_clip_gate-tss-activity-s251-soho/best.pt",
+      "checkpoint_sha256": "6984af5f6c9ea2c9a0ad98d3a634f1a95cbb3d8979ac76e33cc472edb8f5d164"
+    },
+    "f-mean-tss-activity-s250-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-mean-tss-activity-s250-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "mean",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 250,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-mean-tss-activity-s250-cassini/best.pt",
+      "checkpoint_sha256": "b531b775d54bf2fc82fe6f848b2ce2f64c41a0ebbc6b52351c994cd2b650218e"
+    },
+    "f-mean-tss-activity-s250-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-mean-tss-activity-s250-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "mean",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 250,
+      "selected_epoch": 10,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-mean-tss-activity-s250-satty/best.pt",
+      "checkpoint_sha256": "b29cade6881918f90210323cb4035d84f3deaec1877eff78d92d606059d6f7ce"
+    },
+    "f-mean-tss-activity-s250-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-mean-tss-activity-s250-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "mean",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 250,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-mean-tss-activity-s250-soho/best.pt",
+      "checkpoint_sha256": "afa50a85870ad291d143e58a1a201a47732957366f1e35b2f4669c633b797e25"
+    },
+    "f-clip_gate_fixed-tss-activity-s250-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate_fixed-tss-activity-s250-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate_fixed",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 250,
+      "selected_epoch": 11,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate_fixed-tss-activity-s250-cassini/best.pt",
+      "checkpoint_sha256": "67f90629d267fe3559243b9991a3f0adc80d9e2e56eecdd5bcc0c8ab6e329067"
+    },
+    "f-clip_gate_fixed-tss-activity-s250-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate_fixed-tss-activity-s250-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate_fixed",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 250,
+      "selected_epoch": 15,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate_fixed-tss-activity-s250-satty/best.pt",
+      "checkpoint_sha256": "0085f661d91d54abb56a3f2597f8e1f05ab20db4ab243271b4c0ddcf4b9dbf4c"
+    },
+    "f-clip_gate_fixed-tss-activity-s250-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate_fixed-tss-activity-s250-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate_fixed",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 250,
+      "selected_epoch": 6,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate_fixed-tss-activity-s250-soho/best.pt",
+      "checkpoint_sha256": "e8ab2be3f181afe4e7b689512886948beec698708ff51010a7c6f199b15c3a08"
+    },
+    "u-rgb-tss-s250-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/u-rgb-tss-s250-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "rgb",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": null,
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 250,
+      "selected_epoch": 12,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/u-rgb-tss-s250-cassini/best.pt",
+      "checkpoint_sha256": "f57f6f590a9cf2e66df731ff10ef169102b50737b5a9499a705d21e0b55dced2"
+    },
+    "u-rgb-tss-s250-satty": {
+      "run_dir": "outputs/runs/main-hrnet/u-rgb-tss-s250-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "rgb",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": null,
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 250,
+      "selected_epoch": 13,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/u-rgb-tss-s250-satty/best.pt",
+      "checkpoint_sha256": "454f3765e4f72248dd1443ee8224e287a2a9fd11eb0599573d68e3b51d3ec60b"
+    },
+    "u-rgb-tss-s250-soho": {
+      "run_dir": "outputs/runs/main-hrnet/u-rgb-tss-s250-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "rgb",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": null,
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 250,
+      "selected_epoch": 12,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/u-rgb-tss-s250-soho/best.pt",
+      "checkpoint_sha256": "e15c64c9ab392cea88b60e3e99f1225cb479e67317ef1278b61edf524b36b50c"
+    },
+    "f-mean-tss-activity-s251-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-mean-tss-activity-s251-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "mean",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 251,
+      "selected_epoch": 11,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-mean-tss-activity-s251-cassini/best.pt",
+      "checkpoint_sha256": "529ed1b691cd51d659ab349b7f187ead9addc7b3a4810f995e6056457eb25a7f"
+    },
+    "f-mean-tss-activity-s251-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-mean-tss-activity-s251-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "mean",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 251,
+      "selected_epoch": 12,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-mean-tss-activity-s251-satty/best.pt",
+      "checkpoint_sha256": "e8ee6db48f7c8af5b2e76a4ff400a646945522a8e289852446072d7f36af89dc"
+    },
+    "f-mean-tss-activity-s251-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-mean-tss-activity-s251-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "mean",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 251,
+      "selected_epoch": 6,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-mean-tss-activity-s251-soho/best.pt",
+      "checkpoint_sha256": "594c5531b59fcd95390c8d7f27eff8379f177f146ac86ff5c2fb815deafa0f9f"
+    },
+    "f-clip_gate_fixed-tss-activity-s251-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate_fixed-tss-activity-s251-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate_fixed",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 251,
+      "selected_epoch": 9,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate_fixed-tss-activity-s251-cassini/best.pt",
+      "checkpoint_sha256": "ecc943a294b4066e66beef4ca13d84671c89260b8b556611326b43a93a106f81"
+    },
+    "f-clip_gate_fixed-tss-activity-s251-satty": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate_fixed-tss-activity-s251-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate_fixed",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 251,
+      "selected_epoch": 15,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate_fixed-tss-activity-s251-satty/best.pt",
+      "checkpoint_sha256": "79f69732aa49b19ba03164c6e4506af038b3a7ba7bad701a83c30df6f75c0660"
+    },
+    "f-clip_gate_fixed-tss-activity-s251-soho": {
+      "run_dir": "outputs/runs/main-hrnet/f-clip_gate_fixed-tss-activity-s251-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate_fixed",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 251,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/f-clip_gate_fixed-tss-activity-s251-soho/best.pt",
+      "checkpoint_sha256": "0134fda46c1ed1d42274eeeb524eb0f9c29ea3c286366ba39f12cf459b599216"
+    },
+    "u-rgb-tss-s251-cassini": {
+      "run_dir": "outputs/runs/main-hrnet/u-rgb-tss-s251-cassini",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "rgb",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": null,
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 251,
+      "selected_epoch": 13,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/u-rgb-tss-s251-cassini/best.pt",
+      "checkpoint_sha256": "8b19475aff2576a3e71a8782d541de7b84ceaec581f211830bef9c18e8c3b1ad"
+    },
+    "u-rgb-tss-s251-satty": {
+      "run_dir": "outputs/runs/main-hrnet/u-rgb-tss-s251-satty",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "rgb",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": null,
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 251,
+      "selected_epoch": 15,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/u-rgb-tss-s251-satty/best.pt",
+      "checkpoint_sha256": "c1b735d551f412f7db895ff2957f20c497ce5297f935ba0109af291d2c1c2dff"
+    },
+    "u-rgb-tss-s251-soho": {
+      "run_dir": "outputs/runs/main-hrnet/u-rgb-tss-s251-soho",
+      "matrix": "configs\\experiments\\main_v1.yaml",
+      "spec": {
+        "modality": "rgb",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": null,
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 251,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/main-hrnet/u-rgb-tss-s251-soho/best.pt",
+      "checkpoint_sha256": "20f11c0a03d98fb24e574795a902a7613c1adeac49c2b997f32a8e4bf0375899"
+    },
+    "ft-mean-tss-activity-cassini": {
+      "run_dir": "outputs/runs/finetune-hrnet/ft-mean-tss-activity-cassini",
+      "matrix": "configs\\experiments\\finetune_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "mean",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 4,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/finetune-hrnet/ft-mean-tss-activity-cassini/best.pt",
+      "checkpoint_sha256": "dda54de0e3b87ab9b56257078b4f0d1a681d7820f667e081f23e56d7924a3138"
+    },
+    "ft-mean-tss-activity-satty": {
+      "run_dir": "outputs/runs/finetune-hrnet/ft-mean-tss-activity-satty",
+      "matrix": "configs\\experiments\\finetune_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "mean",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 2,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/finetune-hrnet/ft-mean-tss-activity-satty/best.pt",
+      "checkpoint_sha256": "a58e6570fb8b5452214efb449ae91ba10d4a112d5bc343a821550c012785fbff"
+    },
+    "ft-mean-tss-activity-soho": {
+      "run_dir": "outputs/runs/finetune-hrnet/ft-mean-tss-activity-soho",
+      "matrix": "configs\\experiments\\finetune_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "mean",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 0,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/finetune-hrnet/ft-mean-tss-activity-soho/best.pt",
+      "checkpoint_sha256": "224de7bb070aaf14d6045379b8430d7ea53a0c1bf7755f8469ee320fd5e6a6a7"
+    },
+    "ft-content_gate-tss-activity-cassini": {
+      "run_dir": "outputs/runs/finetune-hrnet/ft-content_gate-tss-activity-cassini",
+      "matrix": "configs\\experiments\\finetune_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 3,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/finetune-hrnet/ft-content_gate-tss-activity-cassini/best.pt",
+      "checkpoint_sha256": "ef0efd3834ed6a3acb7cdc7d6b6b9216fdc2981dec0ba6e296f7db655869cce2"
+    },
+    "ft-content_gate-tss-activity-satty": {
+      "run_dir": "outputs/runs/finetune-hrnet/ft-content_gate-tss-activity-satty",
+      "matrix": "configs\\experiments\\finetune_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 3,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/finetune-hrnet/ft-content_gate-tss-activity-satty/best.pt",
+      "checkpoint_sha256": "00fb9ddadfe96a578a001b10a4c92b2adec6b123681d338316d908c205041fb5"
+    },
+    "ft-content_gate-tss-activity-soho": {
+      "run_dir": "outputs/runs/finetune-hrnet/ft-content_gate-tss-activity-soho",
+      "matrix": "configs\\experiments\\finetune_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 2,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/finetune-hrnet/ft-content_gate-tss-activity-soho/best.pt",
+      "checkpoint_sha256": "eb5c8f758fe9713b03545c599ca1fb93e24b71bf910a58bcb55041987300fa6d"
+    },
+    "ft-content_clip_gate-tss-activity-cassini": {
+      "run_dir": "outputs/runs/finetune-hrnet/ft-content_clip_gate-tss-activity-cassini",
+      "matrix": "configs\\experiments\\finetune_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 2,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/finetune-hrnet/ft-content_clip_gate-tss-activity-cassini/best.pt",
+      "checkpoint_sha256": "99476be4c4ccb6985c6473ea5b274eddac7ae48b1ccaac95ee78bc6b00bdaa25"
+    },
+    "ft-content_clip_gate-tss-activity-satty": {
+      "run_dir": "outputs/runs/finetune-hrnet/ft-content_clip_gate-tss-activity-satty",
+      "matrix": "configs\\experiments\\finetune_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 4,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/finetune-hrnet/ft-content_clip_gate-tss-activity-satty/best.pt",
+      "checkpoint_sha256": "e0f0fa586eed15bce62c0400dca412472195250d917680b3407822b169ecd596"
+    },
+    "ft-content_clip_gate-tss-activity-soho": {
+      "run_dir": "outputs/runs/finetune-hrnet/ft-content_clip_gate-tss-activity-soho",
+      "matrix": "configs\\experiments\\finetune_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 0,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/finetune-hrnet/ft-content_clip_gate-tss-activity-soho/best.pt",
+      "checkpoint_sha256": "5c641e995e3a16752dfc4db9aba1100d8befad92a5ba59e2e2de886ce3ca597c"
+    },
+    "ft-rgb-tss-cassini": {
+      "run_dir": "outputs/runs/finetune-hrnet/ft-rgb-tss-cassini",
+      "matrix": "configs\\experiments\\finetune_v1.yaml",
+      "spec": {
+        "modality": "rgb",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": null,
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 4,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/finetune-hrnet/ft-rgb-tss-cassini/best.pt",
+      "checkpoint_sha256": "546b0e683a39a40f3a05a80ee7908ec569c6e9c65c7a859f390092449e32822c"
+    },
+    "ft-rgb-tss-satty": {
+      "run_dir": "outputs/runs/finetune-hrnet/ft-rgb-tss-satty",
+      "matrix": "configs\\experiments\\finetune_v1.yaml",
+      "spec": {
+        "modality": "rgb",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": null,
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 4,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/finetune-hrnet/ft-rgb-tss-satty/best.pt",
+      "checkpoint_sha256": "2778ae57f9bfd358f99f8e1f17c84e009189cad7efa6c5899d17886ede78a0dd"
+    },
+    "ft-rgb-tss-soho": {
+      "run_dir": "outputs/runs/finetune-hrnet/ft-rgb-tss-soho",
+      "matrix": "configs\\experiments\\finetune_v1.yaml",
+      "spec": {
+        "modality": "rgb",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": null,
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 1,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/finetune-hrnet/ft-rgb-tss-soho/best.pt",
+      "checkpoint_sha256": "7217f9691ab8dc6540d6d7c6970bd22ec4256d5b1be0551595180c360a1df9ce"
+    }
+  }
+}

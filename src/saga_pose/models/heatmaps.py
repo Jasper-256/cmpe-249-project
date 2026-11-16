@@ -2,14 +2,46 @@
 
 from __future__ import annotations
 
+import os
 from collections.abc import Sequence
+from pathlib import Path
 from typing import Any, cast
 
 import timm
 import torch
 from torch import Tensor, nn
 from torch.nn import functional as F
-from transformers import SegformerConfig, SegformerModel
+
+
+def _local_pretrained_file(model_name: str) -> Path | None:
+    """Return a cached timm weight file, bypassing the Hugging Face hub client.
+
+    On this Windows host Application Control blocks the unsigned OpenSSL DLL that
+    ``huggingface_hub`` imports, so weights already in the local hub cache are
+    loaded directly from disk. The file is byte-identical to the hub download.
+    """
+    hub = Path(os.environ.get("HF_HUB_CACHE", Path.home() / ".cache" / "huggingface" / "hub"))
+    for filename in ("model.safetensors", "pytorch_model.bin"):
+        matches = sorted(
+            hub.glob(f"models--timm--{model_name}/snapshots/*/{filename}"),
+            key=lambda path: path.stat().st_mtime,
+        )
+        if matches:
+            return matches[-1]  # newest snapshot
+    return None
+
+
+def create_timm_backbone(model_name: str, *, pretrained: bool, **kwargs: Any) -> nn.Module:
+    """Create a ``features_only`` timm backbone, preferring locally cached weights."""
+    if pretrained:
+        local = _local_pretrained_file(model_name)
+        if local is not None:
+            kwargs["pretrained_cfg_overlay"] = {"file": str(local)}
+    model: nn.Module = timm.create_model(
+        model_name, pretrained=pretrained, features_only=True, **kwargs
+    )
+    return model
+
 
 IMAGENET_MEAN = (0.485, 0.456, 0.406)
 IMAGENET_STD = (0.229, 0.224, 0.225)
@@ -131,11 +163,8 @@ class TimmPyramidHeatmapRegressor(nn.Module):
             raise ValueError("num_keypoints and decoder_channels must be positive")
         self.num_keypoints = num_keypoints
         self.backbone_name = backbone_name
-        self.backbone = timm.create_model(
-            backbone_name,
-            pretrained=pretrained,
-            features_only=True,
-            **(backbone_kwargs or {}),
+        self.backbone = create_timm_backbone(
+            backbone_name, pretrained=pretrained, **(backbone_kwargs or {})
         )
         channels = tuple(cast(Any, self.backbone).feature_info.channels())
         self.feature_channels = channels
@@ -188,7 +217,7 @@ class SegFormerHeatmapRegressor(nn.Module):
         pretrained: bool = False,
         decoder_channels: int = 64,
         model_id: str = "nvidia/mit-b0",
-        config: SegformerConfig | None = None,
+        config: Any = None,
     ) -> None:
         super().__init__()
         if num_keypoints <= 0 or decoder_channels <= 0:
@@ -198,8 +227,13 @@ class SegFormerHeatmapRegressor(nn.Module):
         if pretrained and config is not None:
             raise ValueError("a custom SegFormer config cannot be combined with pretrained weights")
         if pretrained:
+            # Imported lazily: transformers pulls in SSL, which this host may block.
+            from transformers import SegformerConfig, SegformerModel
+
             self.backbone = SegformerModel.from_pretrained(model_id)
         else:
+            from transformers import SegformerConfig, SegformerModel
+
             self.backbone = SegformerModel(config or SegformerConfig())  # type: ignore[no-untyped-call]
         self.feature_channels = tuple(self.backbone.config.hidden_sizes)
         # The Hugging Face SegFormer image processor uses ImageNet statistics.

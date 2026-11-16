@@ -16,6 +16,7 @@ import argparse
 import hashlib
 import json
 import os
+import subprocess
 from pathlib import Path
 from typing import Any, cast
 
@@ -27,8 +28,10 @@ from torch.utils.data import DataLoader
 
 from saga_pose.data.archives import open_fresh_archive
 from saga_pose.data.cache import FreshCropCacheDataset
-from saga_pose.data.real import load_real_slices, slice_mask
-from saga_pose.evaluation.metrics import aggregate_by_sequence, threshold_success_rate
+from saga_pose.data.real import load_real_slices
+from saga_pose.evaluation.geometric import ransac_pose_from_sets
+from saga_pose.evaluation.pose import pose_error_arrays
+from saga_pose.evaluation.real_analysis import analyze_real_frames
 from saga_pose.models.fusion import ClipMode
 from saga_pose.training.engine import ModelSpec, Protocol, build_model, evaluate
 
@@ -51,64 +54,55 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def _summaries(
-    rotation: np.ndarray, translation: np.ndarray, valid: np.ndarray
-) -> dict[str, float]:
-    return {
-        "frames": int(rotation.size),
-        "are_degrees_mean": float(np.mean(rotation)),
-        "are_degrees_median": float(np.median(rotation)),
-        "ate_m_mean": float(np.mean(translation)),
-        "ate_m_median": float(np.median(translation)),
-        "success_rotation_below_10_deg": threshold_success_rate(rotation, 10.0),
-        "success_translation_below_10_mm": threshold_success_rate(translation, 0.01),
-        "pnp_valid_fraction": float(np.mean(valid)),
-    }
-
-
-def _analyze(
-    frames: dict[str, Any], slices: dict[str, dict[str, tuple[int, int]]]
+def _ransac_frames(
+    frames: dict[str, Any], cache: FreshCropCacheDataset, threshold_px: float
 ) -> dict[str, Any]:
-    rotation = np.asarray(frames["rotation_error_deg"])
-    translation = np.asarray(frames["translation_error_m"])
-    valid = np.asarray(frames["pnp_valid"])
-    sequences = list(frames["sequence"])
-    numbers = np.asarray(frames["frame_number"])
-    result: dict[str, Any] = {
-        "overall_frames": _summaries(rotation, translation, valid),
-        "sequence_mean_are_deg": aggregate_by_sequence(rotation, sequences),
-        "sequence_mean_ate_m": aggregate_by_sequence(translation, sequences),
-        "slices": {},
+    """Re-solve saved keypoints with the frozen RANSAC solver (same failure policy)."""
+    index = {sample: position for position, sample in enumerate(cache.sample_ids)}
+    rows = np.asarray([index[str(sample)] for sample in frames["sample_id"]])
+    landmarks = np.asarray(cache.array("landmarks_object_mm"))[rows].astype(np.float64)
+    intrinsics = np.asarray(cache.array("intrinsics"))[rows].astype(np.float64)
+    truth = np.asarray(cache.array("pose_object_to_camera_mm"))[rows].astype(np.float64)
+    poses, valid, _ = ransac_pose_from_sets(
+        [np.asarray(frames["predicted_keypoints_xy"], dtype=np.float64)],
+        landmarks,
+        intrinsics,
+        threshold_px=threshold_px,
+    )
+    errors = pose_error_arrays(truth, poses)
+    return {
+        "sequence": frames["sequence"],
+        "frame_number": frames["frame_number"],
+        "pnp_valid": valid,
+        "rotation_error_deg": errors["rotation_error_deg"],
+        "translation_error_m": errors["translation_error_m"],
     }
-    result["overall_sequence_mean"] = {
-        "are_degrees": float(np.mean(list(result["sequence_mean_are_deg"].values()))),
-        "ate_m": float(np.mean(list(result["sequence_mean_ate_m"].values()))),
-    }
-    sequence_array = np.asarray(sequences)
-    for slice_name in ("harsh", "low-motion"):
-        mask = np.zeros(rotation.size, dtype=bool)
-        unknown = set(slices) - set(sequences)
-        if unknown:
-            raise ValueError(f"slice sequences missing from predictions: {sorted(unknown)}")
-        for sequence, ranges in slices.items():
-            in_sequence = sequence_array == sequence
-            mask |= in_sequence & slice_mask(numbers, ranges[slice_name])  # type: ignore[index]
-        if not mask.any():
-            raise ValueError(f"empty {slice_name} slice")
-        result["slices"][slice_name] = _summaries(rotation[mask], translation[mask], valid[mask])
-        result["slices"][slice_name]["sequence_mean_are_deg"] = aggregate_by_sequence(
-            rotation[mask], list(sequence_array[mask])
-        )
-        result["slices"][slice_name]["sequence_mean_ate_m"] = aggregate_by_sequence(
-            translation[mask], list(sequence_array[mask])
-        )
-    return result
 
 
 def main() -> int:
     args = parse_args()
     device = torch.device("cuda")
     torch.backends.cudnn.benchmark = False
+    # The freeze manifest is mandatory: only frozen checkpoints, byte-identical to the
+    # ones recorded before any real read, may be evaluated.
+    manifest_path = Path("outputs/real/freeze_manifest.json")
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    selection_path = Path("outputs/geometric/selection.json")
+    if _sha256(selection_path) != manifest["geometric_selection_sha256"]:
+        raise SystemExit("geometric selection changed after the freeze")
+    selection = json.loads(selection_path.read_text(encoding="utf-8"))
+    provenance = {
+        "freeze_manifest_sha256": _sha256(manifest_path),
+        "git_commit": subprocess.run(
+            ["git", "rev-parse", "HEAD"], check=True, capture_output=True, text=True
+        ).stdout.strip(),
+        "uv_lock_sha256": _sha256(Path("uv.lock")),
+        "torch": torch.__version__,
+        "device": torch.cuda.get_device_name(device),
+        "precision": "float32",
+        "batch_size": 32,
+    }
+    ransac_threshold = float(selection["pairs"]["g-ransac-tss"]["threshold_px"])
     with open_fresh_archive("real", args.raw_root) as archive:
         slices = cast(dict[str, dict[str, tuple[int, int]]], load_real_slices(archive))
     for run_dir in args.runs:
@@ -124,6 +118,9 @@ def main() -> int:
         }
         spec = ModelSpec(**report["spec"])
         checkpoint = Path(report["provenance"]["checkpoint"])
+        frozen = manifest["runs"].get(report["name"])
+        if frozen is None or _sha256(checkpoint) != frozen["checkpoint_sha256"]:
+            raise SystemExit(f"{report['name']}: checkpoint is not the frozen one")
         state = torch.load(checkpoint, map_location=device, weights_only=True)
         num_keypoints = int(real[0]["keypoints_xy"].shape[0])
         model = build_model(spec, num_keypoints, pretrained=False).to(device)
@@ -151,7 +148,7 @@ def main() -> int:
                 ("clip_shuffle", spec, "shuffle", None),
                 ("clip_zero", spec, "zero", None),
             ]
-            if spec.fusion not in ("concat", "mean"):
+            if spec.fusion not in ("concat", "mean", "attention"):
                 conditions.append(("gate_bypass_0.5", spec, "normal", 0.5))
         results: dict[str, Any] = {}
         for label, condition_spec, clip_mode, override in conditions:
@@ -168,7 +165,16 @@ def main() -> int:
             )
             frames = evaluation.pop("frames")
             np.savez_compressed(out_dir / f"frames_{label}.npz", **frames)
-            results[label] = {**evaluation, "analysis": _analyze(frames, object_slices)}
+            results[label] = {**evaluation, "analysis": analyze_real_frames(frames, object_slices)}
+            if label == "primary":
+                # Pre-registered secondary analysis (2026-10-28): the same keypoints
+                # re-solved with the frozen RANSAC solver used by the geometric baseline.
+                results["primary_ransac"] = {
+                    "analysis": analyze_real_frames(
+                        _ransac_frames(frames, real, ransac_threshold), object_slices
+                    ),
+                    "ransac_threshold_px": ransac_threshold,
+                }
             overall = results[label]["analysis"]["overall_sequence_mean"]
             print(
                 f"[{report['name']}] {label}: seq-mean ARE={overall['are_degrees']:.2f}deg "
@@ -181,6 +187,11 @@ def main() -> int:
             "spec": report["spec"],
             "training_protocol": report["protocol"],
             "checkpoint_sha256": _sha256(checkpoint),
+            "provenance": provenance,
+            "ransac_threshold_note": (
+                "primary_ransac uses the TSS-pair threshold (4 px) for every model, "
+                "the identical solver of the 2026-10-28 control"
+            ),
             "real_cache_manifest_sha256": _sha256(real_cache / "manifest.json"),
             "object": objects[0],
             "selected_epoch": report["outcome"].get("selected_epoch"),

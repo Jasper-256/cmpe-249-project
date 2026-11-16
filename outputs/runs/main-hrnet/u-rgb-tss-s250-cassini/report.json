@@ -1,0 +1,309 @@
+{
+  "schema_version": 1,
+  "name": "u-rgb-tss-s250-cassini",
+  "spec": {
+    "modality": "rgb",
+    "backbone": "hrnet_w18_small_v2.ms_in1k",
+    "fusion": null,
+    "event_representation": "activity",
+    "decoder_channels": 64,
+    "clip_slope_init": 5.0
+  },
+  "protocol": "tss",
+  "config": {
+    "name": "u-rgb-tss-s250-cassini",
+    "cache_dir": "data\\fresh\\cache\\crop-v2",
+    "objects": [
+      "cassini"
+    ],
+    "modality": "rgb",
+    "fusion": null,
+    "backbone": "hrnet_w18_small_v2.ms_in1k",
+    "event_representation": "activity",
+    "protocol": "tss",
+    "clip_slope_init": 5.0,
+    "tss_fraction": 1.0,
+    "train_stride": 4,
+    "train_limit": null,
+    "validation_limit": null,
+    "epochs": 15,
+    "batch_size": 16,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "warmup_steps": 300,
+    "schedule": "cosine",
+    "patience": 4,
+    "min_improvement_px": 0.05,
+    "precision": "fp32",
+    "no_pretrained": false,
+    "init_from": null,
+    "seed": 250,
+    "workers": 0,
+    "overfit": 0,
+    "overfit_steps": 200,
+    "output_dir": "outputs\\runs\\main-hrnet",
+    "checkpoint_dir": "checkpoints\\main-hrnet"
+  },
+  "data": {
+    "train_samples": 2980,
+    "validation_samples": 640,
+    "train_steps_per_epoch": 187,
+    "cache_manifests_sha256": {
+      "cassini-train": "ed4679480cf26a791de1e2cfbe600c10dd51370f392fff0a3c81cd5085fbb96e",
+      "cassini-validation": "6215ff23198a3d849fc2ded6a4b25080277fe44c967e26862ed886c34dde443c"
+    }
+  },
+  "parameters": {
+    "total": 5412162,
+    "trainable": 5412162
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.01492910903447711,
+      "validation_rmse_px": 50.630144950325516,
+      "gate_mean_clipped": null,
+      "gate_mean_unclipped": null,
+      "learning_rate": 0.0006266666666666668,
+      "epoch_seconds": 61.17817300000024,
+      "checkpoint": true
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.0015447309812192213,
+      "validation_rmse_px": 33.09861595843118,
+      "gate_mean_clipped": null,
+      "gate_mean_unclipped": null,
+      "learning_rate": 0.0009978483283352437,
+      "epoch_seconds": 47.56640029999835,
+      "checkpoint": true
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.0012319655597140206,
+      "validation_rmse_px": 25.309197717332964,
+      "gate_mean_clipped": null,
+      "gate_mean_unclipped": null,
+      "learning_rate": 0.0009734524655902253,
+      "epoch_seconds": 48.2566633000024,
+      "checkpoint": true
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.0010156052742392463,
+      "validation_rmse_px": 22.164401221134487,
+      "gate_mean_clipped": null,
+      "gate_mean_unclipped": null,
+      "learning_rate": 0.0009231355624381894,
+      "epoch_seconds": 47.19670649999898,
+      "checkpoint": true
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.0008492001826018294,
+      "validation_rmse_px": 15.80391901829434,
+      "gate_mean_clipped": null,
+      "gate_mean_unclipped": null,
+      "learning_rate": 0.0008496524180924719,
+      "epoch_seconds": 47.26402650000091,
+      "checkpoint": true
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.0007105171618196257,
+      "validation_rmse_px": 14.376543764526142,
+      "gate_mean_clipped": null,
+      "gate_mean_unclipped": null,
+      "learning_rate": 0.0007570261598831742,
+      "epoch_seconds": 48.82124610000028,
+      "checkpoint": true
+    },
+    {
+      "epoch": 7,
+      "train_loss": 0.0005994393523872138,
+      "validation_rmse_px": 14.069337244222703,
+      "gate_mean_clipped": null,
+      "gate_mean_unclipped": null,
+      "learning_rate": 0.0006503279811323145,
+      "epoch_seconds": 46.38052710000193,
+      "checkpoint": true
+    },
+    {
+      "epoch": 8,
+      "train_loss": 0.0005114179077797276,
+      "validation_rmse_px": 12.916309855465272,
+      "gate_mean_clipped": null,
+      "gate_mean_unclipped": null,
+      "learning_rate": 0.0005353994984830933,
+      "epoch_seconds": 47.39103089999844,
+      "checkpoint": true
+    },
+    {
+      "epoch": 9,
+      "train_loss": 0.0004384323856843147,
+      "validation_rmse_px": 12.06895423969646,
+      "gate_mean_clipped": null,
+      "gate_mean_unclipped": null,
+      "learning_rate": 0.0004185329293367947,
+      "epoch_seconds": 47.868723900006444,
+      "checkpoint": true
+    },
+    {
+      "epoch": 10,
+      "train_loss": 0.00038446820503534044,
+      "validation_rmse_px": 11.743002093224945,
+      "gate_mean_clipped": null,
+      "gate_mean_unclipped": null,
+      "learning_rate": 0.0003061265993569977,
+      "epoch_seconds": 47.627587299997685,
+      "checkpoint": true
+    },
+    {
+      "epoch": 11,
+      "train_loss": 0.00033377552075675106,
+      "validation_rmse_px": 12.344137432386791,
+      "gate_mean_clipped": null,
+      "gate_mean_unclipped": null,
+      "learning_rate": 0.0002043346406544701,
+      "epoch_seconds": 46.414798099998734,
+      "checkpoint": false
+    },
+    {
+      "epoch": 12,
+      "train_loss": 0.00029763357875990697,
+      "validation_rmse_px": 11.23638611844547,
+      "gate_mean_clipped": null,
+      "gate_mean_unclipped": null,
+      "learning_rate": 0.00011873005932043201,
+      "epoch_seconds": 48.41786310000316,
+      "checkpoint": true
+    },
+    {
+      "epoch": 13,
+      "train_loss": 0.00027321105585421094,
+      "validation_rmse_px": 11.212717125948735,
+      "gate_mean_clipped": null,
+      "gate_mean_unclipped": null,
+      "learning_rate": 5.399961901767114e-05,
+      "epoch_seconds": 45.542235099994286,
+      "checkpoint": false
+    },
+    {
+      "epoch": 14,
+      "train_loss": 0.0002587925917269752,
+      "validation_rmse_px": 11.646446096351092,
+      "gate_mean_clipped": null,
+      "gate_mean_unclipped": null,
+      "learning_rate": 1.368724544221317e-05,
+      "epoch_seconds": 47.6720714999974,
+      "checkpoint": false
+    },
+    {
+      "epoch": 15,
+      "train_loss": 0.00025272971437185663,
+      "validation_rmse_px": 11.3785406915703,
+      "gate_mean_clipped": null,
+      "gate_mean_unclipped": null,
+      "learning_rate": 0.0,
+      "epoch_seconds": 47.494470799996634,
+      "checkpoint": false
+    }
+  ],
+  "outcome": {
+    "stage": "train",
+    "selected_epoch": 12,
+    "selected_validation_rmse_px": 11.23638611844547,
+    "epochs_completed": 15,
+    "resumed_evaluation": false,
+    "evaluations": {
+      "validation_natural": {
+        "frame_count": 640,
+        "coordinate_rmse_px": 7.975739093309189,
+        "protocol": "natural",
+        "clip_mode": "normal",
+        "gate_override": null,
+        "gate_mean_clipped_patches": null,
+        "gate_mean_unclipped_patches": null,
+        "pose": {
+          "frame_count": 640,
+          "pnp_valid_count": 640,
+          "pnp_valid_fraction": 1.0,
+          "failure_policy": "FRESH default pose: identity rotation (zero rotation vector), zero translation",
+          "all_frames": {
+            "are_degrees_mean": 4.9315664044548395,
+            "are_degrees_median": 3.8137492261041945,
+            "absolute_translation_error_m_mean": 0.022284900188360563,
+            "absolute_translation_error_m_median": 0.014800968167006961,
+            "range_normalized_translation_error_mean": 0.017780861505658434,
+            "success_rotation_below_10_deg": 0.9296875,
+            "success_translation_below_10_mm": 0.3734375,
+            "success_joint_10_deg_10_mm": 0.3546875
+          },
+          "valid_only": {
+            "are_degrees_mean": 4.9315664044548395,
+            "are_degrees_median": 3.8137492261041945,
+            "absolute_translation_error_m_mean": 0.022284900188360563,
+            "absolute_translation_error_m_median": 0.014800968167006961,
+            "range_normalized_translation_error_mean": 0.017780861505658434,
+            "success_rotation_below_10_deg": 0.9296875,
+            "success_translation_below_10_mm": 0.3734375,
+            "success_joint_10_deg_10_mm": 0.3546875,
+            "reprojection_rmse_px_mean": 4.975993985810662
+          }
+        }
+      },
+      "validation_tss": {
+        "frame_count": 640,
+        "coordinate_rmse_px": 11.23638611844547,
+        "protocol": "tss",
+        "clip_mode": "normal",
+        "gate_override": null,
+        "gate_mean_clipped_patches": null,
+        "gate_mean_unclipped_patches": null,
+        "pose": {
+          "frame_count": 640,
+          "pnp_valid_count": 640,
+          "pnp_valid_fraction": 1.0,
+          "failure_policy": "FRESH default pose: identity rotation (zero rotation vector), zero translation",
+          "all_frames": {
+            "are_degrees_mean": 16.786487843137543,
+            "are_degrees_median": 5.518386775133262,
+            "absolute_translation_error_m_mean": 0.04904922741976433,
+            "absolute_translation_error_m_median": 0.023542266139199776,
+            "range_normalized_translation_error_mean": 0.04102137449310825,
+            "success_rotation_below_10_deg": 0.75625,
+            "success_translation_below_10_mm": 0.259375,
+            "success_joint_10_deg_10_mm": 0.2375
+          },
+          "valid_only": {
+            "are_degrees_mean": 16.786487843137543,
+            "are_degrees_median": 5.518386775133262,
+            "absolute_translation_error_m_mean": 0.04904922741976433,
+            "absolute_translation_error_m_median": 0.023542266139199776,
+            "range_normalized_translation_error_mean": 0.04102137449310825,
+            "success_rotation_below_10_deg": 0.75625,
+            "success_translation_below_10_mm": 0.259375,
+            "success_joint_10_deg_10_mm": 0.2375,
+            "reprojection_rmse_px_mean": 6.263522643423112
+          }
+        }
+      }
+    }
+  },
+  "compute": {
+    "elapsed_seconds": 740.1813907000032,
+    "peak_vram_allocated_bytes": 1856017408,
+    "precision": "fp32",
+    "gpu": "NVIDIA GeForce RTX 5060 Laptop GPU"
+  },
+  "provenance": {
+    "git_commit": "0235d4d06f3d6101e73cf5d6d1a0f7bb027f0b42",
+    "working_tree_dirty": true,
+    "source_state_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "uv_lock_sha256": "fe742a5ce27445c837714bca804d02a8d13cce0adfd580cd21a4f7d312b661c3",
+    "python": "3.12.14",
+    "torch": "2.14.0+cu130",
+    "timm": "1.0.29",
+    "checkpoint": "checkpoints\\main-hrnet\\u-rgb-tss-s250-cassini\\best.pt"
+  }
+}
