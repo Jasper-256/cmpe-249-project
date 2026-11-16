@@ -893,7 +893,7 @@ real-test labels and is disclosed as such. Checkpoints are selected on the
 deterministically augmented synthetic validation set. The core matrix
 (`configs/experiments/sim2real_v1.yaml`: RGB-only, event-only, mean, attention, attention + clipping bias, content
 gate, content + clipping gate, clipping gate, constant control; TSS protocol;
-three per-object models each; 30 epochs, patience 6) is trained first with one
+three per-object models each, plus clean-trained RGB-only and mean-fusion controls; all training frames, 8 epochs, patience 3) is trained first with one
 seed. Round 2 will be frozen and evaluated once, and every table will show
 round 1 and round 2 side by side. Round 2 is exploratory with respect to the
 pre-registration: the real set has been seen once.

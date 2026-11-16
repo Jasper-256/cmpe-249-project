@@ -4,14 +4,14 @@ description: 'sim2real-v1 core matrix: glare-trained (TSS) per-object models wit
   are never used here.'
 defaults:
   backbone: hrnet_w18_small_v2.ms_in1k
-  train_stride: 4
-  epochs: 30
+  train_stride: 1
+  epochs: 8
   batch_size: 16
   learning_rate: 0.001
   weight_decay: 0.0001
   schedule: cosine
   warmup_steps: 300
-  patience: 6
+  patience: 3
   min_improvement_px: 0.05
   protocol: tss
   event_representation: activity
@@ -148,5 +148,38 @@ runs:
 - name: s2r-f-attention_clip-tss-activity-soho
   modality: fusion
   fusion: attention_clip
+  objects:
+  - soho
+- name: s2r-u-rgb-natural-cassini
+  modality: rgb
+  protocol: natural
+  objects:
+  - cassini
+- name: s2r-f-mean-natural-activity-cassini
+  modality: fusion
+  fusion: mean
+  protocol: natural
+  objects:
+  - cassini
+- name: s2r-u-rgb-natural-satty
+  modality: rgb
+  protocol: natural
+  objects:
+  - satty
+- name: s2r-f-mean-natural-activity-satty
+  modality: fusion
+  fusion: mean
+  protocol: natural
+  objects:
+  - satty
+- name: s2r-u-rgb-natural-soho
+  modality: rgb
+  protocol: natural
+  objects:
+  - soho
+- name: s2r-f-mean-natural-activity-soho
+  modality: fusion
+  fusion: mean
+  protocol: natural
   objects:
   - soho
