@@ -383,20 +383,35 @@ def build() -> Path:
     # 7 ---------------------------------------------------------------------------------------
     s.extend(h2("7. Questions for you"))
     s.append(
+        p(
+            "We will finish the study as planned: the remaining training, then one evaluation on "
+            "all 24 real sequences, reported with the disclosure in Section 6. Our goal beyond "
+            "the course is a publishable result, and these are the points where your judgement "
+            "would help most."
+        )
+    )
+    s.append(
         bullets(
             [
-                "<b>Evaluation protocol.</b> Is one more evaluation on all 24 real sequences, "
-                "disclosed as above, acceptable for the final result? Or should we hold out part "
-                "of the real data (for example 8 of 24 sequences) that the final models are "
-                "scored on?",
-                "<b>Framing.</b> If the models transfer but the clipping gate still ties with "
-                "plain averaging, is a controlled negative result on explicit saturation gating, "
-                "with an analysis of what transfer required, a sufficient contribution?",
-                "<b>Attention.</b> We apply attention at the two coarsest scales, added on top of "
-                "mean fusion. Is that a fair test of FRESH's overfitting concern, or should we add "
-                "full multi-scale cross-attention?",
-                "<b>Resolution.</b> FRESH uses 512 px input; we use 256 px. If real accuracy falls "
-                "short, is 512 px the right next step, at about four times the compute?",
+                "<b>Contribution.</b> If the models transfer but the clipping gate still ties "
+                "with plain averaging, the paper would be a controlled negative result: explicit "
+                "saturation gating does not help event–RGB fusion once models are trained with "
+                "glare and sim-to-real augmentation, together with what transfer on FRESH "
+                "requires (the roll gap, augmentation, the pose solver). Is that enough for a "
+                "workshop or conference paper, and what would you add to strengthen it?",
+                "<b>Attention.</b> So far attention is applied at the two coarsest scales, on top "
+                "of mean fusion. We have extra GPU capacity (Colab) and would like to explore "
+                "more: cross-attention at every scale, attention replacing rather than "
+                "supplementing mean fusion, and token-level gating by the clipping map. Which of "
+                "these would make the most convincing test of FRESH's claim that learned "
+                "attention overfits synthetic data?",
+                "<b>Resolution.</b> We chose 256 px input early on so that the full comparison "
+                "(150 models, then 33) would fit on one laptop GPU; FRESH uses 512 px, which costs "
+                "about four times as much. We plan to treat 512 px as future scope, or as a final "
+                "run for the best few models. Would reviewers expect the 512 px comparison in the "
+                "main results?",
+                "<b>Venue and scope.</b> Is there a venue you would aim this at, and is three "
+                "seeds on the central comparison the right bar for it?",
             ],
             numbered=True,
         )
