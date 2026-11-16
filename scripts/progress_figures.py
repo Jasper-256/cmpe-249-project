@@ -444,7 +444,9 @@ def main() -> int:
     seeds = seed_spread()
     gap = sim_to_real()
     real_predictions()
-    reports = sorted(p.parent.name for p in REAL.glob("*/real_report.json"))
+    reports = sorted(
+        p.parent.name for p in REAL.glob("*/real_report.json") if not p.parent.name.startswith("g-")
+    )
     manifest = json.loads((REAL / "freeze_manifest.json").read_text(encoding="utf-8"))
     analyses = {}
     for condition in ("primary", "primary_ransac"):

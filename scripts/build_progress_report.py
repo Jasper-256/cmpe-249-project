@@ -244,10 +244,12 @@ def build() -> Path:
                 "averaging: across three seeds, all fusion rules are within noise of each other.",
                 "On the real sequences every model fails, including RGB-only and event-only, with "
                 f"mean rotation errors of {best_real:.0f}–{worst_real:.0f}°. We verified the "
-                "labels and geometry; the cause is a synthetic-to-real gap our training does not "
-                "address yet.",
-                "We need your direction on fixing that without compromising the held-out real "
-                "test (Section 7).",
+                "labels and geometry. The main cause: the synthetic data has no in-plane camera "
+                "roll and we trained without augmentation, so real frames show orientations and "
+                "appearance the models never saw.",
+                "We are retraining the core comparison with augmentation and will evaluate on "
+                "the real set a second time, reported as post-hoc. We would like your view on "
+                "that protocol and on framing (Section 7).",
             ]
         )
     )
@@ -590,12 +592,31 @@ def build() -> Path:
                 "<b>The gap is in our training, not the task.</b> FRESH's own HRNet models put "
                 f"29–45% of real frames within 10 mm; ours stay under {max(2, round(max_trans + 0.5))}%. "
                 "FRESH trains at 512 px with random rotation and translation, blur, colour "
-                "jitter, noise, event noise and polarity flips. We train at 256 px with no "
-                "augmentation beyond TSS. That is the most likely cause.",
+                "jitter, noise and event noise. We trained at 256 px with no augmentation "
+                "beyond TSS.",
+                "<b>The synthetic data has no in-plane roll.</b> Every synthetic pose has exactly "
+                "zero camera roll, while a typical real frame needs 42–83° of roll to match any "
+                "training pose (Figure 8). A synthetic-only test agrees: rotating synthetic "
+                "validation images in-plane raises a round-1 RGB model's error from 4° to 44°.",
             ]
         )
     )
-    prim = (d.get("analyses") or {}).get("primary", {}).get("primary")
+    story.append(
+        figure(
+            "theory_pose_coverage.png",
+            "<b>Figure 8.</b> Rotation distance from each frame to its nearest training pose "
+            "(pose labels only). Real frames are far from the training poses unless in-plane "
+            "roll is allowed; then all are within 10°.",
+            width=WIDTH * 0.74,
+        )
+    )
+    analysis = (d.get("analyses") or {}).get("primary", {})
+
+    def seed_real(method: str) -> str:
+        entry = analysis["seeds"][method]
+        return f"{entry['are_mean_deg']:.0f} ± {entry['are_sd_deg']:.0f}°"
+
+    prim = analysis.get("primary")
     if prim:
         a, t_ = prim["are_deg"], prim["ate_m"]
         story.append(
@@ -604,9 +625,12 @@ def build() -> Path:
                 f"gate, glare-trained, 24 sequences): rotation {a['mean_difference']:+.1f}° "
                 f"(95% CI {a['ci95'][0]:+.1f} to {a['ci95'][1]:+.1f}), translation "
                 f"{1000 * t_['mean_difference']:+.0f} mm (95% CI {1000 * t_['ci95'][0]:+.0f} to "
-                f"{1000 * t_['ci95'][1]:+.0f}). With both models near chance, this result says "
-                "little about the hypothesis. We report it as pre-registered but do not "
-                "interpret it."
+                f"{1000 * t_['ci95'][1]:+.0f}). The rotation difference repeats across three "
+                f"seeds ({seed_real('f-content_clip_gate-tss-activity')} against "
+                f"{seed_real('f-content_gate-tss-activity')}). We do not read it as support for "
+                "the hypothesis: both models are near chance, translation does not improve, and "
+                "zeroing the clipping map at test time does not hurt the clipping model. It is "
+                "reported as pre-registered and re-tested in round 2."
             )
         )
 
@@ -615,24 +639,22 @@ def build() -> Path:
     story.append(
         bullets(
             [
-                "<b>Reusing the real test.</b> Our protocol treats the real sequences as a "
-                "one-time test, and that test has now been spent on models that never learned to "
-                "transfer. We would like to add a sim-to-real stage (FRESH-style augmentation and "
-                "512 px input, chosen on synthetic validation only), retrain, and evaluate on the "
-                "real set a second time, reporting both rounds openly. Is that acceptable? Or "
-                "should we hold out part of the real data (for example 8 of 24 sequences) for "
-                "validation and test on the rest?",
-                "<b>Scope of the rerun.</b> All 150 models again would cost about 50 GPU-hours. "
-                "Is rerunning only the core comparison enough (RGB-only, event-only, mean, "
-                "content gate, content + clipping gate, clipping gate and its constant control; "
-                "7 configurations × 3 objects, one seed first, about 10–14 hours)?",
-                "<b>Framing.</b> If real accuracy improves but the clipping gate still does not "
+                "<b>A second real evaluation.</b> Our protocol treated the real sequences as a "
+                "one-time test, and that test was spent on models that could not transfer. We "
+                "are retraining with augmentation (chosen on synthetic validation; the roll "
+                "range is motivated by the real pose labels) and plan to evaluate on the real "
+                "set once more, reporting both rounds and labelling round 2 as post-hoc. Is that "
+                "acceptable, or should we hold out part of the real data (for example 8 of 24 "
+                "sequences) for the final number?",
+                "<b>Framing.</b> If real accuracy recovers but the clipping gate still does not "
                 "beat plain averaging, is a controlled negative result on explicit saturation "
-                "gating, plus what it takes to transfer, a sufficient contribution for the final "
-                "report?",
-                "<b>Compute.</b> Everything runs on one laptop GPU, which crashed mid-evaluation "
-                "(graphics-driver timeout). Is there department or course GPU access we could "
-                "use for the rerun?",
+                "gating, plus an analysis of what transfer required, a sufficient contribution?",
+                "<b>Attention.</b> We test attention only at the two coarsest scales, added on "
+                "top of mean fusion. Is that a fair test of the FRESH authors' concern that "
+                "learned attention overfits, or should we add full multi-scale cross-attention?",
+                "<b>Resolution.</b> FRESH uses 512 px input; we use 256 px. If round 2 falls "
+                "short, is 512 px the right next step, given it costs about four times the "
+                "compute?",
             ],
             numbered=True,
         )
@@ -643,16 +665,17 @@ def build() -> Path:
     story.append(
         bullets(
             [
-                ("<b>Done:</b> " if complete else "<b>Running now:</b> ")
-                + "the frozen real evaluation and pre-registered analysis under both solvers"
-                + ("." if complete else f" ({done}/{total} models; finishes today)."),
-                "<b>Sim-to-real stage</b> (depends on Questions 1–2): augmentation and input "
-                "resolution chosen on synthetic validation, then retraining and a second real "
-                "evaluation. About 2–3 days including compute.",
+                "<b>Running now: round 2.</b> 33 models (11 configurations × 3 spacecraft) with "
+                "the sim2real-v1 augmentation (in-plane roll, scale and shift, brightness, "
+                "contrast, background, blur and noise on RGB; dropped and added events), trained "
+                "on all frames: RGB-only, event-only, mean, content gate, content + clipping "
+                "gate, clipping gate, constant control, attention, attention + clipping bias, "
+                "plus clean-trained RGB-only and mean fusion as controls.",
+                "<b>Round-2 real evaluation</b>, frozen and run once, reported beside round 1.",
                 "<b>Efficiency table:</b> parameters are done (Table 1); latency, throughput and "
                 "peak memory per fusion rule still need to be measured under one timing protocol.",
-                "<b>Failure analysis</b> by lighting severity and event quality, using FRESH's "
-                "harsh-lighting and low-motion sequence labels.",
+                "<b>Failure analysis</b> by lighting severity and event quality, using the "
+                "harsh-lighting and low-motion sequence labels FRESH provides.",
                 "<b>Final report</b> and figures.",
             ]
         )
