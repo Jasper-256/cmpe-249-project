@@ -1,0 +1,114 @@
+{
+  "s2r-u-rgb-tss-cassini": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 2630.4539732999983,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-u-rgb-tss-cassini\\train.log",
+    "status": "complete"
+  },
+  "s2r-u-event-activity-cassini": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 2615.4470727000153,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-u-event-activity-cassini\\train.log",
+    "status": "complete"
+  },
+  "s2r-f-mean-tss-activity-cassini": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 3876.9938005000004,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-f-mean-tss-activity-cassini\\train.log",
+    "status": "complete"
+  },
+  "s2r-f-content_gate-tss-activity-cassini": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 4095.520794299955,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-f-content_gate-tss-activity-cassini\\train.log",
+    "status": "complete"
+  },
+  "s2r-f-content_clip_gate-tss-activity-cassini": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 4017.30257900001,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-f-content_clip_gate-tss-activity-cassini\\train.log",
+    "status": "complete"
+  },
+  "s2r-f-clip_gate-tss-activity-cassini": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 3736.4933380000293,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-f-clip_gate-tss-activity-cassini\\train.log",
+    "status": "complete"
+  },
+  "s2r-f-clip_gate_constant-tss-activity-cassini": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 3614.5971252999734,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-f-clip_gate_constant-tss-activity-cassini\\train.log",
+    "status": "complete"
+  },
+  "s2r-f-attention-tss-activity-cassini": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 3546.753668599995,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-f-attention-tss-activity-cassini\\train.log",
+    "status": "complete"
+  },
+  "s2r-f-attention_clip-tss-activity-cassini": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 3521.4221288999543,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-f-attention_clip-tss-activity-cassini\\train.log",
+    "status": "complete"
+  },
+  "s2r-u-rgb-tss-satty": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 2379.0616290000034,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-u-rgb-tss-satty\\train.log",
+    "status": "complete"
+  },
+  "s2r-u-event-activity-satty": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 2350.5592842000187,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-u-event-activity-satty\\train.log",
+    "status": "complete"
+  },
+  "s2r-f-mean-tss-activity-satty": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 3439.442452099989,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-f-mean-tss-activity-satty\\train.log",
+    "status": "complete"
+  },
+  "s2r-f-content_gate-tss-activity-satty": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 3603.793559499958,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-f-content_gate-tss-activity-satty\\train.log",
+    "status": "complete"
+  },
+  "s2r-f-content_clip_gate-tss-activity-satty": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 3621.8993661999702,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-f-content_clip_gate-tss-activity-satty\\train.log",
+    "status": "complete"
+  },
+  "s2r-f-clip_gate-tss-activity-satty": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 3541.844538400008,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-f-clip_gate-tss-activity-satty\\train.log",
+    "status": "complete"
+  },
+  "s2r-f-clip_gate_constant-tss-activity-satty": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 3546.8506004000083,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-f-clip_gate_constant-tss-activity-satty\\train.log",
+    "status": "complete"
+  }
+}

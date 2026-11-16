@@ -35,7 +35,7 @@ from reportlab.platypus import (
 
 DATA = Path("outputs/report/progress_data.json")
 FIG = Path("outputs/figures")
-OUT = Path("outputs/report/progress-checkin.pdf")
+OUT = Path("outputs/report/round1-detail.pdf")
 REPO = "https://github.com/Jasper-256/cmpe-249-project/tree/fusion-matrix-v1"
 DEMO = "https://advaitshinde.com/#ongoing"
 FRESH = "https://arxiv.org/abs/2507.05698"

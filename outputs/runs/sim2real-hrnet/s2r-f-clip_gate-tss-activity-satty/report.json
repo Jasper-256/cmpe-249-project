@@ -1,0 +1,532 @@
+{
+  "schema_version": 1,
+  "name": "s2r-f-clip_gate-tss-activity-satty",
+  "spec": {
+    "modality": "fusion",
+    "backbone": "hrnet_w18_small_v2.ms_in1k",
+    "fusion": "clip_gate",
+    "event_representation": "activity",
+    "decoder_channels": 64,
+    "clip_slope_init": 5.0
+  },
+  "protocol": "tss",
+  "config": {
+    "name": "s2r-f-clip_gate-tss-activity-satty",
+    "cache_dir": "data\\fresh\\cache\\crop-v2",
+    "objects": [
+      "satty"
+    ],
+    "modality": "fusion",
+    "fusion": "clip_gate",
+    "backbone": "hrnet_w18_small_v2.ms_in1k",
+    "event_representation": "activity",
+    "protocol": "tss",
+    "clip_slope_init": 5.0,
+    "augment": "sim2real-v1",
+    "tss_fraction": 1.0,
+    "train_stride": 1,
+    "train_limit": null,
+    "validation_limit": null,
+    "epochs": 8,
+    "batch_size": 16,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "warmup_steps": 300,
+    "schedule": "cosine",
+    "patience": 3,
+    "min_improvement_px": 0.05,
+    "precision": "fp32",
+    "no_pretrained": false,
+    "init_from": null,
+    "seed": 249,
+    "workers": 0,
+    "overfit": 0,
+    "overfit_steps": 200,
+    "output_dir": "outputs\\runs\\sim2real-hrnet",
+    "checkpoint_dir": "checkpoints\\sim2real-hrnet"
+  },
+  "data": {
+    "train_samples": 11920,
+    "validation_samples": 640,
+    "train_steps_per_epoch": 745,
+    "cache_manifests_sha256": {
+      "satty-train": "f79fb390541de0a8a33f1b30e4875dc645d4bd6e485938b3e236418c5f7c00a7",
+      "satty-validation": "504d66ab096207f59488823d3bcad0967c42c91f5b77f5b76a6dfd69a167ee1d"
+    }
+  },
+  "augmentation": {
+    "version": "sim2real-v1",
+    "rotation_deg": 180.0,
+    "scale_range": [
+      0.8,
+      1.15
+    ],
+    "translate_fraction": 0.08,
+    "photometric_probability": 0.8,
+    "brightness_range": [
+      0.7,
+      1.4
+    ],
+    "contrast_range": [
+      0.75,
+      1.3
+    ],
+    "channel_gain": 0.08,
+    "ambient_max": 0.3,
+    "blur_probability": 0.5,
+    "blur_sigma_range": [
+      0.4,
+      1.8
+    ],
+    "rgb_noise_std_max": 0.04,
+    "event_noise_density_max": 0.04,
+    "event_dropout_max": 0.3
+  },
+  "checkpoint_selection": "minimum synthetic-validation keypoint RMSE (own protocol, sim2real-v1 augmented, seeded)",
+  "parameters": {
+    "total": 10662770,
+    "trainable": 10662770,
+    "fusion_specific": 3968,
+    "fusion_specific_effective": 3968
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.00499649889151497,
+      "validation_rmse_px": 61.900581569949054,
+      "gate_mean_clipped": 0.14159176511101904,
+      "gate_mean_unclipped": 0.5010936577398934,
+      "learning_rate": 0.00098482537958315,
+      "epoch_seconds": 448.51814130001003,
+      "checkpoint": true
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.001126830060044366,
+      "validation_rmse_px": 33.89260305038598,
+      "gate_mean_clipped": 0.14385503367991853,
+      "gate_mean_unclipped": 0.5050395088484951,
+      "learning_rate": 0.0008948392503558763,
+      "epoch_seconds": 431.7894925000146,
+      "checkpoint": true
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.0007954339658522715,
+      "validation_rmse_px": 24.68605521522832,
+      "gate_mean_clipped": 0.1457346974492807,
+      "gate_mean_unclipped": 0.5072788195362278,
+      "learning_rate": 0.0007382947865806803,
+      "epoch_seconds": 428.9957172999857,
+      "checkpoint": true
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.0006295122828134554,
+      "validation_rmse_px": 19.948216725774405,
+      "gate_mean_clipped": 0.1471780294269035,
+      "gate_mean_unclipped": 0.5088583832977238,
+      "learning_rate": 0.0005415808003682717,
+      "epoch_seconds": 427.9270436000079,
+      "checkpoint": true
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.0005039217667779166,
+      "validation_rmse_px": 15.671824413829404,
+      "gate_mean_clipped": 0.1480635648876717,
+      "gate_mean_unclipped": 0.5096307415288057,
+      "learning_rate": 0.0003378575089280082,
+      "epoch_seconds": 426.0448783999891,
+      "checkpoint": true
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.000404065037529053,
+      "validation_rmse_px": 13.14487840395261,
+      "gate_mean_clipped": 0.1483410304328697,
+      "gate_mean_unclipped": 0.5095859558179223,
+      "learning_rate": 0.0001614666930597049,
+      "epoch_seconds": 426.5203868999961,
+      "checkpoint": true
+    },
+    {
+      "epoch": 7,
+      "train_loss": 0.0003360641178567175,
+      "validation_rmse_px": 11.168528156844099,
+      "gate_mean_clipped": 0.1484155105517009,
+      "gate_mean_unclipped": 0.5094763617403989,
+      "learning_rate": 4.214267862676508e-05,
+      "epoch_seconds": 430.0197183000273,
+      "checkpoint": true
+    },
+    {
+      "epoch": 8,
+      "train_loss": 0.0003045327423121655,
+      "validation_rmse_px": 10.770938925406906,
+      "gate_mean_clipped": 0.1484209004471778,
+      "gate_mean_unclipped": 0.5094486753272445,
+      "learning_rate": 0.0,
+      "epoch_seconds": 426.7381394999684,
+      "checkpoint": true
+    }
+  ],
+  "outcome": {
+    "stage": "train",
+    "selected_epoch": 8,
+    "selected_validation_rmse_px": 10.770938925406906,
+    "epochs_completed": 8,
+    "resumed_evaluation": false,
+    "evaluations": {
+      "validation_natural": {
+        "frame_count": 640,
+        "coordinate_rmse_px": 5.883193629103742,
+        "protocol": "natural",
+        "clip_mode": "normal",
+        "gate_override": null,
+        "augment": null,
+        "gate_mean_clipped_patches": null,
+        "gate_mean_unclipped_patches": 0.5094999670982361,
+        "pose": {
+          "frame_count": 640,
+          "pnp_valid_count": 640,
+          "pnp_valid_fraction": 1.0,
+          "failure_policy": "FRESH default pose: identity rotation (zero rotation vector), zero translation",
+          "all_frames": {
+            "are_degrees_mean": 2.0212608305421638,
+            "are_degrees_median": 1.490376750745701,
+            "absolute_translation_error_m_mean": 0.005293650878740112,
+            "absolute_translation_error_m_median": 0.0021834922857790085,
+            "range_normalized_translation_error_mean": 0.009894742107299823,
+            "success_rotation_below_10_deg": 0.971875,
+            "success_translation_below_10_mm": 0.9046875,
+            "success_joint_10_deg_10_mm": 0.9046875
+          },
+          "valid_only": {
+            "are_degrees_mean": 2.0212608305421638,
+            "are_degrees_median": 1.490376750745701,
+            "absolute_translation_error_m_mean": 0.005293650878740112,
+            "absolute_translation_error_m_median": 0.0021834922857790085,
+            "range_normalized_translation_error_mean": 0.009894742107299823,
+            "success_rotation_below_10_deg": 0.971875,
+            "success_translation_below_10_mm": 0.9046875,
+            "success_joint_10_deg_10_mm": 0.9046875,
+            "reprojection_rmse_px_mean": 3.035471673138001
+          }
+        }
+      },
+      "validation_tss": {
+        "frame_count": 640,
+        "coordinate_rmse_px": 9.716753509203201,
+        "protocol": "tss",
+        "clip_mode": "normal",
+        "gate_override": null,
+        "augment": null,
+        "gate_mean_clipped_patches": 0.11146286834773626,
+        "gate_mean_unclipped_patches": 0.509481675286656,
+        "pose": {
+          "frame_count": 640,
+          "pnp_valid_count": 640,
+          "pnp_valid_fraction": 1.0,
+          "failure_policy": "FRESH default pose: identity rotation (zero rotation vector), zero translation",
+          "all_frames": {
+            "are_degrees_mean": 3.4715502162306064,
+            "are_degrees_median": 1.8326431504892544,
+            "absolute_translation_error_m_mean": 0.010508037018546839,
+            "absolute_translation_error_m_median": 0.0028432944747687075,
+            "range_normalized_translation_error_mean": 0.018277417940476378,
+            "success_rotation_below_10_deg": 0.928125,
+            "success_translation_below_10_mm": 0.821875,
+            "success_joint_10_deg_10_mm": 0.815625
+          },
+          "valid_only": {
+            "are_degrees_mean": 3.4715502162306064,
+            "are_degrees_median": 1.8326431504892544,
+            "absolute_translation_error_m_mean": 0.010508037018546839,
+            "absolute_translation_error_m_median": 0.0028432944747687075,
+            "range_normalized_translation_error_mean": 0.018277417940476378,
+            "success_rotation_below_10_deg": 0.928125,
+            "success_translation_below_10_mm": 0.821875,
+            "success_joint_10_deg_10_mm": 0.815625,
+            "reprojection_rmse_px_mean": 5.013698209340516
+          }
+        }
+      },
+      "validation_natural_roll": {
+        "frame_count": 640,
+        "coordinate_rmse_px": 4.655730811522528,
+        "protocol": "natural",
+        "clip_mode": "normal",
+        "gate_override": null,
+        "augment": "roll-only",
+        "gate_mean_clipped_patches": null,
+        "gate_mean_unclipped_patches": 0.5094999670982361,
+        "pose": {
+          "frame_count": 640,
+          "pnp_valid_count": 640,
+          "pnp_valid_fraction": 1.0,
+          "failure_policy": "FRESH default pose: identity rotation (zero rotation vector), zero translation",
+          "all_frames": {
+            "are_degrees_mean": 1.7378579434371269,
+            "are_degrees_median": 1.4045398218926097,
+            "absolute_translation_error_m_mean": 0.004061862080334136,
+            "absolute_translation_error_m_median": 0.0020496045932203596,
+            "range_normalized_translation_error_mean": 0.007493737368543027,
+            "success_rotation_below_10_deg": 0.9890625,
+            "success_translation_below_10_mm": 0.928125,
+            "success_joint_10_deg_10_mm": 0.9265625
+          },
+          "valid_only": {
+            "are_degrees_mean": 1.7378579434371269,
+            "are_degrees_median": 1.4045398218926097,
+            "absolute_translation_error_m_mean": 0.004061862080334136,
+            "absolute_translation_error_m_median": 0.0020496045932203596,
+            "range_normalized_translation_error_mean": 0.007493737368543027,
+            "success_rotation_below_10_deg": 0.9890625,
+            "success_translation_below_10_mm": 0.928125,
+            "success_joint_10_deg_10_mm": 0.9265625,
+            "reprojection_rmse_px_mean": 2.675082006133441
+          }
+        }
+      },
+      "validation_natural_sim2real": {
+        "frame_count": 640,
+        "coordinate_rmse_px": 6.489634052892785,
+        "protocol": "natural",
+        "clip_mode": "normal",
+        "gate_override": null,
+        "augment": "sim2real-v1",
+        "gate_mean_clipped_patches": 0.23645089797294272,
+        "gate_mean_unclipped_patches": 0.5094641053161866,
+        "pose": {
+          "frame_count": 640,
+          "pnp_valid_count": 640,
+          "pnp_valid_fraction": 1.0,
+          "failure_policy": "FRESH default pose: identity rotation (zero rotation vector), zero translation",
+          "all_frames": {
+            "are_degrees_mean": 2.198731871952523,
+            "are_degrees_median": 1.528516348916407,
+            "absolute_translation_error_m_mean": 0.006363281118481766,
+            "absolute_translation_error_m_median": 0.002457321475358711,
+            "range_normalized_translation_error_mean": 0.011559847781520433,
+            "success_rotation_below_10_deg": 0.978125,
+            "success_translation_below_10_mm": 0.8859375,
+            "success_joint_10_deg_10_mm": 0.8828125
+          },
+          "valid_only": {
+            "are_degrees_mean": 2.198731871952523,
+            "are_degrees_median": 1.528516348916407,
+            "absolute_translation_error_m_mean": 0.006363281118481766,
+            "absolute_translation_error_m_median": 0.002457321475358711,
+            "range_normalized_translation_error_mean": 0.011559847781520433,
+            "success_rotation_below_10_deg": 0.978125,
+            "success_translation_below_10_mm": 0.8859375,
+            "success_joint_10_deg_10_mm": 0.8828125,
+            "reprojection_rmse_px_mean": 3.4202685012821674
+          }
+        }
+      },
+      "validation_tss_roll": {
+        "frame_count": 640,
+        "coordinate_rmse_px": 9.129205201585773,
+        "protocol": "tss",
+        "clip_mode": "normal",
+        "gate_override": null,
+        "augment": "roll-only",
+        "gate_mean_clipped_patches": 0.11300367220404524,
+        "gate_mean_unclipped_patches": 0.5094808887203168,
+        "pose": {
+          "frame_count": 640,
+          "pnp_valid_count": 640,
+          "pnp_valid_fraction": 1.0,
+          "failure_policy": "FRESH default pose: identity rotation (zero rotation vector), zero translation",
+          "all_frames": {
+            "are_degrees_mean": 3.2423334940957576,
+            "are_degrees_median": 1.7845533953506276,
+            "absolute_translation_error_m_mean": 0.009018473352098344,
+            "absolute_translation_error_m_median": 0.0029803537487916266,
+            "range_normalized_translation_error_mean": 0.015948122297493116,
+            "success_rotation_below_10_deg": 0.9390625,
+            "success_translation_below_10_mm": 0.8484375,
+            "success_joint_10_deg_10_mm": 0.840625
+          },
+          "valid_only": {
+            "are_degrees_mean": 3.2423334940957576,
+            "are_degrees_median": 1.7845533953506276,
+            "absolute_translation_error_m_mean": 0.009018473352098344,
+            "absolute_translation_error_m_median": 0.0029803537487916266,
+            "range_normalized_translation_error_mean": 0.015948122297493116,
+            "success_rotation_below_10_deg": 0.9390625,
+            "success_translation_below_10_mm": 0.8484375,
+            "success_joint_10_deg_10_mm": 0.840625,
+            "reprojection_rmse_px_mean": 4.690537980969912
+          }
+        }
+      },
+      "validation_tss_sim2real": {
+        "frame_count": 640,
+        "coordinate_rmse_px": 10.770938925406906,
+        "protocol": "tss",
+        "clip_mode": "normal",
+        "gate_override": null,
+        "augment": "sim2real-v1",
+        "gate_mean_clipped_patches": 0.1484209004471778,
+        "gate_mean_unclipped_patches": 0.5094486753272445,
+        "pose": {
+          "frame_count": 640,
+          "pnp_valid_count": 640,
+          "pnp_valid_fraction": 1.0,
+          "failure_policy": "FRESH default pose: identity rotation (zero rotation vector), zero translation",
+          "all_frames": {
+            "are_degrees_mean": 4.064481479225805,
+            "are_degrees_median": 2.018553378777659,
+            "absolute_translation_error_m_mean": 0.01107593503470975,
+            "absolute_translation_error_m_median": 0.003469182255046413,
+            "range_normalized_translation_error_mean": 0.019938321347723043,
+            "success_rotation_below_10_deg": 0.9140625,
+            "success_translation_below_10_mm": 0.8078125,
+            "success_joint_10_deg_10_mm": 0.796875
+          },
+          "valid_only": {
+            "are_degrees_mean": 4.064481479225805,
+            "are_degrees_median": 2.018553378777659,
+            "absolute_translation_error_m_mean": 0.01107593503470975,
+            "absolute_translation_error_m_median": 0.003469182255046413,
+            "range_normalized_translation_error_mean": 0.019938321347723043,
+            "success_rotation_below_10_deg": 0.9140625,
+            "success_translation_below_10_mm": 0.8078125,
+            "success_joint_10_deg_10_mm": 0.796875,
+            "reprojection_rmse_px_mean": 5.539402395593273
+          }
+        }
+      },
+      "validation_tss_clip_shuffle": {
+        "frame_count": 640,
+        "coordinate_rmse_px": 8.33042617315217,
+        "protocol": "tss",
+        "clip_mode": "shuffle",
+        "gate_override": null,
+        "augment": null,
+        "gate_mean_clipped_patches": 0.4087173407834135,
+        "gate_mean_unclipped_patches": 0.47586324268986974,
+        "pose": {
+          "frame_count": 640,
+          "pnp_valid_count": 640,
+          "pnp_valid_fraction": 1.0,
+          "failure_policy": "FRESH default pose: identity rotation (zero rotation vector), zero translation",
+          "all_frames": {
+            "are_degrees_mean": 3.1595913569916942,
+            "are_degrees_median": 1.8301840644321554,
+            "absolute_translation_error_m_mean": 0.010049189514219481,
+            "absolute_translation_error_m_median": 0.003073026775619148,
+            "range_normalized_translation_error_mean": 0.018270337980848716,
+            "success_rotation_below_10_deg": 0.9453125,
+            "success_translation_below_10_mm": 0.834375,
+            "success_joint_10_deg_10_mm": 0.828125
+          },
+          "valid_only": {
+            "are_degrees_mean": 3.1595913569916942,
+            "are_degrees_median": 1.8301840644321554,
+            "absolute_translation_error_m_mean": 0.010049189514219481,
+            "absolute_translation_error_m_median": 0.003073026775619148,
+            "range_normalized_translation_error_mean": 0.018270337980848716,
+            "success_rotation_below_10_deg": 0.9453125,
+            "success_translation_below_10_mm": 0.834375,
+            "success_joint_10_deg_10_mm": 0.828125,
+            "reprojection_rmse_px_mean": 4.281220655550596
+          }
+        }
+      },
+      "validation_tss_clip_zero": {
+        "frame_count": 640,
+        "coordinate_rmse_px": 7.3643220782309,
+        "protocol": "tss",
+        "clip_mode": "zero",
+        "gate_override": null,
+        "augment": null,
+        "gate_mean_clipped_patches": 0.5094999541475542,
+        "gate_mean_unclipped_patches": 0.5094999850456756,
+        "pose": {
+          "frame_count": 640,
+          "pnp_valid_count": 640,
+          "pnp_valid_fraction": 1.0,
+          "failure_policy": "FRESH default pose: identity rotation (zero rotation vector), zero translation",
+          "all_frames": {
+            "are_degrees_mean": 2.910070599131709,
+            "are_degrees_median": 1.8065093675840758,
+            "absolute_translation_error_m_mean": 0.00782599281178718,
+            "absolute_translation_error_m_median": 0.0030635116572884976,
+            "range_normalized_translation_error_mean": 0.015376929635087022,
+            "success_rotation_below_10_deg": 0.95625,
+            "success_translation_below_10_mm": 0.8421875,
+            "success_joint_10_deg_10_mm": 0.83125
+          },
+          "valid_only": {
+            "are_degrees_mean": 2.910070599131709,
+            "are_degrees_median": 1.8065093675840758,
+            "absolute_translation_error_m_mean": 0.00782599281178718,
+            "absolute_translation_error_m_median": 0.0030635116572884976,
+            "range_normalized_translation_error_mean": 0.015376929635087022,
+            "success_rotation_below_10_deg": 0.95625,
+            "success_translation_below_10_mm": 0.8421875,
+            "success_joint_10_deg_10_mm": 0.83125,
+            "reprojection_rmse_px_mean": 3.888465144748789
+          }
+        }
+      },
+      "validation_tss_gate_bypass_0.5": {
+        "frame_count": 640,
+        "coordinate_rmse_px": 7.619641992781203,
+        "protocol": "tss",
+        "clip_mode": "normal",
+        "gate_override": 0.5,
+        "augment": null,
+        "gate_mean_clipped_patches": 0.5,
+        "gate_mean_unclipped_patches": 0.5,
+        "pose": {
+          "frame_count": 640,
+          "pnp_valid_count": 640,
+          "pnp_valid_fraction": 1.0,
+          "failure_policy": "FRESH default pose: identity rotation (zero rotation vector), zero translation",
+          "all_frames": {
+            "are_degrees_mean": 2.9298421100615597,
+            "are_degrees_median": 1.7608303318992284,
+            "absolute_translation_error_m_mean": 0.007315895734244582,
+            "absolute_translation_error_m_median": 0.0030320066620471856,
+            "range_normalized_translation_error_mean": 0.014426907589298982,
+            "success_rotation_below_10_deg": 0.953125,
+            "success_translation_below_10_mm": 0.8421875,
+            "success_joint_10_deg_10_mm": 0.8328125
+          },
+          "valid_only": {
+            "are_degrees_mean": 2.9298421100615597,
+            "are_degrees_median": 1.7608303318992284,
+            "absolute_translation_error_m_mean": 0.007315895734244582,
+            "absolute_translation_error_m_median": 0.0030320066620471856,
+            "range_normalized_translation_error_mean": 0.014426907589298982,
+            "success_rotation_below_10_deg": 0.953125,
+            "success_translation_below_10_mm": 0.8421875,
+            "success_joint_10_deg_10_mm": 0.8328125,
+            "reprojection_rmse_px_mean": 3.8995243596771325
+          }
+        }
+      }
+    }
+  },
+  "compute": {
+    "elapsed_seconds": 3525.393579299969,
+    "peak_vram_allocated_bytes": 3691026944,
+    "precision": "fp32",
+    "gpu": "NVIDIA GeForce RTX 5060 Laptop GPU"
+  },
+  "provenance": {
+    "git_commit": "7f49d6f5ef31cb5b5d2a83cca8a9230f8da74dd3",
+    "working_tree_dirty": true,
+    "source_state_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "uv_lock_sha256": "fe742a5ce27445c837714bca804d02a8d13cce0adfd580cd21a4f7d312b661c3",
+    "python": "3.12.14",
+    "torch": "2.14.0+cu130",
+    "timm": "1.0.29",
+    "checkpoint": "checkpoints\\sim2real-hrnet\\s2r-f-clip_gate-tss-activity-satty\\best.pt"
+  }
+}
