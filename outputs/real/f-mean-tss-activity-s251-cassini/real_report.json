@@ -1,0 +1,670 @@
+{
+  "schema_version": 1,
+  "run": "f-mean-tss-activity-s251-cassini",
+  "spec": {
+    "modality": "fusion",
+    "backbone": "hrnet_w18_small_v2.ms_in1k",
+    "fusion": "mean",
+    "event_representation": "activity",
+    "decoder_channels": 64,
+    "clip_slope_init": 5.0
+  },
+  "training_protocol": "tss",
+  "checkpoint_sha256": "529ed1b691cd51d659ab349b7f187ead9addc7b3a4810f995e6056457eb25a7f",
+  "provenance": {
+    "freeze_manifest_sha256": "96de6a7a2108a390276a8b436f9f6bc8888b8c883c2842f89853a488a50edfa8",
+    "git_commit": "497a14296a1e04bb66fb479363df098114d7a0db",
+    "uv_lock_sha256": "fe742a5ce27445c837714bca804d02a8d13cce0adfd580cd21a4f7d312b661c3",
+    "torch": "2.14.0+cu130",
+    "device": "NVIDIA GeForce RTX 5060 Laptop GPU",
+    "precision": "float32",
+    "batch_size": 32
+  },
+  "ransac_threshold_note": "primary_ransac uses the TSS-pair threshold (4 px) for every model, the identical solver of the 2026-10-28 control",
+  "real_cache_manifest_sha256": "ec6926284070bf8d665fc843a6a84ef95cda041862c64d1d676af0f8cd30ef3e",
+  "object": "cassini",
+  "selected_epoch": 11,
+  "results": {
+    "primary": {
+      "frame_count": 2361,
+      "coordinate_rmse_px": 77.29093895656844,
+      "protocol": "natural",
+      "clip_mode": "normal",
+      "gate_override": null,
+      "augment": null,
+      "gate_mean_clipped_patches": 0.5,
+      "gate_mean_unclipped_patches": 0.5,
+      "pose": {
+        "frame_count": 2361,
+        "pnp_valid_count": 2324,
+        "pnp_valid_fraction": 0.9843286742905548,
+        "failure_policy": "FRESH default pose: identity rotation (zero rotation vector), zero translation",
+        "all_frames": {
+          "are_degrees_mean": 124.20711418080313,
+          "are_degrees_median": 133.613321544929,
+          "absolute_translation_error_m_mean": 0.475867612604688,
+          "absolute_translation_error_m_median": 0.3128398963133317,
+          "range_normalized_translation_error_mean": 0.4777284964921071,
+          "success_rotation_below_10_deg": 0.0021177467174925877,
+          "success_translation_below_10_mm": 0.0,
+          "success_joint_10_deg_10_mm": 0.0
+        },
+        "valid_only": {
+          "are_degrees_mean": 123.90354735260011,
+          "are_degrees_median": 133.60369452697324,
+          "absolute_translation_error_m_mean": 0.46892391750324836,
+          "absolute_translation_error_m_median": 0.30843985591070544,
+          "range_normalized_translation_error_mean": 0.46941350267550136,
+          "success_rotation_below_10_deg": 0.0021514629948364886,
+          "success_translation_below_10_mm": 0.0,
+          "success_joint_10_deg_10_mm": 0.0,
+          "reprojection_rmse_px_mean": 54.57568151264757
+        }
+      },
+      "analysis": {
+        "overall_frames": {
+          "frames": 2361,
+          "are_degrees_mean": 124.20711418080313,
+          "are_degrees_median": 133.613321544929,
+          "ate_m_mean": 0.475867612604688,
+          "ate_m_median": 0.3128398963133317,
+          "success_rotation_below_10_deg": 0.0021177467174925877,
+          "success_translation_below_10_mm": 0.0,
+          "pnp_valid_fraction": 0.9843286742905548
+        },
+        "sequence_mean_are_deg": {
+          "cassini-1-close": 121.68206058200737,
+          "cassini-1-far": 133.87524273182797,
+          "cassini-2-close": 123.11565799310885,
+          "cassini-2-far": 146.49095960085137,
+          "cassini-3-close": 120.80785695143335,
+          "cassini-3-far": 88.89704569040454,
+          "cassini-4-close": 139.89820756435896,
+          "cassini-4-far": 123.49235706489222
+        },
+        "sequence_mean_ate_m": {
+          "cassini-1-close": 0.3302606100553686,
+          "cassini-1-far": 0.5401501002340549,
+          "cassini-2-close": 0.6017722404479517,
+          "cassini-2-far": 0.5272419061703635,
+          "cassini-3-close": 0.2743281140293292,
+          "cassini-3-far": 0.5296227728855983,
+          "cassini-4-close": 0.3689325550043105,
+          "cassini-4-far": 0.6673052948857099
+        },
+        "slices": {
+          "harsh": {
+            "frames": 1282,
+            "are_degrees_mean": 131.36435393007147,
+            "are_degrees_median": 143.68073508815786,
+            "ate_m_mean": 0.5076400363565821,
+            "ate_m_median": 0.3132037193269394,
+            "success_rotation_below_10_deg": 0.00234009360374415,
+            "success_translation_below_10_mm": 0.0,
+            "pnp_valid_fraction": 0.9797191887675507,
+            "sequence_mean_are_deg": {
+              "cassini-1-close": 110.72398395310003,
+              "cassini-1-far": 135.45884123242737,
+              "cassini-2-close": 122.9288095801194,
+              "cassini-2-far": 147.78370791635624,
+              "cassini-3-close": 128.77310426891805,
+              "cassini-3-far": 99.08555595821592,
+              "cassini-4-close": 149.78570037593525,
+              "cassini-4-far": 148.71047515100852
+            },
+            "sequence_mean_ate_m": {
+              "cassini-1-close": 0.3826412699771165,
+              "cassini-1-far": 0.8766010285428635,
+              "cassini-2-close": 0.6226425782269616,
+              "cassini-2-far": 0.5392324666433975,
+              "cassini-3-close": 0.29894602048032615,
+              "cassini-3-far": 0.6722501497775589,
+              "cassini-4-close": 0.2653235092280339,
+              "cassini-4-far": 0.4605273484452152
+            }
+          },
+          "low-motion": {
+            "frames": 850,
+            "are_degrees_mean": 130.24187388733304,
+            "are_degrees_median": 141.67415149221273,
+            "ate_m_mean": 0.4413279987779873,
+            "ate_m_median": 0.3253651240303824,
+            "success_rotation_below_10_deg": 0.001176470588235294,
+            "success_translation_below_10_mm": 0.0,
+            "pnp_valid_fraction": 0.9752941176470589,
+            "sequence_mean_are_deg": {
+              "cassini-1-close": 143.83783199392226,
+              "cassini-1-far": 143.09840566672924,
+              "cassini-2-close": 142.07052888523634,
+              "cassini-2-far": 158.3487502650253,
+              "cassini-3-close": 102.2308583112349,
+              "cassini-3-far": 90.67095840844298,
+              "cassini-4-close": 154.24211511619308,
+              "cassini-4-far": 97.15423639920509
+            },
+            "sequence_mean_ate_m": {
+              "cassini-1-close": 0.2764348492181668,
+              "cassini-1-far": 0.3212067583809464,
+              "cassini-2-close": 0.612387603707748,
+              "cassini-2-far": 0.4342365617263072,
+              "cassini-3-close": 0.26076045635148315,
+              "cassini-3-far": 0.46750363705588516,
+              "cassini-4-close": 0.39836769252517673,
+              "cassini-4-far": 0.7945055617056811
+            }
+          }
+        },
+        "overall_sequence_mean": {
+          "are_degrees": 124.78242352236057,
+          "ate_m": 0.47995169921408587
+        }
+      }
+    },
+    "primary_ransac": {
+      "analysis": {
+        "overall_frames": {
+          "frames": 2361,
+          "are_degrees_mean": 146.69256015750625,
+          "are_degrees_median": 136.3404543797712,
+          "ate_m_mean": 0.9924136361831324,
+          "ate_m_median": 0.8577614023229622,
+          "success_rotation_below_10_deg": 0.0008470986869970351,
+          "success_translation_below_10_mm": 0.0,
+          "pnp_valid_fraction": 0.01736552308343922
+        },
+        "sequence_mean_are_deg": {
+          "cassini-1-close": 122.36904911280001,
+          "cassini-1-far": 130.42024533168427,
+          "cassini-2-close": 126.49805661223832,
+          "cassini-2-far": 130.82542174948637,
+          "cassini-3-close": 160.19900839806857,
+          "cassini-3-far": 157.2124553448231,
+          "cassini-4-close": 163.97249813612424,
+          "cassini-4-far": 170.19869573305792
+        },
+        "sequence_mean_ate_m": {
+          "cassini-1-close": 0.7907121709544418,
+          "cassini-1-far": 1.2182879104837627,
+          "cassini-2-close": 0.8630389576337248,
+          "cassini-2-far": 1.1923010665754337,
+          "cassini-3-close": 0.7951581680832686,
+          "cassini-3-far": 1.2233385531814098,
+          "cassini-4-close": 0.7295893511563989,
+          "cassini-4-far": 1.1551865860140387
+        },
+        "slices": {
+          "harsh": {
+            "frames": 1282,
+            "are_degrees_mean": 141.2651020840708,
+            "are_degrees_median": 132.28366263160035,
+            "ate_m_mean": 0.9779373842737565,
+            "ate_m_median": 0.8573545696651492,
+            "success_rotation_below_10_deg": 0.0015600624024961,
+            "success_translation_below_10_mm": 0.0,
+            "pnp_valid_fraction": 0.02106084243369735,
+            "sequence_mean_are_deg": {
+              "cassini-1-close": 121.20937935302294,
+              "cassini-1-far": 130.83171228273838,
+              "cassini-2-close": 126.1210722687814,
+              "cassini-2-far": 130.7699325392605,
+              "cassini-3-close": 151.8555784545809,
+              "cassini-3-far": 146.14986813246392,
+              "cassini-4-close": 166.87200302366858,
+              "cassini-4-far": 173.63632177725833
+            },
+            "sequence_mean_ate_m": {
+              "cassini-1-close": 0.786089621037973,
+              "cassini-1-far": 1.1869725375487332,
+              "cassini-2-close": 0.8633934177469927,
+              "cassini-2-far": 1.1929108990000254,
+              "cassini-3-close": 0.7966387853247431,
+              "cassini-3-far": 1.2241108012266295,
+              "cassini-4-close": 0.7297978915466622,
+              "cassini-4-far": 1.1561131343303592
+            }
+          },
+          "low-motion": {
+            "frames": 850,
+            "are_degrees_mean": 148.3312283785866,
+            "are_degrees_median": 132.8206835764153,
+            "ate_m_mean": 1.0155885136525888,
+            "ate_m_median": 1.0054565486423501,
+            "success_rotation_below_10_deg": 0.0,
+            "success_translation_below_10_mm": 0.0,
+            "pnp_valid_fraction": 0.002352941176470588,
+            "sequence_mean_are_deg": {
+              "cassini-1-close": 132.8317601053199,
+              "cassini-1-far": 129.41485614136408,
+              "cassini-2-close": 131.11362243690095,
+              "cassini-2-far": 130.58242157124485,
+              "cassini-3-close": 176.79472325120997,
+              "cassini-3-far": 171.24705641822248,
+              "cassini-4-close": 157.88625647586642,
+              "cassini-4-far": 165.33003288283817
+            },
+            "sequence_mean_ate_m": {
+              "cassini-1-close": 0.857686282479724,
+              "cassini-1-far": 1.1894632782380363,
+              "cassini-2-close": 0.9437451624504077,
+              "cassini-2-far": 1.1872813339842283,
+              "cassini-3-close": 0.7922280815771513,
+              "cassini-3-far": 1.230506008476185,
+              "cassini-4-close": 0.7290099640357696,
+              "cassini-4-far": 1.1531639789775734
+            }
+          }
+        },
+        "overall_sequence_mean": {
+          "are_degrees": 145.21192880228534,
+          "ate_m": 0.9959515955103098
+        }
+      },
+      "ransac_threshold_px": 4.0
+    },
+    "magnitude_encoding": {
+      "frame_count": 2361,
+      "coordinate_rmse_px": 79.13196275248195,
+      "protocol": "natural",
+      "clip_mode": "normal",
+      "gate_override": null,
+      "augment": null,
+      "gate_mean_clipped_patches": 0.5,
+      "gate_mean_unclipped_patches": 0.5,
+      "pose": {
+        "frame_count": 2361,
+        "pnp_valid_count": 2330,
+        "pnp_valid_fraction": 0.986869970351546,
+        "failure_policy": "FRESH default pose: identity rotation (zero rotation vector), zero translation",
+        "all_frames": {
+          "are_degrees_mean": 125.37118483740117,
+          "are_degrees_median": 134.54487926342492,
+          "absolute_translation_error_m_mean": 0.44710244540978294,
+          "absolute_translation_error_m_median": 0.30559519784131123,
+          "range_normalized_translation_error_mean": 0.4574230800896021,
+          "success_rotation_below_10_deg": 0.0008470986869970351,
+          "success_translation_below_10_mm": 0.0,
+          "success_joint_10_deg_10_mm": 0.0
+        },
+        "valid_only": {
+          "are_degrees_mean": 125.13083322969916,
+          "are_degrees_median": 134.608430084684,
+          "absolute_translation_error_m_mean": 0.4412052372288254,
+          "absolute_translation_error_m_median": 0.3031373951904729,
+          "range_normalized_translation_error_mean": 0.4502042455328543,
+          "success_rotation_below_10_deg": 0.0008583690987124463,
+          "success_translation_below_10_mm": 0.0,
+          "success_joint_10_deg_10_mm": 0.0,
+          "reprojection_rmse_px_mean": 56.10808316122076
+        }
+      },
+      "analysis": {
+        "overall_frames": {
+          "frames": 2361,
+          "are_degrees_mean": 125.37118483740117,
+          "are_degrees_median": 134.54487926342492,
+          "ate_m_mean": 0.44710244540978294,
+          "ate_m_median": 0.30559519784131123,
+          "success_rotation_below_10_deg": 0.0008470986869970351,
+          "success_translation_below_10_mm": 0.0,
+          "pnp_valid_fraction": 0.986869970351546
+        },
+        "sequence_mean_are_deg": {
+          "cassini-1-close": 122.38934241151595,
+          "cassini-1-far": 135.04129372760875,
+          "cassini-2-close": 121.16499464600876,
+          "cassini-2-far": 142.6430740743032,
+          "cassini-3-close": 125.28198742393289,
+          "cassini-3-far": 89.642390975497,
+          "cassini-4-close": 143.4933289136525,
+          "cassini-4-far": 126.34220814826632
+        },
+        "sequence_mean_ate_m": {
+          "cassini-1-close": 0.3741963431434927,
+          "cassini-1-far": 0.3996562985878069,
+          "cassini-2-close": 0.6168581293533777,
+          "cassini-2-far": 0.4472474281446049,
+          "cassini-3-close": 0.23113636938120752,
+          "cassini-3-far": 0.5136517564800298,
+          "cassini-4-close": 0.42798120141902823,
+          "cassini-4-far": 0.5880000417764412
+        },
+        "slices": {
+          "harsh": {
+            "frames": 1282,
+            "are_degrees_mean": 130.29054458163336,
+            "are_degrees_median": 140.88764268449313,
+            "ate_m_mean": 0.4740073509994492,
+            "ate_m_median": 0.3173233008528671,
+            "success_rotation_below_10_deg": 0.00078003120124805,
+            "success_translation_below_10_mm": 0.0,
+            "pnp_valid_fraction": 0.983619344773791,
+            "sequence_mean_are_deg": {
+              "cassini-1-close": 112.57051789687222,
+              "cassini-1-far": 134.38402689945576,
+              "cassini-2-close": 119.87691857706082,
+              "cassini-2-far": 143.91059301539897,
+              "cassini-3-close": 132.54986488215894,
+              "cassini-3-far": 92.62656024644333,
+              "cassini-4-close": 150.89509893000022,
+              "cassini-4-far": 150.02482445407037
+            },
+            "sequence_mean_ate_m": {
+              "cassini-1-close": 0.42822342398744423,
+              "cassini-1-far": 0.46286367413694507,
+              "cassini-2-close": 0.6374047824708928,
+              "cassini-2-far": 0.45592912873818864,
+              "cassini-3-close": 0.2476007092305069,
+              "cassini-3-far": 0.5768844621702665,
+              "cassini-4-close": 0.41025490636385786,
+              "cassini-4-far": 0.5171651307398648
+            }
+          },
+          "low-motion": {
+            "frames": 850,
+            "are_degrees_mean": 131.9452251533974,
+            "are_degrees_median": 142.57943648069528,
+            "ate_m_mean": 0.43513321617409795,
+            "ate_m_median": 0.3208801157997271,
+            "success_rotation_below_10_deg": 0.001176470588235294,
+            "success_translation_below_10_mm": 0.0,
+            "pnp_valid_fraction": 0.9788235294117648,
+            "sequence_mean_are_deg": {
+              "cassini-1-close": 140.80796347353703,
+              "cassini-1-far": 146.6753422953459,
+              "cassini-2-close": 131.1170591909673,
+              "cassini-2-far": 156.10870465891216,
+              "cassini-3-close": 118.13117063767251,
+              "cassini-3-far": 90.98531129331707,
+              "cassini-4-close": 159.42532328368063,
+              "cassini-4-far": 109.41923497540735
+            },
+            "sequence_mean_ate_m": {
+              "cassini-1-close": 0.3072608646372789,
+              "cassini-1-far": 0.35596561436330193,
+              "cassini-2-close": 0.572279092230624,
+              "cassini-2-far": 0.4615129218278456,
+              "cassini-3-close": 0.2278574475592308,
+              "cassini-3-far": 0.5407821413723221,
+              "cassini-4-close": 0.3787456749345768,
+              "cassini-4-far": 0.6121909421988544
+            }
+          }
+        },
+        "overall_sequence_mean": {
+          "are_degrees": 125.74982754009818,
+          "ate_m": 0.44984094603574865
+        }
+      }
+    },
+    "clip_shuffle": {
+      "frame_count": 2361,
+      "coordinate_rmse_px": 77.29093895656844,
+      "protocol": "natural",
+      "clip_mode": "shuffle",
+      "gate_override": null,
+      "augment": null,
+      "gate_mean_clipped_patches": 0.5,
+      "gate_mean_unclipped_patches": 0.5,
+      "pose": {
+        "frame_count": 2361,
+        "pnp_valid_count": 2324,
+        "pnp_valid_fraction": 0.9843286742905548,
+        "failure_policy": "FRESH default pose: identity rotation (zero rotation vector), zero translation",
+        "all_frames": {
+          "are_degrees_mean": 124.20711418080313,
+          "are_degrees_median": 133.613321544929,
+          "absolute_translation_error_m_mean": 0.475867612604688,
+          "absolute_translation_error_m_median": 0.3128398963133317,
+          "range_normalized_translation_error_mean": 0.4777284964921071,
+          "success_rotation_below_10_deg": 0.0021177467174925877,
+          "success_translation_below_10_mm": 0.0,
+          "success_joint_10_deg_10_mm": 0.0
+        },
+        "valid_only": {
+          "are_degrees_mean": 123.90354735260011,
+          "are_degrees_median": 133.60369452697324,
+          "absolute_translation_error_m_mean": 0.46892391750324836,
+          "absolute_translation_error_m_median": 0.30843985591070544,
+          "range_normalized_translation_error_mean": 0.46941350267550136,
+          "success_rotation_below_10_deg": 0.0021514629948364886,
+          "success_translation_below_10_mm": 0.0,
+          "success_joint_10_deg_10_mm": 0.0,
+          "reprojection_rmse_px_mean": 54.57568151264757
+        }
+      },
+      "analysis": {
+        "overall_frames": {
+          "frames": 2361,
+          "are_degrees_mean": 124.20711418080313,
+          "are_degrees_median": 133.613321544929,
+          "ate_m_mean": 0.475867612604688,
+          "ate_m_median": 0.3128398963133317,
+          "success_rotation_below_10_deg": 0.0021177467174925877,
+          "success_translation_below_10_mm": 0.0,
+          "pnp_valid_fraction": 0.9843286742905548
+        },
+        "sequence_mean_are_deg": {
+          "cassini-1-close": 121.68206058200737,
+          "cassini-1-far": 133.87524273182797,
+          "cassini-2-close": 123.11565799310885,
+          "cassini-2-far": 146.49095960085137,
+          "cassini-3-close": 120.80785695143335,
+          "cassini-3-far": 88.89704569040454,
+          "cassini-4-close": 139.89820756435896,
+          "cassini-4-far": 123.49235706489222
+        },
+        "sequence_mean_ate_m": {
+          "cassini-1-close": 0.3302606100553686,
+          "cassini-1-far": 0.5401501002340549,
+          "cassini-2-close": 0.6017722404479517,
+          "cassini-2-far": 0.5272419061703635,
+          "cassini-3-close": 0.2743281140293292,
+          "cassini-3-far": 0.5296227728855983,
+          "cassini-4-close": 0.3689325550043105,
+          "cassini-4-far": 0.6673052948857099
+        },
+        "slices": {
+          "harsh": {
+            "frames": 1282,
+            "are_degrees_mean": 131.36435393007147,
+            "are_degrees_median": 143.68073508815786,
+            "ate_m_mean": 0.5076400363565821,
+            "ate_m_median": 0.3132037193269394,
+            "success_rotation_below_10_deg": 0.00234009360374415,
+            "success_translation_below_10_mm": 0.0,
+            "pnp_valid_fraction": 0.9797191887675507,
+            "sequence_mean_are_deg": {
+              "cassini-1-close": 110.72398395310003,
+              "cassini-1-far": 135.45884123242737,
+              "cassini-2-close": 122.9288095801194,
+              "cassini-2-far": 147.78370791635624,
+              "cassini-3-close": 128.77310426891805,
+              "cassini-3-far": 99.08555595821592,
+              "cassini-4-close": 149.78570037593525,
+              "cassini-4-far": 148.71047515100852
+            },
+            "sequence_mean_ate_m": {
+              "cassini-1-close": 0.3826412699771165,
+              "cassini-1-far": 0.8766010285428635,
+              "cassini-2-close": 0.6226425782269616,
+              "cassini-2-far": 0.5392324666433975,
+              "cassini-3-close": 0.29894602048032615,
+              "cassini-3-far": 0.6722501497775589,
+              "cassini-4-close": 0.2653235092280339,
+              "cassini-4-far": 0.4605273484452152
+            }
+          },
+          "low-motion": {
+            "frames": 850,
+            "are_degrees_mean": 130.24187388733304,
+            "are_degrees_median": 141.67415149221273,
+            "ate_m_mean": 0.4413279987779873,
+            "ate_m_median": 0.3253651240303824,
+            "success_rotation_below_10_deg": 0.001176470588235294,
+            "success_translation_below_10_mm": 0.0,
+            "pnp_valid_fraction": 0.9752941176470589,
+            "sequence_mean_are_deg": {
+              "cassini-1-close": 143.83783199392226,
+              "cassini-1-far": 143.09840566672924,
+              "cassini-2-close": 142.07052888523634,
+              "cassini-2-far": 158.3487502650253,
+              "cassini-3-close": 102.2308583112349,
+              "cassini-3-far": 90.67095840844298,
+              "cassini-4-close": 154.24211511619308,
+              "cassini-4-far": 97.15423639920509
+            },
+            "sequence_mean_ate_m": {
+              "cassini-1-close": 0.2764348492181668,
+              "cassini-1-far": 0.3212067583809464,
+              "cassini-2-close": 0.612387603707748,
+              "cassini-2-far": 0.4342365617263072,
+              "cassini-3-close": 0.26076045635148315,
+              "cassini-3-far": 0.46750363705588516,
+              "cassini-4-close": 0.39836769252517673,
+              "cassini-4-far": 0.7945055617056811
+            }
+          }
+        },
+        "overall_sequence_mean": {
+          "are_degrees": 124.78242352236057,
+          "ate_m": 0.47995169921408587
+        }
+      }
+    },
+    "clip_zero": {
+      "frame_count": 2361,
+      "coordinate_rmse_px": 77.29093895656844,
+      "protocol": "natural",
+      "clip_mode": "zero",
+      "gate_override": null,
+      "augment": null,
+      "gate_mean_clipped_patches": 0.5,
+      "gate_mean_unclipped_patches": 0.5,
+      "pose": {
+        "frame_count": 2361,
+        "pnp_valid_count": 2324,
+        "pnp_valid_fraction": 0.9843286742905548,
+        "failure_policy": "FRESH default pose: identity rotation (zero rotation vector), zero translation",
+        "all_frames": {
+          "are_degrees_mean": 124.20711418080313,
+          "are_degrees_median": 133.613321544929,
+          "absolute_translation_error_m_mean": 0.475867612604688,
+          "absolute_translation_error_m_median": 0.3128398963133317,
+          "range_normalized_translation_error_mean": 0.4777284964921071,
+          "success_rotation_below_10_deg": 0.0021177467174925877,
+          "success_translation_below_10_mm": 0.0,
+          "success_joint_10_deg_10_mm": 0.0
+        },
+        "valid_only": {
+          "are_degrees_mean": 123.90354735260011,
+          "are_degrees_median": 133.60369452697324,
+          "absolute_translation_error_m_mean": 0.46892391750324836,
+          "absolute_translation_error_m_median": 0.30843985591070544,
+          "range_normalized_translation_error_mean": 0.46941350267550136,
+          "success_rotation_below_10_deg": 0.0021514629948364886,
+          "success_translation_below_10_mm": 0.0,
+          "success_joint_10_deg_10_mm": 0.0,
+          "reprojection_rmse_px_mean": 54.57568151264757
+        }
+      },
+      "analysis": {
+        "overall_frames": {
+          "frames": 2361,
+          "are_degrees_mean": 124.20711418080313,
+          "are_degrees_median": 133.613321544929,
+          "ate_m_mean": 0.475867612604688,
+          "ate_m_median": 0.3128398963133317,
+          "success_rotation_below_10_deg": 0.0021177467174925877,
+          "success_translation_below_10_mm": 0.0,
+          "pnp_valid_fraction": 0.9843286742905548
+        },
+        "sequence_mean_are_deg": {
+          "cassini-1-close": 121.68206058200737,
+          "cassini-1-far": 133.87524273182797,
+          "cassini-2-close": 123.11565799310885,
+          "cassini-2-far": 146.49095960085137,
+          "cassini-3-close": 120.80785695143335,
+          "cassini-3-far": 88.89704569040454,
+          "cassini-4-close": 139.89820756435896,
+          "cassini-4-far": 123.49235706489222
+        },
+        "sequence_mean_ate_m": {
+          "cassini-1-close": 0.3302606100553686,
+          "cassini-1-far": 0.5401501002340549,
+          "cassini-2-close": 0.6017722404479517,
+          "cassini-2-far": 0.5272419061703635,
+          "cassini-3-close": 0.2743281140293292,
+          "cassini-3-far": 0.5296227728855983,
+          "cassini-4-close": 0.3689325550043105,
+          "cassini-4-far": 0.6673052948857099
+        },
+        "slices": {
+          "harsh": {
+            "frames": 1282,
+            "are_degrees_mean": 131.36435393007147,
+            "are_degrees_median": 143.68073508815786,
+            "ate_m_mean": 0.5076400363565821,
+            "ate_m_median": 0.3132037193269394,
+            "success_rotation_below_10_deg": 0.00234009360374415,
+            "success_translation_below_10_mm": 0.0,
+            "pnp_valid_fraction": 0.9797191887675507,
+            "sequence_mean_are_deg": {
+              "cassini-1-close": 110.72398395310003,
+              "cassini-1-far": 135.45884123242737,
+              "cassini-2-close": 122.9288095801194,
+              "cassini-2-far": 147.78370791635624,
+              "cassini-3-close": 128.77310426891805,
+              "cassini-3-far": 99.08555595821592,
+              "cassini-4-close": 149.78570037593525,
+              "cassini-4-far": 148.71047515100852
+            },
+            "sequence_mean_ate_m": {
+              "cassini-1-close": 0.3826412699771165,
+              "cassini-1-far": 0.8766010285428635,
+              "cassini-2-close": 0.6226425782269616,
+              "cassini-2-far": 0.5392324666433975,
+              "cassini-3-close": 0.29894602048032615,
+              "cassini-3-far": 0.6722501497775589,
+              "cassini-4-close": 0.2653235092280339,
+              "cassini-4-far": 0.4605273484452152
+            }
+          },
+          "low-motion": {
+            "frames": 850,
+            "are_degrees_mean": 130.24187388733304,
+            "are_degrees_median": 141.67415149221273,
+            "ate_m_mean": 0.4413279987779873,
+            "ate_m_median": 0.3253651240303824,
+            "success_rotation_below_10_deg": 0.001176470588235294,
+            "success_translation_below_10_mm": 0.0,
+            "pnp_valid_fraction": 0.9752941176470589,
+            "sequence_mean_are_deg": {
+              "cassini-1-close": 143.83783199392226,
+              "cassini-1-far": 143.09840566672924,
+              "cassini-2-close": 142.07052888523634,
+              "cassini-2-far": 158.3487502650253,
+              "cassini-3-close": 102.2308583112349,
+              "cassini-3-far": 90.67095840844298,
+              "cassini-4-close": 154.24211511619308,
+              "cassini-4-far": 97.15423639920509
+            },
+            "sequence_mean_ate_m": {
+              "cassini-1-close": 0.2764348492181668,
+              "cassini-1-far": 0.3212067583809464,
+              "cassini-2-close": 0.612387603707748,
+              "cassini-2-far": 0.4342365617263072,
+              "cassini-3-close": 0.26076045635148315,
+              "cassini-3-far": 0.46750363705588516,
+              "cassini-4-close": 0.39836769252517673,
+              "cassini-4-far": 0.7945055617056811
+            }
+          }
+        },
+        "overall_sequence_mean": {
+          "are_degrees": 124.78242352236057,
+          "ate_m": 0.47995169921408587
+        }
+      }
+    }
+  }
+}
