@@ -891,7 +891,7 @@ augmentation families FRESH reports, and were not tuned on real data. The roll
 range is motivated by the label-only pose statistics above; that is a use of
 real-test labels and is disclosed as such. Checkpoints are selected on the
 deterministically augmented synthetic validation set. The core matrix
-(`configs/experiments/sim2real_v1.yaml`: RGB-only, event-only, mean, content
+(`configs/experiments/sim2real_v1.yaml`: RGB-only, event-only, mean, attention, attention + clipping bias, content
 gate, content + clipping gate, clipping gate, constant control; TSS protocol;
 three per-object models each; 30 epochs, patience 6) is trained first with one
 seed. Round 2 will be frozen and evaluated once, and every table will show

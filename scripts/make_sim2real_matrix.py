@@ -1,6 +1,6 @@
 """Generate the sim2real-v1 core matrix (configs/experiments/sim2real_v1.yaml).
 
-Seven configurations x three per-object models, all glare-trained (TSS) with
+Nine configurations x three per-object models, all glare-trained (TSS) with
 the sim2real-v1 augmentation. Same backbone, data contract, optimizer, and
 learning rate as main_v1; the epoch budget is doubled because augmented
 training converges more slowly (budget chosen on synthetic validation only).
@@ -27,6 +27,9 @@ CONFIGURATIONS: list[tuple[str, dict[str, str]]] = [
         "s2r-f-clip_gate_constant-tss-activity",
         {"modality": "fusion", "fusion": "clip_gate_constant"},
     ),
+    # FRESH argues learned attention fusion overfits synthetic data; test it directly.
+    ("s2r-f-attention-tss-activity", {"modality": "fusion", "fusion": "attention"}),
+    ("s2r-f-attention_clip-tss-activity", {"modality": "fusion", "fusion": "attention_clip"}),
 ]
 
 

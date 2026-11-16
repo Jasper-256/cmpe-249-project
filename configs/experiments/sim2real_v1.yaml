@@ -54,6 +54,16 @@ runs:
   fusion: clip_gate_constant
   objects:
   - cassini
+- name: s2r-f-attention-tss-activity-cassini
+  modality: fusion
+  fusion: attention
+  objects:
+  - cassini
+- name: s2r-f-attention_clip-tss-activity-cassini
+  modality: fusion
+  fusion: attention_clip
+  objects:
+  - cassini
 - name: s2r-u-rgb-tss-satty
   modality: rgb
   objects:
@@ -87,6 +97,16 @@ runs:
   fusion: clip_gate_constant
   objects:
   - satty
+- name: s2r-f-attention-tss-activity-satty
+  modality: fusion
+  fusion: attention
+  objects:
+  - satty
+- name: s2r-f-attention_clip-tss-activity-satty
+  modality: fusion
+  fusion: attention_clip
+  objects:
+  - satty
 - name: s2r-u-rgb-tss-soho
   modality: rgb
   objects:
@@ -118,5 +138,15 @@ runs:
 - name: s2r-f-clip_gate_constant-tss-activity-soho
   modality: fusion
   fusion: clip_gate_constant
+  objects:
+  - soho
+- name: s2r-f-attention-tss-activity-soho
+  modality: fusion
+  fusion: attention
+  objects:
+  - soho
+- name: s2r-f-attention_clip-tss-activity-soho
+  modality: fusion
+  fusion: attention_clip
   objects:
   - soho
