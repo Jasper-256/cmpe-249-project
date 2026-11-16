@@ -410,8 +410,6 @@ def build() -> Path:
                 "about four times as much. We plan to treat 512 px as future scope, or as a final "
                 "run for the best few models. Would reviewers expect the 512 px comparison in the "
                 "main results?",
-                "<b>Venue and scope.</b> Is there a venue you would aim this at, and is three "
-                "seeds on the central comparison the right bar for it?",
             ],
             numbered=True,
         )
