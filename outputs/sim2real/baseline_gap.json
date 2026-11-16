@@ -1,0 +1,894 @@
+{
+ "producer": "scripts/synthetic_gap.py",
+ "git_commit": "a01ce4acde18f6991edac32363122acdb4ea61cf",
+ "device": "NVIDIA GeForce RTX 5060 Laptop GPU",
+ "augmentations": {
+  "roll": {
+   "version": "roll-only",
+   "rotation_deg": 180.0,
+   "scale_range": [
+    1.0,
+    1.0
+   ],
+   "translate_fraction": 0.0,
+   "photometric_probability": 0.0,
+   "brightness_range": [
+    0.7,
+    1.4
+   ],
+   "contrast_range": [
+    0.75,
+    1.3
+   ],
+   "channel_gain": 0.08,
+   "ambient_max": 0.3,
+   "blur_probability": 0.0,
+   "blur_sigma_range": [
+    0.4,
+    1.8
+   ],
+   "rgb_noise_std_max": 0.04,
+   "event_noise_density_max": 0.0,
+   "event_dropout_max": 0.0
+  },
+  "sim2real": {
+   "version": "sim2real-v1",
+   "rotation_deg": 180.0,
+   "scale_range": [
+    0.8,
+    1.15
+   ],
+   "translate_fraction": 0.08,
+   "photometric_probability": 0.8,
+   "brightness_range": [
+    0.7,
+    1.4
+   ],
+   "contrast_range": [
+    0.75,
+    1.3
+   ],
+   "channel_gain": 0.08,
+   "ambient_max": 0.3,
+   "blur_probability": 0.5,
+   "blur_sigma_range": [
+    0.4,
+    1.8
+   ],
+   "rgb_noise_std_max": 0.04,
+   "event_noise_density_max": 0.04,
+   "event_dropout_max": 0.3
+  }
+ },
+ "evaluation_seed": 249,
+ "runs": {
+  "u-rgb-natural-cassini": {
+   "object": "cassini",
+   "trained_protocol": "natural",
+   "natural_plain": {
+    "frames": 640,
+    "rmse_px": 6.256234095541882,
+    "are_deg": 3.992988137941622,
+    "ate_m": 0.019457580891551834,
+    "success_joint": 0.425
+   },
+   "natural_roll": {
+    "frames": 640,
+    "rmse_px": 23.476811750502517,
+    "are_deg": 43.48732920856563,
+    "ate_m": 0.2636065895949907,
+    "success_joint": 0.09375
+   },
+   "natural_sim2real": {
+    "frames": 640,
+    "rmse_px": 67.42341672146135,
+    "are_deg": 88.7301741905546,
+    "ate_m": 0.6234679573356667,
+    "success_joint": 0.0078125
+   },
+   "tss_plain": {
+    "frames": 640,
+    "rmse_px": 30.973837430051013,
+    "are_deg": 38.26925243748603,
+    "ate_m": 0.1910960867397104,
+    "success_joint": 0.225
+   },
+   "tss_roll": {
+    "frames": 640,
+    "rmse_px": 38.05191320309399,
+    "are_deg": 64.40543823929775,
+    "ate_m": 0.39689348720378953,
+    "success_joint": 0.0546875
+   },
+   "tss_sim2real": {
+    "frames": 640,
+    "rmse_px": 74.45443601649751,
+    "are_deg": 97.86706322475143,
+    "ate_m": 0.6442017624324146,
+    "success_joint": 0.0046875
+   }
+  },
+  "u-rgb-natural-satty": {
+   "object": "satty",
+   "trained_protocol": "natural",
+   "natural_plain": {
+    "frames": 640,
+    "rmse_px": 11.77222748278679,
+    "are_deg": 4.342283220882768,
+    "ate_m": 0.022674801418678503,
+    "success_joint": 0.7875
+   },
+   "natural_roll": {
+    "frames": 640,
+    "rmse_px": 60.06510338761832,
+    "are_deg": 71.40634285146966,
+    "ate_m": 0.18447677760169845,
+    "success_joint": 0.1109375
+   },
+   "natural_sim2real": {
+    "frames": 640,
+    "rmse_px": 90.40662710679118,
+    "are_deg": 99.02021657690057,
+    "ate_m": 0.3549798694967438,
+    "success_joint": 0.0078125
+   },
+   "tss_plain": {
+    "frames": 640,
+    "rmse_px": 34.32150530972178,
+    "are_deg": 23.230198228531844,
+    "ate_m": 0.11761613198144531,
+    "success_joint": 0.4578125
+   },
+   "tss_roll": {
+    "frames": 640,
+    "rmse_px": 65.16560259614538,
+    "are_deg": 80.09271632079756,
+    "ate_m": 0.5227066076022381,
+    "success_joint": 0.0640625
+   },
+   "tss_sim2real": {
+    "frames": 640,
+    "rmse_px": 92.54602317901077,
+    "are_deg": 105.99242610515023,
+    "ate_m": 0.3935133975260719,
+    "success_joint": 0.0015625
+   }
+  },
+  "u-rgb-natural-soho": {
+   "object": "soho",
+   "trained_protocol": "natural",
+   "natural_plain": {
+    "frames": 640,
+    "rmse_px": 2.297368083029857,
+    "are_deg": 2.7523933277543513,
+    "ate_m": 0.008340198894735444,
+    "success_joint": 0.721875
+   },
+   "natural_roll": {
+    "frames": 640,
+    "rmse_px": 34.49643487275589,
+    "are_deg": 64.83856643715964,
+    "ate_m": 0.4171742531053642,
+    "success_joint": 0.08125
+   },
+   "natural_sim2real": {
+    "frames": 640,
+    "rmse_px": 78.74602687626899,
+    "are_deg": 101.25488874429632,
+    "ate_m": 0.7092006631971342,
+    "success_joint": 0.0046875
+   },
+   "tss_plain": {
+    "frames": 640,
+    "rmse_px": 33.778300906861006,
+    "are_deg": 42.07347999808976,
+    "ate_m": 0.3757257136420423,
+    "success_joint": 0.39375
+   },
+   "tss_roll": {
+    "frames": 640,
+    "rmse_px": 49.47703650104239,
+    "are_deg": 88.55406481386039,
+    "ate_m": 0.583067581118755,
+    "success_joint": 0.0453125
+   },
+   "tss_sim2real": {
+    "frames": 640,
+    "rmse_px": 82.31135684183702,
+    "are_deg": 109.47064036252559,
+    "ate_m": 0.6059684715221622,
+    "success_joint": 0.0015625
+   }
+  },
+  "u-rgb-tss-cassini": {
+   "object": "cassini",
+   "trained_protocol": "tss",
+   "natural_plain": {
+    "frames": 640,
+    "rmse_px": 7.935483658703853,
+    "are_deg": 4.502265468354713,
+    "ate_m": 0.022318850371831806,
+    "success_joint": 0.3765625
+   },
+   "natural_roll": {
+    "frames": 640,
+    "rmse_px": 25.822135037165385,
+    "are_deg": 49.53572132976133,
+    "ate_m": 0.36300448091537507,
+    "success_joint": 0.065625
+   },
+   "natural_sim2real": {
+    "frames": 640,
+    "rmse_px": 66.79019756260188,
+    "are_deg": 88.70276765627204,
+    "ate_m": 0.634449344963531,
+    "success_joint": 0.003125
+   },
+   "tss_plain": {
+    "frames": 640,
+    "rmse_px": 10.938931825922836,
+    "are_deg": 13.470698476988764,
+    "ate_m": 0.04885656930767044,
+    "success_joint": 0.2671875
+   },
+   "tss_roll": {
+    "frames": 640,
+    "rmse_px": 28.056440356647368,
+    "are_deg": 56.59180188679691,
+    "ate_m": 0.38694413367435454,
+    "success_joint": 0.0390625
+   },
+   "tss_sim2real": {
+    "frames": 640,
+    "rmse_px": 69.85120889826182,
+    "are_deg": 94.53144488085925,
+    "ate_m": 0.5817802431514447,
+    "success_joint": 0.0046875
+   }
+  },
+  "u-rgb-tss-satty": {
+   "object": "satty",
+   "trained_protocol": "tss",
+   "natural_plain": {
+    "frames": 640,
+    "rmse_px": 10.919372371799204,
+    "are_deg": 4.61334901926807,
+    "ate_m": 0.015893004767084367,
+    "success_joint": 0.7296875
+   },
+   "natural_roll": {
+    "frames": 640,
+    "rmse_px": 59.65088200122698,
+    "are_deg": 70.26479966927111,
+    "ate_m": 0.15654202137891834,
+    "success_joint": 0.1078125
+   },
+   "natural_sim2real": {
+    "frames": 640,
+    "rmse_px": 84.39084251988054,
+    "are_deg": 96.13785327060818,
+    "ate_m": 0.3472606112527378,
+    "success_joint": 0.00625
+   },
+   "tss_plain": {
+    "frames": 640,
+    "rmse_px": 14.997918611867172,
+    "are_deg": 7.3189320919430525,
+    "ate_m": 0.03072871802769055,
+    "success_joint": 0.628125
+   },
+   "tss_roll": {
+    "frames": 640,
+    "rmse_px": 60.381041400345836,
+    "are_deg": 73.03518372734229,
+    "ate_m": 0.17707342245583274,
+    "success_joint": 0.0875
+   },
+   "tss_sim2real": {
+    "frames": 640,
+    "rmse_px": 85.01279047455644,
+    "are_deg": 99.70536707378693,
+    "ate_m": 0.35151661157047287,
+    "success_joint": 0.00625
+   }
+  },
+  "u-rgb-tss-soho": {
+   "object": "soho",
+   "trained_protocol": "tss",
+   "natural_plain": {
+    "frames": 640,
+    "rmse_px": 6.7371583381869415,
+    "are_deg": 6.973233279640233,
+    "ate_m": 0.027647347301037926,
+    "success_joint": 0.3546875
+   },
+   "natural_roll": {
+    "frames": 640,
+    "rmse_px": 35.81574216135287,
+    "are_deg": 70.98441080123412,
+    "ate_m": 0.5404934832398764,
+    "success_joint": 0.046875
+   },
+   "natural_sim2real": {
+    "frames": 640,
+    "rmse_px": 75.34981041972476,
+    "are_deg": 102.1646188625272,
+    "ate_m": 0.6219749060852555,
+    "success_joint": 0.0015625
+   },
+   "tss_plain": {
+    "frames": 640,
+    "rmse_px": 15.889791579810597,
+    "are_deg": 20.37137471800127,
+    "ate_m": 0.10583062857225259,
+    "success_joint": 0.25
+   },
+   "tss_roll": {
+    "frames": 640,
+    "rmse_px": 38.84463663780158,
+    "are_deg": 80.32529300337012,
+    "ate_m": 0.5596242713651073,
+    "success_joint": 0.028125
+   },
+   "tss_sim2real": {
+    "frames": 640,
+    "rmse_px": 77.87397324610204,
+    "are_deg": 106.20796136195395,
+    "ate_m": 0.7179507343956182,
+    "success_joint": 0.0
+   }
+  },
+  "u-event-activity-cassini": {
+   "object": "cassini",
+   "trained_protocol": "natural",
+   "natural_plain": {
+    "frames": 640,
+    "rmse_px": 7.739771788379062,
+    "are_deg": 5.638817372132598,
+    "ate_m": 0.03180065216302349,
+    "success_joint": 0.384375
+   },
+   "natural_roll": {
+    "frames": 640,
+    "rmse_px": 25.274534298607794,
+    "are_deg": 51.469410110730564,
+    "ate_m": 0.31981941275052767,
+    "success_joint": 0.0765625
+   },
+   "natural_sim2real": {
+    "frames": 640,
+    "rmse_px": 103.78049731651844,
+    "are_deg": 122.33407368699966,
+    "ate_m": 3326.3624379367,
+    "success_joint": 0.0
+   },
+   "tss_plain": {
+    "frames": 640,
+    "rmse_px": 7.739771788379062,
+    "are_deg": 5.638817372132598,
+    "ate_m": 0.03180065216302349,
+    "success_joint": 0.384375
+   },
+   "tss_roll": {
+    "frames": 640,
+    "rmse_px": 25.274534298607794,
+    "are_deg": 51.469410110730564,
+    "ate_m": 0.31981941275052767,
+    "success_joint": 0.0765625
+   },
+   "tss_sim2real": {
+    "frames": 640,
+    "rmse_px": 103.78049731651844,
+    "are_deg": 122.33407368699966,
+    "ate_m": 3326.3624379367,
+    "success_joint": 0.0
+   }
+  },
+  "u-event-activity-satty": {
+   "object": "satty",
+   "trained_protocol": "natural",
+   "natural_plain": {
+    "frames": 640,
+    "rmse_px": 16.475032272654573,
+    "are_deg": 9.723156134694936,
+    "ate_m": 0.03181767571157445,
+    "success_joint": 0.621875
+   },
+   "natural_roll": {
+    "frames": 640,
+    "rmse_px": 61.552109335330435,
+    "are_deg": 74.0082868062334,
+    "ate_m": 0.20530052980472605,
+    "success_joint": 0.084375
+   },
+   "natural_sim2real": {
+    "frames": 640,
+    "rmse_px": 87.56897479828243,
+    "are_deg": 111.38962878545654,
+    "ate_m": 0.5153667265211183,
+    "success_joint": 0.003125
+   },
+   "tss_plain": {
+    "frames": 640,
+    "rmse_px": 16.475032272654573,
+    "are_deg": 9.723156134694936,
+    "ate_m": 0.03181767571157445,
+    "success_joint": 0.621875
+   },
+   "tss_roll": {
+    "frames": 640,
+    "rmse_px": 61.552109335330435,
+    "are_deg": 74.0082868062334,
+    "ate_m": 0.20530052980472605,
+    "success_joint": 0.084375
+   },
+   "tss_sim2real": {
+    "frames": 640,
+    "rmse_px": 87.56897479828243,
+    "are_deg": 111.38962878545654,
+    "ate_m": 0.5153667265211183,
+    "success_joint": 0.003125
+   }
+  },
+  "u-event-activity-soho": {
+   "object": "soho",
+   "trained_protocol": "natural",
+   "natural_plain": {
+    "frames": 640,
+    "rmse_px": 9.35908250009963,
+    "are_deg": 11.815954219156634,
+    "ate_m": 0.05096613684609512,
+    "success_joint": 0.2671875
+   },
+   "natural_roll": {
+    "frames": 640,
+    "rmse_px": 44.17125239350609,
+    "are_deg": 89.46639009571615,
+    "ate_m": 0.4217012796561875,
+    "success_joint": 0.0328125
+   },
+   "natural_sim2real": {
+    "frames": 640,
+    "rmse_px": 107.11181912783948,
+    "are_deg": 116.63132650772664,
+    "ate_m": 0.6469848772799179,
+    "success_joint": 0.0
+   },
+   "tss_plain": {
+    "frames": 640,
+    "rmse_px": 9.35908250009963,
+    "are_deg": 11.815954219156634,
+    "ate_m": 0.05096613684609512,
+    "success_joint": 0.2671875
+   },
+   "tss_roll": {
+    "frames": 640,
+    "rmse_px": 44.17125239350609,
+    "are_deg": 89.46639009571615,
+    "ate_m": 0.4217012796561875,
+    "success_joint": 0.0328125
+   },
+   "tss_sim2real": {
+    "frames": 640,
+    "rmse_px": 107.11181912783948,
+    "are_deg": 116.63132650772664,
+    "ate_m": 0.6469848772799179,
+    "success_joint": 0.0
+   }
+  },
+  "f-mean-natural-activity-cassini": {
+   "object": "cassini",
+   "trained_protocol": "natural",
+   "natural_plain": {
+    "frames": 640,
+    "rmse_px": 5.432722387309196,
+    "are_deg": 3.510076123933152,
+    "ate_m": 0.0188209947518961,
+    "success_joint": 0.4125
+   },
+   "natural_roll": {
+    "frames": 640,
+    "rmse_px": 22.392813023084116,
+    "are_deg": 43.80920286129701,
+    "ate_m": 0.25873358351668935,
+    "success_joint": 0.096875
+   },
+   "natural_sim2real": {
+    "frames": 640,
+    "rmse_px": 64.01136466954628,
+    "are_deg": 84.47908519286628,
+    "ate_m": 0.6129368518360758,
+    "success_joint": 0.0109375
+   },
+   "tss_plain": {
+    "frames": 640,
+    "rmse_px": 22.336011234502873,
+    "are_deg": 24.787653987024406,
+    "ate_m": 0.16150318231243194,
+    "success_joint": 0.2125
+   },
+   "tss_roll": {
+    "frames": 640,
+    "rmse_px": 33.260497389210684,
+    "are_deg": 62.31797244818997,
+    "ate_m": 0.404731867425183,
+    "success_joint": 0.053125
+   },
+   "tss_sim2real": {
+    "frames": 640,
+    "rmse_px": 71.20026011139674,
+    "are_deg": 96.75159536904907,
+    "ate_m": 0.6387431183405653,
+    "success_joint": 0.0046875
+   }
+  },
+  "f-mean-natural-activity-satty": {
+   "object": "satty",
+   "trained_protocol": "natural",
+   "natural_plain": {
+    "frames": 640,
+    "rmse_px": 11.508203529032842,
+    "are_deg": 4.07478984338408,
+    "ate_m": 0.019700030671284736,
+    "success_joint": 0.6984375
+   },
+   "natural_roll": {
+    "frames": 640,
+    "rmse_px": 59.1513347579396,
+    "are_deg": 70.16844436035457,
+    "ate_m": 0.17364534415676008,
+    "success_joint": 0.1078125
+   },
+   "natural_sim2real": {
+    "frames": 640,
+    "rmse_px": 81.44903559469293,
+    "are_deg": 95.33162837557018,
+    "ate_m": 0.4008637516388469,
+    "success_joint": 0.0109375
+   },
+   "tss_plain": {
+    "frames": 640,
+    "rmse_px": 36.916888266329586,
+    "are_deg": 25.03501301091504,
+    "ate_m": 0.15604145146080717,
+    "success_joint": 0.4015625
+   },
+   "tss_roll": {
+    "frames": 640,
+    "rmse_px": 65.68746431968584,
+    "are_deg": 77.68066741954065,
+    "ate_m": 0.27518816517041167,
+    "success_joint": 0.065625
+   },
+   "tss_sim2real": {
+    "frames": 640,
+    "rmse_px": 85.32203853880114,
+    "are_deg": 103.8735032759558,
+    "ate_m": 0.4443433853825713,
+    "success_joint": 0.0015625
+   }
+  },
+  "f-mean-natural-activity-soho": {
+   "object": "soho",
+   "trained_protocol": "natural",
+   "natural_plain": {
+    "frames": 640,
+    "rmse_px": 1.8407065267991902,
+    "are_deg": 2.232034134899446,
+    "ate_m": 0.007939728790901362,
+    "success_joint": 0.6890625
+   },
+   "natural_roll": {
+    "frames": 640,
+    "rmse_px": 33.31949528091985,
+    "are_deg": 63.35393734753738,
+    "ate_m": 0.4432732662096074,
+    "success_joint": 0.071875
+   },
+   "natural_sim2real": {
+    "frames": 640,
+    "rmse_px": 83.16858404105622,
+    "are_deg": 104.63525289638228,
+    "ate_m": 0.6455645244481408,
+    "success_joint": 0.0046875
+   },
+   "tss_plain": {
+    "frames": 640,
+    "rmse_px": 30.71820854905672,
+    "are_deg": 42.1890944993314,
+    "ate_m": 0.2562492762118908,
+    "success_joint": 0.38125
+   },
+   "tss_roll": {
+    "frames": 640,
+    "rmse_px": 44.04805878665479,
+    "are_deg": 83.96138105058894,
+    "ate_m": 0.4962860991759411,
+    "success_joint": 0.0375
+   },
+   "tss_sim2real": {
+    "frames": 640,
+    "rmse_px": 85.37880735400505,
+    "are_deg": 112.28209186088603,
+    "ate_m": 0.8562394953363022,
+    "success_joint": 0.003125
+   }
+  },
+  "f-mean-tss-activity-cassini": {
+   "object": "cassini",
+   "trained_protocol": "tss",
+   "natural_plain": {
+    "frames": 640,
+    "rmse_px": 6.391112528109463,
+    "are_deg": 3.712389961214497,
+    "ate_m": 0.02179745703665185,
+    "success_joint": 0.4125
+   },
+   "natural_roll": {
+    "frames": 640,
+    "rmse_px": 24.582223599488902,
+    "are_deg": 46.406604939007174,
+    "ate_m": 0.26988041970480214,
+    "success_joint": 0.09375
+   },
+   "natural_sim2real": {
+    "frames": 640,
+    "rmse_px": 94.40324368121426,
+    "are_deg": 110.46687868310667,
+    "ate_m": 0.6660051406808007,
+    "success_joint": 0.0015625
+   },
+   "tss_plain": {
+    "frames": 640,
+    "rmse_px": 6.975701693990015,
+    "are_deg": 3.793576026559209,
+    "ate_m": 0.025509871242170856,
+    "success_joint": 0.390625
+   },
+   "tss_roll": {
+    "frames": 640,
+    "rmse_px": 24.877068184519818,
+    "are_deg": 45.75906606883922,
+    "ate_m": 0.26364852735392513,
+    "success_joint": 0.0859375
+   },
+   "tss_sim2real": {
+    "frames": 640,
+    "rmse_px": 96.43555009010191,
+    "are_deg": 112.83130638886624,
+    "ate_m": 0.732974049119975,
+    "success_joint": 0.0015625
+   }
+  },
+  "f-mean-tss-activity-satty": {
+   "object": "satty",
+   "trained_protocol": "tss",
+   "natural_plain": {
+    "frames": 640,
+    "rmse_px": 14.34608004687758,
+    "are_deg": 5.84954526588293,
+    "ate_m": 0.0265946068475195,
+    "success_joint": 0.7375
+   },
+   "natural_roll": {
+    "frames": 640,
+    "rmse_px": 59.96854752875321,
+    "are_deg": 71.70722834026529,
+    "ate_m": 0.17668832264806103,
+    "success_joint": 0.1078125
+   },
+   "natural_sim2real": {
+    "frames": 640,
+    "rmse_px": 87.11470315667952,
+    "are_deg": 98.12740697761403,
+    "ate_m": 0.3098595596222121,
+    "success_joint": 0.0015625
+   },
+   "tss_plain": {
+    "frames": 640,
+    "rmse_px": 17.15508174968056,
+    "are_deg": 7.881740056328195,
+    "ate_m": 0.0375461608990569,
+    "success_joint": 0.653125
+   },
+   "tss_roll": {
+    "frames": 640,
+    "rmse_px": 60.55039734377953,
+    "are_deg": 73.30957318171366,
+    "ate_m": 0.18913600757220544,
+    "success_joint": 0.0828125
+   },
+   "tss_sim2real": {
+    "frames": 640,
+    "rmse_px": 88.2557964780737,
+    "are_deg": 100.81256705278523,
+    "ate_m": 0.40442543387378543,
+    "success_joint": 0.0015625
+   }
+  },
+  "f-mean-tss-activity-soho": {
+   "object": "soho",
+   "trained_protocol": "tss",
+   "natural_plain": {
+    "frames": 640,
+    "rmse_px": 5.833102037085152,
+    "are_deg": 5.220227729380361,
+    "ate_m": 0.021321022110242047,
+    "success_joint": 0.5890625
+   },
+   "natural_roll": {
+    "frames": 640,
+    "rmse_px": 40.913818293380416,
+    "are_deg": 80.92300586342965,
+    "ate_m": 0.6050869121111832,
+    "success_joint": 0.0671875
+   },
+   "natural_sim2real": {
+    "frames": 640,
+    "rmse_px": 93.33717858522401,
+    "are_deg": 115.579562218911,
+    "ate_m": 0.4950976507265253,
+    "success_joint": 0.0
+   },
+   "tss_plain": {
+    "frames": 640,
+    "rmse_px": 6.137330800813527,
+    "are_deg": 5.841617137586193,
+    "ate_m": 0.019891629770341552,
+    "success_joint": 0.5515625
+   },
+   "tss_roll": {
+    "frames": 640,
+    "rmse_px": 41.94026970534084,
+    "are_deg": 83.95738858347498,
+    "ate_m": 0.592194254995059,
+    "success_joint": 0.05625
+   },
+   "tss_sim2real": {
+    "frames": 640,
+    "rmse_px": 95.17992987222027,
+    "are_deg": 117.57244454563052,
+    "ate_m": 0.6606614073708281,
+    "success_joint": 0.0
+   }
+  },
+  "f-clip_gate-tss-activity-cassini": {
+   "object": "cassini",
+   "trained_protocol": "tss",
+   "natural_plain": {
+    "frames": 640,
+    "rmse_px": 5.816738900990369,
+    "are_deg": 3.47357295473265,
+    "ate_m": 0.020048187687996467,
+    "success_joint": 0.403125
+   },
+   "natural_roll": {
+    "frames": 640,
+    "rmse_px": 24.02713794049891,
+    "are_deg": 48.123966320926606,
+    "ate_m": 0.2989724666058427,
+    "success_joint": 0.0921875
+   },
+   "natural_sim2real": {
+    "frames": 640,
+    "rmse_px": 78.84451435310125,
+    "are_deg": 96.81856369155797,
+    "ate_m": 0.5549636394431152,
+    "success_joint": 0.0046875
+   },
+   "tss_plain": {
+    "frames": 640,
+    "rmse_px": 6.781855188291459,
+    "are_deg": 3.8497917931388512,
+    "ate_m": 0.023078802224941807,
+    "success_joint": 0.39375
+   },
+   "tss_roll": {
+    "frames": 640,
+    "rmse_px": 25.04236552468733,
+    "are_deg": 50.93095198959112,
+    "ate_m": 0.34206689846947275,
+    "success_joint": 0.0765625
+   },
+   "tss_sim2real": {
+    "frames": 640,
+    "rmse_px": 84.41293681604569,
+    "are_deg": 102.73624279839888,
+    "ate_m": 0.6195586200817061,
+    "success_joint": 0.003125
+   }
+  },
+  "f-clip_gate-tss-activity-satty": {
+   "object": "satty",
+   "trained_protocol": "tss",
+   "natural_plain": {
+    "frames": 640,
+    "rmse_px": 14.66970374422696,
+    "are_deg": 5.845460366183409,
+    "ate_m": 0.03009383470671777,
+    "success_joint": 0.6578125
+   },
+   "natural_roll": {
+    "frames": 640,
+    "rmse_px": 60.60917874169766,
+    "are_deg": 71.96732595118024,
+    "ate_m": 0.21077903602007528,
+    "success_joint": 0.109375
+   },
+   "natural_sim2real": {
+    "frames": 640,
+    "rmse_px": 82.85461795828817,
+    "are_deg": 94.18276352962909,
+    "ate_m": 0.3690882119384038,
+    "success_joint": 0.0046875
+   },
+   "tss_plain": {
+    "frames": 640,
+    "rmse_px": 18.94958476783414,
+    "are_deg": 8.967082161222182,
+    "ate_m": 0.046737215705109754,
+    "success_joint": 0.56875
+   },
+   "tss_roll": {
+    "frames": 640,
+    "rmse_px": 61.175222299152246,
+    "are_deg": 72.19311656993229,
+    "ate_m": 0.23396645583042427,
+    "success_joint": 0.0828125
+   },
+   "tss_sim2real": {
+    "frames": 640,
+    "rmse_px": 85.11193112785364,
+    "are_deg": 99.89328537564506,
+    "ate_m": 0.577601881819953,
+    "success_joint": 0.003125
+   }
+  },
+  "f-clip_gate-tss-activity-soho": {
+   "object": "soho",
+   "trained_protocol": "tss",
+   "natural_plain": {
+    "frames": 640,
+    "rmse_px": 5.694842739843864,
+    "are_deg": 5.1266497630755,
+    "ate_m": 0.020051183043316025,
+    "success_joint": 0.559375
+   },
+   "natural_roll": {
+    "frames": 640,
+    "rmse_px": 38.05588031161633,
+    "are_deg": 69.47902975377944,
+    "ate_m": 0.47695631650927994,
+    "success_joint": 0.059375
+   },
+   "natural_sim2real": {
+    "frames": 640,
+    "rmse_px": 88.08615363801728,
+    "are_deg": 108.07053792766446,
+    "ate_m": 0.6221924032197925,
+    "success_joint": 0.003125
+   },
+   "tss_plain": {
+    "frames": 640,
+    "rmse_px": 10.5439033816152,
+    "are_deg": 11.674747598021034,
+    "ate_m": 0.04621317403984241,
+    "success_joint": 0.478125
+   },
+   "tss_roll": {
+    "frames": 640,
+    "rmse_px": 40.0462880558146,
+    "are_deg": 76.84262997334012,
+    "ate_m": 0.507036759577163,
+    "success_joint": 0.0546875
+   },
+   "tss_sim2real": {
+    "frames": 640,
+    "rmse_px": 92.14152650923428,
+    "are_deg": 113.18587864622047,
+    "ate_m": 0.5549695827779276,
+    "success_joint": 0.0015625
+   }
+  }
+ }
+}
