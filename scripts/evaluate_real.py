@@ -42,6 +42,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--real-cache-dir", type=Path, default=Path("data/fresh/cache/crop-v2"))
     parser.add_argument("--raw-root", type=Path, default=Path("data/fresh/raw"))
     parser.add_argument("--output-dir", type=Path, default=Path("outputs/real"))
+    parser.add_argument(
+        "--manifest",
+        type=Path,
+        default=Path("outputs/real/freeze_manifest.json"),
+        help="freeze manifest that every evaluated checkpoint must match",
+    )
     parser.add_argument("--confirm-frozen", action="store_true", required=True)
     return parser.parse_args()
 
@@ -85,7 +91,7 @@ def main() -> int:
     torch.backends.cudnn.benchmark = False
     # The freeze manifest is mandatory: only frozen checkpoints, byte-identical to the
     # ones recorded before any real read, may be evaluated.
-    manifest_path = Path("outputs/real/freeze_manifest.json")
+    manifest_path = args.manifest
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     selection_path = Path("outputs/geometric/selection.json")
     if _sha256(selection_path) != manifest["geometric_selection_sha256"]:

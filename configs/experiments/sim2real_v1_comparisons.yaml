@@ -1,0 +1,34 @@
+# Real-test comparisons for the sim2real-v1 study (written 2026-11-17, before any
+# sim2real-v1 checkpoint is evaluated on real data). Candidate minus baseline;
+# negative = better. The real sequences were evaluated once before (main_v1, a
+# negative transfer result), so this analysis is disclosed as a second look.
+primary:
+  candidate: s2r-f-content_clip_gate-tss-activity
+  baseline: s2r-f-content_gate-tss-activity
+  metrics: [are_deg, ate_m]   # co-primary, overall sequence means
+holm_family:  # learned, glare-trained sim2real-v1 models on both sides
+  - "s2r-f-clip_gate-tss-activity|s2r-f-clip_gate_constant-tss-activity"
+  - "s2r-f-clip_gate-tss-activity|s2r-f-content_gate-tss-activity"
+  - "s2r-f-clip_gate-tss-activity|s2r-f-mean-tss-activity"
+  - "s2r-f-attention-tss-activity|s2r-f-mean-tss-activity"
+  - "s2r-f-attention_clip-tss-activity|s2r-f-attention-tss-activity"
+  - "s2r-f-attention_clip-tss-activity|s2r-f-clip_gate-tss-activity"
+  - "s2r-f-mean-tss-activity|s2r-u-rgb-tss"
+  - "s2r-f-mean-tss-activity|s2r-u-event-activity"
+comparisons:
+  # Central questions: does the clipping signal help?
+  - {candidate: s2r-f-content_clip_gate-tss-activity, baseline: s2r-f-content_gate-tss-activity, question: "does clipping add beyond learned reliability?"}
+  - {candidate: s2r-f-clip_gate-tss-activity, baseline: s2r-f-clip_gate_constant-tss-activity, question: "physical signal vs parameter-matched control"}
+  - {candidate: s2r-f-clip_gate-tss-activity, baseline: s2r-f-content_gate-tss-activity, question: "clipping gate vs unrestricted learned reliability"}
+  - {candidate: s2r-f-clip_gate-tss-activity, baseline: s2r-f-mean-tss-activity, question: "learned clipping gate vs mean fusion"}
+  # FRESH's concern: does learned attention fusion transfer?
+  - {candidate: s2r-f-attention-tss-activity, baseline: s2r-f-mean-tss-activity, question: "coarse attention vs mean fusion"}
+  - {candidate: s2r-f-attention_clip-tss-activity, baseline: s2r-f-attention-tss-activity, question: "clipping bias inside attention"}
+  - {candidate: s2r-f-attention_clip-tss-activity, baseline: s2r-f-clip_gate-tss-activity, question: "clipping-biased attention vs clipping gate"}
+  # Does fusion beat each sensor alone?
+  - {candidate: s2r-f-mean-tss-activity, baseline: s2r-u-rgb-tss, question: "fusion vs RGB-only"}
+  - {candidate: s2r-f-mean-tss-activity, baseline: s2r-u-event-activity, question: "fusion vs event-only"}
+  - {candidate: s2r-u-event-activity, baseline: s2r-u-rgb-tss, question: "event-only vs RGB-only"}
+  # Does glare training still matter once general augmentation is on? (exploratory)
+  - {candidate: s2r-u-rgb-tss, baseline: s2r-u-rgb-natural, question: "glare vs clean training, RGB-only"}
+  - {candidate: s2r-f-mean-tss-activity, baseline: s2r-f-mean-natural-activity, question: "glare vs clean training, mean fusion"}

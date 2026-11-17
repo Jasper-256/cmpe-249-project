@@ -199,8 +199,8 @@ def main() -> int:
         "condition": args.condition,
         "provenance": {
             "freeze_manifest_sha256": (
-                _sha256(Path("outputs/real/freeze_manifest.json"))
-                if Path("outputs/real/freeze_manifest.json").is_file()
+                _sha256(args.real_dir / "freeze_manifest.json")
+                if (args.real_dir / "freeze_manifest.json").is_file()
                 else None
             ),
             "comparisons_sha256": _sha256(args.comparisons),
