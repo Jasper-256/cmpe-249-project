@@ -548,15 +548,12 @@ def current_study() -> dict[str, Any]:
             ax.text(b + 2.5, y, f"{b:.1f}", va="center", fontsize=8)
         ax.set_yticks(
             range(len(with_earlier)),
-            [
-                f"{r['label']} ({', '.join(o.capitalize() for o in r['objects'])})"
-                for r in reversed(with_earlier)
-            ],
+            [r["label"] for r in reversed(with_earlier)],
         )
         ax.set_xlim(0, 125)
         ax.set_ylim(-0.6, len(with_earlier) - 0.4)
         ax.set_xlabel(
-            "rotation error on augmented glare validation, degrees  (x before, o now)",
+            "rotation error, augmented glare validation, °  (crosses: before, circles: now)",
             color=MUTED,
         )
         _style(ax)
@@ -564,6 +561,138 @@ def current_study() -> dict[str, Any]:
         fig.savefig(FIG / "augmentation_effect.png", dpi=200, facecolor=SURFACE)
         plt.close(fig)
     return {"rows": rows, "models_done": done, "models_planned": planned}
+
+
+REAL_V2 = Path("outputs/real-v2")
+CHANCE_ARE_DEG = 126.5
+
+
+def real_v2(study: dict[str, Any]) -> dict[str, Any]:
+    """Frozen real-sequence results of the augmented study (evaluated once)."""
+    if not (REAL_V2 / "analysis_primary.json").is_file():
+        return {}
+    syn = {r["method"]: r for r in study["rows"]}
+    rows = []
+    for label, method, _, colour in S2R_ROWS:
+        per: dict[str, Any] = {}
+        total, frames = np.zeros(7), 0
+        for obj in OBJECTS:
+            path = REAL_V2 / f"{method}-{obj}" / "real_report.json"
+            if not path.is_file():
+                continue
+            pose = json.loads(path.read_text(encoding="utf-8"))["results"]["primary"]["pose"]
+            m, n = pose["all_frames"], pose["frame_count"]
+            vec = np.array(
+                [
+                    m["are_degrees_mean"],
+                    m["are_degrees_median"],
+                    1000 * m["absolute_translation_error_m_mean"],
+                    1000 * m["absolute_translation_error_m_median"],
+                    100 * m["success_rotation_below_10_deg"],
+                    100 * m["success_translation_below_10_mm"],
+                    100 * m["success_joint_10_deg_10_mm"],
+                ]
+            )
+            per[obj] = {"are_deg": vec[0], "are_median_deg": vec[1], "joint_pct": vec[6]}
+            total += n * vec
+            frames += n
+        if not per:
+            continue
+        pooled = total / frames
+        rows.append(
+            {
+                "label": label,
+                "method": method,
+                "color": COLORS[colour],
+                "objects": per,
+                "frames": frames,
+                "are_deg": pooled[0],
+                "are_median_deg": pooled[1],
+                "ate_mm": pooled[2],
+                "ate_median_mm": pooled[3],
+                "rot10_pct": pooled[4],
+                "trans10_pct": pooled[5],
+                "joint_pct": pooled[6],
+                "synthetic_glare_are_deg": syn[method]["glare"]["are_deg"]
+                if method in syn
+                else None,
+            }
+        )
+    analyses = {
+        c: json.loads((REAL_V2 / f"analysis_{c}.json").read_text(encoding="utf-8"))
+        for c in ("primary", "primary_ransac")
+    }
+
+    order = sorted(rows, key=lambda r: r["are_deg"])
+    markers = {"cassini": "o", "satty": "s", "soho": "^"}
+    fig, axes = plt.subplots(
+        1, 2, figsize=(7.4, 0.36 * len(order) + 1.4), sharey=True, width_ratios=[1, 1.5]
+    )
+    fig.patch.set_facecolor(SURFACE)
+    left, right = axes
+    for i, row in enumerate(order):
+        y = len(order) - 1 - i
+        left.barh(y, row["synthetic_glare_are_deg"] or 0, color=row["color"], height=0.6)
+        left.text(
+            (row["synthetic_glare_are_deg"] or 0) + 0.8,
+            y,
+            f"{row['synthetic_glare_are_deg']:.1f}",
+            va="center",
+            fontsize=7.5,
+        )
+        for obj, v in row["objects"].items():
+            right.scatter(
+                v["are_deg"],
+                y,
+                marker=markers[obj],
+                s=26,
+                color=row["color"],
+                edgecolor=TEXT,
+                linewidth=0.4,
+                zorder=3,
+            )
+        right.plot([row["are_deg"]] * 2, [y - 0.32, y + 0.32], color=TEXT, lw=1.6, zorder=4)
+    right.axvline(CHANCE_ARE_DEG, color=MUTED, lw=0.8, ls=":")
+    right.text(
+        CHANCE_ARE_DEG - 1.5, len(order) - 0.55, "chance", ha="right", fontsize=7, color=MUTED
+    )
+    left.set_yticks(range(len(order)), [r["label"] for r in reversed(order)])
+    left.set_xlim(0, 37)
+    right.set_xlim(0, 135)
+    left.set_xlabel("synthetic (glare, augmented), °", color=MUTED)
+    right.set_xlabel("real sequences, ° (bar: pooled mean)", color=MUTED)
+    from matplotlib.lines import Line2D
+
+    handles = [
+        Line2D(
+            [],
+            [],
+            marker=mk,
+            ls="",
+            color="white",
+            markeredgecolor=TEXT,
+            markersize=6,
+            label="SOHO" if obj == "soho" else obj.capitalize(),
+        )
+        for obj, mk in markers.items()
+    ]
+    right.legend(
+        handles=handles,
+        loc="lower center",
+        bbox_to_anchor=(0.5, 1.0),
+        ncol=3,
+        fontsize=7.5,
+        frameon=False,
+        handletextpad=0.2,
+        columnspacing=1.2,
+    )
+    for ax in axes:
+        _style(ax)
+        ax.set_ylim(-0.6, len(order) - 0.4)
+    fig.tight_layout()
+    fig.savefig(FIG / "real_v2.png", dpi=200, facecolor=SURFACE)
+    plt.close(fig)
+    return {"rows": rows, "analyses": analyses}
 
 
 def main() -> int:
@@ -582,6 +711,7 @@ def main() -> int:
         if path.is_file():
             analyses[condition] = json.loads(path.read_text(encoding="utf-8"))
     g6_log = Path("checkpoints/g6.log")
+    study = current_study()
     data = {
         "seeds": seeds,
         "synthetic_table": synthetic_table(),
@@ -596,7 +726,8 @@ def main() -> int:
         .splitlines()[-1]
         .startswith("G6 done"),
         "analyses": analyses,
-        "current_study": current_study(),
+        "current_study": study,
+        "real_v2": real_v2(study),
     }
     out = Path("outputs/report/progress_data.json")
     out.parent.mkdir(parents=True, exist_ok=True)

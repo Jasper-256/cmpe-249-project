@@ -1,0 +1,605 @@
+{
+  "schema_version": 1,
+  "frozen_at": "2026-11-17T21:59:35.948363+00:00",
+  "git_commit": "4fe312f23c5e1bc7c3a0008866da0f8677aaa784",
+  "source_tree_dirty": false,
+  "uv_lock_sha256": "fe742a5ce27445c837714bca804d02a8d13cce0adfd580cd21a4f7d312b661c3",
+  "geometric_selection_sha256": "bbef621cb2155c39b08ca9af6de58f54053ba630cbebd9e9c48dce184a4ab53c",
+  "comparisons_sha256": "8d8237e37b515dac3480066a9e6d2bce001005965eb47f4b352109978b272520",
+  "runs": {
+    "s2r-u-rgb-tss-cassini": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-u-rgb-tss-cassini",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "rgb",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": null,
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-u-rgb-tss-cassini/best.pt",
+      "checkpoint_sha256": "8e69f25ce728a28463696b2ba05ea164fe439380a1235e64d5f791a2453fec39"
+    },
+    "s2r-u-event-activity-cassini": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-u-event-activity-cassini",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "event",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": null,
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-u-event-activity-cassini/best.pt",
+      "checkpoint_sha256": "df6e906078b47403536cbb472b99795ee1f70c4902fb534954116d3f9e8309b5"
+    },
+    "s2r-f-mean-tss-activity-cassini": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-f-mean-tss-activity-cassini",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "mean",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-f-mean-tss-activity-cassini/best.pt",
+      "checkpoint_sha256": "28ea1c24616ed9373259c818118f5db10db7b627be4995240b24ef6344ce2ff8"
+    },
+    "s2r-f-content_gate-tss-activity-cassini": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-f-content_gate-tss-activity-cassini",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 7,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-f-content_gate-tss-activity-cassini/best.pt",
+      "checkpoint_sha256": "a2af0d304c60cc1b255c19eafde636cb95d61cde72315e8ae960212af0d7a049"
+    },
+    "s2r-f-content_clip_gate-tss-activity-cassini": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-f-content_clip_gate-tss-activity-cassini",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-f-content_clip_gate-tss-activity-cassini/best.pt",
+      "checkpoint_sha256": "5da4c71d8b874eb3798eeecb18a8a38c777588eb10df78621a4212151b55d5ea"
+    },
+    "s2r-f-clip_gate-tss-activity-cassini": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-f-clip_gate-tss-activity-cassini",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-f-clip_gate-tss-activity-cassini/best.pt",
+      "checkpoint_sha256": "6adf7439833b63c8a71512207dd71ffd4c37b07c2a2198f7ff8ac859e84c9e00"
+    },
+    "s2r-f-clip_gate_constant-tss-activity-cassini": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-f-clip_gate_constant-tss-activity-cassini",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate_constant",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-f-clip_gate_constant-tss-activity-cassini/best.pt",
+      "checkpoint_sha256": "e9d3484eb0c7bbcf72cfffb1379e53a97b6c82d27a3d1f6eba4af1831958e4e1"
+    },
+    "s2r-f-attention-tss-activity-cassini": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-f-attention-tss-activity-cassini",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "attention",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-f-attention-tss-activity-cassini/best.pt",
+      "checkpoint_sha256": "40028d494e97f2bbfb93a860710f46b141b5fd0eb0afd2afe1ebb88c63198cce"
+    },
+    "s2r-f-attention_clip-tss-activity-cassini": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-f-attention_clip-tss-activity-cassini",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "attention_clip",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-f-attention_clip-tss-activity-cassini/best.pt",
+      "checkpoint_sha256": "71c877ca47c602211dca43c9bb9bfbf378c6859c6e080e2f51e9253fcd05899b"
+    },
+    "s2r-u-rgb-tss-satty": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-u-rgb-tss-satty",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "rgb",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": null,
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-u-rgb-tss-satty/best.pt",
+      "checkpoint_sha256": "718a5a80d4d0256e07a846a4768c6bbb5f0de5b1d8384007ea2b5fcb87a2e51a"
+    },
+    "s2r-u-event-activity-satty": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-u-event-activity-satty",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "event",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": null,
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 7,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-u-event-activity-satty/best.pt",
+      "checkpoint_sha256": "00b8af5752be958dac330f289219ce2e89393e3b00d11c90352d3c09834f460c"
+    },
+    "s2r-f-mean-tss-activity-satty": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-f-mean-tss-activity-satty",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "mean",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-f-mean-tss-activity-satty/best.pt",
+      "checkpoint_sha256": "1629a57444576875dc6b956e96f02467d62eef7ed6b11bb84f531bd54d7534ee"
+    },
+    "s2r-f-content_gate-tss-activity-satty": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-f-content_gate-tss-activity-satty",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-f-content_gate-tss-activity-satty/best.pt",
+      "checkpoint_sha256": "13e941c01013d6b96709a289d4408a8b0d05313ceda6a18af947c68bdc4ae117"
+    },
+    "s2r-f-content_clip_gate-tss-activity-satty": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-f-content_clip_gate-tss-activity-satty",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-f-content_clip_gate-tss-activity-satty/best.pt",
+      "checkpoint_sha256": "c94db7b5efa72cb9249d697da9fa8a8d2a15c16a8543dd97b4475e838e58f2bf"
+    },
+    "s2r-f-clip_gate-tss-activity-satty": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-f-clip_gate-tss-activity-satty",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-f-clip_gate-tss-activity-satty/best.pt",
+      "checkpoint_sha256": "29c1bb4f5a637d0843e50c5774c06806662c9a0ff3b074ee7475e7f3001180d8"
+    },
+    "s2r-f-clip_gate_constant-tss-activity-satty": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-f-clip_gate_constant-tss-activity-satty",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate_constant",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-f-clip_gate_constant-tss-activity-satty/best.pt",
+      "checkpoint_sha256": "9dedbe845ce9552dbea94fe08ab1116a393778577c418959fd9a8d138cd19afb"
+    },
+    "s2r-f-attention-tss-activity-satty": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-f-attention-tss-activity-satty",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "attention",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-f-attention-tss-activity-satty/best.pt",
+      "checkpoint_sha256": "3db47126063c1b650007eb68077e800ad4910f8e67430817d7a14198c6405964"
+    },
+    "s2r-f-attention_clip-tss-activity-satty": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-f-attention_clip-tss-activity-satty",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "attention_clip",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-f-attention_clip-tss-activity-satty/best.pt",
+      "checkpoint_sha256": "be9bcbe24b3ef05cb79b8cb7f792dca4133cb8a195059e58dfefce2668fab97a"
+    },
+    "s2r-u-rgb-tss-soho": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-u-rgb-tss-soho",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "rgb",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": null,
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 7,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-u-rgb-tss-soho/best.pt",
+      "checkpoint_sha256": "86d4217bd67410ab62a402c992e84e6b51397d0e106ef95f1c568cd94c00a6b9"
+    },
+    "s2r-u-event-activity-soho": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-u-event-activity-soho",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "event",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": null,
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-u-event-activity-soho/best.pt",
+      "checkpoint_sha256": "d9e26455c8e145dcc72ef102eb61521d95964599e992f68554b31c9df1c1d723"
+    },
+    "s2r-f-mean-tss-activity-soho": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-f-mean-tss-activity-soho",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "mean",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-f-mean-tss-activity-soho/best.pt",
+      "checkpoint_sha256": "55c66d0636ede35eb4fcb29b178f7580fedf0262a156f006d5dbd5983de86efc"
+    },
+    "s2r-f-content_gate-tss-activity-soho": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-f-content_gate-tss-activity-soho",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 7,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-f-content_gate-tss-activity-soho/best.pt",
+      "checkpoint_sha256": "c0c95943a04df06aec3b3fbaae10d2359f14cad1014681d9835786ade328a403"
+    },
+    "s2r-f-content_clip_gate-tss-activity-soho": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-f-content_clip_gate-tss-activity-soho",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "content_clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-f-content_clip_gate-tss-activity-soho/best.pt",
+      "checkpoint_sha256": "ebdd7692cf4cf674187982d66aa59a7fa0f27c43db13baac3542f0587707e3d7"
+    },
+    "s2r-f-clip_gate-tss-activity-soho": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-f-clip_gate-tss-activity-soho",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-f-clip_gate-tss-activity-soho/best.pt",
+      "checkpoint_sha256": "d40cf943a2b04f7a716ce0d725c7004a6008ad0924c4e4e8635969cff113d00d"
+    },
+    "s2r-f-clip_gate_constant-tss-activity-soho": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-f-clip_gate_constant-tss-activity-soho",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "clip_gate_constant",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-f-clip_gate_constant-tss-activity-soho/best.pt",
+      "checkpoint_sha256": "5c988caf1515053203029e6c0a4b1642065a7ba674bc696f063057d0d975ecf3"
+    },
+    "s2r-f-attention-tss-activity-soho": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-f-attention-tss-activity-soho",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "attention",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 7,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-f-attention-tss-activity-soho/best.pt",
+      "checkpoint_sha256": "1c27ee6570ce35d76cbb2a8174c6558abcdada9a7b61c22468cf50892772dc0a"
+    },
+    "s2r-f-attention_clip-tss-activity-soho": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-f-attention_clip-tss-activity-soho",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "attention_clip",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "tss",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-f-attention_clip-tss-activity-soho/best.pt",
+      "checkpoint_sha256": "c05427b96a4a26bb3cca66fecf3a3c11c325536dc1f1c3cae5d6cfe346503e9b"
+    },
+    "s2r-u-rgb-natural-cassini": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-u-rgb-natural-cassini",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "rgb",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": null,
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-u-rgb-natural-cassini/best.pt",
+      "checkpoint_sha256": "06ae7a295f7b8d826b433f6641e64b5aa904831b43e136fdb74cb6ef2325cca5"
+    },
+    "s2r-f-mean-natural-activity-cassini": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-f-mean-natural-activity-cassini",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "mean",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-f-mean-natural-activity-cassini/best.pt",
+      "checkpoint_sha256": "8da86330c5c02d286423cd5021126c5c8906fa6e52b6b405280f1dc236e4da05"
+    },
+    "s2r-u-rgb-natural-satty": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-u-rgb-natural-satty",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "rgb",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": null,
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-u-rgb-natural-satty/best.pt",
+      "checkpoint_sha256": "d7861ad2e3c655bca88634865b68429dc785e2f885ad2cdfac865019f700b3a8"
+    },
+    "s2r-f-mean-natural-activity-satty": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-f-mean-natural-activity-satty",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "mean",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 8,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-f-mean-natural-activity-satty/best.pt",
+      "checkpoint_sha256": "3879c486fddc893c627efa621c6d7cd94ae56b6879fed26eb935e4c47c944613"
+    },
+    "s2r-u-rgb-natural-soho": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-u-rgb-natural-soho",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "rgb",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": null,
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 7,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-u-rgb-natural-soho/best.pt",
+      "checkpoint_sha256": "bcf7fd3de69323c13085e6a9b19795868b454c9a68e1365affe1838d2ffaa55c"
+    },
+    "s2r-f-mean-natural-activity-soho": {
+      "run_dir": "outputs/runs/sim2real-hrnet/s2r-f-mean-natural-activity-soho",
+      "matrix": "configs\\experiments\\sim2real_v1.yaml",
+      "spec": {
+        "modality": "fusion",
+        "backbone": "hrnet_w18_small_v2.ms_in1k",
+        "fusion": "mean",
+        "event_representation": "activity",
+        "decoder_channels": 64,
+        "clip_slope_init": 5.0
+      },
+      "protocol": "natural",
+      "seed": 249,
+      "selected_epoch": 7,
+      "selection_rule": "minimum synthetic-validation keypoint RMSE (own protocol)",
+      "checkpoint": "checkpoints/sim2real-hrnet/s2r-f-mean-natural-activity-soho/best.pt",
+      "checkpoint_sha256": "e0a98a1048779296a647f08793f9e63a38feed8b1d624ecaacd486f06f81e2dd"
+    }
+  }
+}

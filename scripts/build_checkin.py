@@ -14,10 +14,12 @@ from pathlib import Path
 from typing import Any
 
 from build_progress_report import (
+    CELL,
     DATA,
     FRESH,
     H1,
     H2,
+    HEAD,
     META,
     WIDTH,
     bullets,
@@ -48,26 +50,18 @@ def build() -> Path:
     study = d["current_study"]
     rows = study["rows"]
     by = {r["label"]: r for r in rows}
-    done, planned = study["models_done"], study["models_planned"]
     objects_all = sorted({o for r in rows for o in r["objects"]})
     seeds = {r["label"]: r for r in d["seeds"]}
     syn = {(r["label"], r["trained"]): r for r in d["synthetic_table"]}
     real = d["sim_to_real"]
     lo, hi = min(r["real"]["are_deg"] for r in real), max(r["real"]["are_deg"] for r in real)
-    fusion = [
-        r
-        for r in rows
-        if r["label"] not in ("RGB only", "Event only")
-        and "clean-trained" not in r["label"]
-        and len(r["objects"]) == len(objects_all)
-    ]
-    f_lo, f_hi = (
-        min(r["glare"]["are_deg"] for r in fusion),
-        max(r["glare"]["are_deg"] for r in fusion),
-    )
     rgb, mean = by["RGB only"], by["Mean fusion"]
-    names = " and ".join(o.capitalize() if o != "soho" else "SOHO" for o in objects_all)
+    " and ".join(o.capitalize() if o != "soho" else "SOHO" for o in objects_all)
     analysis = d["analyses"]["primary"]
+    rv = d["real_v2"]
+    rr = {r["label"]: r for r in rv["rows"]}
+    ra, rr_ransac = rv["analyses"]["primary"], rv["analyses"]["primary_ransac"]
+    rgb_r, ev_r = rr["RGB only"], rr["Event only"]
 
     s: list[Any] = []
     s.append(p("Glare-aware event–RGB fusion for spacecraft pose", H1))
@@ -89,16 +83,20 @@ def build() -> Path:
                 "by glare help it combine RGB and event cameras for spacecraft pose, beyond what a "
                 "network of the same size learns by itself?",
                 f"<b>Current study.</b> 33 models (11 configurations × 3 spacecraft) trained on "
-                f"synthetic data with a sim-to-real augmentation recipe; {done} are done. On "
-                f"synthetic validation that mimics real conditions they reach about "
-                f"{min(r['glare']['are_deg'] for r in rows):.0f}–{mean['glare']['are_deg']:.0f}° rotation error "
-                f"with fusion, against {rgb['glare']['are_deg']:.1f}° for RGB alone under glare.",
-                "<b>So far</b> the fusion rules are tied on synthetic data: the explicit clipping "
-                "signal neither helps nor hurts. The real-sequence evaluation, which decides the "
-                "question, runs when training finishes (about a day).",
-                "<b>Earlier exploration.</b> A first pass without augmentation (150 models) gave "
-                "clear synthetic findings but did not transfer to real sequences. That negative "
-                "result shaped the current recipe (Section 6).",
+                f"synthetic data with a sim-to-real augmentation recipe, frozen, and evaluated "
+                f"once on the 24 real sequences. The models now transfer: RGB-only reaches "
+                f"{rgb_r['are_deg']:.0f}° mean rotation error on real data "
+                f"({rgb_r['objects']['cassini']['are_deg']:.0f}° on Cassini), where every model "
+                "of the earlier pass was at chance.",
+                "<b>Answer so far: no.</b> On real data the clipping signal does not help, and in "
+                "its plain form it hurts: removing it at test time improves the clipping gate. "
+                "The models that relied most on events under glare (attention, clipping gate) "
+                "were the best on synthetic data and the worst fusion rules on real data, and "
+                "RGB-only beats every fusion rule.",
+                "<b>Why.</b> Event-only models fail on real data "
+                f"({ev_r['are_deg']:.0f}°) although they are among the best on synthetic data: the "
+                "simulated events do not resemble real ones, and fusion inherits that gap. "
+                "Single seed; SOHO fails for every model.",
             ]
         )
     )
@@ -201,7 +199,6 @@ def build() -> Path:
             "Attention steered away from clipped RGB patches",
         ],
     ]
-    from build_progress_report import CELL, HEAD
 
     rules_t = [
         [p(r[0], CELL), r[1], p(r[2], CELL)] if j else [r[0], r[1], p(r[2], HEAD)]
@@ -253,7 +250,7 @@ def build() -> Path:
     )
 
     # 5 ---------------------------------------------------------------------------------------
-    s.extend(h2(f"5. Results so far (synthetic, {done} of {planned} models)"))
+    s.extend(h2("5. Synthetic results (all 33 models)"))
     tr = [
         [
             "Method",
@@ -281,8 +278,7 @@ def build() -> Path:
         [0.3, 0.2, 0.13, 0.22, 0.15],
         right_from=2,
         note="<b>Table 2.</b> Augmented synthetic validation (rotated, rescaled, photometrically "
-        "altered, noisy events), pooled over the spacecraft finished so far; rows with fewer "
-        "spacecraft are not directly comparable. Single seed. Checkpoints are selected on the "
+        "altered, noisy events), pooled over the three spacecraft. Single seed. Checkpoints are selected on the "
         "same set, so these are development numbers. Highlighted: the proposed rule.",
     )
     highlight(t, hl)
@@ -291,18 +287,18 @@ def build() -> Path:
         bullets(
             [
                 f"<b>Fusion beats RGB under glare</b> ({mean['glare']['are_deg']:.1f}° against "
-                f"{rgb['glare']['are_deg']:.1f}° mean rotation error on {names}); medians are close, "
-                "so the gain comes from the hard glare frames.",
-                f"<b>Fusion rules are tied.</b> On {names} they span {f_lo:.1f}–{f_hi:.1f}°. "
-                "The clipping gate does not beat its constant control, and adding the clipping "
-                "signal to a content gate changes nothing measurable. With one seed, differences "
-                "of this size are noise.",
-                "<b>Event-only is strong</b> once trained with augmentation on all frames, so "
-                "fusion's margin over the best single sensor is small on synthetic data. Real "
-                "event frames are noisier than simulated ones; the real test will show whether "
-                "this holds.",
-                "<b>Attention trains as well as simpler fusion</b> on synthetic data (Cassini so "
-                "far). Whether it transfers is the direct test of FRESH's concern.",
+                f"{rgb['glare']['are_deg']:.1f}° mean rotation error); medians are close, so the "
+                "gain comes from the hard glare frames, mostly on SOHO.",
+                "<b>Rules that can move trust away from clipped RGB do best:</b> attention with "
+                f"the clipping bias ({by['Attention + clipping bias']['glare']['are_deg']:.1f}°), "
+                f"attention ({by['Coarse attention']['glare']['are_deg']:.1f}°), event-only "
+                f"({by['Event only']['glare']['are_deg']:.1f}°) and the clipping gate "
+                f"({by['Clipping gate']['glare']['are_deg']:.1f}°, against "
+                f"{by['Constant control (no s)']['glare']['are_deg']:.1f}° for its constant control).",
+                "<b>Glare exposure still matters</b> with full augmentation: clean-trained models "
+                f"reach about {by['RGB only, clean-trained']['glare']['are_deg']:.0f}° under glare.",
+                "These are development numbers: one seed, and checkpoints were selected on the "
+                "same validation set.",
             ]
         )
     )
@@ -318,7 +314,135 @@ def build() -> Path:
         )
 
     # 6 ---------------------------------------------------------------------------------------
-    s.extend(h2("6. Earlier exploration: a negative transfer result"))
+    s.extend(h2("6. Real-sequence results (evaluated once)"))
+    s.append(
+        p(
+            "All 33 checkpoints were hashed into a freeze manifest, then each was evaluated once "
+            "on all 24 real sequences (7,894 frames). The comparisons and their Holm family were "
+            "committed before any real result existed. Differences are paired over sequences, "
+            "with 95% bootstrap intervals; negative means the first model is better."
+        )
+    )
+    s.append(
+        figure(
+            "real_v2.png",
+            "<b>Figure 6.</b> Left: mean rotation error on augmented synthetic glare validation. "
+            "Right: the same models on the real sequences, per spacecraft (markers) and pooled "
+            "(bar). Rows are sorted by real error. A random rotation averages 126.5°.",
+            width=WIDTH * 0.96,
+        )
+    )
+    rt = [["Method", "Rotation ° (mean / median)", "Transl. mm", "≤10°", "≤10° and 10 mm"]]
+    rhl = []
+    for i, r in enumerate(sorted(rv["rows"], key=lambda r: r["are_deg"]), start=1):
+        rt.append(
+            [
+                r["label"],
+                f"{r['are_deg']:.1f} / {r['are_median_deg']:.1f}",
+                f"{r['ate_mm']:.0f}",
+                f"{r['rot10_pct']:.0f}%",
+                f"{r['joint_pct']:.1f}%",
+            ]
+        )
+        if r["label"] == "Clipping gate":
+            rhl.append(i)
+    t = table(
+        rt,
+        [0.34, 0.24, 0.13, 0.11, 0.18],
+        right_from=1,
+        note="<b>Table 3.</b> Real sequences, pooled over the three spacecraft, EPnP pose solver, "
+        "single seed. FRESH reports 29–45% joint success for its own models at 512 px; the "
+        "protocols differ, so the numbers are not directly comparable. Highlighted: the "
+        "proposed rule.",
+    )
+    highlight(t, rhl)
+    s.append(t)
+
+    short = {
+        "s2r-u-rgb-tss": "RGB only",
+        "s2r-u-event-activity": "Event only",
+        "s2r-f-mean-tss-activity": "Mean",
+        "s2r-f-content_gate-tss-activity": "Content gate",
+        "s2r-f-content_clip_gate-tss-activity": "Content + clipping",
+        "s2r-f-clip_gate-tss-activity": "Clipping gate",
+        "s2r-f-clip_gate_constant-tss-activity": "Constant control",
+        "s2r-f-attention-tss-activity": "Attention",
+        "s2r-f-attention_clip-tss-activity": "Attention + clipping",
+        "s2r-u-rgb-natural": "RGB only, clean",
+        "s2r-f-mean-natural-activity": "Mean, clean",
+    }
+    ransac = {(c["candidate"], c["baseline"]): c for c in rr_ransac["comparisons"]}
+    ct = [["Comparison", "EPnP Δ° [95% CI]", "Holm p", "RANSAC Δ°", "Harsh frames Δ°"]]
+    chl = []
+    for i, c in enumerate(ra["comparisons"], start=1):
+        o = c["overall"]["are_deg"]
+        holm = o.get("p_holm_tss_family")
+        if c["family"] == "primary":
+            holm_text = f"{o['p_two_sided']:.2f} (primary)"
+            chl.append(i)
+        elif holm is None:
+            holm_text = "exploratory"
+        else:
+            holm_text = "<0.001" if holm < 0.001 else f"{holm:.3f}"
+        rc = ransac[(c["candidate"], c["baseline"])]["overall"]["are_deg"]
+        ct.append(
+            [
+                p(f"{short[c['candidate']]} vs {short[c['baseline']]}", CELL),
+                f"{o['mean_difference']:+.1f} [{o['ci95'][0]:+.1f}, {o['ci95'][1]:+.1f}]",
+                holm_text,
+                f"{rc['mean_difference']:+.1f}",
+                f"{c['harsh']['are_deg']['mean_difference']:+.1f}",
+            ]
+        )
+    t = table(
+        ct,
+        [0.34, 0.24, 0.15, 0.12, 0.15],
+        right_from=1,
+        note="<b>Table 4.</b> Pre-registered paired comparisons on the real sequences "
+        "(rotation error, first model minus second; negative favours the first). Harsh frames: "
+        "frames the FRESH authors labelled as harsh lighting.",
+    )
+    highlight(t, chl)
+    s.append(t)
+    iv = ra["interventions"]["s2r-f-clip_gate-tss-activity"]
+    att = next(
+        c
+        for c in ra["comparisons"]
+        if c["candidate"] == "s2r-f-attention-tss-activity"
+        and c["baseline"] == "s2r-f-mean-tss-activity"
+    )
+    s.append(
+        bullets(
+            [
+                "<b>The recipe fixed transfer.</b> Every glare-trained model is far from chance "
+                f"on Cassini and Satty; RGB-only gets {rgb_r['rot10_pct']:.0f}% of frames within "
+                f"10° and {rgb_r['joint_pct']:.0f}% within 10° and 10 mm. Translation limits the "
+                "joint rate. Glare training is worth about 25–35° on real data (Table 4, last "
+                "rows).",
+                "<b>The clipping signal does not help.</b> The primary comparison is a tie "
+                f"({ra['primary']['are_deg']['mean_difference']:+.1f}°). The clipping gate is "
+                "worse than its constant control and than plain averaging, and zeroing its "
+                f"clipping map at test time <i>improves</i> it by {-iv['clip_zero']['delta_are_deg']:.1f}°: "
+                "on real data the signal moves trust in the wrong direction. The one place it "
+                "helps is as a bias inside attention.",
+                "<b>Synthetic rankings reverse.</b> The rules that relied most on events under "
+                "glare were the best on synthetic data and the worst fusion rules on real data. "
+                f"Attention is {att['overall']['are_deg']['mean_difference']:.0f}° worse than plain "
+                "averaging, which supports FRESH's concern about learned attention, at least in "
+                "this form.",
+                f"<b>The event branch is the bottleneck.</b> Event-only fails ({ev_r['are_deg']:.0f}°), "
+                "and every fusion rule is worse than RGB-only. Our reading: simulated events differ "
+                "from real ones far more than rendered RGB differs from real RGB, so moving trust "
+                "to events under glare moves it to the less reliable sensor. This is an "
+                "interpretation that we have not yet measured directly.",
+                "<b>SOHO fails for every model</b> (62–90°), including RGB-only. It has the most "
+                "keypoints and the largest synthetic glare errors; we have not diagnosed it yet.",
+            ]
+        )
+    )
+
+    # 7 ---------------------------------------------------------------------------------------
+    s.extend(h2("7. Earlier exploration: a negative transfer result"))
     cg, ccg = (
         analysis["seeds"]["f-content_gate-tss-activity"],
         analysis["seeds"]["f-content_clip_gate-tss-activity"],
@@ -372,64 +496,66 @@ def build() -> Path:
     )
     s.append(
         p(
-            "<b>What this means for the current study.</b> The real sequences have now been "
-            "evaluated once, and the roll range in our recipe was motivated by their pose "
-            "labels. The coming real evaluation is therefore not a blind first look; we will "
-            "report it next to the earlier one and say so. No checkpoint, threshold or "
-            "augmentation magnitude was or will be tuned on real results."
+            "<b>Disclosure.</b> The real sequences had been evaluated once before the current "
+            "study, and the roll range in our recipe was motivated by their pose labels, so the "
+            "current real evaluation was not a blind first look. No checkpoint, threshold or "
+            "augmentation magnitude was tuned on real results."
         )
     )
 
-    # 7 ---------------------------------------------------------------------------------------
-    s.extend(h2("7. Questions for you"))
+    # 8 ---------------------------------------------------------------------------------------
+    s.extend(h2("8. Questions for you"))
     s.append(
         p(
-            "We will finish the study as planned: the remaining training, then one evaluation on "
-            "all 24 real sequences, reported with the disclosure in Section 6. Our goal beyond "
-            "the course is a publishable result, and these are the points where your judgement "
-            "would help most."
+            "Our goal beyond the course is a publishable result, and these are the points where "
+            "your judgement would help most."
         )
     )
     s.append(
         bullets(
             [
-                "<b>Contribution.</b> If the models transfer but the clipping gate still ties "
-                "with plain averaging, the paper would be a controlled negative result: explicit "
-                "saturation gating does not help event–RGB fusion once models are trained with "
-                "glare and sim-to-real augmentation, together with what transfer on FRESH "
-                "requires (the roll gap, augmentation, the pose solver). Is that enough for a "
-                "workshop or conference paper, and what would you add to strengthen it?",
-                "<b>Attention.</b> So far attention is applied at the two coarsest scales, on top "
-                "of mean fusion. We have extra GPU capacity (Colab) and would like to explore "
-                "more: cross-attention at every scale, attention replacing rather than "
-                "supplementing mean fusion, and token-level gating by the clipping map. Which of "
-                "these would make the most convincing test of FRESH's claim that learned "
-                "attention overfits synthetic data?",
-                "<b>Resolution.</b> We chose 256 px input early on so that the full comparison "
-                "(150 models, then 33) would fit on one laptop GPU; FRESH uses 512 px, which costs "
-                "about four times as much. We plan to treat 512 px as future scope, or as a final "
-                "run for the best few models. Would reviewers expect the 512 px comparison in the "
-                "main results?",
+                "<b>Contribution.</b> The result is now a controlled negative one with a "
+                "mechanism: an explicit clipping signal, and learned fusion more generally, help "
+                "on synthetic data but hurt on real data because they shift trust to a simulated "
+                "event stream that does not transfer. Together with what transfer on FRESH "
+                "requires (roll coverage, augmentation, glare exposure), is this a publishable "
+                "contribution, and what would make it convincing: more seeds, a second dataset, "
+                "or a fix that closes the event gap?",
+                "<b>Next experiment.</b> We see two directions: (a) make the event branch "
+                "transfer (realistic noise and thresholds in the event simulation, event-side "
+                "augmentation, or a little unlabelled real event data), then re-test the "
+                "clipping gate; or (b) stronger attention variants (full multi-scale "
+                "cross-attention, attention replacing mean fusion), which we can run on Colab. "
+                "Our view is that (a) comes first, since any fusion rule is limited by the weaker "
+                "sensor. Which would you prioritise?",
+                "<b>Held-out data.</b> Further method changes will be informed by these real "
+                "results, so the 24 real sequences can no longer serve as an untouched test set. "
+                "Would you accept splitting them into development and test sequences (by "
+                "spacecraft or lighting condition), or should we keep them closed and report the "
+                "next round as exploratory?",
+                "<b>Resolution.</b> We chose 256 px early so the full comparison would fit on one "
+                "laptop GPU; FRESH uses 512 px. We plan 512 px as future scope or for the best few "
+                "models. Would reviewers expect it in the main results?",
             ],
             numbered=True,
         )
     )
 
-    # 8 ---------------------------------------------------------------------------------------
-    s.extend(h2("8. What is left"))
+    # 9 ---------------------------------------------------------------------------------------
+    s.extend(h2("9. What is left"))
     s.append(
         KeepTogether(
             bullets(
                 [
-                    f"<b>Finish training</b> the remaining {planned - done} models (about a day).",
-                    "<b>Real evaluation:</b> freeze and hash the checkpoints, evaluate each once, "
-                    "paired sequence-level bootstrap for the comparisons in Table 1, with both "
-                    "pose solvers and the clipping interventions (shuffle, zero, bypass).",
-                    "<b>Two more seeds</b> for the central comparison if the single-seed results "
-                    "are close.",
-                    "<b>Efficiency:</b> latency, throughput and peak memory per fusion rule.",
-                    "<b>Failure analysis</b> by lighting severity and event quality, then the "
-                    "final report.",
+                    "<b>Two more seeds</b> for the central comparisons (clipping gate against "
+                    "constant control and mean; attention against mean; RGB-only against mean).",
+                    "<b>Measure the event gap directly:</b> compare real and simulated event "
+                    "statistics (rate, noise, polarity balance, edge sharpness) and relate "
+                    "per-sequence event quality to fusion error.",
+                    "<b>SOHO diagnosis:</b> keypoint error per landmark and the effect of the "
+                    "RANSAC solver.",
+                    "<b>Failure analysis</b> by lighting severity and low-motion frames, and "
+                    "efficiency (latency, throughput, peak memory) per fusion rule.",
                 ]
             )
         )

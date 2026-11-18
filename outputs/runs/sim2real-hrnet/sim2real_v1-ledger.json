@@ -110,5 +110,124 @@
     "seconds": 3546.8506004000083,
     "log": "checkpoints\\sim2real-hrnet\\s2r-f-clip_gate_constant-tss-activity-satty\\train.log",
     "status": "complete"
+  },
+  "s2r-f-attention-tss-activity-satty": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 3788.3886185999727,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-f-attention-tss-activity-satty\\train.log",
+    "status": "complete"
+  },
+  "s2r-f-attention_clip-tss-activity-satty": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 2968.1100255000056,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-f-attention_clip-tss-activity-satty\\train.log",
+    "status": "complete"
+  },
+  "s2r-u-rgb-tss-soho": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 2580.2960321999853,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-u-rgb-tss-soho\\train.log",
+    "status": "complete"
+  },
+  "s2r-u-event-activity-soho": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 2587.5979459999944,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-u-event-activity-soho\\train.log",
+    "status": "complete"
+  },
+  "s2r-f-mean-tss-activity-soho": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 3806.1936863000155,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-f-mean-tss-activity-soho\\train.log",
+    "status": "complete"
+  },
+  "s2r-f-content_gate-tss-activity-soho": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 4024.365588799992,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-f-content_gate-tss-activity-soho\\train.log",
+    "status": "complete"
+  },
+  "s2r-f-content_clip_gate-tss-activity-soho": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 3760.978896800021,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-f-content_clip_gate-tss-activity-soho\\train.log",
+    "status": "complete"
+  },
+  "s2r-f-clip_gate-tss-activity-soho": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 3517.8455059999833,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-f-clip_gate-tss-activity-soho\\train.log",
+    "status": "complete"
+  },
+  "s2r-f-clip_gate_constant-tss-activity-soho": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 3510.4165397000033,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-f-clip_gate_constant-tss-activity-soho\\train.log",
+    "status": "complete"
+  },
+  "s2r-f-attention-tss-activity-soho": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 3491.49403349997,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-f-attention-tss-activity-soho\\train.log",
+    "status": "complete"
+  },
+  "s2r-f-attention_clip-tss-activity-soho": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 3508.6679296999937,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-f-attention_clip-tss-activity-soho\\train.log",
+    "status": "complete"
+  },
+  "s2r-u-rgb-natural-cassini": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 2359.154167200031,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-u-rgb-natural-cassini\\train.log",
+    "status": "complete"
+  },
+  "s2r-f-mean-natural-activity-cassini": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 3425.8064310000045,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-f-mean-natural-activity-cassini\\train.log",
+    "status": "complete"
+  },
+  "s2r-u-rgb-natural-satty": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 2360.419700699975,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-u-rgb-natural-satty\\train.log",
+    "status": "complete"
+  },
+  "s2r-f-mean-natural-activity-satty": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 3421.3645640999894,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-f-mean-natural-activity-satty\\train.log",
+    "status": "complete"
+  },
+  "s2r-u-rgb-natural-soho": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 2480.1895565000013,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-u-rgb-natural-soho\\train.log",
+    "status": "complete"
+  },
+  "s2r-f-mean-natural-activity-soho": {
+    "matrix": "configs\\experiments\\sim2real_v1.yaml",
+    "returncode": 0,
+    "seconds": 3755.134420699964,
+    "log": "checkpoints\\sim2real-hrnet\\s2r-f-mean-natural-activity-soho\\train.log",
+    "status": "complete"
   }
 }
