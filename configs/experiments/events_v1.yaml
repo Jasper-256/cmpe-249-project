@@ -22,18 +22,6 @@ defaults:
   checkpoint_dir: checkpoints/events-v1
   supplement_dir: data/fresh/cache/event-supp-v1
 runs:
-- name: ev-mag-s249-cassini
-  modality: event
-  event_representation: magnitude
-  seed: 249
-  objects:
-  - cassini
-- name: ev-thr64-s249-cassini
-  modality: event
-  event_representation: activity64
-  seed: 249
-  objects:
-  - cassini
 - name: ev-support-s249-cassini
   modality: event
   event_representation: activity_support
@@ -52,18 +40,6 @@ runs:
   seed: 249
   objects:
   - cassini
-- name: ev-mag-s249-satty
-  modality: event
-  event_representation: magnitude
-  seed: 249
-  objects:
-  - satty
-- name: ev-thr64-s249-satty
-  modality: event
-  event_representation: activity64
-  seed: 249
-  objects:
-  - satty
 - name: ev-support-s249-satty
   modality: event
   event_representation: activity_support
@@ -82,18 +58,6 @@ runs:
   seed: 249
   objects:
   - satty
-- name: ev-mag-s249-soho
-  modality: event
-  event_representation: magnitude
-  seed: 249
-  objects:
-  - soho
-- name: ev-thr64-s249-soho
-  modality: event
-  event_representation: activity64
-  seed: 249
-  objects:
-  - soho
 - name: ev-support-s249-soho
   modality: event
   event_representation: activity_support
@@ -114,18 +78,6 @@ runs:
   - soho
 - name: ev-a0-activity-s250-cassini
   modality: event
-  seed: 250
-  objects:
-  - cassini
-- name: ev-mag-s250-cassini
-  modality: event
-  event_representation: magnitude
-  seed: 250
-  objects:
-  - cassini
-- name: ev-thr64-s250-cassini
-  modality: event
-  event_representation: activity64
   seed: 250
   objects:
   - cassini
@@ -152,18 +104,6 @@ runs:
   seed: 250
   objects:
   - satty
-- name: ev-mag-s250-satty
-  modality: event
-  event_representation: magnitude
-  seed: 250
-  objects:
-  - satty
-- name: ev-thr64-s250-satty
-  modality: event
-  event_representation: activity64
-  seed: 250
-  objects:
-  - satty
 - name: ev-support-s250-satty
   modality: event
   event_representation: activity_support
@@ -184,18 +124,6 @@ runs:
   - satty
 - name: ev-a0-activity-s250-soho
   modality: event
-  seed: 250
-  objects:
-  - soho
-- name: ev-mag-s250-soho
-  modality: event
-  event_representation: magnitude
-  seed: 250
-  objects:
-  - soho
-- name: ev-thr64-s250-soho
-  modality: event
-  event_representation: activity64
   seed: 250
   objects:
   - soho
@@ -222,18 +150,6 @@ runs:
   seed: 251
   objects:
   - cassini
-- name: ev-mag-s251-cassini
-  modality: event
-  event_representation: magnitude
-  seed: 251
-  objects:
-  - cassini
-- name: ev-thr64-s251-cassini
-  modality: event
-  event_representation: activity64
-  seed: 251
-  objects:
-  - cassini
 - name: ev-support-s251-cassini
   modality: event
   event_representation: activity_support
@@ -257,18 +173,6 @@ runs:
   seed: 251
   objects:
   - satty
-- name: ev-mag-s251-satty
-  modality: event
-  event_representation: magnitude
-  seed: 251
-  objects:
-  - satty
-- name: ev-thr64-s251-satty
-  modality: event
-  event_representation: activity64
-  seed: 251
-  objects:
-  - satty
 - name: ev-support-s251-satty
   modality: event
   event_representation: activity_support
@@ -289,18 +193,6 @@ runs:
   - satty
 - name: ev-a0-activity-s251-soho
   modality: event
-  seed: 251
-  objects:
-  - soho
-- name: ev-mag-s251-soho
-  modality: event
-  event_representation: magnitude
-  seed: 251
-  objects:
-  - soho
-- name: ev-thr64-s251-soho
-  modality: event
-  event_representation: activity64
   seed: 251
   objects:
   - soho
