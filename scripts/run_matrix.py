@@ -24,6 +24,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("matrix", type=Path)
     parser.add_argument("--only", nargs="*", default=None, help="run names to include")
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument(
+        "--shard",
+        default=None,
+        help="K/N: run only entries whose index modulo N equals K, with a per-shard "
+        "ledger, so N runners can share one large GPU",
+    )
     return parser.parse_args()
 
 
@@ -64,11 +70,17 @@ def main() -> int:
     matrix = yaml.safe_load(args.matrix.read_text(encoding="utf-8"))
     defaults = matrix.get("defaults", {})
     output_dir = Path(defaults.get("output_dir", "outputs/runs"))
-    ledger_path = output_dir / f"{args.matrix.stem}-ledger.json"
+    shard_index, shard_count = 0, 1
+    if args.shard:
+        shard_index, shard_count = (int(part) for part in args.shard.split("/"))
+    suffix = f"-shard{shard_index}of{shard_count}" if shard_count > 1 else ""
+    ledger_path = output_dir / f"{args.matrix.stem}-ledger{suffix}.json"
     ledger: dict[str, Any] = (
         json.loads(ledger_path.read_text(encoding="utf-8")) if ledger_path.is_file() else {}
     )
-    for entry in matrix["runs"]:
+    for index, entry in enumerate(matrix["runs"]):
+        if index % shard_count != shard_index:
+            continue
         merged = {**defaults, **entry}
         merged.setdefault("checkpoint_dir", str(Path("checkpoints") / output_dir.name))
         name = merged["name"]

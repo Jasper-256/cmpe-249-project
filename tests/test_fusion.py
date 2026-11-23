@@ -190,3 +190,46 @@ def test_attention_fusion_train_and_eval_modes_agree() -> None:
         evaluated, _ = fusion(rgb, event, clipping, None)
     assert torch.isfinite(evaluated).all()
     torch.testing.assert_close(evaluated, trained)
+
+
+def test_fixed_weight_family_mixes_with_the_declared_event_weight() -> None:
+    rgb, event = _features()
+    for rule, weight in (("fixed_w000", 0.0), ("fixed_w050", 0.5), ("fixed_w100", 1.0)):
+        fusion = LevelFusion(rule, 8)  # type: ignore[arg-type]
+        assert sum(p.numel() for p in fusion.parameters()) == 0
+        with torch.no_grad():
+            output, _ = fusion(rgb, event, torch.rand(2, 1, 4, 4), None)
+        assert torch.allclose(output, (1 - weight) * rgb + weight * event)
+    mean = LevelFusion("mean", 8)
+    with torch.no_grad():
+        half, _ = LevelFusion("fixed_w050", 8)(rgb, event, torch.zeros(2, 1, 4, 4), None)
+        reference, _ = mean(rgb, event, torch.zeros(2, 1, 4, 4), None)
+    assert torch.allclose(half, reference)
+
+
+def test_decoupled_clipping_attenuates_rgb_without_raising_event_weight() -> None:
+    rgb, event = _features()
+    clipped = torch.ones(2, 1, 4, 4)
+    clean = torch.zeros(2, 1, 4, 4)
+    only = LevelFusion("clip_rgb_only", 8)
+    mixed = LevelFusion("clip_rgb_event", 8)
+    with torch.no_grad():
+        out_clean, gate_clean = only(rgb, event, clean, None)
+        _, gate_clipped = only(rgb, event, clipped, None)
+        out_mixed, gate_mixed = mixed(rgb, event, clipped, None)
+    assert gate_clean is not None and gate_clipped is not None and gate_mixed is not None
+    assert torch.allclose(out_clean, gate_clean * rgb)
+    assert float(gate_clipped.max()) < float(gate_clean.min())
+    assert torch.allclose(out_mixed, gate_mixed * rgb + 0.5 * event)
+
+
+def test_shuffled_decoupled_control_keeps_marginal_and_is_deterministic() -> None:
+    from saga_pose.models.fusion import content_seeded_shuffle
+
+    grid = torch.rand(3, 16, 16, generator=torch.Generator().manual_seed(1))
+    first, second = content_seeded_shuffle(grid), content_seeded_shuffle(grid)
+    assert torch.equal(first, second)
+    assert not torch.equal(first, grid)
+    assert torch.allclose(
+        first.reshape(3, -1).sort(dim=1).values, grid.reshape(3, -1).sort(dim=1).values
+    )

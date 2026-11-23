@@ -24,6 +24,18 @@ Fusion rules
                          at the same starting gate as ``clip_gate``: separates the
                          clipping *signal* from the *monotone constraint*.
 
+``fixed_wXXX``           g = 1 - w with a fixed event weight w = XXX/100 (no
+                         parameters): the reliance dose-response family; ``fixed_w050``
+                         equals ``mean``.
+``clip_rgb_only``        fused = g * rgb with g = sigmoid(b - softplus(a) * s): clipping
+                         only attenuates RGB and the event branch contributes nothing
+                         (it is still computed, so the architecture is unchanged).
+``clip_rgb_event``       fused = g * rgb + 0.5 * event: clipping attenuates RGB without
+                         raising the event weight.
+``clip_rgb_only_shuffled`` ``clip_rgb_only`` with the clipping grid permuted within each
+                         sample in training and evaluation (marginal kept, location
+                         destroyed): the control for the two arms above.
+
 ``attention``            coarse-level cross-modal attention (the unrestricted-attention
                          comparator) at the coarse levels
                          (stride >= 16): RGB and event tokens share one
@@ -78,6 +90,14 @@ FusionRule = Literal[
     "clip_gate_signed",
     "attention",
     "attention_clip",
+    "fixed_w000",
+    "fixed_w025",
+    "fixed_w050",
+    "fixed_w075",
+    "fixed_w100",
+    "clip_rgb_only",
+    "clip_rgb_event",
+    "clip_rgb_only_shuffled",
 ]
 FUSION_RULES: Final[tuple[FusionRule, ...]] = (
     "mean",
@@ -90,9 +110,27 @@ FUSION_RULES: Final[tuple[FusionRule, ...]] = (
     "clip_gate_signed",
     "attention",
     "attention_clip",
+    "fixed_w000",
+    "fixed_w025",
+    "fixed_w050",
+    "fixed_w075",
+    "fixed_w100",
+    "clip_rgb_only",
+    "clip_rgb_event",
+    "clip_rgb_only_shuffled",
 )
 ATTENTION_RULES: Final[tuple[FusionRule, ...]] = ("attention", "attention_clip")
 ATTENTION_MIN_STRIDE: Final[int] = 16
+DECOUPLED_RULES: Final[tuple[FusionRule, ...]] = (
+    "clip_rgb_only",
+    "clip_rgb_event",
+    "clip_rgb_only_shuffled",
+)
+DECOUPLED_EVENT_WEIGHT: Final[dict[str, float]] = {
+    "clip_rgb_only": 0.0,
+    "clip_rgb_event": 0.5,
+    "clip_rgb_only_shuffled": 0.0,
+}
 ClipMode = Literal["normal", "shuffle", "zero"]
 FIXED_GATE_THRESHOLD: Final[float] = 0.01
 CLIP_SLOPE_INIT: Final[float] = 5.0
@@ -129,6 +167,30 @@ def intervene_on_clipping(
     return torch.gather(flat, 1, order).reshape(batch, height, width)
 
 
+def fixed_event_weight(rule: str) -> float | None:
+    """Event weight of a ``fixed_wXXX`` rule, else ``None``."""
+    if rule.startswith("fixed_w"):
+        return int(rule.removeprefix("fixed_w")) / 100.0
+    return None
+
+
+def content_seeded_shuffle(clipping: Tensor) -> Tensor:
+    """Permute each sample's clipping grid with a permutation seeded by its content.
+
+    Deterministic for a given input (so evaluation is reproducible) yet different
+    across samples, which destroys location while keeping the marginal.
+    """
+    batch = clipping.shape[0]
+    flat = clipping.reshape(batch, -1)
+    keys = (flat.detach().float().cpu() * 1e6).round().to(torch.int64).sum(dim=1)
+    rows = []
+    for index in range(batch):
+        generator = torch.Generator().manual_seed(int(keys[index]) % (2**31 - 1) + index)
+        order = torch.randperm(flat.shape[1], generator=generator).to(clipping.device)
+        rows.append(flat[index, order])
+    return torch.stack(rows).reshape(clipping.shape)
+
+
 def _inverse_softplus(value: float) -> float:
     return float(torch.log(torch.expm1(torch.tensor(value))))
 
@@ -155,7 +217,7 @@ class LevelFusion(nn.Module):
             assert content.bias is not None
             nn.init.zeros_(content.bias)
             self.content = content
-        if rule in ("clip_gate", "clip_gate_constant", "content_clip_gate"):
+        if rule in ("clip_gate", "clip_gate_constant", "content_clip_gate", *DECOUPLED_RULES):
             # softplus(slope) starts at 5: a fully clipped patch begins at
             # g = sigmoid(-5) ~ 0.007, an unclipped one at g = 0.5.
             self.clip_slope = nn.Parameter(
@@ -164,7 +226,7 @@ class LevelFusion(nn.Module):
         if rule == "clip_gate_signed":
             # Same starting gate as clip_gate, but the sign is free to flip.
             self.clip_weight = nn.Parameter(torch.full((channels,), -clip_slope_init))
-        if rule in ("clip_gate", "clip_gate_constant", "clip_gate_signed"):
+        if rule in ("clip_gate", "clip_gate_constant", "clip_gate_signed", *DECOUPLED_RULES):
             self.clip_bias = nn.Parameter(torch.zeros(channels))
 
     def forward(
@@ -176,11 +238,16 @@ class LevelFusion(nn.Module):
         gate = self.gate(rgb, event, clipping)
         if gate_override is not None:
             gate = torch.full_like(gate, gate_override)
+        if self.rule in DECOUPLED_RULES:
+            return gate * rgb + DECOUPLED_EVENT_WEIGHT[self.rule] * event, gate
         return gate * rgb + (1.0 - gate) * event, gate
 
     def gate(self, rgb: Tensor, event: Tensor, clipping: Tensor) -> Tensor:
         if self.rule == "mean":
             return torch.full_like(rgb[:, :1], 0.5)
+        weight = fixed_event_weight(self.rule)
+        if weight is not None:
+            return torch.full_like(rgb[:, :1], 1.0 - weight)
         if self.rule == "clip_gate_fixed":
             return 0.5 * (1.0 - (clipping >= FIXED_GATE_THRESHOLD).to(rgb.dtype))
         logits = torch.zeros_like(rgb[:, :1])
@@ -383,7 +450,9 @@ class FusionHeatmapRegressor(nn.Module):
 
     @property
     def has_gate(self) -> bool:
-        return self.fusion_rule not in ("concat", "mean", "attention")
+        return self.fusion_rule not in ("concat", "mean", "attention") and (
+            fixed_event_weight(self.fusion_rule) is None
+        )
 
     def forward(
         self,
@@ -398,6 +467,8 @@ class FusionHeatmapRegressor(nn.Module):
     ) -> Tensor | tuple[Tensor, list[Tensor | None]]:
         """Return heatmaps for normalized ``rgb``/``event`` and a ``(B, G, G)`` clipping grid."""
         clipping = intervene_on_clipping(clipping, clip_mode, generator)
+        if self.fusion_rule == "clip_rgb_only_shuffled":
+            clipping = content_seeded_shuffle(clipping)
         rgb_features = cast(list[Tensor], self.rgb_encoder(rgb))
         event_features = cast(list[Tensor], self.event_encoder(event))
         fused: list[Tensor] = []
