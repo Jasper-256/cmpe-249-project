@@ -17,19 +17,35 @@ The geometric transform is shared by RGB, the event map, and the clipping
 grid, so RGB-event pairing is preserved. Keypoints are transformed analytically
 and :func:`invert_points` maps predictions back to the original crop frame, so
 pose recovery always uses the untouched intrinsics.
+
+Two one-factor event variants (events-v1 study arms) change only the event
+term and are selected by name through :func:`augment_config`:
+
+- ``sim2real-v1-native-noise``: noise events drawn at native scale. A density
+  ``d ~ U(0.001, 0.20)`` (the brighten-noise range of FRESH's own training) of
+  pixels on a grid 2.5x finer than the map is set to full activity, then
+  area-downsampled to the map size, so isolated native events become faint
+  sub-unit haze as real native noise does after our bilinear resize. The noise
+  is combined with the (dropped-out) event map by a pixelwise maximum. The
+  density range and upsample factor are config fields, so every run report
+  records them; ``event_noise_density_max`` is unused in this mode.
+- ``sim2real-v1-drop90``: event dropout up to 0.9 (FRESH's darken range).
 """
 
 from __future__ import annotations
 
 import math
 from dataclasses import asdict, dataclass
-from typing import Any
+from typing import Any, Final, Literal
 
 import torch
 import torch.nn.functional as F
 from torch import Tensor
 
 CLIP_LEVEL = 254.0 / 255.0
+EventNoiseMode = Literal["isolated", "native"]
+NATIVE_NOISE_DENSITY_RANGE: Final[tuple[float, float]] = (0.001, 0.20)
+NATIVE_NOISE_UPSAMPLE: Final[float] = 2.5
 
 
 @dataclass(frozen=True)
@@ -50,6 +66,11 @@ class Sim2RealConfig:
     rgb_noise_std_max: float = 0.04
     event_noise_density_max: float = 0.04
     event_dropout_max: float = 0.3
+    # ``event_noise_density_max`` is read only in ``isolated`` mode; the two
+    # ``event_noise_native_*`` fields are read only in ``native`` mode.
+    event_noise_mode: EventNoiseMode = "isolated"
+    event_noise_native_density_range: tuple[float, float] = NATIVE_NOISE_DENSITY_RANGE
+    event_noise_native_upsample: float = NATIVE_NOISE_UPSAMPLE
 
     def as_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -201,10 +222,26 @@ def augment_batch(
         torch.rand(event[:, :1].shape, generator=generator)
         >= per_sample(0.0, config.event_dropout_max)
     ).to(event.dtype)
-    density = per_sample(0.0, config.event_noise_density_max)
-    noise_events = (torch.rand(event[:, :1].shape, generator=generator) < density).to(event.dtype)
-    peak = deviation.abs().amax(dim=(1, 2, 3), keepdim=True).clamp_min(0.25)
-    deviation = deviation * keep + noise_events * peak * (deviation.abs() < 1e-3)
+    if config.event_noise_mode == "isolated":
+        density = per_sample(0.0, config.event_noise_density_max)
+        noise_events = (torch.rand(event[:, :1].shape, generator=generator) < density).to(
+            event.dtype
+        )
+        peak = deviation.abs().amax(dim=(1, 2, 3), keepdim=True).clamp_min(0.25)
+        deviation = deviation * keep + noise_events * peak * (deviation.abs() < 1e-3)
+    elif config.event_noise_mode == "native":
+        peak = deviation.abs().amax(dim=(1, 2, 3), keepdim=True).clamp_min(0.25)
+        haze = native_noise(
+            batch,
+            tuple(event.shape[-2:]),
+            generator,
+            density_range=config.event_noise_native_density_range,
+            upsample=config.event_noise_native_upsample,
+            dtype=event.dtype,
+        ).to(event.device)
+        deviation = torch.maximum(deviation * keep, haze * peak)
+    else:
+        raise ValueError(f"unknown event_noise_mode: {config.event_noise_mode}")
     event_sigma = torch.where(
         torch.rand((batch,), generator=generator) < config.blur_probability,
         _uniform((batch,), 0.3, 1.0, generator),
@@ -212,6 +249,41 @@ def augment_batch(
     )
     event = (_gaussian_blur(deviation, event_sigma) + event_neutral).clamp(0.0, 1.0)
     return {"rgb": rgb, "event": event, "clipping": clipping}, keypoints, affine
+
+
+def native_noise(
+    batch: int,
+    size_hw: tuple[int, ...],
+    generator: torch.Generator,
+    *,
+    density_range: tuple[float, float] = NATIVE_NOISE_DENSITY_RANGE,
+    upsample: float = NATIVE_NOISE_UPSAMPLE,
+    dtype: torch.dtype = torch.float32,
+) -> Tensor:
+    """Native-scale noise events ``(B, 1, H, W)`` in ``[0, 1]`` (see module docstring)."""
+    height, width = int(size_hw[0]), int(size_hw[1])
+    fine = (round(height * upsample), round(width * upsample))
+    density = _uniform((batch, 1, 1, 1), *density_range, generator)
+    events = (torch.rand((batch, 1, *fine), generator=generator) < density).to(dtype)
+    return F.interpolate(events, size=(height, width), mode="area")
+
+
+AUGMENTATIONS: Final[tuple[str, ...]] = (
+    "sim2real-v1",
+    "sim2real-v1-native-noise",
+    "sim2real-v1-drop90",
+)
+
+
+def augment_config(name: str) -> Sim2RealConfig:
+    """Return the frozen configuration for a named training augmentation."""
+    if name == "sim2real-v1":
+        return Sim2RealConfig()
+    if name == "sim2real-v1-native-noise":
+        return Sim2RealConfig(version=name, event_noise_mode="native")
+    if name == "sim2real-v1-drop90":
+        return Sim2RealConfig(version=name, event_dropout_max=0.9)
+    raise ValueError(f"unknown augmentation: {name}")
 
 
 def roll_only_config(rotation_deg: float = 180.0) -> Sim2RealConfig:

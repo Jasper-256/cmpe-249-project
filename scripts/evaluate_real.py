@@ -7,7 +7,9 @@ before any aggregation, and reports overall, per-sequence, and author-slice
 (harsh, low-motion) metrics with PnP failures counted. Fusion runs also receive
 the predeclared clipping interventions (shuffle, zero) and gate bypass. Runs
 whose event representation is ``activity`` are additionally evaluated with the
-``magnitude`` real encoding (identical synthetic training data).
+``magnitude`` real encoding (identical synthetic training data). Runs whose
+representation lives in the event-supp-v1 supplement read it from
+``--supplement-dir``, the same order-checked maps used in training.
 """
 
 from __future__ import annotations
@@ -29,6 +31,7 @@ from torch.utils.data import DataLoader
 from saga_pose.data.archives import open_fresh_archive
 from saga_pose.data.cache import FreshCropCacheDataset
 from saga_pose.data.real import load_real_slices
+from saga_pose.data.representations import SUPPLEMENT_REPRESENTATIONS
 from saga_pose.evaluation.geometric import ransac_pose_from_sets
 from saga_pose.evaluation.pose import pose_error_arrays
 from saga_pose.evaluation.real_analysis import analyze_real_frames
@@ -41,6 +44,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("runs", nargs="+", type=Path, help="run directories with report.json")
     parser.add_argument("--real-cache-dir", type=Path, default=Path("data/fresh/cache/crop-v2"))
     parser.add_argument("--raw-root", type=Path, default=Path("data/fresh/raw"))
+    parser.add_argument(
+        "--supplement-dir", type=Path, default=Path("data/fresh/cache/event-supp-v1")
+    )
     parser.add_argument("--output-dir", type=Path, default=Path("outputs/real"))
     parser.add_argument(
         "--manifest",
@@ -50,6 +56,27 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--confirm-frozen", action="store_true", required=True)
     return parser.parse_args()
+
+
+def _check_supplement_code(report: dict[str, Any], supplement: Path, supplement_dir: Path) -> None:
+    """Require the real supplement to share the training supplements' code hash.
+
+    Each training supplement manifest is first matched against the hash the run
+    report recorded, so the comparison is against the maps the model saw.
+    """
+    recorded = cast(dict[str, str], report["data"].get("supplement_manifests_sha256") or {})
+    if not recorded:
+        raise SystemExit(f"{report['name']}: run report records no training supplement")
+    real_manifest = json.loads((supplement / "manifest.json").read_text(encoding="utf-8"))
+    for split, manifest_sha in recorded.items():
+        train_manifest_path = supplement_dir / split / "manifest.json"
+        if _sha256(train_manifest_path) != manifest_sha:
+            raise SystemExit(f"{report['name']}: {split} supplement changed after training")
+        train_manifest = json.loads(train_manifest_path.read_text(encoding="utf-8"))
+        if train_manifest["code_sha256"] != real_manifest["code_sha256"]:
+            raise SystemExit(
+                f"{report['name']}: real supplement code differs from the {split} supplement"
+            )
 
 
 def _sha256(path: Path) -> str:
@@ -117,7 +144,16 @@ def main() -> int:
         if len(objects) != 1:
             raise ValueError("real evaluation expects one per-object model per run")
         real_cache = args.real_cache_dir / f"real-{objects[0]}"
-        real = FreshCropCacheDataset(real_cache)
+        report_spec = report["spec"]
+        supplement = (
+            args.supplement_dir / f"real-{objects[0]}"
+            if report_spec["event_representation"] in SUPPLEMENT_REPRESENTATIONS
+            and report_spec["modality"] != "rgb"
+            else None
+        )
+        if supplement is not None:
+            _check_supplement_code(report, supplement, args.supplement_dir)
+        real = FreshCropCacheDataset(real_cache, supplement)
         loader: DataLoader[Any] = DataLoader(real, batch_size=32, shuffle=False, num_workers=2)
         object_slices = {
             name: ranges for name, ranges in slices.items() if name in set(real.sequences)
@@ -199,6 +235,9 @@ def main() -> int:
                 "the identical solver of the 2026-10-28 control"
             ),
             "real_cache_manifest_sha256": _sha256(real_cache / "manifest.json"),
+            "real_supplement_manifest_sha256": _sha256(supplement / "manifest.json")
+            if supplement is not None
+            else None,
             "object": objects[0],
             "selected_epoch": report["outcome"].get("selected_epoch"),
             "results": results,

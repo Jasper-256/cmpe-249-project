@@ -14,7 +14,7 @@ from collections.abc import Sequence
 from contextlib import AbstractContextManager
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Literal, TypedDict
+from typing import Literal, NotRequired, TypedDict
 
 import numpy as np
 import torch
@@ -56,6 +56,7 @@ class FreshItem(TypedDict):
     three identical channels). ``rgb_tss`` and ``clipping_ratio_tss`` are the
     protocol-2 targeted-saturation versions and equal the natural values when
     TSS was not applied (always for real data). Event maps are single-channel.
+    The event-supp-v1 maps are present only when a supplement cache is attached.
     """
 
     sample_id: str
@@ -69,6 +70,8 @@ class FreshItem(TypedDict):
     event_raw: Tensor
     event_activity: Tensor
     event_magnitude: Tensor
+    event_activity64: NotRequired[Tensor]
+    event_activity_support: NotRequired[Tensor]
     clipping_ratio: Tensor
     clipping_ratio_tss: Tensor
     tss_applied: Tensor
@@ -207,7 +210,13 @@ def event_input(item_or_batch: dict[str, Tensor], representation: EventRepresent
     """Return the chosen event representation as 3 channels for pretrained backbones."""
     if representation not in EVENT_REPRESENTATIONS:
         raise ValueError(f"unknown event representation: {representation}")
-    values = item_or_batch[f"event_{representation}"]
+    key = f"event_{representation}"
+    if key not in item_or_batch:
+        raise KeyError(
+            f"{key} is missing; representation {representation!r} needs the event "
+            "supplement cache (attach it with --supplement-dir)"
+        )
+    values = item_or_batch[key]
     channel_dim = values.ndim - 3
     return values.repeat_interleave(3, dim=channel_dim)
 
@@ -216,6 +225,10 @@ class _ArchiveBackedDataset(Dataset[FreshItem]):
     """Process-local lazy ZIP handle shared by the synthetic and real datasets."""
 
     archive_kind: ArchiveKind
+    event_neutral: int
+    target_size_wh: tuple[int, int]
+    crop_padding_factor: float
+    _records: tuple[_SampleRecord, ...]
 
     def __init__(self, raw_root: Path) -> None:
         super().__init__()
@@ -247,6 +260,29 @@ class _ArchiveBackedDataset(Dataset[FreshItem]):
     def __del__(self) -> None:
         self.close()
 
+    def event_crop(
+        self, index: int
+    ) -> tuple[str, int, tuple[int, int, int, int], NDArray[np.uint8]]:
+        """Return ``(sample_id, frame_number, crop_xyxy, event_crop)`` for one sample.
+
+        Only the event frame is decoded; the crop box and fill are those of
+        :func:`build_item`, so supplement maps align with the crop-v2 cache.
+        """
+        record = self._records[index]
+        annotation = record.annotation
+        event = _load_rgb(
+            self._get_archive(), frame_member(record.metadata_member, annotation.filename_event)
+        )
+        crop = padded_square_bbox_xyxy(
+            annotation.bbox_xyxy, padding_factor=self.crop_padding_factor
+        )
+        return (
+            record.sample_id,
+            frame_number(annotation.filename_rgb),
+            crop,
+            crop_with_constant_fill(event, crop, self.event_neutral),
+        )
+
 
 class FreshArchiveDataset(_ArchiveBackedDataset):
     """Read paired synthetic FRESH frames lazily from ``synthetic.zip``.
@@ -256,6 +292,7 @@ class FreshArchiveDataset(_ArchiveBackedDataset):
     """
 
     archive_kind: ArchiveKind = "synthetic"
+    event_neutral: int = SYNTHETIC_EVENT_NEUTRAL
 
     def __init__(
         self,
@@ -357,6 +394,7 @@ class FreshRealArchiveDataset(_ArchiveBackedDataset):
     """
 
     archive_kind: ArchiveKind = "real"
+    event_neutral: int = REAL_EVENT_NEUTRAL
 
     def __init__(
         self,

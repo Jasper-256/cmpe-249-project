@@ -26,7 +26,14 @@ from torch.utils.data import ConcatDataset, DataLoader, Dataset, Subset
 
 from saga_pose.data.cache import FreshCropCacheDataset
 from saga_pose.data.dataset import FreshItem
-from saga_pose.data.sim2real import Sim2RealConfig, augment_batch, roll_only_config
+from saga_pose.data.representations import EVENT_REPRESENTATIONS, SUPPLEMENT_REPRESENTATIONS
+from saga_pose.data.sim2real import (
+    AUGMENTATIONS,
+    Sim2RealConfig,
+    augment_batch,
+    augment_config,
+    roll_only_config,
+)
 from saga_pose.models.fusion import FUSION_RULES, FusionHeatmapRegressor
 from saga_pose.training.engine import (
     ModelSpec,
@@ -50,17 +57,21 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--modality", choices=("rgb", "event", "fusion"), required=True)
     parser.add_argument("--fusion", choices=FUSION_RULES, default=None)
     parser.add_argument("--backbone", default="hrnet_w18_small_v2.ms_in1k")
+    parser.add_argument("--event-representation", choices=EVENT_REPRESENTATIONS, default="raw")
     parser.add_argument(
-        "--event-representation", choices=("raw", "activity", "magnitude"), default="raw"
+        "--supplement-dir",
+        type=Path,
+        default=Path("data/fresh/cache/event-supp-v1"),
+        help="event-supp-v1 cache; attached only for representations it holds",
     )
     parser.add_argument("--protocol", choices=("natural", "tss"), default="natural")
     parser.add_argument("--clip-slope-init", type=float, default=5.0)
     parser.add_argument(
         "--augment",
-        choices=("none", "sim2real-v1"),
+        choices=("none", *AUGMENTATIONS),
         default="none",
-        help="training augmentation; with sim2real-v1 the checkpoint is selected on the "
-        "deterministically augmented synthetic validation set",
+        help="training augmentation; with any sim2real variant the checkpoint is selected on "
+        "the synthetic validation set deterministically augmented with the same variant",
     )
     parser.add_argument(
         "--tss-fraction", type=float, default=1.0, help="training-only TSS strength ablation"
@@ -135,14 +146,28 @@ def _evenly(length: int, count: int | None) -> list[int]:
     return np.linspace(0, length - 1, count, dtype=np.int64).tolist()
 
 
+def _supplement_root(args: argparse.Namespace, split: str) -> Path | None:
+    """The event-supp-v1 split to attach, or ``None`` if the representation is in crop-v2."""
+    if args.event_representation not in SUPPLEMENT_REPRESENTATIONS or args.modality == "rgb":
+        return None
+    return cast(Path, args.supplement_dir) / split
+
+
 def _datasets(args: argparse.Namespace) -> tuple[Dataset[FreshItem], Dataset[FreshItem]]:
     train_parts: list[Dataset[FreshItem]] = []
     validation_parts: list[Dataset[FreshItem]] = []
     for object_name in args.objects:
-        train = FreshCropCacheDataset(args.cache_dir / f"{object_name}-train")
+        train_split, validation_split = f"{object_name}-train", f"{object_name}-validation"
+        train = FreshCropCacheDataset(
+            args.cache_dir / train_split, _supplement_root(args, train_split)
+        )
         indices = list(range(0, len(train), args.train_stride))
         train_parts.append(Subset(train, indices))
-        validation_parts.append(FreshCropCacheDataset(args.cache_dir / f"{object_name}-validation"))
+        validation_parts.append(
+            FreshCropCacheDataset(
+                args.cache_dir / validation_split, _supplement_root(args, validation_split)
+            )
+        )
     train_all: Dataset[FreshItem] = ConcatDataset(train_parts)
     validation_all: Dataset[FreshItem] = ConcatDataset(validation_parts)
     train_all = Subset(train_all, _evenly(len(train_all), args.train_limit))  # type: ignore[arg-type]
@@ -201,7 +226,7 @@ def main() -> int:
         clip_slope_init=args.clip_slope_init,
     )
     protocol = cast(Protocol, args.protocol)
-    augment = Sim2RealConfig() if args.augment == "sim2real-v1" else None
+    augment = augment_config(args.augment) if args.augment != "none" else None
     augment_generator = torch.Generator().manual_seed(args.seed + 7919)
     if not torch.cuda.is_available():
         raise RuntimeError("training requires CUDA")
@@ -317,7 +342,7 @@ def main() -> int:
         {
             key: str(value)
             for key, value in sorted(vars(args).items())
-            if key not in ("workers", "output_dir", "checkpoint_dir")
+            if key not in ("workers", "output_dir", "checkpoint_dir", "supplement_dir")
         }
     )
     start_epoch = 1
@@ -541,10 +566,17 @@ def main() -> int:
                 for name in args.objects
                 for role in ("train", "validation")
             },
+            "supplement_manifests_sha256": {
+                split: _sha256(root / "manifest.json")
+                for split in (
+                    f"{name}-{role}" for name in args.objects for role in ("train", "validation")
+                )
+                if (root := _supplement_root(args, split)) is not None
+            },
         },
         "augmentation": augment.as_dict() if augment is not None else None,
         "checkpoint_selection": "minimum synthetic-validation keypoint RMSE (own protocol"
-        + (", sim2real-v1 augmented, seeded)" if augment is not None else ")"),
+        + (f", {augment.version} augmented, seeded)" if augment is not None else ")"),
         "parameters": _parameter_report(model),
         "history": history,
         "outcome": outcome,

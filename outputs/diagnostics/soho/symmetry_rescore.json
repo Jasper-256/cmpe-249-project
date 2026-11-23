@@ -1,0 +1,626 @@
+{
+ "axis_body": [
+  -0.5041,
+  0.005,
+  0.8636
+ ],
+ "note": "post-hoc; axis fitted on round-2 soho-4 predictions; original metric is primary",
+ "runs": {
+  "s2r-f-attention-tss-activity-soho": {
+   "original": {
+    "are_mean_deg": 83.58866698479333,
+    "are_median_deg": 73.54559150132854,
+    "rot10_pct": 14.814814814814813,
+    "joint_pct": 1.4141414141414141
+   },
+   "symmetric": {
+    "are_mean_deg": 45.79021506753861,
+    "are_median_deg": 30.33999590948336,
+    "rot10_pct": 18.08080808080808,
+    "joint_pct": 1.4141414141414141
+   },
+   "per_sequence": {
+    "soho-1-close": {
+     "original_mean": 75.8304092811459,
+     "symmetric_mean": 69.28196839126986,
+     "symmetric_median": 69.05030849813134
+    },
+    "soho-1-far": {
+     "original_mean": 37.84473024072121,
+     "symmetric_mean": 34.81890241161003,
+     "symmetric_median": 15.572299791510249
+    },
+    "soho-2-close": {
+     "original_mean": 83.2208204640476,
+     "symmetric_mean": 77.84527884549843,
+     "symmetric_median": 78.26599274733567
+    },
+    "soho-2-far": {
+     "original_mean": 92.47927069443662,
+     "symmetric_mean": 73.29955074730108,
+     "symmetric_median": 76.15874490912383
+    },
+    "soho-3-close": {
+     "original_mean": 29.324601866287324,
+     "symmetric_mean": 28.266838365860604,
+     "symmetric_median": 18.33773362409234
+    },
+    "soho-3-far": {
+     "original_mean": 16.548930672412336,
+     "symmetric_mean": 15.61231243834239,
+     "symmetric_median": 11.898568825924716
+    },
+    "soho-4-close": {
+     "original_mean": 161.3377034135834,
+     "symmetric_mean": 29.485515620757376,
+     "symmetric_median": 20.760671134685996
+    },
+    "soho-4-far": {
+     "original_mean": 159.6296407367538,
+     "symmetric_mean": 27.815142612668883,
+     "symmetric_median": 19.545551676048113
+    }
+   }
+  },
+  "s2r-f-attention_clip-tss-activity-soho": {
+   "original": {
+    "are_mean_deg": 83.31424045802527,
+    "are_median_deg": 71.33321568076772,
+    "rot10_pct": 10.134680134680135,
+    "joint_pct": 0.9764309764309763
+   },
+   "symmetric": {
+    "are_mean_deg": 46.44079150643498,
+    "are_median_deg": 31.044127201959007,
+    "rot10_pct": 10.74074074074074,
+    "joint_pct": 0.9764309764309763
+   },
+   "per_sequence": {
+    "soho-1-close": {
+     "original_mean": 78.89848481541968,
+     "symmetric_mean": 69.98435748964286,
+     "symmetric_median": 70.36182652204535
+    },
+    "soho-1-far": {
+     "original_mean": 35.49279633908274,
+     "symmetric_mean": 31.941823647090526,
+     "symmetric_median": 15.27838993804564
+    },
+    "soho-2-close": {
+     "original_mean": 93.22378592965617,
+     "symmetric_mean": 75.76377637088919,
+     "symmetric_median": 72.27881245804419
+    },
+    "soho-2-far": {
+     "original_mean": 81.22391042204963,
+     "symmetric_mean": 66.92194860947018,
+     "symmetric_median": 62.285121626445765
+    },
+    "soho-3-close": {
+     "original_mean": 33.40080054162986,
+     "symmetric_mean": 31.89267117514372,
+     "symmetric_median": 20.432762073150137
+    },
+    "soho-3-far": {
+     "original_mean": 17.846195702356166,
+     "symmetric_mean": 16.520241216899432,
+     "symmetric_median": 10.192451067843436
+    },
+    "soho-4-close": {
+     "original_mean": 157.9574891862553,
+     "symmetric_mean": 34.863797797057444,
+     "symmetric_median": 23.116213914948897
+    },
+    "soho-4-far": {
+     "original_mean": 154.65619445185646,
+     "symmetric_mean": 33.71763602707212,
+     "symmetric_median": 27.232222168529415
+    }
+   }
+  },
+  "s2r-f-clip_gate-tss-activity-soho": {
+   "original": {
+    "are_mean_deg": 79.49074308096799,
+    "are_median_deg": 54.300226511403565,
+    "rot10_pct": 11.38047138047138,
+    "joint_pct": 0.8754208754208754
+   },
+   "symmetric": {
+    "are_mean_deg": 46.14411592082666,
+    "are_median_deg": 31.15280098688092,
+    "rot10_pct": 12.356902356902356,
+    "joint_pct": 0.8754208754208754
+   },
+   "per_sequence": {
+    "soho-1-close": {
+     "original_mean": 58.8023740552638,
+     "symmetric_mean": 56.052911632276555,
+     "symmetric_median": 45.54426017807336
+    },
+    "soho-1-far": {
+     "original_mean": 35.42402924989685,
+     "symmetric_mean": 33.09764707312925,
+     "symmetric_median": 20.261944403490148
+    },
+    "soho-2-close": {
+     "original_mean": 84.94974145421027,
+     "symmetric_mean": 80.05043744829204,
+     "symmetric_median": 77.1914414301796
+    },
+    "soho-2-far": {
+     "original_mean": 79.72724902928144,
+     "symmetric_mean": 73.58245157031234,
+     "symmetric_median": 75.58961327254795
+    },
+    "soho-3-close": {
+     "original_mean": 19.648457336972044,
+     "symmetric_mean": 19.3768327452328,
+     "symmetric_median": 17.535181282942148
+    },
+    "soho-3-far": {
+     "original_mean": 19.646096703085593,
+     "symmetric_mean": 19.646096703085593,
+     "symmetric_median": 17.79576012015604
+    },
+    "soho-4-close": {
+     "original_mean": 164.8495734134179,
+     "symmetric_mean": 41.237355271794954,
+     "symmetric_median": 25.49482217178159
+    },
+    "soho-4-far": {
+     "original_mean": 162.82306078225594,
+     "symmetric_mean": 39.26413235675151,
+     "symmetric_median": 25.684787178457817
+    }
+   }
+  },
+  "s2r-f-clip_gate_constant-tss-activity-soho": {
+   "original": {
+    "are_mean_deg": 75.47457581435295,
+    "are_median_deg": 50.87547880425301,
+    "rot10_pct": 13.097643097643097,
+    "joint_pct": 2.1212121212121215
+   },
+   "symmetric": {
+    "are_mean_deg": 42.729399189178736,
+    "are_median_deg": 29.079393374557128,
+    "rot10_pct": 14.41077441077441,
+    "joint_pct": 2.1212121212121215
+   },
+   "per_sequence": {
+    "soho-1-close": {
+     "original_mean": 58.10158056494951,
+     "symmetric_mean": 57.18046410738207,
+     "symmetric_median": 49.811598684818755
+    },
+    "soho-1-far": {
+     "original_mean": 30.258358900859637,
+     "symmetric_mean": 29.081743850432606,
+     "symmetric_median": 14.027656544117953
+    },
+    "soho-2-close": {
+     "original_mean": 77.84213662581568,
+     "symmetric_mean": 72.87017683583476,
+     "symmetric_median": 68.7923435630028
+    },
+    "soho-2-far": {
+     "original_mean": 66.7461220475564,
+     "symmetric_mean": 62.63815291108002,
+     "symmetric_median": 55.924709936310975
+    },
+    "soho-3-close": {
+     "original_mean": 18.354627086973593,
+     "symmetric_mean": 18.354627086973593,
+     "symmetric_median": 12.832220907843578
+    },
+    "soho-3-far": {
+     "original_mean": 12.09383259688479,
+     "symmetric_mean": 12.09383259688479,
+     "symmetric_median": 11.949454086237722
+    },
+    "soho-4-close": {
+     "original_mean": 165.00056922267993,
+     "symmetric_mean": 36.910551929558984,
+     "symmetric_median": 19.676407944454024
+    },
+    "soho-4-far": {
+     "original_mean": 163.16953278962154,
+     "symmetric_mean": 43.39384982115044,
+     "symmetric_median": 31.484763473416063
+    }
+   }
+  },
+  "s2r-f-content_clip_gate-tss-activity-soho": {
+   "original": {
+    "are_mean_deg": 79.50151437899903,
+    "are_median_deg": 62.38638891907618,
+    "rot10_pct": 6.632996632996633,
+    "joint_pct": 0.5723905723905724
+   },
+   "symmetric": {
+    "are_mean_deg": 47.88412239724641,
+    "are_median_deg": 32.858833045794434,
+    "rot10_pct": 7.609427609427609,
+    "joint_pct": 0.5723905723905724
+   },
+   "per_sequence": {
+    "soho-1-close": {
+     "original_mean": 62.92657459218354,
+     "symmetric_mean": 59.69628961923761,
+     "symmetric_median": 54.836810871545055
+    },
+    "soho-1-far": {
+     "original_mean": 35.462448578717535,
+     "symmetric_mean": 33.749538075090776,
+     "symmetric_median": 17.24219727007857
+    },
+    "soho-2-close": {
+     "original_mean": 80.10509563771362,
+     "symmetric_mean": 74.39069282461428,
+     "symmetric_median": 69.55669192509595
+    },
+    "soho-2-far": {
+     "original_mean": 69.04049601428953,
+     "symmetric_mean": 67.52273046327345,
+     "symmetric_median": 72.9982208844132
+    },
+    "soho-3-close": {
+     "original_mean": 35.106749562458724,
+     "symmetric_mean": 34.85026235616542,
+     "symmetric_median": 27.388617338395342
+    },
+    "soho-3-far": {
+     "original_mean": 22.715615523078018,
+     "symmetric_mean": 22.60387783445068,
+     "symmetric_median": 20.538782677250353
+    },
+    "soho-4-close": {
+     "original_mean": 158.6979612365139,
+     "symmetric_mean": 44.18123956265778,
+     "symmetric_median": 29.964094519647826
+    },
+    "soho-4-far": {
+     "original_mean": 162.22868690169975,
+     "symmetric_mean": 40.017397399644565,
+     "symmetric_median": 26.509703798718306
+    }
+   }
+  },
+  "s2r-f-content_gate-tss-activity-soho": {
+   "original": {
+    "are_mean_deg": 79.50789148397061,
+    "are_median_deg": 72.59182424309151,
+    "rot10_pct": 7.777777777777778,
+    "joint_pct": 1.2794612794612794
+   },
+   "symmetric": {
+    "are_mean_deg": 53.5383755007335,
+    "are_median_deg": 46.5465508949456,
+    "rot10_pct": 8.350168350168351,
+    "joint_pct": 1.2794612794612794
+   },
+   "per_sequence": {
+    "soho-1-close": {
+     "original_mean": 74.12011766331048,
+     "symmetric_mean": 71.98191886107739,
+     "symmetric_median": 72.77702242187681
+    },
+    "soho-1-far": {
+     "original_mean": 35.02659354581701,
+     "symmetric_mean": 34.010954471362446,
+     "symmetric_median": 21.56195855009063
+    },
+    "soho-2-close": {
+     "original_mean": 88.69506445566692,
+     "symmetric_mean": 83.65773463951656,
+     "symmetric_median": 81.16617894277407
+    },
+    "soho-2-far": {
+     "original_mean": 68.33736422724111,
+     "symmetric_mean": 64.97321472674007,
+     "symmetric_median": 66.1240751358363
+    },
+    "soho-3-close": {
+     "original_mean": 35.38387632215395,
+     "symmetric_mean": 35.38387632215395,
+     "symmetric_median": 19.32454265327619
+    },
+    "soho-3-far": {
+     "original_mean": 23.290149942051816,
+     "symmetric_mean": 22.484597676402643,
+     "symmetric_median": 15.654112362550421
+    },
+    "soho-4-close": {
+     "original_mean": 155.6794004916663,
+     "symmetric_mean": 60.19511486529903,
+     "symmetric_median": 47.32081660021442
+    },
+    "soho-4-far": {
+     "original_mean": 143.01408257938868,
+     "symmetric_mean": 45.565989615995754,
+     "symmetric_median": 36.828965189481174
+    }
+   }
+  },
+  "s2r-f-mean-natural-activity-soho": {
+   "original": {
+    "are_mean_deg": 82.89811740918002,
+    "are_median_deg": 77.42168229408627,
+    "rot10_pct": 11.11111111111111,
+    "joint_pct": 0.0
+   },
+   "symmetric": {
+    "are_mean_deg": 50.71844960132274,
+    "are_median_deg": 42.45095910840937,
+    "rot10_pct": 11.38047138047138,
+    "joint_pct": 0.0
+   },
+   "per_sequence": {
+    "soho-1-close": {
+     "original_mean": 79.14782847282575,
+     "symmetric_mean": 67.87270124801299,
+     "symmetric_median": 78.63171678551217
+    },
+    "soho-1-far": {
+     "original_mean": 43.18516843088163,
+     "symmetric_mean": 30.99831400909966,
+     "symmetric_median": 10.138309708234278
+    },
+    "soho-2-close": {
+     "original_mean": 107.3939390294209,
+     "symmetric_mean": 77.49531465269207,
+     "symmetric_median": 71.37255108982522
+    },
+    "soho-2-far": {
+     "original_mean": 88.569391814301,
+     "symmetric_mean": 68.77086737052478,
+     "symmetric_median": 87.05481983736394
+    },
+    "soho-3-close": {
+     "original_mean": 31.78391272492516,
+     "symmetric_mean": 30.761057739253456,
+     "symmetric_median": 22.554207109121293
+    },
+    "soho-3-far": {
+     "original_mean": 32.05436385622779,
+     "symmetric_mean": 26.79699343074735,
+     "symmetric_median": 18.603433017978702
+    },
+    "soho-4-close": {
+     "original_mean": 153.57822211629798,
+     "symmetric_mean": 42.03277794269654,
+     "symmetric_median": 23.700042578133854
+    },
+    "soho-4-far": {
+     "original_mean": 116.05616942033673,
+     "symmetric_mean": 53.62245049365363,
+     "symmetric_median": 61.774414671313046
+    }
+   }
+  },
+  "s2r-f-mean-tss-activity-soho": {
+   "original": {
+    "are_mean_deg": 77.1882379993873,
+    "are_median_deg": 49.61506673209216,
+    "rot10_pct": 10.37037037037037,
+    "joint_pct": 2.356902356902357
+   },
+   "symmetric": {
+    "are_mean_deg": 40.858010831388356,
+    "are_median_deg": 25.303299717387745,
+    "rot10_pct": 10.976430976430976,
+    "joint_pct": 2.356902356902357
+   },
+   "per_sequence": {
+    "soho-1-close": {
+     "original_mean": 56.64293274473701,
+     "symmetric_mean": 54.99489218324941,
+     "symmetric_median": 47.06637953996279
+    },
+    "soho-1-far": {
+     "original_mean": 34.3221922675495,
+     "symmetric_mean": 30.956732496712085,
+     "symmetric_median": 17.872493118314573
+    },
+    "soho-2-close": {
+     "original_mean": 75.94120756633953,
+     "symmetric_mean": 65.87508458854704,
+     "symmetric_median": 67.7645339071492
+    },
+    "soho-2-far": {
+     "original_mean": 85.72662249477493,
+     "symmetric_mean": 66.26091995307605,
+     "symmetric_median": 56.40635064977006
+    },
+    "soho-3-close": {
+     "original_mean": 23.227180509585356,
+     "symmetric_mean": 23.12093073761141,
+     "symmetric_median": 13.383497701139387
+    },
+    "soho-3-far": {
+     "original_mean": 10.998061968350324,
+     "symmetric_mean": 10.998061968350324,
+     "symmetric_median": 11.806961594326822
+    },
+    "soho-4-close": {
+     "original_mean": 162.53942827662445,
+     "symmetric_mean": 32.67856617417036,
+     "symmetric_median": 20.206944510135333
+    },
+    "soho-4-far": {
+     "original_mean": 158.49409825126057,
+     "symmetric_mean": 34.09827419398363,
+     "symmetric_median": 22.309112145333422
+    }
+   }
+  },
+  "s2r-u-event-activity-soho": {
+   "original": {
+    "are_mean_deg": 121.60342212689147,
+    "are_median_deg": 124.44222552680318,
+    "rot10_pct": 0.30303030303030304,
+    "joint_pct": 0.0
+   },
+   "symmetric": {
+    "are_mean_deg": 94.23449193763027,
+    "are_median_deg": 94.45339096549895,
+    "rot10_pct": 0.3703703703703704,
+    "joint_pct": 0.0
+   },
+   "per_sequence": {
+    "soho-1-close": {
+     "original_mean": 113.91136365110158,
+     "symmetric_mean": 98.14389448615103,
+     "symmetric_median": 98.5800832324348
+    },
+    "soho-1-far": {
+     "original_mean": 113.4012768083671,
+     "symmetric_mean": 101.42971104952144,
+     "symmetric_median": 101.03225855869722
+    },
+    "soho-2-close": {
+     "original_mean": 116.9175058050619,
+     "symmetric_mean": 101.5262884630454,
+     "symmetric_median": 98.69624936847916
+    },
+    "soho-2-far": {
+     "original_mean": 112.47807214452179,
+     "symmetric_mean": 98.58276897590271,
+     "symmetric_median": 98.42892048905098
+    },
+    "soho-3-close": {
+     "original_mean": 130.20708387528106,
+     "symmetric_mean": 97.49837069802469,
+     "symmetric_median": 96.35445233975099
+    },
+    "soho-3-far": {
+     "original_mean": 133.8680890191281,
+     "symmetric_mean": 77.03819545058104,
+     "symmetric_median": 70.12990750968589
+    },
+    "soho-4-close": {
+     "original_mean": 133.29492982267803,
+     "symmetric_mean": 93.03287885796792,
+     "symmetric_median": 93.40123076993827
+    },
+    "soho-4-far": {
+     "original_mean": 124.11529261076564,
+     "symmetric_mean": 81.9756786833808,
+     "symmetric_median": 78.5896835173109
+    }
+   }
+  },
+  "s2r-u-rgb-natural-soho": {
+   "original": {
+    "are_mean_deg": 90.13823247779672,
+    "are_median_deg": 85.92198602059975,
+    "rot10_pct": 8.282828282828284,
+    "joint_pct": 0.6397306397306397
+   },
+   "symmetric": {
+    "are_mean_deg": 44.36882964106026,
+    "are_median_deg": 32.73120769442587,
+    "rot10_pct": 9.326599326599325,
+    "joint_pct": 0.6397306397306397
+   },
+   "per_sequence": {
+    "soho-1-close": {
+     "original_mean": 71.09694151594682,
+     "symmetric_mean": 52.51362502035919,
+     "symmetric_median": 47.0729971126085
+    },
+    "soho-1-far": {
+     "original_mean": 54.13373806254974,
+     "symmetric_mean": 45.26069387878473,
+     "symmetric_median": 16.082216173104236
+    },
+    "soho-2-close": {
+     "original_mean": 113.24429306255236,
+     "symmetric_mean": 55.63575826407068,
+     "symmetric_median": 57.44326360840874
+    },
+    "soho-2-far": {
+     "original_mean": 106.29107644685892,
+     "symmetric_mean": 74.05937103901127,
+     "symmetric_median": 66.18374185392855
+    },
+    "soho-3-close": {
+     "original_mean": 29.54994613448452,
+     "symmetric_mean": 25.894938856947025,
+     "symmetric_median": 17.715965755212537
+    },
+    "soho-3-far": {
+     "original_mean": 28.928016181015177,
+     "symmetric_mean": 28.25154726269901,
+     "symmetric_median": 19.178484927521936
+    },
+    "soho-4-close": {
+     "original_mean": 153.7999197660029,
+     "symmetric_mean": 33.93765522370657,
+     "symmetric_median": 27.886531190874226
+    },
+    "soho-4-far": {
+     "original_mean": 154.00820559277955,
+     "symmetric_mean": 35.29275922053994,
+     "symmetric_median": 32.81272778711649
+    }
+   }
+  },
+  "s2r-u-rgb-tss-soho": {
+   "original": {
+    "are_mean_deg": 62.16804397917362,
+    "are_median_deg": 18.857921516917934,
+    "rot10_pct": 37.50841750841751,
+    "joint_pct": 4.646464646464646
+   },
+   "symmetric": {
+    "are_mean_deg": 25.874345244270362,
+    "are_median_deg": 14.107581294317152,
+    "rot10_pct": 38.013468013468014,
+    "joint_pct": 4.646464646464646
+   },
+   "per_sequence": {
+    "soho-1-close": {
+     "original_mean": 35.81360076880128,
+     "symmetric_mean": 33.928908101649725,
+     "symmetric_median": 18.858781145383468
+    },
+    "soho-1-far": {
+     "original_mean": 12.70471494629821,
+     "symmetric_mean": 12.702374073871574,
+     "symmetric_median": 3.3709138697908054
+    },
+    "soho-2-close": {
+     "original_mean": 59.65974146078198,
+     "symmetric_mean": 46.643577566924556,
+     "symmetric_median": 26.42156667611847
+    },
+    "soho-2-far": {
+     "original_mean": 48.989382844715884,
+     "symmetric_mean": 44.5493210162288,
+     "symmetric_median": 32.68122930232883
+    },
+    "soho-3-close": {
+     "original_mean": 7.333571062762636,
+     "symmetric_mean": 7.333571062762636,
+     "symmetric_median": 4.807451298742381
+    },
+    "soho-3-far": {
+     "original_mean": 6.805329757911642,
+     "symmetric_mean": 6.805329757911642,
+     "symmetric_median": 6.901763614907868
+    },
+    "soho-4-close": {
+     "original_mean": 166.65485386577961,
+     "symmetric_mean": 26.782442916222177,
+     "symmetric_median": 15.173808258962127
+    },
+    "soho-4-far": {
+     "original_mean": 151.251852024272,
+     "symmetric_mean": 23.57707183783283,
+     "symmetric_median": 16.167986588422206
+    }
+   }
+  }
+ }
+}

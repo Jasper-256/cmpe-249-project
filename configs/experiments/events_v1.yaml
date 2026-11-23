@@ -1,0 +1,324 @@
+description: 'events-v1: one-factor event-only arms (representation, threshold, support filter,
+  native-scale noise, strong dropout) against the sim2real-v1 activity reference. Every other
+  setting is copied from sim2real_v1.yaml; checkpoints are selected on synthetic validation
+  augmented with the run''s own augmentation. Real data are never used here.'
+defaults:
+  backbone: hrnet_w18_small_v2.ms_in1k
+  train_stride: 1
+  epochs: 8
+  batch_size: 16
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  schedule: cosine
+  warmup_steps: 300
+  patience: 3
+  min_improvement_px: 0.05
+  protocol: tss
+  event_representation: activity
+  augment: sim2real-v1
+  seed: 249
+  workers: 0
+  output_dir: outputs/runs/events-v1
+  checkpoint_dir: checkpoints/events-v1
+  supplement_dir: data/fresh/cache/event-supp-v1
+runs:
+- name: ev-mag-s249-cassini
+  modality: event
+  event_representation: magnitude
+  seed: 249
+  objects:
+  - cassini
+- name: ev-thr64-s249-cassini
+  modality: event
+  event_representation: activity64
+  seed: 249
+  objects:
+  - cassini
+- name: ev-support-s249-cassini
+  modality: event
+  event_representation: activity_support
+  seed: 249
+  objects:
+  - cassini
+- name: ev-noise-s249-cassini
+  modality: event
+  augment: sim2real-v1-native-noise
+  seed: 249
+  objects:
+  - cassini
+- name: ev-drop-s249-cassini
+  modality: event
+  augment: sim2real-v1-drop90
+  seed: 249
+  objects:
+  - cassini
+- name: ev-mag-s249-satty
+  modality: event
+  event_representation: magnitude
+  seed: 249
+  objects:
+  - satty
+- name: ev-thr64-s249-satty
+  modality: event
+  event_representation: activity64
+  seed: 249
+  objects:
+  - satty
+- name: ev-support-s249-satty
+  modality: event
+  event_representation: activity_support
+  seed: 249
+  objects:
+  - satty
+- name: ev-noise-s249-satty
+  modality: event
+  augment: sim2real-v1-native-noise
+  seed: 249
+  objects:
+  - satty
+- name: ev-drop-s249-satty
+  modality: event
+  augment: sim2real-v1-drop90
+  seed: 249
+  objects:
+  - satty
+- name: ev-mag-s249-soho
+  modality: event
+  event_representation: magnitude
+  seed: 249
+  objects:
+  - soho
+- name: ev-thr64-s249-soho
+  modality: event
+  event_representation: activity64
+  seed: 249
+  objects:
+  - soho
+- name: ev-support-s249-soho
+  modality: event
+  event_representation: activity_support
+  seed: 249
+  objects:
+  - soho
+- name: ev-noise-s249-soho
+  modality: event
+  augment: sim2real-v1-native-noise
+  seed: 249
+  objects:
+  - soho
+- name: ev-drop-s249-soho
+  modality: event
+  augment: sim2real-v1-drop90
+  seed: 249
+  objects:
+  - soho
+- name: ev-a0-activity-s250-cassini
+  modality: event
+  seed: 250
+  objects:
+  - cassini
+- name: ev-mag-s250-cassini
+  modality: event
+  event_representation: magnitude
+  seed: 250
+  objects:
+  - cassini
+- name: ev-thr64-s250-cassini
+  modality: event
+  event_representation: activity64
+  seed: 250
+  objects:
+  - cassini
+- name: ev-support-s250-cassini
+  modality: event
+  event_representation: activity_support
+  seed: 250
+  objects:
+  - cassini
+- name: ev-noise-s250-cassini
+  modality: event
+  augment: sim2real-v1-native-noise
+  seed: 250
+  objects:
+  - cassini
+- name: ev-drop-s250-cassini
+  modality: event
+  augment: sim2real-v1-drop90
+  seed: 250
+  objects:
+  - cassini
+- name: ev-a0-activity-s250-satty
+  modality: event
+  seed: 250
+  objects:
+  - satty
+- name: ev-mag-s250-satty
+  modality: event
+  event_representation: magnitude
+  seed: 250
+  objects:
+  - satty
+- name: ev-thr64-s250-satty
+  modality: event
+  event_representation: activity64
+  seed: 250
+  objects:
+  - satty
+- name: ev-support-s250-satty
+  modality: event
+  event_representation: activity_support
+  seed: 250
+  objects:
+  - satty
+- name: ev-noise-s250-satty
+  modality: event
+  augment: sim2real-v1-native-noise
+  seed: 250
+  objects:
+  - satty
+- name: ev-drop-s250-satty
+  modality: event
+  augment: sim2real-v1-drop90
+  seed: 250
+  objects:
+  - satty
+- name: ev-a0-activity-s250-soho
+  modality: event
+  seed: 250
+  objects:
+  - soho
+- name: ev-mag-s250-soho
+  modality: event
+  event_representation: magnitude
+  seed: 250
+  objects:
+  - soho
+- name: ev-thr64-s250-soho
+  modality: event
+  event_representation: activity64
+  seed: 250
+  objects:
+  - soho
+- name: ev-support-s250-soho
+  modality: event
+  event_representation: activity_support
+  seed: 250
+  objects:
+  - soho
+- name: ev-noise-s250-soho
+  modality: event
+  augment: sim2real-v1-native-noise
+  seed: 250
+  objects:
+  - soho
+- name: ev-drop-s250-soho
+  modality: event
+  augment: sim2real-v1-drop90
+  seed: 250
+  objects:
+  - soho
+- name: ev-a0-activity-s251-cassini
+  modality: event
+  seed: 251
+  objects:
+  - cassini
+- name: ev-mag-s251-cassini
+  modality: event
+  event_representation: magnitude
+  seed: 251
+  objects:
+  - cassini
+- name: ev-thr64-s251-cassini
+  modality: event
+  event_representation: activity64
+  seed: 251
+  objects:
+  - cassini
+- name: ev-support-s251-cassini
+  modality: event
+  event_representation: activity_support
+  seed: 251
+  objects:
+  - cassini
+- name: ev-noise-s251-cassini
+  modality: event
+  augment: sim2real-v1-native-noise
+  seed: 251
+  objects:
+  - cassini
+- name: ev-drop-s251-cassini
+  modality: event
+  augment: sim2real-v1-drop90
+  seed: 251
+  objects:
+  - cassini
+- name: ev-a0-activity-s251-satty
+  modality: event
+  seed: 251
+  objects:
+  - satty
+- name: ev-mag-s251-satty
+  modality: event
+  event_representation: magnitude
+  seed: 251
+  objects:
+  - satty
+- name: ev-thr64-s251-satty
+  modality: event
+  event_representation: activity64
+  seed: 251
+  objects:
+  - satty
+- name: ev-support-s251-satty
+  modality: event
+  event_representation: activity_support
+  seed: 251
+  objects:
+  - satty
+- name: ev-noise-s251-satty
+  modality: event
+  augment: sim2real-v1-native-noise
+  seed: 251
+  objects:
+  - satty
+- name: ev-drop-s251-satty
+  modality: event
+  augment: sim2real-v1-drop90
+  seed: 251
+  objects:
+  - satty
+- name: ev-a0-activity-s251-soho
+  modality: event
+  seed: 251
+  objects:
+  - soho
+- name: ev-mag-s251-soho
+  modality: event
+  event_representation: magnitude
+  seed: 251
+  objects:
+  - soho
+- name: ev-thr64-s251-soho
+  modality: event
+  event_representation: activity64
+  seed: 251
+  objects:
+  - soho
+- name: ev-support-s251-soho
+  modality: event
+  event_representation: activity_support
+  seed: 251
+  objects:
+  - soho
+- name: ev-noise-s251-soho
+  modality: event
+  augment: sim2real-v1-native-noise
+  seed: 251
+  objects:
+  - soho
+- name: ev-drop-s251-soho
+  modality: event
+  augment: sim2real-v1-drop90
+  seed: 251
+  objects:
+  - soho

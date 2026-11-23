@@ -1,0 +1,2374 @@
+{
+  "provenance": {
+    "script": "scripts/soho_forensics.py",
+    "git_commit": "347129f78c8dd6e9262a68eb4614958d2988b5ba",
+    "uv_lock_sha256": "fe742a5ce27445c837714bca804d02a8d13cce0adfd580cd21a4f7d312b661c3",
+    "real_cache_manifest_sha256": "da2ec38b7acd48f816287999ba00ce19e70ca19c6fe0a4a37499298a1ae92c30",
+    "primary_predictions": "outputs\\real-v2\\s2r-u-rgb-tss-soho\\frames_primary.npz",
+    "dense_model": "models.zip:models/soho/dense.json",
+    "dense_stride": 6,
+    "seed": 0,
+    "note": "audit only: no training, no new real evaluation, nothing tuned"
+  },
+  "label_internal_consistency_max_px": {
+    "soho-1-close": 0.0,
+    "soho-1-far": 0.0,
+    "soho-2-close": 0.0,
+    "soho-2-far": 0.0,
+    "soho-3-close": 0.0,
+    "soho-3-far": 0.0,
+    "soho-4-close": 0.0,
+    "soho-4-far": 0.0
+  },
+  "primary_model": "s2r-u-rgb-tss-soho",
+  "fitted_flip_axis_body_soho4": [
+    -0.5041,
+    0.005,
+    0.8636
+  ],
+  "fitted_flip_axis_angle_to_body_axes_deg": {
+    "x": 59.7,
+    "y": 89.7,
+    "z": 30.3
+  },
+  "relative_rotation_by_sequence": {
+    "soho-1-close": {
+      "frames": 465,
+      "mean_rotation_error_deg": 35.81,
+      "median_rotation_error_deg": 18.86,
+      "frac_error_gt_120": 0.069,
+      "frac_error_gt_150": 0.024,
+      "body_axis_of_flip_frames": [
+        0.7298,
+        -0.0327,
+        0.6829
+      ],
+      "body_axis_concentration": 0.586,
+      "camera_axis_concentration": 0.5896,
+      "best_single_half_turn_axis_body": [
+        -0.779,
+        -0.313,
+        0.543
+      ],
+      "median_error_after_half_turn_deg": {
+        "x": 166.35,
+        "y": 173.67,
+        "z": 170.15,
+        "fitted_soho4": 163.48
+      },
+      "view_angle_to_body_z_deg_median": 53.5,
+      "view_angle_to_flip_axis_deg_median": 56.9,
+      "pred_depth_over_gt_depth_median": 1.097
+    },
+    "soho-1-far": {
+      "frames": 421,
+      "mean_rotation_error_deg": 12.7,
+      "median_rotation_error_deg": 3.37,
+      "frac_error_gt_120": 0.0,
+      "frac_error_gt_150": 0.0,
+      "body_axis_of_flip_frames": null,
+      "body_axis_concentration": null,
+      "camera_axis_concentration": null,
+      "best_single_half_turn_axis_body": [
+        0.979,
+        -0.143,
+        0.147
+      ],
+      "median_error_after_half_turn_deg": {
+        "x": 177.25,
+        "y": 179.19,
+        "z": 178.71,
+        "fitted_soho4": 178.18
+      },
+      "view_angle_to_body_z_deg_median": 58.4,
+      "view_angle_to_flip_axis_deg_median": 58.2,
+      "pred_depth_over_gt_depth_median": 1.034
+    },
+    "soho-2-close": {
+      "frames": 383,
+      "mean_rotation_error_deg": 59.66,
+      "median_rotation_error_deg": 26.42,
+      "frac_error_gt_120": 0.222,
+      "frac_error_gt_150": 0.016,
+      "body_axis_of_flip_frames": [
+        -0.6285,
+        0.2466,
+        0.7377
+      ],
+      "body_axis_concentration": 0.7674,
+      "camera_axis_concentration": 0.7646,
+      "best_single_half_turn_axis_body": [
+        -0.98,
+        0.04,
+        0.195
+      ],
+      "median_error_after_half_turn_deg": {
+        "x": 161.1,
+        "y": 170.02,
+        "z": 168.04,
+        "fitted_soho4": 165.53
+      },
+      "view_angle_to_body_z_deg_median": 54.4,
+      "view_angle_to_flip_axis_deg_median": 57.6,
+      "pred_depth_over_gt_depth_median": 1.065
+    },
+    "soho-2-far": {
+      "frames": 326,
+      "mean_rotation_error_deg": 48.99,
+      "median_rotation_error_deg": 32.68,
+      "frac_error_gt_120": 0.092,
+      "frac_error_gt_150": 0.0,
+      "body_axis_of_flip_frames": [
+        -0.1421,
+        -0.3953,
+        0.9075
+      ],
+      "body_axis_concentration": 0.9999,
+      "camera_axis_concentration": 0.9999,
+      "best_single_half_turn_axis_body": [
+        0.088,
+        -0.513,
+        0.854
+      ],
+      "median_error_after_half_turn_deg": {
+        "x": 168.35,
+        "y": 170.85,
+        "z": 161.38,
+        "fitted_soho4": 163.21
+      },
+      "view_angle_to_body_z_deg_median": 58.4,
+      "view_angle_to_flip_axis_deg_median": 58.2,
+      "pred_depth_over_gt_depth_median": 1.109
+    },
+    "soho-3-close": {
+      "frames": 328,
+      "mean_rotation_error_deg": 7.33,
+      "median_rotation_error_deg": 4.81,
+      "frac_error_gt_120": 0.0,
+      "frac_error_gt_150": 0.0,
+      "body_axis_of_flip_frames": null,
+      "body_axis_concentration": null,
+      "camera_axis_concentration": null,
+      "best_single_half_turn_axis_body": [
+        0.577,
+        0.17,
+        0.799
+      ],
+      "median_error_after_half_turn_deg": {
+        "x": 177.75,
+        "y": 178.98,
+        "z": 177.79,
+        "fitted_soho4": 177.82
+      },
+      "view_angle_to_body_z_deg_median": 86.4,
+      "view_angle_to_flip_axis_deg_median": 62.6,
+      "pred_depth_over_gt_depth_median": 0.97
+    },
+    "soho-3-far": {
+      "frames": 296,
+      "mean_rotation_error_deg": 6.81,
+      "median_rotation_error_deg": 6.9,
+      "frac_error_gt_120": 0.0,
+      "frac_error_gt_150": 0.0,
+      "body_axis_of_flip_frames": null,
+      "body_axis_concentration": null,
+      "camera_axis_concentration": null,
+      "best_single_half_turn_axis_body": [
+        -0.735,
+        -0.103,
+        0.67
+      ],
+      "median_error_after_half_turn_deg": {
+        "x": 178.17,
+        "y": 179.26,
+        "z": 176.12,
+        "fitted_soho4": 174.98
+      },
+      "view_angle_to_body_z_deg_median": 84.4,
+      "view_angle_to_flip_axis_deg_median": 59.7,
+      "pred_depth_over_gt_depth_median": 0.987
+    },
+    "soho-4-close": {
+      "frames": 377,
+      "mean_rotation_error_deg": 166.65,
+      "median_rotation_error_deg": 172.39,
+      "frac_error_gt_120": 0.971,
+      "frac_error_gt_150": 0.915,
+      "body_axis_of_flip_frames": [
+        -0.4295,
+        0.0025,
+        0.9031
+      ],
+      "body_axis_concentration": 0.9411,
+      "camera_axis_concentration": 0.7281,
+      "best_single_half_turn_axis_body": [
+        -0.479,
+        0.029,
+        0.877
+      ],
+      "median_error_after_half_turn_deg": {
+        "x": 131.82,
+        "y": 178.26,
+        "z": 49.37,
+        "fitted_soho4": 15.17
+      },
+      "view_angle_to_body_z_deg_median": 51.8,
+      "view_angle_to_flip_axis_deg_median": 82.1,
+      "pred_depth_over_gt_depth_median": 1.085
+    },
+    "soho-4-far": {
+      "frames": 374,
+      "mean_rotation_error_deg": 151.25,
+      "median_rotation_error_deg": 170.74,
+      "frac_error_gt_120": 0.858,
+      "frac_error_gt_150": 0.85,
+      "body_axis_of_flip_frames": [
+        -0.4647,
+        -0.02,
+        0.8853
+      ],
+      "body_axis_concentration": 0.962,
+      "camera_axis_concentration": 0.6862,
+      "best_single_half_turn_axis_body": [
+        -0.527,
+        -0.022,
+        0.85
+      ],
+      "median_error_after_half_turn_deg": {
+        "x": 128.89,
+        "y": 176.11,
+        "z": 71.59,
+        "fitted_soho4": 19.35
+      },
+      "view_angle_to_body_z_deg_median": 52.9,
+      "view_angle_to_flip_axis_deg_median": 82.9,
+      "pred_depth_over_gt_depth_median": 1.168
+    }
+  },
+  "image_evidence": {
+    "method": "rendered dense-CAD silhouette (closing+fill) at GT, GT*flip and predicted pose; IoU against an Otsu grey-level RGB foreground; median distance (px, 256 crop) from the silhouette contour to denoised event-activity edges. soho-3/4 all frames, other sequences every third frame.",
+    "by_sequence": {
+      "soho-1-close": {
+        "frames": 155,
+        "iou_rgb_gt_median": 0.743,
+        "iou_rgb_gt_flipped_median": 0.267,
+        "iou_rgb_pred_median": 0.641,
+        "iou_rgb_frac_gt_better_than_pred": 0.974,
+        "chamfer_event_gt_median": 1.414,
+        "chamfer_event_gt_flipped_median": 15.297,
+        "chamfer_event_pred_median": 5.0,
+        "chamfer_event_frac_gt_better_than_pred": 0.729
+      },
+      "soho-1-far": {
+        "frames": 141,
+        "iou_rgb_gt_median": 0.869,
+        "iou_rgb_gt_flipped_median": 0.236,
+        "iou_rgb_pred_median": 0.848,
+        "iou_rgb_frac_gt_better_than_pred": 0.709,
+        "chamfer_event_gt_median": 1.0,
+        "chamfer_event_gt_flipped_median": 16.279,
+        "chamfer_event_pred_median": 2.236,
+        "chamfer_event_frac_gt_better_than_pred": 0.454
+      },
+      "soho-2-close": {
+        "frames": 127,
+        "iou_rgb_gt_median": 0.513,
+        "iou_rgb_gt_flipped_median": 0.295,
+        "iou_rgb_pred_median": 0.42,
+        "iou_rgb_frac_gt_better_than_pred": 0.976,
+        "chamfer_event_gt_median": 1.414,
+        "chamfer_event_gt_flipped_median": 15.232,
+        "chamfer_event_pred_median": 5.385,
+        "chamfer_event_frac_gt_better_than_pred": 0.764
+      },
+      "soho-2-far": {
+        "frames": 109,
+        "iou_rgb_gt_median": 0.405,
+        "iou_rgb_gt_flipped_median": 0.26,
+        "iou_rgb_pred_median": 0.199,
+        "iou_rgb_frac_gt_better_than_pred": 0.835,
+        "chamfer_event_gt_median": 1.0,
+        "chamfer_event_gt_flipped_median": 15.62,
+        "chamfer_event_pred_median": 2.828,
+        "chamfer_event_frac_gt_better_than_pred": 0.505
+      },
+      "soho-3-close": {
+        "frames": 328,
+        "iou_rgb_gt_median": 0.751,
+        "iou_rgb_gt_flipped_median": 0.296,
+        "iou_rgb_pred_median": 0.673,
+        "iou_rgb_frac_gt_better_than_pred": 0.79,
+        "chamfer_event_gt_median": 1.0,
+        "chamfer_event_gt_flipped_median": 21.354,
+        "chamfer_event_pred_median": 2.236,
+        "chamfer_event_frac_gt_better_than_pred": 0.488
+      },
+      "soho-3-far": {
+        "frames": 296,
+        "iou_rgb_gt_median": 0.761,
+        "iou_rgb_gt_flipped_median": 0.31,
+        "iou_rgb_pred_median": 0.733,
+        "iou_rgb_frac_gt_better_than_pred": 0.557,
+        "chamfer_event_gt_median": 1.0,
+        "chamfer_event_gt_flipped_median": 15.483,
+        "chamfer_event_pred_median": 1.414,
+        "chamfer_event_frac_gt_better_than_pred": 0.355
+      },
+      "soho-4-close": {
+        "frames": 377,
+        "iou_rgb_gt_median": 0.655,
+        "iou_rgb_gt_flipped_median": 0.567,
+        "iou_rgb_pred_median": 0.653,
+        "iou_rgb_frac_gt_better_than_pred": 0.79,
+        "chamfer_event_gt_median": 2.0,
+        "chamfer_event_gt_flipped_median": 7.81,
+        "chamfer_event_pred_median": 3.0,
+        "chamfer_event_frac_gt_better_than_pred": 0.658
+      },
+      "soho-4-far": {
+        "frames": 374,
+        "iou_rgb_gt_median": 0.52,
+        "iou_rgb_gt_flipped_median": 0.458,
+        "iou_rgb_pred_median": 0.497,
+        "iou_rgb_frac_gt_better_than_pred": 0.906,
+        "chamfer_event_gt_median": 1.414,
+        "chamfer_event_gt_flipped_median": 5.453,
+        "chamfer_event_pred_median": 2.236,
+        "chamfer_event_frac_gt_better_than_pred": 0.572
+      }
+    }
+  },
+  "symmetry": {
+    "synthetic_validation_samples": 400,
+    "fitted_axis": {
+      "silhouette_iou_median": 0.292,
+      "keypoint_set_distance_median": 0.1394
+    },
+    "body_z_axis": {
+      "silhouette_iou_median": 0.779,
+      "keypoint_set_distance_median": 0.0394
+    },
+    "random_axis_control": {
+      "axis": [
+        -0.255,
+        -0.714,
+        0.653
+      ],
+      "silhouette_iou_median": 0.324,
+      "keypoint_set_distance_median": 0.0999
+    },
+    "fitted_axis_iou_by_view_angle_bin": {
+      "15-30": 0.455,
+      "30-45": 0.388,
+      "45-60": 0.259,
+      "60-75": 0.252,
+      "75-90": 0.29
+    },
+    "keypoint_set_distance_note": "mean matched distance / GT keypoint bbox diagonal",
+    "real_gt_poses_by_sequence": {
+      "soho-1-close": {
+        "flip_silhouette_iou_median": 0.262,
+        "flip_keypoint_set_distance_median": 0.1421
+      },
+      "soho-1-far": {
+        "flip_silhouette_iou_median": 0.249,
+        "flip_keypoint_set_distance_median": 0.1426
+      },
+      "soho-2-close": {
+        "flip_silhouette_iou_median": 0.256,
+        "flip_keypoint_set_distance_median": 0.1438
+      },
+      "soho-2-far": {
+        "flip_silhouette_iou_median": 0.25,
+        "flip_keypoint_set_distance_median": 0.1453
+      },
+      "soho-3-close": {
+        "flip_silhouette_iou_median": 0.333,
+        "flip_keypoint_set_distance_median": 0.139
+      },
+      "soho-3-far": {
+        "flip_silhouette_iou_median": 0.334,
+        "flip_keypoint_set_distance_median": 0.1393
+      },
+      "soho-4-close": {
+        "flip_silhouette_iou_median": 0.58,
+        "flip_keypoint_set_distance_median": 0.0656
+      },
+      "soho-4-far": {
+        "flip_silhouette_iou_median": 0.651,
+        "flip_keypoint_set_distance_median": 0.0608
+      }
+    }
+  },
+  "coverage": {
+    "soho-1-close": {
+      "roll_free_nearest_train_deg_median": 3.36,
+      "roll_free_nearest_train_deg_p90": 3.89,
+      "plain_nearest_train_deg_median": 39.22,
+      "flipped_gt_roll_free_nearest_train_deg_median": 5.52
+    },
+    "soho-1-far": {
+      "roll_free_nearest_train_deg_median": 1.91,
+      "roll_free_nearest_train_deg_p90": 1.91,
+      "plain_nearest_train_deg_median": 46.74,
+      "flipped_gt_roll_free_nearest_train_deg_median": 4.68
+    },
+    "soho-2-close": {
+      "roll_free_nearest_train_deg_median": 3.35,
+      "roll_free_nearest_train_deg_p90": 3.35,
+      "plain_nearest_train_deg_median": 72.2,
+      "flipped_gt_roll_free_nearest_train_deg_median": 6.03
+    },
+    "soho-2-far": {
+      "roll_free_nearest_train_deg_median": 1.91,
+      "roll_free_nearest_train_deg_p90": 1.91,
+      "plain_nearest_train_deg_median": 76.59,
+      "flipped_gt_roll_free_nearest_train_deg_median": 4.68
+    },
+    "soho-3-close": {
+      "roll_free_nearest_train_deg_median": 2.4,
+      "roll_free_nearest_train_deg_p90": 5.93,
+      "plain_nearest_train_deg_median": 20.16,
+      "flipped_gt_roll_free_nearest_train_deg_median": 0.98
+    },
+    "soho-3-far": {
+      "roll_free_nearest_train_deg_median": 0.17,
+      "roll_free_nearest_train_deg_p90": 5.19,
+      "plain_nearest_train_deg_median": 14.04,
+      "flipped_gt_roll_free_nearest_train_deg_median": 4.45
+    },
+    "soho-4-close": {
+      "roll_free_nearest_train_deg_median": 1.47,
+      "roll_free_nearest_train_deg_p90": 4.6,
+      "plain_nearest_train_deg_median": 26.01,
+      "flipped_gt_roll_free_nearest_train_deg_median": 1.41
+    },
+    "soho-4-far": {
+      "roll_free_nearest_train_deg_median": 5.89,
+      "roll_free_nearest_train_deg_p90": 6.38,
+      "plain_nearest_train_deg_median": 24.99,
+      "flipped_gt_roll_free_nearest_train_deg_median": 1.63
+    },
+    "synthetic_validation_reference_roll_free_median": 0.01
+  },
+  "near_flip_rates_all_runs": {
+    "s2r-f-attention-tss-activity-cassini": {
+      "cassini-1-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-1-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-2-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-2-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-3-close": {
+        "frac_gt_150": 0.003,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-3-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-4-close": {
+        "frac_gt_150": 0.003,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-4-far": {
+        "frac_gt_150": 0.003,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      }
+    },
+    "s2r-f-attention-tss-activity-satty": {
+      "satty-1-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-1-far": {
+        "frac_gt_150": 0.008,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-2-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-2-far": {
+        "frac_gt_150": 0.027,
+        "flip_axis_concentration": 0.9273,
+        "flip_axis_body": [
+          0.7216,
+          0.6223,
+          0.3034
+        ]
+      },
+      "satty-3-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-3-far": {
+        "frac_gt_150": 0.006,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-4-close": {
+        "frac_gt_150": 0.215,
+        "flip_axis_concentration": 0.7319,
+        "flip_axis_body": [
+          0.7247,
+          0.677,
+          0.1287
+        ]
+      },
+      "satty-4-far": {
+        "frac_gt_150": 0.099,
+        "flip_axis_concentration": 0.7654,
+        "flip_axis_body": [
+          0.7868,
+          0.6026,
+          0.1336
+        ]
+      }
+    },
+    "s2r-f-attention-tss-activity-soho": {
+      "soho-1-close": {
+        "frac_gt_150": 0.013,
+        "flip_axis_concentration": 0.6174,
+        "flip_axis_body": [
+          0.5555,
+          -0.3441,
+          0.757
+        ]
+      },
+      "soho-1-far": {
+        "frac_gt_150": 0.031,
+        "flip_axis_concentration": 0.7115,
+        "flip_axis_body": [
+          0.3821,
+          0.3238,
+          0.8656
+        ]
+      },
+      "soho-2-close": {
+        "frac_gt_150": 0.042,
+        "flip_axis_concentration": 0.5566,
+        "flip_axis_body": [
+          0.4913,
+          0.1779,
+          0.8527
+        ]
+      },
+      "soho-2-far": {
+        "frac_gt_150": 0.261,
+        "flip_axis_concentration": 0.6696,
+        "flip_axis_body": [
+          -0.2446,
+          0.7475,
+          0.6176
+        ]
+      },
+      "soho-3-close": {
+        "frac_gt_150": 0.024,
+        "flip_axis_concentration": 0.9721,
+        "flip_axis_body": [
+          0.3328,
+          0.762,
+          0.5555
+        ]
+      },
+      "soho-3-far": {
+        "frac_gt_150": 0.017,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "soho-4-close": {
+        "frac_gt_150": 0.899,
+        "flip_axis_concentration": 0.9376,
+        "flip_axis_body": [
+          -0.4568,
+          -0.0399,
+          0.8887
+        ]
+      },
+      "soho-4-far": {
+        "frac_gt_150": 0.909,
+        "flip_axis_concentration": 0.9612,
+        "flip_axis_body": [
+          -0.5398,
+          -0.0643,
+          0.8393
+        ]
+      }
+    },
+    "s2r-f-attention_clip-tss-activity-cassini": {
+      "cassini-1-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-1-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-2-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-2-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-3-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-3-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-4-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-4-far": {
+        "frac_gt_150": 0.003,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      }
+    },
+    "s2r-f-attention_clip-tss-activity-satty": {
+      "satty-1-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-1-far": {
+        "frac_gt_150": 0.011,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-2-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-2-far": {
+        "frac_gt_150": 0.027,
+        "flip_axis_concentration": 0.8375,
+        "flip_axis_body": [
+          0.3803,
+          0.8441,
+          0.378
+        ]
+      },
+      "satty-3-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-3-far": {
+        "frac_gt_150": 0.003,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-4-close": {
+        "frac_gt_150": 0.157,
+        "flip_axis_concentration": 0.763,
+        "flip_axis_body": [
+          0.6908,
+          0.7155,
+          0.1046
+        ]
+      },
+      "satty-4-far": {
+        "frac_gt_150": 0.062,
+        "flip_axis_concentration": 0.635,
+        "flip_axis_body": [
+          0.8258,
+          0.4524,
+          0.3369
+        ]
+      }
+    },
+    "s2r-f-attention_clip-tss-activity-soho": {
+      "soho-1-close": {
+        "frac_gt_150": 0.03,
+        "flip_axis_concentration": 0.7483,
+        "flip_axis_body": [
+          0.1916,
+          -0.4218,
+          0.8862
+        ]
+      },
+      "soho-1-far": {
+        "frac_gt_150": 0.038,
+        "flip_axis_concentration": 0.5953,
+        "flip_axis_body": [
+          -0.4029,
+          0.3724,
+          0.8361
+        ]
+      },
+      "soho-2-close": {
+        "frac_gt_150": 0.196,
+        "flip_axis_concentration": 0.689,
+        "flip_axis_body": [
+          -0.5006,
+          0.7028,
+          0.5055
+        ]
+      },
+      "soho-2-far": {
+        "frac_gt_150": 0.153,
+        "flip_axis_concentration": 0.5048,
+        "flip_axis_body": [
+          0.1092,
+          0.6637,
+          0.74
+        ]
+      },
+      "soho-3-close": {
+        "frac_gt_150": 0.021,
+        "flip_axis_concentration": 0.9643,
+        "flip_axis_body": [
+          0.2893,
+          0.7761,
+          0.5604
+        ]
+      },
+      "soho-3-far": {
+        "frac_gt_150": 0.014,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "soho-4-close": {
+        "frac_gt_150": 0.828,
+        "flip_axis_concentration": 0.938,
+        "flip_axis_body": [
+          -0.5652,
+          -0.0765,
+          0.8214
+        ]
+      },
+      "soho-4-far": {
+        "frac_gt_150": 0.84,
+        "flip_axis_concentration": 0.9545,
+        "flip_axis_body": [
+          -0.561,
+          -0.0791,
+          0.824
+        ]
+      }
+    },
+    "s2r-f-clip_gate-tss-activity-cassini": {
+      "cassini-1-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-1-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-2-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-2-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-3-close": {
+        "frac_gt_150": 0.012,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-3-far": {
+        "frac_gt_150": 0.006,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-4-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-4-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      }
+    },
+    "s2r-f-clip_gate-tss-activity-satty": {
+      "satty-1-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-1-far": {
+        "frac_gt_150": 0.003,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-2-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-2-far": {
+        "frac_gt_150": 0.035,
+        "flip_axis_concentration": 0.6508,
+        "flip_axis_body": [
+          0.4541,
+          0.8235,
+          0.3401
+        ]
+      },
+      "satty-3-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-3-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-4-close": {
+        "frac_gt_150": 0.091,
+        "flip_axis_concentration": 0.9552,
+        "flip_axis_body": [
+          0.623,
+          0.7822,
+          -0.0004
+        ]
+      },
+      "satty-4-far": {
+        "frac_gt_150": 0.026,
+        "flip_axis_concentration": 0.5977,
+        "flip_axis_body": [
+          0.61,
+          0.7659,
+          0.203
+        ]
+      }
+    },
+    "s2r-f-clip_gate-tss-activity-soho": {
+      "soho-1-close": {
+        "frac_gt_150": 0.06,
+        "flip_axis_concentration": 0.6131,
+        "flip_axis_body": [
+          0.8322,
+          -0.0334,
+          0.5534
+        ]
+      },
+      "soho-1-far": {
+        "frac_gt_150": 0.024,
+        "flip_axis_concentration": 0.5488,
+        "flip_axis_body": [
+          -0.3848,
+          0.5883,
+          0.7113
+        ]
+      },
+      "soho-2-close": {
+        "frac_gt_150": 0.123,
+        "flip_axis_concentration": 0.6212,
+        "flip_axis_body": [
+          0.8467,
+          0.0565,
+          0.529
+        ]
+      },
+      "soho-2-far": {
+        "frac_gt_150": 0.117,
+        "flip_axis_concentration": 0.6429,
+        "flip_axis_body": [
+          0.6583,
+          0.6224,
+          0.4234
+        ]
+      },
+      "soho-3-close": {
+        "frac_gt_150": 0.003,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "soho-3-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "soho-4-close": {
+        "frac_gt_150": 0.859,
+        "flip_axis_concentration": 0.921,
+        "flip_axis_body": [
+          -0.5713,
+          -0.0544,
+          0.8189
+        ]
+      },
+      "soho-4-far": {
+        "frac_gt_150": 0.874,
+        "flip_axis_concentration": 0.9125,
+        "flip_axis_body": [
+          -0.5779,
+          -0.0402,
+          0.8151
+        ]
+      }
+    },
+    "s2r-f-clip_gate_constant-tss-activity-cassini": {
+      "cassini-1-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-1-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-2-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-2-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-3-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-3-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-4-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-4-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      }
+    },
+    "s2r-f-clip_gate_constant-tss-activity-satty": {
+      "satty-1-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-1-far": {
+        "frac_gt_150": 0.011,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-2-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-2-far": {
+        "frac_gt_150": 0.008,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-3-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-3-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-4-close": {
+        "frac_gt_150": 0.082,
+        "flip_axis_concentration": 0.7581,
+        "flip_axis_body": [
+          0.7619,
+          0.5853,
+          -0.2773
+        ]
+      },
+      "satty-4-far": {
+        "frac_gt_150": 0.055,
+        "flip_axis_concentration": 0.8232,
+        "flip_axis_body": [
+          0.5348,
+          0.8289,
+          0.1639
+        ]
+      }
+    },
+    "s2r-f-clip_gate_constant-tss-activity-soho": {
+      "soho-1-close": {
+        "frac_gt_150": 0.013,
+        "flip_axis_concentration": 0.672,
+        "flip_axis_body": [
+          0.7258,
+          0.4463,
+          0.5235
+        ]
+      },
+      "soho-1-far": {
+        "frac_gt_150": 0.01,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "soho-2-close": {
+        "frac_gt_150": 0.063,
+        "flip_axis_concentration": 0.5954,
+        "flip_axis_body": [
+          0.6928,
+          0.3771,
+          0.6147
+        ]
+      },
+      "soho-2-far": {
+        "frac_gt_150": 0.058,
+        "flip_axis_concentration": 0.6445,
+        "flip_axis_body": [
+          0.8421,
+          0.4398,
+          0.3122
+        ]
+      },
+      "soho-3-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "soho-3-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "soho-4-close": {
+        "frac_gt_150": 0.902,
+        "flip_axis_concentration": 0.8972,
+        "flip_axis_body": [
+          -0.5458,
+          -0.0214,
+          0.8377
+        ]
+      },
+      "soho-4-far": {
+        "frac_gt_150": 0.885,
+        "flip_axis_concentration": 0.9089,
+        "flip_axis_body": [
+          -0.6433,
+          -0.0607,
+          0.7632
+        ]
+      }
+    },
+    "s2r-f-content_clip_gate-tss-activity-cassini": {
+      "cassini-1-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-1-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-2-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-2-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-3-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-3-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-4-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-4-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      }
+    },
+    "s2r-f-content_clip_gate-tss-activity-satty": {
+      "satty-1-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-1-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-2-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-2-far": {
+        "frac_gt_150": 0.004,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-3-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-3-far": {
+        "frac_gt_150": 0.012,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-4-close": {
+        "frac_gt_150": 0.079,
+        "flip_axis_concentration": 0.9394,
+        "flip_axis_body": [
+          0.638,
+          0.77,
+          0.009
+        ]
+      },
+      "satty-4-far": {
+        "frac_gt_150": 0.048,
+        "flip_axis_concentration": 0.8634,
+        "flip_axis_body": [
+          0.6482,
+          0.6746,
+          0.3531
+        ]
+      }
+    },
+    "s2r-f-content_clip_gate-tss-activity-soho": {
+      "soho-1-close": {
+        "frac_gt_150": 0.024,
+        "flip_axis_concentration": 0.4977,
+        "flip_axis_body": [
+          0.8902,
+          -0.29,
+          -0.3514
+        ]
+      },
+      "soho-1-far": {
+        "frac_gt_150": 0.026,
+        "flip_axis_concentration": 0.5455,
+        "flip_axis_body": [
+          0.2976,
+          0.7943,
+          0.5296
+        ]
+      },
+      "soho-2-close": {
+        "frac_gt_150": 0.065,
+        "flip_axis_concentration": 0.6165,
+        "flip_axis_body": [
+          0.5262,
+          0.2387,
+          0.8162
+        ]
+      },
+      "soho-2-far": {
+        "frac_gt_150": 0.043,
+        "flip_axis_concentration": 0.7775,
+        "flip_axis_body": [
+          0.5545,
+          0.7522,
+          0.3561
+        ]
+      },
+      "soho-3-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "soho-3-far": {
+        "frac_gt_150": 0.003,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "soho-4-close": {
+        "frac_gt_150": 0.788,
+        "flip_axis_concentration": 0.9022,
+        "flip_axis_body": [
+          -0.4701,
+          -0.0637,
+          0.8803
+        ]
+      },
+      "soho-4-far": {
+        "frac_gt_150": 0.85,
+        "flip_axis_concentration": 0.928,
+        "flip_axis_body": [
+          -0.5346,
+          -0.0461,
+          0.8439
+        ]
+      }
+    },
+    "s2r-f-content_gate-tss-activity-cassini": {
+      "cassini-1-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-1-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-2-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-2-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-3-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-3-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-4-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-4-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      }
+    },
+    "s2r-f-content_gate-tss-activity-satty": {
+      "satty-1-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-1-far": {
+        "frac_gt_150": 0.005,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-2-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-2-far": {
+        "frac_gt_150": 0.019,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-3-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-3-far": {
+        "frac_gt_150": 0.044,
+        "flip_axis_concentration": 0.8902,
+        "flip_axis_body": [
+          -0.0499,
+          0.976,
+          -0.212
+        ]
+      },
+      "satty-4-close": {
+        "frac_gt_150": 0.112,
+        "flip_axis_concentration": 0.9182,
+        "flip_axis_body": [
+          0.8006,
+          0.5989,
+          0.0169
+        ]
+      },
+      "satty-4-far": {
+        "frac_gt_150": 0.095,
+        "flip_axis_concentration": 0.8509,
+        "flip_axis_body": [
+          0.7111,
+          0.7022,
+          -0.0343
+        ]
+      }
+    },
+    "s2r-f-content_gate-tss-activity-soho": {
+      "soho-1-close": {
+        "frac_gt_150": 0.009,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "soho-1-far": {
+        "frac_gt_150": 0.01,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "soho-2-close": {
+        "frac_gt_150": 0.034,
+        "flip_axis_concentration": 0.638,
+        "flip_axis_body": [
+          0.8875,
+          -0.0151,
+          0.4606
+        ]
+      },
+      "soho-2-far": {
+        "frac_gt_150": 0.034,
+        "flip_axis_concentration": 0.514,
+        "flip_axis_body": [
+          0.8948,
+          0.0267,
+          0.4457
+        ]
+      },
+      "soho-3-close": {
+        "frac_gt_150": 0.006,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "soho-3-far": {
+        "frac_gt_150": 0.007,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "soho-4-close": {
+        "frac_gt_150": 0.735,
+        "flip_axis_concentration": 0.8038,
+        "flip_axis_body": [
+          -0.643,
+          -0.0969,
+          0.7597
+        ]
+      },
+      "soho-4-far": {
+        "frac_gt_150": 0.644,
+        "flip_axis_concentration": 0.9171,
+        "flip_axis_body": [
+          -0.5084,
+          -0.0804,
+          0.8574
+        ]
+      }
+    },
+    "s2r-f-mean-natural-activity-cassini": {
+      "cassini-1-close": {
+        "frac_gt_150": 0.007,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-1-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-2-close": {
+        "frac_gt_150": 0.203,
+        "flip_axis_concentration": 0.9958,
+        "flip_axis_body": [
+          0.3912,
+          -0.356,
+          0.8486
+        ]
+      },
+      "cassini-2-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-3-close": {
+        "frac_gt_150": 0.012,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-3-far": {
+        "frac_gt_150": 0.009,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-4-close": {
+        "frac_gt_150": 0.23,
+        "flip_axis_concentration": 0.6891,
+        "flip_axis_body": [
+          -0.1575,
+          0.6111,
+          0.7757
+        ]
+      },
+      "cassini-4-far": {
+        "frac_gt_150": 0.036,
+        "flip_axis_concentration": 0.8081,
+        "flip_axis_body": [
+          -0.3417,
+          -0.0254,
+          0.9395
+        ]
+      }
+    },
+    "s2r-f-mean-natural-activity-satty": {
+      "satty-1-close": {
+        "frac_gt_150": 0.039,
+        "flip_axis_concentration": 0.7941,
+        "flip_axis_body": [
+          0.0972,
+          0.8179,
+          0.5671
+        ]
+      },
+      "satty-1-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-2-close": {
+        "frac_gt_150": 0.322,
+        "flip_axis_concentration": 0.945,
+        "flip_axis_body": [
+          0.0244,
+          0.6457,
+          0.7632
+        ]
+      },
+      "satty-2-far": {
+        "frac_gt_150": 0.008,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-3-close": {
+        "frac_gt_150": 0.063,
+        "flip_axis_concentration": 0.771,
+        "flip_axis_body": [
+          0.1806,
+          0.983,
+          0.0335
+        ]
+      },
+      "satty-3-far": {
+        "frac_gt_150": 0.041,
+        "flip_axis_concentration": 0.6579,
+        "flip_axis_body": [
+          -0.0894,
+          0.9334,
+          -0.3475
+        ]
+      },
+      "satty-4-close": {
+        "frac_gt_150": 0.245,
+        "flip_axis_concentration": 0.852,
+        "flip_axis_body": [
+          0.5865,
+          0.8098,
+          0.0163
+        ]
+      },
+      "satty-4-far": {
+        "frac_gt_150": 0.168,
+        "flip_axis_concentration": 0.8593,
+        "flip_axis_body": [
+          0.6612,
+          0.7329,
+          -0.1602
+        ]
+      }
+    },
+    "s2r-f-mean-natural-activity-soho": {
+      "soho-1-close": {
+        "frac_gt_150": 0.12,
+        "flip_axis_concentration": 0.6454,
+        "flip_axis_body": [
+          0.0654,
+          0.1497,
+          0.9866
+        ]
+      },
+      "soho-1-far": {
+        "frac_gt_150": 0.093,
+        "flip_axis_concentration": 0.8505,
+        "flip_axis_body": [
+          0.6714,
+          -0.3509,
+          -0.6528
+        ]
+      },
+      "soho-2-close": {
+        "frac_gt_150": 0.245,
+        "flip_axis_concentration": 0.6623,
+        "flip_axis_body": [
+          -0.1362,
+          0.3532,
+          0.9256
+        ]
+      },
+      "soho-2-far": {
+        "frac_gt_150": 0.169,
+        "flip_axis_concentration": 0.7313,
+        "flip_axis_body": [
+          0.728,
+          -0.3388,
+          -0.5961
+        ]
+      },
+      "soho-3-close": {
+        "frac_gt_150": 0.015,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "soho-3-far": {
+        "frac_gt_150": 0.037,
+        "flip_axis_concentration": 0.9749,
+        "flip_axis_body": [
+          -0.0455,
+          -0.4241,
+          0.9045
+        ]
+      },
+      "soho-4-close": {
+        "frac_gt_150": 0.767,
+        "flip_axis_concentration": 0.9295,
+        "flip_axis_body": [
+          -0.5836,
+          -0.0448,
+          0.8108
+        ]
+      },
+      "soho-4-far": {
+        "frac_gt_150": 0.43,
+        "flip_axis_concentration": 0.9527,
+        "flip_axis_body": [
+          -0.5645,
+          -0.0743,
+          0.8221
+        ]
+      }
+    },
+    "s2r-f-mean-tss-activity-cassini": {
+      "cassini-1-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-1-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-2-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-2-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-3-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-3-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-4-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-4-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      }
+    },
+    "s2r-f-mean-tss-activity-satty": {
+      "satty-1-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-1-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-2-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-2-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-3-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-3-far": {
+        "frac_gt_150": 0.018,
+        "flip_axis_concentration": 0.9908,
+        "flip_axis_body": [
+          -0.1903,
+          0.9731,
+          -0.1299
+        ]
+      },
+      "satty-4-close": {
+        "frac_gt_150": 0.088,
+        "flip_axis_concentration": 0.9147,
+        "flip_axis_body": [
+          0.6182,
+          0.782,
+          -0.0796
+        ]
+      },
+      "satty-4-far": {
+        "frac_gt_150": 0.059,
+        "flip_axis_concentration": 0.8994,
+        "flip_axis_body": [
+          0.5805,
+          0.8037,
+          0.1309
+        ]
+      }
+    },
+    "s2r-f-mean-tss-activity-soho": {
+      "soho-1-close": {
+        "frac_gt_150": 0.015,
+        "flip_axis_concentration": 0.623,
+        "flip_axis_body": [
+          0.9543,
+          -0.2017,
+          -0.2206
+        ]
+      },
+      "soho-1-far": {
+        "frac_gt_150": 0.024,
+        "flip_axis_concentration": 0.7451,
+        "flip_axis_body": [
+          0.1469,
+          0.2307,
+          0.9619
+        ]
+      },
+      "soho-2-close": {
+        "frac_gt_150": 0.023,
+        "flip_axis_concentration": 0.7068,
+        "flip_axis_body": [
+          0.5258,
+          0.1075,
+          0.8438
+        ]
+      },
+      "soho-2-far": {
+        "frac_gt_150": 0.267,
+        "flip_axis_concentration": 0.5159,
+        "flip_axis_body": [
+          0.0067,
+          0.887,
+          0.4618
+        ]
+      },
+      "soho-3-close": {
+        "frac_gt_150": 0.018,
+        "flip_axis_concentration": 0.9857,
+        "flip_axis_body": [
+          0.5019,
+          0.7091,
+          0.4953
+        ]
+      },
+      "soho-3-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "soho-4-close": {
+        "frac_gt_150": 0.849,
+        "flip_axis_concentration": 0.9424,
+        "flip_axis_body": [
+          -0.5171,
+          -0.0433,
+          0.8548
+        ]
+      },
+      "soho-4-far": {
+        "frac_gt_150": 0.834,
+        "flip_axis_concentration": 0.9527,
+        "flip_axis_body": [
+          -0.5047,
+          -0.0776,
+          0.8598
+        ]
+      }
+    },
+    "s2r-u-event-activity-cassini": {
+      "cassini-1-close": {
+        "frac_gt_150": 0.238,
+        "flip_axis_concentration": 0.7241,
+        "flip_axis_body": [
+          0.7202,
+          0.4453,
+          -0.532
+        ]
+      },
+      "cassini-1-far": {
+        "frac_gt_150": 0.234,
+        "flip_axis_concentration": 0.647,
+        "flip_axis_body": [
+          0.222,
+          0.0913,
+          0.9708
+        ]
+      },
+      "cassini-2-close": {
+        "frac_gt_150": 0.241,
+        "flip_axis_concentration": 0.6061,
+        "flip_axis_body": [
+          0.7413,
+          0.5265,
+          -0.4162
+        ]
+      },
+      "cassini-2-far": {
+        "frac_gt_150": 0.511,
+        "flip_axis_concentration": 0.6018,
+        "flip_axis_body": [
+          0.4604,
+          0.1062,
+          0.8813
+        ]
+      },
+      "cassini-3-close": {
+        "frac_gt_150": 0.143,
+        "flip_axis_concentration": 0.5007,
+        "flip_axis_body": [
+          0.0759,
+          0.0847,
+          0.9935
+        ]
+      },
+      "cassini-3-far": {
+        "frac_gt_150": 0.133,
+        "flip_axis_concentration": 0.8392,
+        "flip_axis_body": [
+          -0.6016,
+          0.2126,
+          0.77
+        ]
+      },
+      "cassini-4-close": {
+        "frac_gt_150": 0.421,
+        "flip_axis_concentration": 0.717,
+        "flip_axis_body": [
+          0.6803,
+          -0.6391,
+          -0.3587
+        ]
+      },
+      "cassini-4-far": {
+        "frac_gt_150": 0.399,
+        "flip_axis_concentration": 0.6824,
+        "flip_axis_body": [
+          -0.6226,
+          0.6633,
+          0.4153
+        ]
+      }
+    },
+    "s2r-u-event-activity-satty": {
+      "satty-1-close": {
+        "frac_gt_150": 0.072,
+        "flip_axis_concentration": 0.4524,
+        "flip_axis_body": [
+          0.4934,
+          0.8027,
+          0.3351
+        ]
+      },
+      "satty-1-far": {
+        "frac_gt_150": 0.036,
+        "flip_axis_concentration": 0.4383,
+        "flip_axis_body": [
+          0.2263,
+          -0.4461,
+          0.8659
+        ]
+      },
+      "satty-2-close": {
+        "frac_gt_150": 0.129,
+        "flip_axis_concentration": 0.5365,
+        "flip_axis_body": [
+          0.6752,
+          -0.4849,
+          0.5558
+        ]
+      },
+      "satty-2-far": {
+        "frac_gt_150": 0.158,
+        "flip_axis_concentration": 0.555,
+        "flip_axis_body": [
+          0.3019,
+          -0.4982,
+          0.8128
+        ]
+      },
+      "satty-3-close": {
+        "frac_gt_150": 0.155,
+        "flip_axis_concentration": 0.7309,
+        "flip_axis_body": [
+          0.3377,
+          0.8702,
+          -0.3587
+        ]
+      },
+      "satty-3-far": {
+        "frac_gt_150": 0.121,
+        "flip_axis_concentration": 0.6155,
+        "flip_axis_body": [
+          -0.1811,
+          -0.6561,
+          0.7326
+        ]
+      },
+      "satty-4-close": {
+        "frac_gt_150": 0.293,
+        "flip_axis_concentration": 0.4781,
+        "flip_axis_body": [
+          0.2063,
+          0.9681,
+          0.1423
+        ]
+      },
+      "satty-4-far": {
+        "frac_gt_150": 0.245,
+        "flip_axis_concentration": 0.7056,
+        "flip_axis_body": [
+          0.7864,
+          0.6044,
+          0.1277
+        ]
+      }
+    },
+    "s2r-u-event-activity-soho": {
+      "soho-1-close": {
+        "frac_gt_150": 0.159,
+        "flip_axis_concentration": 0.5217,
+        "flip_axis_body": [
+          0.3035,
+          0.7833,
+          -0.5425
+        ]
+      },
+      "soho-1-far": {
+        "frac_gt_150": 0.147,
+        "flip_axis_concentration": 0.5566,
+        "flip_axis_body": [
+          0.1896,
+          0.9182,
+          -0.3477
+        ]
+      },
+      "soho-2-close": {
+        "frac_gt_150": 0.167,
+        "flip_axis_concentration": 0.5114,
+        "flip_axis_body": [
+          0.5761,
+          0.8063,
+          0.1341
+        ]
+      },
+      "soho-2-far": {
+        "frac_gt_150": 0.169,
+        "flip_axis_concentration": 0.4689,
+        "flip_axis_body": [
+          -0.0702,
+          0.8571,
+          -0.5104
+        ]
+      },
+      "soho-3-close": {
+        "frac_gt_150": 0.372,
+        "flip_axis_concentration": 0.4335,
+        "flip_axis_body": [
+          0.0892,
+          0.0915,
+          0.9918
+        ]
+      },
+      "soho-3-far": {
+        "frac_gt_150": 0.52,
+        "flip_axis_concentration": 0.7973,
+        "flip_axis_body": [
+          0.0214,
+          -0.0313,
+          0.9993
+        ]
+      },
+      "soho-4-close": {
+        "frac_gt_150": 0.477,
+        "flip_axis_concentration": 0.604,
+        "flip_axis_body": [
+          -0.0882,
+          0.2111,
+          0.9735
+        ]
+      },
+      "soho-4-far": {
+        "frac_gt_150": 0.428,
+        "flip_axis_concentration": 0.6882,
+        "flip_axis_body": [
+          -0.1845,
+          0.2207,
+          0.9577
+        ]
+      }
+    },
+    "s2r-u-rgb-natural-cassini": {
+      "cassini-1-close": {
+        "frac_gt_150": 0.072,
+        "flip_axis_concentration": 0.9696,
+        "flip_axis_body": [
+          0.5821,
+          0.7391,
+          -0.3389
+        ]
+      },
+      "cassini-1-far": {
+        "frac_gt_150": 0.004,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-2-close": {
+        "frac_gt_150": 0.119,
+        "flip_axis_concentration": 0.9671,
+        "flip_axis_body": [
+          0.6067,
+          0.7254,
+          -0.3252
+        ]
+      },
+      "cassini-2-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-3-close": {
+        "frac_gt_150": 0.106,
+        "flip_axis_concentration": 0.7097,
+        "flip_axis_body": [
+          0.4872,
+          -0.0773,
+          0.8699
+        ]
+      },
+      "cassini-3-far": {
+        "frac_gt_150": 0.022,
+        "flip_axis_concentration": 0.9748,
+        "flip_axis_body": [
+          -0.1493,
+          0.3113,
+          0.9385
+        ]
+      },
+      "cassini-4-close": {
+        "frac_gt_150": 0.433,
+        "flip_axis_concentration": 0.8923,
+        "flip_axis_body": [
+          -0.1617,
+          0.75,
+          0.6414
+        ]
+      },
+      "cassini-4-far": {
+        "frac_gt_150": 0.101,
+        "flip_axis_concentration": 0.8884,
+        "flip_axis_body": [
+          -0.2716,
+          0.8951,
+          0.3535
+        ]
+      }
+    },
+    "s2r-u-rgb-natural-satty": {
+      "satty-1-close": {
+        "frac_gt_150": 0.05,
+        "flip_axis_concentration": 0.9088,
+        "flip_axis_body": [
+          -0.5241,
+          0.6355,
+          0.567
+        ]
+      },
+      "satty-1-far": {
+        "frac_gt_150": 0.003,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-2-close": {
+        "frac_gt_150": 0.066,
+        "flip_axis_concentration": 0.9119,
+        "flip_axis_body": [
+          -0.5254,
+          0.6741,
+          0.5191
+        ]
+      },
+      "satty-2-far": {
+        "frac_gt_150": 0.015,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-3-close": {
+        "frac_gt_150": 0.023,
+        "flip_axis_concentration": 0.9066,
+        "flip_axis_body": [
+          0.2789,
+          0.8806,
+          0.3831
+        ]
+      },
+      "satty-3-far": {
+        "frac_gt_150": 0.053,
+        "flip_axis_concentration": 0.8404,
+        "flip_axis_body": [
+          -0.1069,
+          0.7302,
+          -0.6748
+        ]
+      },
+      "satty-4-close": {
+        "frac_gt_150": 0.239,
+        "flip_axis_concentration": 0.6961,
+        "flip_axis_body": [
+          0.912,
+          -0.3871,
+          0.1354
+        ]
+      },
+      "satty-4-far": {
+        "frac_gt_150": 0.033,
+        "flip_axis_concentration": 0.5557,
+        "flip_axis_body": [
+          0.4914,
+          0.8631,
+          0.1168
+        ]
+      }
+    },
+    "s2r-u-rgb-natural-soho": {
+      "soho-1-close": {
+        "frac_gt_150": 0.146,
+        "flip_axis_concentration": 0.7245,
+        "flip_axis_body": [
+          -0.3658,
+          0.0433,
+          0.9297
+        ]
+      },
+      "soho-1-far": {
+        "frac_gt_150": 0.038,
+        "flip_axis_concentration": 0.577,
+        "flip_axis_body": [
+          0.5589,
+          0.7977,
+          -0.2265
+        ]
+      },
+      "soho-2-close": {
+        "frac_gt_150": 0.478,
+        "flip_axis_concentration": 0.8371,
+        "flip_axis_body": [
+          -0.4073,
+          0.3679,
+          0.8359
+        ]
+      },
+      "soho-2-far": {
+        "frac_gt_150": 0.095,
+        "flip_axis_concentration": 0.4932,
+        "flip_axis_body": [
+          0.1819,
+          0.8515,
+          0.4918
+        ]
+      },
+      "soho-3-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "soho-3-far": {
+        "frac_gt_150": 0.007,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "soho-4-close": {
+        "frac_gt_150": 0.812,
+        "flip_axis_concentration": 0.968,
+        "flip_axis_body": [
+          -0.5691,
+          -0.0531,
+          0.8206
+        ]
+      },
+      "soho-4-far": {
+        "frac_gt_150": 0.802,
+        "flip_axis_concentration": 0.9627,
+        "flip_axis_body": [
+          -0.3667,
+          -0.0966,
+          0.9253
+        ]
+      }
+    },
+    "s2r-u-rgb-tss-cassini": {
+      "cassini-1-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-1-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-2-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-2-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-3-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-3-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-4-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "cassini-4-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      }
+    },
+    "s2r-u-rgb-tss-satty": {
+      "satty-1-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-1-far": {
+        "frac_gt_150": 0.003,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-2-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-2-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-3-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-3-far": {
+        "frac_gt_150": 0.009,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "satty-4-close": {
+        "frac_gt_150": 0.076,
+        "flip_axis_concentration": 0.6933,
+        "flip_axis_body": [
+          0.3993,
+          0.8951,
+          -0.1983
+        ]
+      },
+      "satty-4-far": {
+        "frac_gt_150": 0.029,
+        "flip_axis_concentration": 0.5922,
+        "flip_axis_body": [
+          0.2015,
+          0.5272,
+          0.8255
+        ]
+      }
+    },
+    "s2r-u-rgb-tss-soho": {
+      "soho-1-close": {
+        "frac_gt_150": 0.024,
+        "flip_axis_concentration": 0.6734,
+        "flip_axis_body": [
+          0.6107,
+          -0.0504,
+          0.7903
+        ]
+      },
+      "soho-1-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "soho-2-close": {
+        "frac_gt_150": 0.016,
+        "flip_axis_concentration": 0.937,
+        "flip_axis_body": [
+          0.6665,
+          0.0029,
+          0.7455
+        ]
+      },
+      "soho-2-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "soho-3-close": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "soho-3-far": {
+        "frac_gt_150": 0.0,
+        "flip_axis_concentration": null,
+        "flip_axis_body": null
+      },
+      "soho-4-close": {
+        "frac_gt_150": 0.915,
+        "flip_axis_concentration": 0.9642,
+        "flip_axis_body": [
+          -0.4185,
+          0.0029,
+          0.9082
+        ]
+      },
+      "soho-4-far": {
+        "frac_gt_150": 0.85,
+        "flip_axis_concentration": 0.9651,
+        "flip_axis_body": [
+          -0.4654,
+          -0.0174,
+          0.8849
+        ]
+      }
+    }
+  },
+  "near_flip_rate_mean_over_runs": {
+    "cassini": {
+      "cassini-1-close": 0.029,
+      "cassini-1-far": 0.022,
+      "cassini-2-close": 0.051,
+      "cassini-2-far": 0.046,
+      "cassini-3-close": 0.025,
+      "cassini-3-far": 0.015,
+      "cassini-4-close": 0.099,
+      "cassini-4-far": 0.049
+    },
+    "satty": {
+      "satty-1-close": 0.015,
+      "satty-1-far": 0.007,
+      "satty-2-close": 0.047,
+      "satty-2-far": 0.027,
+      "satty-3-close": 0.022,
+      "satty-3-far": 0.028,
+      "satty-4-close": 0.152,
+      "satty-4-far": 0.084
+    },
+    "soho": {
+      "soho-1-close": 0.056,
+      "soho-1-far": 0.04,
+      "soho-2-close": 0.132,
+      "soho-2-far": 0.124,
+      "soho-3-close": 0.042,
+      "soho-3-far": 0.055,
+      "soho-4-close": 0.803,
+      "soho-4-far": 0.759
+    }
+  }
+}

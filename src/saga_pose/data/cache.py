@@ -19,6 +19,7 @@ from torch import Tensor
 from torch.utils.data import DataLoader, Dataset
 
 from saga_pose.data.dataset import PREPROCESSING_VERSION, FreshItem, ItemRole
+from saga_pose.data.supplement import SUPPLEMENT_ARRAYS, open_event_supplement
 
 SCHEMA_VERSION: Final[int] = 2
 IMAGE_FIELDS: Final[tuple[str, ...]] = ("rgb", "rgb_tss")
@@ -167,9 +168,13 @@ def build_crop_cache(
 
 
 class FreshCropCacheDataset(Dataset[FreshItem]):
-    """Read one immutable schema-2 crop cache without touching raw archives."""
+    """Read one immutable schema-2 crop cache without touching raw archives.
 
-    def __init__(self, cache_root: Path) -> None:
+    ``supplement_root`` attaches an event-supp-v1 split (same split name) after a
+    strict order check; its maps then appear as extra ``event_*`` item keys.
+    """
+
+    def __init__(self, cache_root: Path, supplement_root: Path | None = None) -> None:
         super().__init__()
         manifest_path = cache_root / "manifest.json"
         if not manifest_path.is_file():
@@ -189,6 +194,7 @@ class FreshCropCacheDataset(Dataset[FreshItem]):
         self.role = cast(ItemRole, manifest["role"])
         if not len(self.sample_ids) == len(self.sequences) == len(self.object_names):
             raise ValueError("Crop-cache sample metadata lengths differ")
+        self.supplement_root = supplement_root
         self._arrays: dict[str, NDArray[Any]] = {}
         self._open_arrays()
 
@@ -207,6 +213,15 @@ class FreshCropCacheDataset(Dataset[FreshItem]):
             if array.shape[0] != len(self.sample_ids):
                 raise ValueError(f"Crop-cache sample count mismatch for {name}")
             self._arrays[name] = array
+        if self.supplement_root is not None:
+            self._arrays.update(
+                open_event_supplement(
+                    self.supplement_root,
+                    cache_root / "manifest.json",
+                    self.sample_ids,
+                    self._arrays["frame_number"],
+                )
+            )
 
     def __getstate__(self) -> dict[str, Any]:
         # Pickling a memmap copies the whole array; Windows-spawned DataLoader
@@ -238,7 +253,7 @@ class FreshCropCacheDataset(Dataset[FreshItem]):
         rgb = self._unit("rgb", index)
         rgb_tss = self._unit("rgb_tss", index) if "rgb_tss_uint8" in self._arrays else rgb
         event_raw = self._unit("event_raw", index)
-        return FreshItem(
+        item = FreshItem(
             sample_id=self.sample_ids[index],
             object_name=self.object_names[index],
             sequence=self.sequences[index],
@@ -260,3 +275,8 @@ class FreshCropCacheDataset(Dataset[FreshItem]):
             source_bbox_xyxy=self._tensor("source_bbox_xyxy", index),
             crop_xyxy=self._tensor("crop_xyxy", index),
         )
+        for name in SUPPLEMENT_ARRAYS:
+            if name in self._arrays:
+                key = name.removesuffix("_uint8")
+                item[key] = self._unit(key, index)  # type: ignore[literal-required]
+        return item

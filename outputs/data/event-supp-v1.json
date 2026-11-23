@@ -1,0 +1,127 @@
+{
+  "schema_version": 1,
+  "version": "event-supp-v1",
+  "representations": [
+    "activity64",
+    "activity_support"
+  ],
+  "out_dir": "data/fresh/cache/event-supp-v1",
+  "provenance": {
+    "git_commit": "347129f78c8dd6e9262a68eb4614958d2988b5ba",
+    "working_tree_dirty": true,
+    "uv_lock_sha256": "fe742a5ce27445c837714bca804d02a8d13cce0adfd580cd21a4f7d312b661c3",
+    "split_index_sha256": "097392a9c064443342c5a00b01dcb0431d7482590af8af559c5efcf66582b025",
+    "supplement_code_sha256": "d075247e90ffeaecad3e6fb63aba8eb499a15289357b8ff811fce72ddb12b643",
+    "activity_threshold": 32.0,
+    "activity64_threshold": 64.0,
+    "fresh_addendum_commit": "fb566826e950b5db1f5b7ba013e15c12c5a7d4af",
+    "python": "3.12.14"
+  },
+  "caches": {
+    "cassini-train": {
+      "samples": 11920,
+      "bytes": 1562473984,
+      "build_seconds": 129.37025610002456,
+      "manifest_sha256": "998c0c551c7384b5370a0d90bc3c122a6353141ad869950171f6758c87c46b09",
+      "source_crop_manifest_sha256": "ed4679480cf26a791de1e2cfbe600c10dd51370f392fff0a3c81cd5085fbb96e",
+      "statistics": {
+        "samples_where_activity64_differs_from_activity": 0,
+        "mean_nonzero_fraction": {
+          "event_activity64_uint8": 0.05457641294338559,
+          "event_activity_support_uint8": 0.04404617027948367
+        }
+      }
+    },
+    "cassini-validation": {
+      "samples": 640,
+      "bytes": 83891584,
+      "build_seconds": 32.995879900001455,
+      "manifest_sha256": "ca39cd738d01c0899b379eacebd352eb25b3adb5cf30c136be4dca4efb58327f",
+      "source_crop_manifest_sha256": "6215ff23198a3d849fc2ded6a4b25080277fe44c967e26862ed886c34dde443c",
+      "statistics": {
+        "samples_where_activity64_differs_from_activity": 0,
+        "mean_nonzero_fraction": {
+          "event_activity64_uint8": 0.053584957122802736,
+          "event_activity_support_uint8": 0.04409019947052002
+        }
+      }
+    },
+    "satty-train": {
+      "samples": 11920,
+      "bytes": 1562473984,
+      "build_seconds": 81.5488659000257,
+      "manifest_sha256": "b8afa9420ecfea3f84de4e64ce58745715ce1ab305e164da75fcdf939cb62b03",
+      "source_crop_manifest_sha256": "f79fb390541de0a8a33f1b30e4875dc645d4bd6e485938b3e236418c5f7c00a7",
+      "statistics": {
+        "samples_where_activity64_differs_from_activity": 0,
+        "mean_nonzero_fraction": {
+          "event_activity64_uint8": 0.07823079640433292,
+          "event_activity_support_uint8": 0.06477625162009425
+        }
+      }
+    },
+    "satty-validation": {
+      "samples": 640,
+      "bytes": 83891584,
+      "build_seconds": 27.55878149997443,
+      "manifest_sha256": "f9da4b52d9ff20a9a0e5ab65793b204a8db38f055140a4bb46f9fcc87f1e4b2a",
+      "source_crop_manifest_sha256": "504d66ab096207f59488823d3bcad0967c42c91f5b77f5b76a6dfd69a167ee1d",
+      "statistics": {
+        "samples_where_activity64_differs_from_activity": 0,
+        "mean_nonzero_fraction": {
+          "event_activity64_uint8": 0.08047411441802979,
+          "event_activity_support_uint8": 0.06712882518768311
+        }
+      }
+    },
+    "soho-train": {
+      "samples": 11920,
+      "bytes": 1562473984,
+      "build_seconds": 109.08931449998636,
+      "manifest_sha256": "c9a9d59eb9b738754a91d2a645db173af6de25bd87f8993fc6c0fcd812c24104",
+      "source_crop_manifest_sha256": "efaca086d135fb447f31a9f20f2ca057eb1e8d9e2948752edc98eb444b6beda4",
+      "statistics": {
+        "samples_where_activity64_differs_from_activity": 0,
+        "mean_nonzero_fraction": {
+          "event_activity64_uint8": 0.07267404210647481,
+          "event_activity_support_uint8": 0.05958195116695942
+        }
+      }
+    },
+    "soho-validation": {
+      "samples": 640,
+      "bytes": 83891584,
+      "build_seconds": 37.141776599979494,
+      "manifest_sha256": "36fa8714b81f18e18b054c6bdb26416ba5a26976a48921e7e661a5f98492869f",
+      "source_crop_manifest_sha256": "ea969fcc91ad3682dbf7f0c491bee24a189fb05dee41d61c4098c30b0871e80d",
+      "statistics": {
+        "samples_where_activity64_differs_from_activity": 0,
+        "mean_nonzero_fraction": {
+          "event_activity64_uint8": 0.049334931373596194,
+          "event_activity_support_uint8": 0.039267349243164065
+        }
+      }
+    },
+    "real-cassini": {
+      "samples": 2361,
+      "bytes": 309480264,
+      "build_seconds": 50.958437699999195,
+      "manifest_sha256": "d88a0f9c3e53d0f61d0da7c852f7ff1668250b2f5ed57d2886790d7974684239",
+      "source_crop_manifest_sha256": "ec6926284070bf8d665fc843a6a84ef95cda041862c64d1d676af0f8cd30ef3e"
+    },
+    "real-satty": {
+      "samples": 2563,
+      "bytes": 335958424,
+      "build_seconds": 36.8669205000042,
+      "manifest_sha256": "d05365174893fc0d0bc56ffe0f3ea44e7b2b732629eee37804c434daa92b2051",
+      "source_crop_manifest_sha256": "5270594781ec64ffb9b0e0893488baa70c25f6848bf9ff7ec12be5a1d61894ef"
+    },
+    "real-soho": {
+      "samples": 2970,
+      "bytes": 389307984,
+      "build_seconds": 47.52731519995723,
+      "manifest_sha256": "b3acfbebb8725480819dc53b1150addcd151dd156d71a898fa3806f43e2d39e8",
+      "source_crop_manifest_sha256": "da2ec38b7acd48f816287999ba00ce19e70ca19c6fe0a4a37499298a1ae92c30"
+    }
+  }
+}
