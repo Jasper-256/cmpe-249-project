@@ -40,10 +40,23 @@ start_session() {
   colab upload -s "$SESSION" scripts/colab_bootstrap.sh /content/colab_bootstrap.sh >/dev/null 2>&1 || return 1
   colab upload -s "$SESSION" scripts/colab_trust_job.sh /content/colab_trust_job.sh >/dev/null 2>&1 || return 1
   colab upload -s "$SESSION" "$TMP/remaining.txt" /content/remaining.txt >/dev/null 2>&1 || return 1
-  printf '%s\n' "import subprocess" \
-    "p = subprocess.Popen('exec bash /content/colab_trust_job.sh $COMMIT >> /content/trust.log 2>&1', shell=True, start_new_session=True, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)" \
-    "print('job pid', p.pid)" | timeout 300 colab exec -s "$SESSION" 2>&1 | tail -1
+  launch_job || return 1
   log "job launched for $(wc -l < "$TMP/remaining.txt") runs"
+}
+
+job_running() { remote "pgrep -f colab_trust_job >/dev/null && echo yes" | grep -q yes; }
+
+launch_job() {  # exec connections drop sometimes: verify and retry
+  local attempt
+  for attempt in 1 2 3; do
+    printf '%s\n' "import subprocess" \
+      "p = subprocess.Popen('exec bash /content/colab_trust_job.sh $COMMIT >> /content/trust.log 2>&1', shell=True, start_new_session=True, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)" \
+      "print('job pid', p.pid)" | timeout 300 colab exec -s "$SESSION" >/dev/null 2>&1
+    sleep 20
+    job_running && return 0
+    log "job not running after launch attempt $attempt"
+  done
+  return 1
 }
 
 sync_finished() {
@@ -73,6 +86,12 @@ while true; do
   fi
   if alive; then
     sync_finished
+    if ! job_running && ! remote "tail -1 /content/trust.log 2>/dev/null" | grep -q "trust job done"; then
+      log "session alive but job not running; relaunching"
+      remaining > "$TMP/remaining.txt"
+      colab upload -s "$SESSION" "$TMP/remaining.txt" /content/remaining.txt >/dev/null 2>&1
+      launch_job || log "relaunch failed"
+    fi
     tail_line=$(remote "tail -1 /content/trust.log 2>/dev/null")
     log "alive; $left runs without local report; last: ${tail_line:0:160}"
   else
